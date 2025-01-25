@@ -1,0 +1,33 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+/tests/.ruff_cache/
+*.pytest_cache/
+/src/hoa_insights_surpriseaz/.ruff_cache/
+.ruff_cache
+# Virtual environments
+.venv
+
+# Folders / Files
+/src/hoa_insights_surpriseaz/my_secrets.py
+*.log
+/__old_logs/
+/src/hoa_insights_surpriseaz/output/csv/financial/*
+/src/hoa_insights_surpriseaz/output/csv/latest_changes/*
+/src/hoa_insights_surpriseaz/output/pdf/*
+/src/hoa_insights_surpriseaz/output/web_reports/financial/*
+/src/hoa_insights_surpriseaz/output/web_reports/latest_changes/*
+/misc/
+
+# /output/pdf/community_ytd_sales_avg.pdf
+# /output/csv/latest_changes/*.csv
+# /output/pdf/recent_changes.pdf
+# /output/csv/financial/*.csv
+# /output/web_reports/financial/*.html
+# /output/web_reports/parcel_changes/*.html
+# /TODO/
+
