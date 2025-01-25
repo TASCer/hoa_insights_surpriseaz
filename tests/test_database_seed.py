@@ -5,7 +5,7 @@ from hoa_insights_surpriseaz.parse_api_data import parse
 from hoa_insights_surpriseaz import update_parcel_data
 
 TEST_UPDATE_FILES_PATH: str = (
-    "/home/todd/python_projects/test_hoa_surpriseaz/tests/input/json_seed_data/"
+    "/home/todd/python_projects/hoa_insights_surpriseaz/tests/input/json_seed_data/"
 )
 
 
