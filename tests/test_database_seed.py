@@ -18,7 +18,7 @@ def test_process_json() -> list[dict]:
         parcel_data_json = json.load(parcel_data_file)
         consumed_parcel_data.append(parcel_data_json)
 
-    return consumed_parcel_data
+    assert consumed_parcel_data
 
 
 if __name__ == "__main__":
