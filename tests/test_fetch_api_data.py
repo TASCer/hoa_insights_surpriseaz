@@ -1,6 +1,3 @@
-import json
-import os
-
 
 
 def test_fetch_api(seed_parcel_data) -> list[dict]:
