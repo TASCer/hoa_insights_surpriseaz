@@ -6,7 +6,9 @@ from dateutil.parser import parse
 
 
 def log_date() -> str:
-    """Parses datetime.date.today object to formatted str for logfile name"""
+    """
+    Function uses datetime.date.today object formatted for logfiles.
+    """
     now: date = dt.date.today()
     todays_date: str = now.strftime("%D").replace("/", "-")
 
@@ -15,7 +17,7 @@ def log_date() -> str:
 
 def sql_date() -> date:
     """
-    Returns todays date for mysql table timestamps.
+    Function returns todays date for historical mysql table timestamp (TS) col.
     """
     todays_date: date = dt.date.today()
 
@@ -24,8 +26,8 @@ def sql_date() -> date:
 
 def sql_timestamp() -> dt:
     """
-    Returns current datetime.
-    Used for 'latest_update' table located on remote website.
+    Function returns current datetime.
+    used for 'latest_update' table located on remote website.
     """
     now: dt = dt.datetime.now()
 
@@ -34,7 +36,7 @@ def sql_timestamp() -> dt:
 
 def last_saturday_of_month() -> int:
     """
-    This app is scheduled to run every Tuesday and Saturday morning @ 2am.
+    Application is scheduled to run every Tuesday and Saturday morning @ 2am.
     Function determines the date for the LAST SATURDAY of each month.
     Used to update HOA management data monthly.
     Returns date as int.
@@ -52,7 +54,7 @@ def last_saturday_of_month() -> int:
 
 def first_tuesday_of_month() -> int:
     """
-    This app is scheduled to run every Tuesday and Saturday morning @ 2am.
+    Application is scheduled to run every Tuesday and Saturday morning @ 2am.
     Function determines the date for the FIRST TUESDAY of each month.
     Used to update HOA management data monthly.
     Returns date as int.

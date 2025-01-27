@@ -5,7 +5,7 @@ from logging import Logger
 
 logger: Logger = logging.getLogger(__name__)
 
-MANAGEMENT_PDF_PATH = "/home/todd/python_projects/test_hoa_surpriseaz/src/test_hoa_surpriseaz/output/pdf/MANAGEMENT.pdf"
+MANAGEMENT_PDF_PATH = "../output/pdf/MANAGEMENT.pdf"
 
 
 def delete():

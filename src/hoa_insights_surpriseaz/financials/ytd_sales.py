@@ -1,19 +1,18 @@
 import logging
 import pandas as pd
 
+from hoa_insights_surpriseaz import create_reports
+from hoa_insights_surpriseaz import my_secrets
+from hoa_insights_surpriseaz.utils.number_parser import format_price
+from hoa_insights_surpriseaz.utils.date_parser import year_to_date
 from logging import Logger
 from pandas import DataFrame
 from pandas.core.generic import NDFrame
 from sqlalchemy import create_engine, exc
 from sqlalchemy.engine import Engine
-from hoa_insights_surpriseaz import create_reports
-from hoa_insights_surpriseaz import my_secrets
-from hoa_insights_surpriseaz.utils.number_parser import format_price
-from hoa_insights_surpriseaz.utils.date_parser import year_to_date
 
 ytd_start, ytd_end = year_to_date()
 
-# SQL DB connection constants
 DB_HOSTNAME: str = f"{my_secrets.debian_dbhost}"
 DB_NAME: str = f"{my_secrets.debian_dbname}"
 DB_USER: str = f"{my_secrets.debian_dbuser}"
@@ -63,7 +62,7 @@ def get_average_sale_price() -> None:
 
         return None
 
-    all_community_sales_ytd = pd.DataFrame(all_sales_ytd)
+    all_community_sales_ytd: DataFrame = pd.DataFrame(all_sales_ytd)
     all_community_sales_ytd.to_csv(
         f"{my_secrets.csv_finance_path}all_ytd_community_sales.csv"
     )
