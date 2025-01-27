@@ -1,9 +1,8 @@
 import json
 import os
-from turtle import update
 import pytest
 
-from sqlalchemy import create_engine, Engine, exc, text
+from sqlalchemy import create_engine
 from hoa_insights_surpriseaz.my_secrets import debian_uri
 from hoa_insights_surpriseaz.parse_api_data import parse
 from hoa_insights_surpriseaz import update_parcel_data

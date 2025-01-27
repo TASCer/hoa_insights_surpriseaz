@@ -1,4 +1,3 @@
-from sqlalchemy import text
 
 
 def test_get_updates(connection, get_updates) -> list[dict]:
