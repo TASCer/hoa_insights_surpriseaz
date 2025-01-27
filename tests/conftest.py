@@ -1,3 +1,4 @@
+from hoa_insights_surpriseaz import update_parcel_data
 import json
 import os
 import pytest
@@ -42,14 +43,14 @@ def parse_parcel_data(fetch_parcel_data):
 
     return test_parsed_owners_data, test_parsed_rentals_data
 
-# @pytest.fixture(scope="function")
-# def seed_parcel_data(connection, test_parsed_owners_data, test_parsed_rentals_data):
+@pytest.fixture(scope="function")
+def update_parcels(connection, parse_parcel_data):
+    test_owners = update_parcel_data.owners(parse_parcel_data[0])
+    test_rentals = update_parcel_data.rentals(parse_parcel_data[1])
+ 
+ 
+def test_owner_count(connection):
+    result = connection.execute(text("SELECT COUNT(*) FROM owners"))
+    count = result.fetchone()[0]
     
-
-
-#     assert len(test_parsed_parcel_data) == 15
-
-# def test_user_count(connection, setup_parcel_data):
-#     result = connection.execute(text("SELECT COUNT(*) FROM owners"))
-#     count = result.fetchone()[0]
-#     assert count == 0
+    return count
