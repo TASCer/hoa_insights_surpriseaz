@@ -26,8 +26,8 @@ fh.setFormatter(formatter)
 
 root_logger.addHandler(fh)
 
-LOCAL_DB_URI = f"{my_secrets.debian_uri}"
-REMOTE_DB_HOSTNAME = f"{my_secrets.bluehost_dbhost}"
+LOCAL_DB_URI = f"{my_secrets.prod_debian_uri}"
+REMOTE_DB_HOSTNAME = f"{my_secrets.prod_bluehost_dbhost}"
 
 
 logger: Logger = logging.getLogger(__name__)
@@ -46,17 +46,17 @@ def create_local_tables() -> bool:
 
 if __name__ == "__main__":
     # CREATE LOCAL
-    logger.info(f"*** STARTED LOCAL DATABASE SETUP ON: {my_secrets.debian_dbhost} ***")
+    logger.info(f"*** STARTED LOCAL DATABASE SETUP ON: {my_secrets.prod_debian_dbhost} ***")
     logger.info(f"\tLOCAL tables created: {create_local_tables()}")
     logger.info(f"\tLOCAL triggers created: {check_local.triggers()}")
     logger.info(f"\tLOCAL views created: {check_local.views()}")
     logger.info(f"\tLOCAL stored proc(s) created: {check_local.stored_procs()}")
     logger.info(
-        f"--- COMPLETED LOCAL DATABASE SETUP ON: {my_secrets.debian_dbhost} ---"
+        f"--- COMPLETED LOCAL DATABASE SETUP ON: {my_secrets.prod_debian_dbhost} ---"
     )
     # POPULATE LOCAL
     logger.info(
-        f"*** STARTED LOCAL DATABASE POPULATION ON: {my_secrets.debian_dbhost} ***"
+        f"*** STARTED LOCAL DATABASE POPULATION ON: {my_secrets.prod_debian_dbhost} ***"
     )
     logger.info(f"\tLOCAL parcels table populated: {populate_local.parcels()}")
     community_data_for_bluehost = populate_local.communities()
@@ -64,15 +64,15 @@ if __name__ == "__main__":
         f"\tLOCAL communities table populated: {len(community_data_for_bluehost) > 0}"
     )
     logger.info(
-        f"--- COMPLETED LOCAL DATABASE POPULATION ON: {my_secrets.debian_dbhost} ---"
+        f"--- COMPLETED LOCAL DATABASE POPULATION ON: {my_secrets.prod_debian_dbhost} ---"
     )
 # CREATE REMOTE
-# logger.info(f"*** STARTED REMOTE DATABASE SETUP ON: {my_secrets.bluehost_dbhost} ***")
+# logger.info(f"*** STARTED REMOTE DATABASE SETUP ON: {my_secrets.prod_bluehost_dbhost} ***")
 # logger.info((f"\tREMOTE tables check: {database_check_remote.tables()}"))
 # logger.info(f"\tREMOTE schema check: {database_check_remote.schema()}")
 # logger.info(f"\tREMOTE tables created: {database_check_remote.tables()}")
-# logger.info(f"--- COMPLETED REMOTE DATABASE SETUP ON: {my_secrets.bluehost_dbhost} ---")
+# logger.info(f"--- COMPLETED REMOTE DATABASE SETUP ON: {my_secrets.prod_bluehost_dbhost} ---")
 # POPULATE REMOTE
-# logger.info(f"*** STARTED REMOTE DATABASE POPULATION ON: {my_secrets.bluehost_dbhost} ***")
+# logger.info(f"*** STARTED REMOTE DATABASE POPULATION ON: {my_secrets.prod_bluehost_dbhost} ***")
 # database_populate_remote.communities(community_data_for_bluehost)
-# logger.info(f"--- COMPLETED REMOTE DATABASE POPULATION ON: {my_secrets.bluehost_dbhost} ---")
+# logger.info(f"--- COMPLETED REMOTE DATABASE POPULATION ON: {my_secrets.prod_bluehost_dbhost} ---")

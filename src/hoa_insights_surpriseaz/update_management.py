@@ -9,8 +9,8 @@ from hoa_insights_surpriseaz.database.models import CommunityManagement as DBCM
 from hoa_insights_surpriseaz.schemas import CommunityManagement as SCM
 from hoa_insights_surpriseaz import my_secrets
 
-LOCAL_DB_URI: str = f"{my_secrets.debian_uri}"
-REMOTE_DB_URI: str = f"{my_secrets.bluehost_uri}"
+LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
+REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
 
 logger: Logger = logging.getLogger(__name__)
 

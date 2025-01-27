@@ -7,11 +7,11 @@ from sqlalchemy_utils import database_exists, create_database
 from hoa_insights_surpriseaz import my_secrets
 
 # REMOTE/BLUEHOST SQL DB CREDS
-REMOTE_DB_HOSTNAME: str = f"{my_secrets.bluehost_dbhost}"
-REMOTE_DB_NAME: str = f"{my_secrets.bluehost_dbname}"
-REMOTE_DB_USER: str = f"{my_secrets.bluehost_dbuser}"
-REMOTE_DB_PW: str = f"{my_secrets.bluehost_dbpass}"
-REMOTE_DB_URI: str = f"{my_secrets.bluehost_uri}"
+REMOTE_DB_HOSTNAME: str = f"{my_secrets.test_bluehost_dbhost}"
+REMOTE_DB_NAME: str = f"{my_secrets.test_bluehost_dbname}"
+REMOTE_DB_USER: str = f"{my_secrets.test_bluehost_dbuser}"
+REMOTE_DB_PW: str = f"{my_secrets.test_bluehost_dbpass}"
+REMOTE_DB_URI: str = f"{my_secrets.test_bluehost_uri}"
 
 # REMOTE/BLUEHOST SQL TABLES
 COMMUNITY_TOTALS: str = "communities"

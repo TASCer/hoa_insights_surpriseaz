@@ -8,8 +8,8 @@ from hoa_insights_surpriseaz.database import models
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.schemas import Community
 
-REMOTE_DB_URI: str = f"{my_secrets.bluehost_uri}"
-LOCAL_DB_URI: str = f"{my_secrets.debian_uri}"
+REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
+LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 
 logger: Logger = logging.getLogger(__name__)
 

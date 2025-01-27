@@ -14,7 +14,7 @@ from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz import parse_management_pdf
 from hoa_insights_surpriseaz.fetch_management_pdf import pdf_download
 
-LOCAL_DB_URI = f"{my_secrets.debian_uri}"
+LOCAL_DB_URI = f"{my_secrets.prod_debian_uri}"
 
 PARCELS_TABLE = "parcels"
 COMMUNITY_TABLE = "communitites"
@@ -135,10 +135,11 @@ def parcels():
         parcel_instances: list = []
 
         try:
-            with open(f"./seed_data/{PARCELS_TABLE}.csv") as f:
+            with open(f"../../../tests/input/test_parcels.csv") as f:
                 reader = csv.reader(f)
                 next(reader)
                 for parcel in reader:
+                    print(parcel)
                     APN, COMMUNITY, SITUS, LAT, LONG = parcel[0:5]
                     parcel_instance = Parcels(
                         APN=APN, COMMUNITY=COMMUNITY, SITUS=SITUS, LAT=LAT, LONG=LONG
@@ -156,4 +157,4 @@ def parcels():
 
 
 if __name__ == "__main__":
-    communities()
+    parcels()
