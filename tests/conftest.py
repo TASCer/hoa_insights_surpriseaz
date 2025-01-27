@@ -1,11 +1,13 @@
-from hoa_insights_surpriseaz import update_parcel_data
 import json
 import os
+from turtle import update
 import pytest
 
 from sqlalchemy import create_engine, Engine, exc, text
 from hoa_insights_surpriseaz.my_secrets import debian_uri
 from hoa_insights_surpriseaz.parse_api_data import parse
+from hoa_insights_surpriseaz import update_parcel_data
+from hoa_insights_surpriseaz import process_updated_parcels
 
 TEST_SEED_FILES_PATH: str = "./tests/input/json_seed_data/"
 
@@ -48,9 +50,8 @@ def update_parcels(connection, parse_parcel_data):
     test_owners = update_parcel_data.owners(parse_parcel_data[0])
     test_rentals = update_parcel_data.rentals(parse_parcel_data[1])
  
- 
-def test_owner_count(connection):
-    result = connection.execute(text("SELECT COUNT(*) FROM owners"))
-    count = result.fetchone()[0]
+@pytest.fixture(scope="function") 
+def get_updates():
+    updates = process_updated_parcels.get_new_insights()
     
-    return count
+    return updates
