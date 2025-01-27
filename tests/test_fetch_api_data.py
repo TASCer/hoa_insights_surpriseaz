@@ -3,9 +3,9 @@ import os
 
 
 
-def test_fetch_api(fetch_parcel_data) -> list[dict]:
+def test_fetch_api(seed_parcel_data) -> list[dict]:
 
-    assert len(fetch_parcel_data) == 15
+    assert len(seed_parcel_data) == 15
 
    
     # assert len(consumed_parcel_data) == 15
