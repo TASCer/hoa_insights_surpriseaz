@@ -20,7 +20,7 @@ LOCAL_DB_HOSTNAME: str = f"{my_secrets.debian_dbhost}"
 LOCAL_DB_NAME: str = f"{my_secrets.debian_dbname}"
 LOCAL_DB_USER: str = f"{my_secrets.debian_dbuser}"
 LOCAL_DB_PW: str = f"{my_secrets.debian_dbpass}"
-LOCAL_DB_URI = f"{my_secrets.debian_uri}"
+LOCAL_DB_URI: str = f"{my_secrets.debian_uri}"
 
 # SQL TABLE names
 OWNERS: str = "owners"
@@ -29,7 +29,7 @@ SALES_HISTORY: str = "historical_sales"
 OWNERS_HISTORY: str = "historical_owners"
 COMMUNITIES: str = "communities"
 PARCELS: str = "parcels"
-MANAGEMENT = "conmmunity_managers"
+MANAGEMENT: str = "conmmunity_managers"
 
 # SQL VIEWS
 COMMUNITY_RENTAL_TYPES: str = "community_rental_owner_types"
@@ -409,7 +409,7 @@ def views() -> bool:
 # POC
 def stored_procs():
     try:
-        engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
+        engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
 
         _meta = MetaData()
 
