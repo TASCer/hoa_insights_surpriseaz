@@ -7,7 +7,7 @@ from sqlalchemy import create_engine, Engine, exc, text
 from hoa_insights_surpriseaz.my_secrets import debian_uri
 from hoa_insights_surpriseaz.parse_api_data import parse
 
-TEST_UPDATE_FILES_PATH: str = "./tests/input/json_seed_data/"
+TEST_SEED_FILES_PATH: str = "./tests/input/json_seed_data/"
 
 
 @pytest.fixture(scope="session")
@@ -26,12 +26,12 @@ def connection(engine):
 
 @pytest.fixture(scope="function")
 def fetch_parcel_data():
-    test_parcels: list[str] = os.listdir(f"{TEST_UPDATE_FILES_PATH}")
+    test_parcels: list[str] = os.listdir(f"{TEST_SEED_FILES_PATH}")
     
     consumed_parcel_data: list[dict] = []
 
     for parcel in test_parcels:
-        parcel_file = open(f"{TEST_UPDATE_FILES_PATH}{parcel}", "r")
+        parcel_file = open(f"{TEST_SEED_FILES_PATH}{parcel}", "r")
         parcel_data: dict = json.load(parcel_file)
         consumed_parcel_data.append(parcel_data)
 

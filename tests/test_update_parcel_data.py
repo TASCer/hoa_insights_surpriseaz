@@ -1,7 +1,7 @@
 from sqlalchemy import text
 
 
-def test_update_parcel(connection) -> list[dict]:
+def test_update_parcel(connection, update_parcels) -> list[dict]:
     result = connection.execute(text("SELECT COUNT(*) FROM owners"))
     count = result.fetchone()[0]
 
