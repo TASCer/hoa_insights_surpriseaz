@@ -27,10 +27,11 @@ def connection(engine):
 
     conn.close()
 
+
 @pytest.fixture(scope="function")
 def seed_parcel_data():
     test_parcels: list[str] = os.listdir(f"{TEST_SEED_FILES_PATH}")
-    
+
     consumed_parcel_data: list[dict] = []
 
     for parcel in test_parcels:
@@ -45,7 +46,7 @@ def seed_parcel_data():
 @pytest.fixture(scope="function")
 def update_parcels():
     test_parcels: list[str] = os.listdir(f"{TEST_UPDATE_FILES_PATH}")
-    
+
     consumed_parcel_data: list[dict] = []
 
     for parcel in test_parcels:
@@ -62,16 +63,17 @@ def parse_parcel_data(seed_parcel_data):
 
     return test_parsed_owners_data, test_parsed_rentals_data
 
+
 @pytest.fixture(scope="function")
 def update_parcels(connection, parse_parcel_data):
     test_owners = update_parcel_data.owners(parse_parcel_data[0])
     test_rentals = update_parcel_data.rentals(parse_parcel_data[1])
- 
+
     return test_owners, test_rentals
 
 
-@pytest.fixture(scope="function") 
+@pytest.fixture(scope="function")
 def get_updates():
     updates = process_updated_parcels.get_new_insights()
-    
+
     return updates
