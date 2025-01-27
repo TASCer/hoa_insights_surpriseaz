@@ -1,5 +1,3 @@
-
-
 def test_get_updates(connection, get_updates) -> list[dict]:
     assert get_updates.empty
 

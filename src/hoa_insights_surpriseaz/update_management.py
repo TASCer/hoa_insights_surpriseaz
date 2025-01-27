@@ -4,7 +4,7 @@ import logging
 
 from logging import Logger
 from sqlalchemy.orm import Session
-from sqlalchemy import create_engine, exc, TextClause, text
+from sqlalchemy import Engine, create_engine, exc, TextClause, text
 from hoa_insights_surpriseaz.database.models import CommunityManagement as DBCM
 from hoa_insights_surpriseaz.schemas import CommunityManagement as SCM
 from hoa_insights_surpriseaz import my_secrets
@@ -14,7 +14,6 @@ REMOTE_DB_URI: str = f"{my_secrets.bluehost_uri}"
 
 logger: Logger = logging.getLogger(__name__)
 
-# COMMUNITIES_TABLE: str = "communities"
 MANAGEMENT_TABLE: str = "community_managers"
 
 csv_filename: str = "../../output/csv/surpriseaz-hoa-management.csv"
@@ -48,7 +47,7 @@ def update() -> None:
     )
 
     # LOCAL
-    local_engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
+    local_engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
 
     with Session(local_engine) as ls:
         for pdf_item in pdf_managers:
@@ -76,7 +75,7 @@ def update() -> None:
                 logger.error(e)
 
     # TODO REMOTE ISSUES VERIFY FEB RUN
-    remote_engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
+    remote_engine: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
 
     with Session(remote_engine) as rs:
         for pdf_item in pdf_managers:

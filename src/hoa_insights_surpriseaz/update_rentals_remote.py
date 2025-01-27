@@ -2,7 +2,7 @@ import logging
 import pandas as pd
 
 from logging import Logger
-from sqlalchemy import create_engine, exc, text
+from sqlalchemy import Engine, TextClause, create_engine, exc, text, Row
 from hoa_insights_surpriseaz.utils.date_parser import sql_timestamp
 from hoa_insights_surpriseaz import my_secrets
 
@@ -12,16 +12,16 @@ REMOTE_DB_URI: str = f"{my_secrets.bluehost_uri}"
 
 def update() -> None:
     """
-    Gets all rental parcel data from local database views and populates remote databases for web site.
+    Function gets all rental parcels from local database views and populates remote databases table for web site.
     """
     logger: Logger = logging.getLogger(__name__)
     try:
-        engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
+        engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
         with engine.connect() as conn, conn.begin():
-            q_registered_rentals = conn.execute(
+            q_registered_rentals: TextClause = conn.execute(
                 text("""SELECT * FROM registered_rentals;""")
             )
-            q_classed_rentals = conn.execute(text("""SELECT * FROM classed_rentals;"""))
+            q_classed_rentals: list[Row] = conn.execute(text("""SELECT * FROM classed_rentals;"""))
 
     except exc.DBAPIError as db_err:
         logger.error(str(db_err))
@@ -38,7 +38,7 @@ def update() -> None:
 
     try:
         logger: Logger = logging.getLogger(__name__)
-        engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}")
+        engine: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}")
 
         with engine.connect() as conn, conn.begin():
             try:
