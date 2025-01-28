@@ -14,14 +14,14 @@ from hoa_insights_surpriseaz import my_secrets
 
 logger: Logger = logging.getLogger(__name__)
 
-LOCAL_DB_URI = f"{my_secrets.debian_uri}"
+LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
+LOCAL_DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
 
-# SQL Table names
-COMMUNITY_NAMES: str = "communities"
-PARCEL_CONSTANTS: str = "parcels"
-PARCEL_OWNERS: str = "owners"
-PARCEL_SALES: str = "sales"
-PARCEL_RENTALS: str = "rentals"
+# COMMUNITY_NAMES_TABLE: str = "communities"
+PARCELS_TABLE: str = "parcels"
+# PARCEL_OWNERS_TABLE: str = "owners"
+# PARCEL_SALES_TABLE: str = "sales"
+# PARCEL_RENTALS_TABLE: str = "rentals"
 
 if platform.system() == "Windows":
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
@@ -38,7 +38,7 @@ def get_parcel_apns() -> tuple[str]:
         engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
         with engine.connect() as conn, conn.begin():
             result: CursorResult = conn.execute(
-                text(f"SELECT APN FROM {my_secrets.debian_dbname}.{PARCEL_CONSTANTS};")
+                text(f"SELECT APN FROM {LOCAL_DB_NAME}.{PARCELS_TABLE};")
             )
             all_results = result.all()
             APNs: list = [x[0] for x in all_results]
