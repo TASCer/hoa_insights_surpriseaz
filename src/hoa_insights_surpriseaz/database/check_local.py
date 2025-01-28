@@ -15,21 +15,23 @@ from sqlalchemy_utils import database_exists, create_database
 from typing import Sequence
 from hoa_insights_surpriseaz import my_secrets
 
-# SQL DB connection constants
 LOCAL_DB_HOSTNAME: str = f"{my_secrets.prod_debian_dbhost}"
 LOCAL_DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
 LOCAL_DB_USER: str = f"{my_secrets.prod_debian_dbuser}"
 LOCAL_DB_PW: str = f"{my_secrets.prod_debian_dbpass}"
 LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 
-# SQL TABLE names
-OWNERS: str = "owners"
-RENTALS: str = "rentals"
-SALES_HISTORY: str = "historical_sales"
-OWNERS_HISTORY: str = "historical_owners"
-COMMUNITIES: str = "communities"
-PARCELS: str = "parcels"
-MANAGEMENT: str = "conmmunity_managers"
+OWNERS_TABLE: str = "owners"
+RENTALS_TABLE: str = "rentals"
+MANAGEMENT_TABLE: str = "conmmunity_managers"
+
+OWNERS_SALES_TRIGGER: str = "after_sale_update"
+# SALES_HISTORY_TABLE: str = "historical_sales"
+# OWNERS_HISTORY_TABLE: str = "historical_owners"
+# COMMUNITIES_TABLE: str = "communities"
+# PARCELS_TABLE: str = "parcels"
+
+
 
 # SQL VIEWS
 COMMUNITY_RENTAL_TYPES: str = "community_rental_owner_types"
@@ -90,7 +92,7 @@ def triggers() -> bool:
     with engine.connect() as conn, conn.begin():
         q_owners_triggers: TextClause = select(
             text(
-                f"* from INFORMATION_SCHEMA.TRIGGERS where EVENT_OBJECT_TABLE='{OWNERS}';"
+                f"* from INFORMATION_SCHEMA.TRIGGERS where EVENT_OBJECT_TABLE='{OWNERS_TABLE}';"
             )
         )
         owners_result: Sequence[Row] = conn.execute(q_owners_triggers)
@@ -98,7 +100,7 @@ def triggers() -> bool:
 
         q_management_trigger: TextClause = select(
             text(
-                f"* from INFORMATION_SCHEMA.TRIGGERS where EVENT_OBJECT_TABLE='{MANAGEMENT}';"
+                f"* from INFORMATION_SCHEMA.TRIGGERS where EVENT_OBJECT_TABLE='{MANAGEMENT_TABLE}';"
             )
         )
         management_result: Sequence[Row] = conn.execute(q_management_trigger)
@@ -112,7 +114,7 @@ def triggers() -> bool:
             try:
                 conn.execute(text("DROP TRIGGER IF EXISTS after_sale_update"))
                 trig_sales = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_sale_update`
-                                AFTER UPDATE ON `owners`
+                                AFTER UPDATE ON `{OWNERS_TABLE}`
                                 FOR EACH ROW BEGIN
                                 IF OLD.SALE_DATE <> new.SALE_DATE THEN
                                     INSERT IGNORE into historical_sales(apn,sale_date, sale_price, ts)
@@ -205,7 +207,7 @@ def views() -> bool:
                     `rentals`.`OWNER_TYPE` AS `OWNER_TYPE`,
                     COUNT('COMMUNITY') AS `total`
                 FROM
-                    (`{RENTALS}`
+                    (`{RENTALS_TABLE}`
                     JOIN `parcels` ON ((`rentals`.`APN` = `parcels`.`APN`)))
                 GROUP BY `parcels`.`COMMUNITY` , `rentals`.`OWNER_TYPE`
             """)

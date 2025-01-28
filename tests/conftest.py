@@ -28,51 +28,65 @@ def connection(engine):
 
 
 @pytest.fixture(scope="function")
-def seed_parcel_data():
-    test_parcels: list[str] = os.listdir(f"{TEST_SEED_FILES_PATH}")
+def get_seed_parcel_data():
+    test_seed_parcels: list[str] = os.listdir(f"{TEST_SEED_FILES_PATH}")
 
-    consumed_parcel_data: list[dict] = []
+    consumed_seed_data: list[dict] = []
 
-    for parcel in test_parcels:
+    for parcel in test_seed_parcels:
         parcel_file = open(f"{TEST_SEED_FILES_PATH}{parcel}", "r")
         parcel_data: dict = json.load(parcel_file)
-        consumed_parcel_data.append(parcel_data)
+        consumed_seed_data.append(parcel_data)
 
-    return consumed_parcel_data
+    return consumed_seed_data
 
 
 # TODO need to send updates to check reports etc..
 @pytest.fixture(scope="function")
-def update_parcels():
-    test_parcels: list[str] = os.listdir(f"{TEST_UPDATE_FILES_PATH}")
+def get_update_parcel_data():
+    test_update_parcels: list[str] = os.listdir(f"{TEST_UPDATE_FILES_PATH}")
 
-    consumed_parcel_data: list[dict] = []
+    consumed_update_data: list[dict] = []
 
-    for parcel in test_parcels:
+    for parcel in test_update_parcels:
         parcel_file = open(f"{TEST_UPDATE_FILES_PATH}{parcel}", "r")
         parcel_data: dict = json.load(parcel_file)
-        consumed_parcel_data.append(parcel_data)
+        consumed_update_data.append(parcel_data)
 
-    return consumed_parcel_data
+    return consumed_update_data
 
 
 @pytest.fixture(scope="function")
-def parse_parcel_data(seed_parcel_data):
+def parse_parcel_seed_data(get_seed_parcel_data):
+    test_parsed_owners_data, test_parsed_rentals_data = parse(get_seed_parcel_data)
+    # test_parsed_owners_data, test_parsed_rentals_data = parse(get_update_parcel_data)
+    
+    return test_parsed_owners_data, test_parsed_rentals_data
+
+
+@pytest.fixture(scope="function")
+def parse_parcel_update_data(seed_parcel_data):
     test_parsed_owners_data, test_parsed_rentals_data = parse(seed_parcel_data)
 
     return test_parsed_owners_data, test_parsed_rentals_data
 
 
 @pytest.fixture(scope="function")
-def update_parcels(connection, parse_parcel_data):
-    test_owners = update_parcel_data.owners(parse_parcel_data[0])
-    test_rentals = update_parcel_data.rentals(parse_parcel_data[1])
+def update_parcels(connection, parse_parcel_seed_data):
+    test_owners = update_parcel_data.owners(parse_parcel_seed_data[0])
+    test_rentals = update_parcel_data.rentals(parse_parcel_seed_data[1])
 
     return test_owners, test_rentals
 
 
-@pytest.fixture(scope="function")
-def get_updates():
-    updates = process_updated_parcels.get_new_insights()
 
-    return updates
+
+
+
+
+
+# @pytest.fixture(scope="function")
+# def get_updates():
+#     updates = process_updated_parcels.get_new_insights()
+
+#     return updates

@@ -1,5 +1,5 @@
-def test_fetch_api(seed_parcel_data) -> list[dict]:
-    assert len(seed_parcel_data) == 15
+def test_fetch_api(get_seed_parcel_data) -> list[dict]:
+    assert len(get_seed_parcel_data) == 15
 
     # assert len(consumed_parcel_data) == 15
 
