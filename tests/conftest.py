@@ -71,12 +71,12 @@ def parse_parcel_update_data(seed_parcel_data):
     return test_parsed_owners_data, test_parsed_rentals_data
 
 
-@pytest.fixture(scope="function")
-def update_parcels(connection, parse_parcel_seed_data):
-    test_owners = update_parcel_data.owners(parse_parcel_seed_data[0])
-    test_rentals = update_parcel_data.rentals(parse_parcel_seed_data[1])
+# @pytest.fixture(scope="function")
+# def update_parcels(connection, parse_parcel_seed_data):
+#     test_owners = update_parcel_data.owners(parse_parcel_seed_data[0])
+#     test_rentals = update_parcel_data.rentals(parse_parcel_seed_data[1])
 
-    return test_owners, test_rentals
+#     return test_owners, test_rentals
 
 
 
