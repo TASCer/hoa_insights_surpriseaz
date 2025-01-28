@@ -6,8 +6,8 @@ def test_update_parcel(connection, parse_parcel_seed_data, parse_parcel_update_d
     # assert count == 15
     assert len(parse_parcel_seed_data) == 2
     assert len(parse_parcel_update_data) == 2
-    seed_owners, seed_rentals = parse_parcel_seed_data #if x.OWNER == "Todd Stevens"]
-    update_owners, update_rentals = parse_parcel_update_data #if x.OWNER == "Todd Stevens"]
+    seed_owners, seed_rentals = parse_parcel_seed_data 
+    update_owners, update_rentals = parse_parcel_update_data
     
     owners = [x for x in seed_owners if x.APN == "509-11-455"]
     new_owners = [x for x in update_owners if x.APN == "509-11-455"]
