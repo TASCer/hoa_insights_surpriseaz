@@ -1,20 +1,20 @@
 import logging
 
 from logging import Logger
-from sqlalchemy import create_engine, exc, text
+from sqlalchemy import Engine, create_engine, exc, text
 from hoa_insights_surpriseaz.utils.date_parser import sql_date
 from hoa_insights_surpriseaz import my_secrets
 
-LOCAL_DB_URI = f"{my_secrets.debian_uri}"
+LOCAL_DB_URI = f"{my_secrets.prod_debian_uri}"
 
 
 def check() -> tuple[list]:
     """
-    Function queries historical_sales and historical_owners tables for a timestamp of today.
-    Owners table has a trigger to insert on update.
+    Function queries historical_sales and historical_owners tables with a TS(timestamp) of today.
+    Returns tuple of sale change list and owner change lists.
     """
     logger: Logger = logging.getLogger(__name__)
-    engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
+    engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
 
     with engine.connect() as conn, conn.begin():
         try:

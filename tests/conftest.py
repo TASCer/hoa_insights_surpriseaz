@@ -3,7 +3,7 @@ import os
 import pytest
 
 from sqlalchemy import create_engine
-from hoa_insights_surpriseaz.my_secrets import debian_uri
+from hoa_insights_surpriseaz.my_secrets import prod_debian_uri
 from hoa_insights_surpriseaz.parse_api_data import parse
 from hoa_insights_surpriseaz import update_parcel_data
 from hoa_insights_surpriseaz import process_updated_parcels
@@ -14,7 +14,7 @@ TEST_UPDATE_FILES_PATH: str = "./tests/input/json_update_data/"
 
 @pytest.fixture(scope="session")
 def engine():
-    engine = create_engine(f"mysql+pymysql://{debian_uri}")
+    engine = create_engine(f"mysql+pymysql://{prod_debian_uri}")
 
     return engine
 

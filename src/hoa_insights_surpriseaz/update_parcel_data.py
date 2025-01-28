@@ -7,11 +7,11 @@ from sqlalchemy import Engine, create_engine, exc, text
 from hoa_insights_surpriseaz.database.populate_local import PARCELS_TABLE
 
 # SQL DB connection constants
-LOCAL_DB_HOSTNAME: str = f"{my_secrets.debian_dbhost}"
-LOCAL_DB_NAME: str = f"{my_secrets.debian_dbname}"
-LOCAL_DB_USER: str = f"{my_secrets.debian_dbuser}"
-LOCAL_DB_PW: str = f"{my_secrets.debian_dbpass}"
-LOCAL_DB_URI: str = f"{my_secrets.debian_uri}"
+LOCAL_DB_HOSTNAME: str = f"{my_secrets.prod_debian_dbhost}"
+LOCAL_DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
+LOCAL_DB_USER: str = f"{my_secrets.prod_debian_dbuser}"
+LOCAL_DB_PW: str = f"{my_secrets.prod_debian_dbpass}"
+LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 
 OWNERS_TABLE: str = "owners"
 RENTALS_TABLE: str = "rentals"

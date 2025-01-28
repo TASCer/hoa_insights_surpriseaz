@@ -13,10 +13,10 @@ from sqlalchemy.engine import Engine
 
 ytd_start, ytd_end = year_to_date()
 
-DB_HOSTNAME: str = f"{my_secrets.debian_dbhost}"
-DB_NAME: str = f"{my_secrets.debian_dbname}"
-DB_USER: str = f"{my_secrets.debian_dbuser}"
-DB_PW: str = f"{my_secrets.debian_dbpass}"
+DB_HOSTNAME: str = f"{my_secrets.prod_debian_dbhost}"
+DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
+DB_USER: str = f"{my_secrets.prod_debian_dbuser}"
+DB_PW: str = f"{my_secrets.prod_debian_dbpass}"
 
 
 def get_average_sale_price() -> None:
