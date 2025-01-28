@@ -135,7 +135,7 @@ def parcels():
         parcel_instances: list = []
 
         try:
-            with open(f"./seed_data/parcels.csv") as f:
+            with open(f"./seed_parcel_data/parcel_constants.csv") as f:
                 reader = csv.reader(f)
                 next(reader)
                 for parcel in reader:

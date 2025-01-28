@@ -14,8 +14,8 @@ REMOTE_DB_PW: str = f"{my_secrets.test_bluehost_dbpass}"
 REMOTE_DB_URI: str = f"{my_secrets.test_bluehost_uri}"
 
 # REMOTE/BLUEHOST SQL TABLES
-COMMUNITY_TOTALS: str = "communities"
-COMMUNITY_MANAGENT: str = "community_managers"
+COMMUNITIES_TABLE: str = "communities"
+COMMUNITY_MANAGENT_TABLE: str = "community_managers"
 
 meta = MetaData()
 
@@ -55,19 +55,19 @@ def tables():
 
     communities_tbl_insp = sa.inspect(engine)
     communities_tbl = communities_tbl_insp.has_table(
-        COMMUNITY_TOTALS, schema=f"{REMOTE_DB_NAME}"
+        COMMUNITIES_TABLE, schema=f"{REMOTE_DB_NAME}"
     )
 
     community_management_tbl_insp = sa.inspect(engine)
     community_management_tbl = community_management_tbl_insp.has_table(
-        COMMUNITY_MANAGENT, schema=f"{REMOTE_DB_NAME}"
+        COMMUNITY_MANAGENT_TABLE, schema=f"{REMOTE_DB_NAME}"
     )
 
     if not communities_tbl:
         engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}")
 
         _communities = Table(
-            COMMUNITY_TOTALS,
+            COMMUNITIES_TABLE,
             meta,
             Column("COMMUNITY", types.VARCHAR(100), primary_key=True),
             Column("LAT", types.DOUBLE_PRECISION(), primary_key=True),
@@ -80,7 +80,7 @@ def tables():
         engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}")
 
         _community_managers = Table(
-            COMMUNITY_MANAGENT,
+            COMMUNITY_MANAGENT_TABLE,
             meta,
             Column("ID", types.INT, primary_key=True),
             Column("COMMUNITY", types.VARCHAR(100)),

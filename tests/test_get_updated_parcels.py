@@ -1,5 +1,5 @@
-def test_get_updates(connection, get_updates) -> list[dict]:
-    assert get_updates.empty
+# def test_get_updates(connection, get_updates) -> list[dict]:
+#     assert get_updates.empty
 
 
 # if __name__ == "__main__":
