@@ -41,7 +41,14 @@ def get_seed_parcel_data():
     return consumed_seed_data
 
 
-# TODO need to send updates to check reports etc..
+@pytest.fixture(scope="function")
+def parse_parcel_seed_data(get_seed_parcel_data):
+    test_parsed_owners_data, test_parsed_rentals_data = parse(get_seed_parcel_data)
+    # test_parsed_owners_data, test_parsed_rentals_data = parse(get_update_parcel_data)
+    
+    return test_parsed_owners_data, test_parsed_rentals_data
+
+
 @pytest.fixture(scope="function")
 def get_update_parcel_data():
     test_update_parcels: list[str] = os.listdir(f"{TEST_UPDATE_FILES_PATH}")
@@ -56,19 +63,16 @@ def get_update_parcel_data():
     return consumed_update_data
 
 
+
 @pytest.fixture(scope="function")
-def parse_parcel_seed_data(get_seed_parcel_data):
-    test_parsed_owners_data, test_parsed_rentals_data = parse(get_seed_parcel_data)
-    # test_parsed_owners_data, test_parsed_rentals_data = parse(get_update_parcel_data)
-    
+def parse_parcel_update_data(get_update_parcel_data):
+    test_parsed_owners_data, test_parsed_rentals_data = parse(get_update_parcel_data)
+
     return test_parsed_owners_data, test_parsed_rentals_data
 
 
-@pytest.fixture(scope="function")
-def parse_parcel_update_data(seed_parcel_data):
-    test_parsed_owners_data, test_parsed_rentals_data = parse(seed_parcel_data)
 
-    return test_parsed_owners_data, test_parsed_rentals_data
+# TODO need to send updates to check reports etc..
 
 
 # @pytest.fixture(scope="function")

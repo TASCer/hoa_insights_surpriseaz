@@ -1,12 +1,13 @@
 from sqlalchemy import text
 
 
-def test_update_parcel(connection, update_parcels) -> list[dict]:
-    result = connection.execute(text("SELECT COUNT(*) FROM owners"))
-    count = result.fetchone()[0]
+def test_update_parcel(connection, parse_parcel_seed_data, parse_parcel_update_data) -> list[dict]:
 
-    assert count == 15
-    # assert len(update_parcel_data[1]) == 4
+    # assert count == 15
+    assert len(parse_parcel_seed_data) == 15
+    assert len(parse_parcel_update_data) == 15
+    seed_names = [x for x in parse_parcel_seed_data] #if x.OWNER == "Todd Stevens"]
+    print(seed_names)
 
 
 if __name__ == "__main__":

@@ -6,8 +6,8 @@ from sqlalchemy import Engine, TextClause, create_engine, exc, text, Row
 from hoa_insights_surpriseaz.utils.date_parser import sql_timestamp
 from hoa_insights_surpriseaz import my_secrets
 
-LOCAL_DB_URI: str = f"{my_secrets.debian_uri}"
-REMOTE_DB_URI: str = f"{my_secrets.bluehost_uri}"
+LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
+REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
 
 
 def update() -> None:

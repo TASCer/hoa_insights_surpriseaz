@@ -64,7 +64,7 @@ def process_parcels() -> None:
     parsed_owner_data, parsed_rental_data = parse_api_data.parse(consumed_api_data)
     update_parcel_data.owners(parsed_owner_data)
     update_parcel_data.rentals(parsed_rental_data)
-    update_rentals_remote.update()
+    # update_rentals_remote.update()
 
 
 def main() -> None:
@@ -92,6 +92,6 @@ if __name__ == "__main__":
     if not changes:
         logger.info("NO SALES OR OWNER CHANGES")
 
-    # mailer.send_mail("HOA INSIGHTS PROCESSING COMPLETE")
+    mailer.send_mail("HOA INSIGHTS PROCESSING COMPLETE")
 
     logger.info("********** HOA INSIGHT PROCESSING COMPLETED **********")

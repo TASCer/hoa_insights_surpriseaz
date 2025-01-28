@@ -139,7 +139,6 @@ def parcels():
                 reader = csv.reader(f)
                 next(reader)
                 for parcel in reader:
-                    print(parcel)
                     APN, COMMUNITY, SITUS, LAT, LONG = parcel[0:5]
                     parcel_instance = Parcels(
                         APN=APN, COMMUNITY=COMMUNITY, SITUS=SITUS, LAT=LAT, LONG=LONG
