@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.database import (
     check_local,
-#     check_remote,
+    #     check_remote,
     models,
     populate_local,
 )
@@ -38,7 +38,8 @@ engine = create_engine(f"mysql+pymysql://{TEST_LOCAL_DB_URI}", echo=False)
 def create_local_tables() -> bool:
     if check_local.schema(TEST_LOCAL_DB_URI):
         models.Base.metadata.create_all(engine)
-    
+
+
 if __name__ == "__main__":
     # CREATE LOCAL
     # logger.info(f"*** STARTED LOCAL TEST DATABASE SETUP ON: {my_secrets.prod_debian_dbhost} ***")
