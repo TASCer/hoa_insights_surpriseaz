@@ -3,10 +3,10 @@ import os
 import pytest
 
 from sqlalchemy import create_engine
-from hoa_insights_surpriseaz.my_secrets import prod_debian_uri
+from hoa_insights_surpriseaz.my_secrets import test_debian_uri
 from hoa_insights_surpriseaz.parse_api_data import parse
-from hoa_insights_surpriseaz import update_parcel_data
-from hoa_insights_surpriseaz import process_updated_parcels
+# from hoa_insights_surpriseaz import update_parcel_data
+# from hoa_insights_surpriseaz import process_updated_parcels
 from hoa_insights_surpriseaz import parse_management_pdf
 
 
@@ -17,7 +17,7 @@ TEST_MANAGEMENT_CSV_PATH: str ="./tests/input/surpriseaz-hoa-management.csv"
 
 @pytest.fixture(scope="session")
 def engine():
-    engine = create_engine(f"mysql+pymysql://{prod_debian_uri}")
+    engine = create_engine(f"mysql+pymysql://{test_debian_uri}")
 
     return engine
 
@@ -87,7 +87,7 @@ def parse_pdf():
     # converted = parse_management_pdf.convert_pdf(pdf)
 
 
-    return converted
+    return parsed
 
 
 # @pytest.fixture(scope="function")

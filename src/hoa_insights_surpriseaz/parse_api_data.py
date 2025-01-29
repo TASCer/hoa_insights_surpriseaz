@@ -2,7 +2,7 @@ import logging
 
 from logging import Logger
 from hoa_insights_surpriseaz.schemas import Rentals, Owners
-from hoa_insights_surpriseaz.utils.number_formatter import parse_apn, parse_ph_nums
+from hoa_insights_surpriseaz.utils.number_formatter import format_apn, format_phone
 from hoa_insights_surpriseaz.utils.date_parser import api_date
 
 logger: Logger = logging.getLogger(__name__)
@@ -13,7 +13,7 @@ def parse(api_data: list[dict]) -> tuple[list]:
     parsed_rental_parcels = []
 
     for parcel_data in api_data:
-        apn: str = parse_apn(parcel_data["TreasurersTransitionUrl"].split("=")[1])
+        apn: str = format_apn(parcel_data["TreasurersTransitionUrl"].split("=")[1])
         deed_date: str = api_date(parcel_data["Owner"]["DeedDate"])
         deed_type: str = parcel_data["Owner"]["DeedType"]
 
@@ -53,7 +53,7 @@ def parse(api_data: list[dict]) -> tuple[list]:
             rental_owner_address: str = parcel_data["RentalInformation"][
                 "OwnerAddress"
             ].replace(",", " ")
-            rental_owner_phone: str = parse_ph_nums(
+            rental_owner_phone: str = format_phone(
                 parcel_data["RentalInformation"]["OwnerPhone"]
             )
 
@@ -71,7 +71,7 @@ def parse(api_data: list[dict]) -> tuple[list]:
                 rental_contact_address: str = parcel_data["RentalInformation"][
                     "AgentAddress"
                 ].replace(",", "")
-                rental_contact_phone: str = parse_ph_nums(
+                rental_contact_phone: str = format_phone(
                     parcel_data["RentalInformation"]["AgentPhone"]
                 )
 
@@ -82,7 +82,7 @@ def parse(api_data: list[dict]) -> tuple[list]:
                 rental_contact_address: str = parcel_data["RentalInformation"][
                     "BusinessContactAddress"
                 ].replace(",", "")
-                rental_contact_phone: str = parse_ph_nums(
+                rental_contact_phone: str = format_phone(
                     parcel_data["RentalInformation"]["BusinessContactPhone"]
                 )
             else:
