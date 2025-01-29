@@ -16,11 +16,11 @@ from hoa_insights_surpriseaz.utils.date_parser import log_date
 logger: Logger = logging.getLogger(__name__)
 
 
-def parcel_changes(parcel_changes: DataFrame):
+def parcel_changes(parcel_changes: DataFrame) -> None:
     """
-    Function takes in a dataframe of parcel changes.
+    Function takes in a dataframe of owner and sale changes.
     Produces and saves html report.
-    Sends .html report to web server for display
+    Sends html report to web server.
     """
     parcel_changes["SALE_PRICE"] = (
         parcel_changes["SALE_PRICE"].fillna(0).astype(int).apply(format_price)
