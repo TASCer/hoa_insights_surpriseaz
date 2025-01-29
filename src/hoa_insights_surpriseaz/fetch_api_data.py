@@ -17,11 +17,7 @@ logger: Logger = logging.getLogger(__name__)
 LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 LOCAL_DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
 
-# COMMUNITY_NAMES_TABLE: str = "communities"
 PARCELS_TABLE: str = "parcels"
-# PARCEL_OWNERS_TABLE: str = "owners"
-# PARCEL_SALES_TABLE: str = "sales"
-# PARCEL_RENTALS_TABLE: str = "rentals"
 
 if platform.system() == "Windows":
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())

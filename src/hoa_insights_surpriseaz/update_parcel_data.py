@@ -6,7 +6,6 @@ from sqlalchemy import Engine, create_engine, exc, text
 
 from hoa_insights_surpriseaz.database.populate_local import PARCELS_TABLE
 
-# SQL DB connection constants
 LOCAL_DB_HOSTNAME: str = f"{my_secrets.prod_debian_dbhost}"
 LOCAL_DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
 LOCAL_DB_USER: str = f"{my_secrets.prod_debian_dbuser}"
@@ -26,7 +25,7 @@ def owners(latest_parsed_owners) -> None:
 
     logger: Logger = logging.getLogger(__name__)
 
-    engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
+    engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
 
     try:
         with engine.connect() as conn, conn.begin():

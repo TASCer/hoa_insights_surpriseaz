@@ -70,7 +70,7 @@ def parse_csv(filename: str) -> None:
 
 def convert_pdf(*args) -> None:
     """
-    Function converts the downloaded pdf document's table data to csv
+    Function converts the downloaded pdf document's table data to csv.
     Sends the csv file to parse_csv() for formatting/parsing/saving.
     """
     logger.info(f"Converting pdf file: {pdf_filename} to csv")
