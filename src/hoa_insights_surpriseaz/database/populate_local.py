@@ -4,11 +4,11 @@ import os
 
 from logging import Logger
 from hoa_insights_surpriseaz.schemas import CommunityManagement, Community, Parcels
-from sqlalchemy import create_engine, exc, TextClause
+from sqlalchemy import Engine, create_engine, exc, TextClause
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from hoa_insights_surpriseaz.update_management import get_pdf_communities
-from hoa_insights_surpriseaz.utils.rename_files import rename_file
+from hoa_insights_surpriseaz.utils.rename_files import rename
 from hoa_insights_surpriseaz.database import models
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz import parse_management_pdf
@@ -59,7 +59,7 @@ def community_management(s: Session) -> bool:
         try:
             logger.info("Management Data Not Found. Downloading/Processing PDF")
             pdf_download()
-            file_renamed: bool = rename_file()
+            file_renamed: bool = rename()
             if file_renamed:
                 parse_management_pdf.convert_pdf()
             community_management(s=s)
@@ -130,12 +130,12 @@ def communities() -> list:
     return community_totals
 
 
-def parcels():
+def parcels(datapath: str = "./seed_data/parcel_constants.csv", engine: Engine = engine) -> bool:
     with Session(engine) as s:
         parcel_instances: list = []
 
         try:
-            with open(f"./seed_data/parcel_constants.csv") as f:
+            with open(datapath) as f:
                 reader = csv.reader(f)
                 next(reader)
                 for parcel in reader:

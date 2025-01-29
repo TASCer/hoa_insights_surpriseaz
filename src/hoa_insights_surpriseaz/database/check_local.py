@@ -50,7 +50,8 @@ UPDATE_COMMUNITIES: str = "update_communities"
 logger: Logger = logging.getLogger(__name__)
 
 
-def schema() -> bool:
+def schema(db_uri: str = f"{LOCAL_DB_URI}") -> bool:
+    print(db_uri)
     """
     Function checks if schema/DB_NAME is present.
     Return True if it is.
@@ -59,7 +60,7 @@ def schema() -> bool:
     logger: Logger = logging.getLogger(__name__)
 
     try:
-        engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
+        engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
 
         if not database_exists(engine.url):
             create_database(engine.url)
