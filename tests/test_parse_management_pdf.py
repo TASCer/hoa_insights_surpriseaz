@@ -1,4 +1,4 @@
-def test_fetch_pdf(parse_pdf) -> list[dict]:
+def test_fetch_pdf(parse_pdf):
     assert len(parse_pdf) == 15
 
     # assert len(consumed_parcel_data) == 15

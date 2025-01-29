@@ -15,7 +15,7 @@ NEW_TEST_PDF_FILEPATH: str = "../output/pdf/Gallop.pdf"
 NEW_TEST_PDF_FILENAME: str = NEW_TEST_PDF_FILEPATH.split("/")[-1]
 
 
-def rename_file():
+def rename():
     if os.path.abspath(f"../output/pdf/{ORIG_PDF_FILEPATH}"):
         try:
             os.rename(ORIG_PDF_FILEPATH, NEW_PDF_FILEPATH)

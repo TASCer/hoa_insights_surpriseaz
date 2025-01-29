@@ -8,7 +8,7 @@ from aiohttp import TCPConnector
 from aiohttp_retry import RetryClient, ExponentialRetry
 from asyncio import Semaphore, Task
 from logging import Logger
-from sqlalchemy import create_engine, exc, text, CursorResult
+from sqlalchemy import Engine, TextClause, create_engine, exc, text, CursorResult, Row
 from hoa_insights_surpriseaz.utils import date_parser
 from hoa_insights_surpriseaz import my_secrets
 
@@ -31,13 +31,13 @@ def get_parcel_apns() -> tuple[str]:
     Returns tuple of APNs and db engine.
     """
     try:
-        engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
+        engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
         with engine.connect() as conn, conn.begin():
-            result: CursorResult = conn.execute(
+            result: TextClause = conn.execute(
                 text(f"SELECT APN FROM {LOCAL_DB_NAME}.{PARCELS_TABLE};")
             )
-            all_results = result.all()
-            APNs: list = [x[0] for x in all_results]
+            all_results: CursorResult = result.all()
+            APNs: list[Row] = [x[0] for x in all_results]
 
         return APNs
 

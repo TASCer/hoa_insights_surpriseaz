@@ -13,7 +13,7 @@ from hoa_insights_surpriseaz import parse_management_pdf
 TEST_SEED_FILES_PATH: str = "./tests/input/json_seed_data/"
 TEST_UPDATE_FILES_PATH: str = "./tests/input/json_update_data/"
 TEST_MANAGEMENT_PDF_PATH: str ="./tests/input/HOA Contact List (PDF).pdf"
-TEST_MANAGEMENT_CSV_PATH: str ="./tests/input/surprise-hoa-management.csv"
+TEST_MANAGEMENT_CSV_PATH: str ="./tests/input/surpriseaz-hoa-management.csv"
 
 @pytest.fixture(scope="session")
 def engine():
@@ -77,17 +77,17 @@ def parse_parcel_update_data(get_update_parcel_data):
 @pytest.fixture(scope="function")
 def parse_pdf():
     csvfile = f"{TEST_MANAGEMENT_CSV_PATH}" 
-    converted = parse_management_pdf.parse_csv(csvfile)
+    parsed = parse_management_pdf.parse_csv(csvfile)
+    print(parsed)
 
-
-    return converted
+    # return type(parsed)
 
     
     # pdf = f"{TEST_MANAGEMENT_PDF_PATH}"
     # converted = parse_management_pdf.convert_pdf(pdf)
 
 
-    # return converted
+    return converted
 
 
 # @pytest.fixture(scope="function")
@@ -108,12 +108,6 @@ def parse_pdf():
 #     test_rentals = update_parcel_data.rentals(parse_parcel_seed_data[1])
 
 #     return test_owners, test_rentals
-
-
-
-
-
-
 
 
 # @pytest.fixture(scope="function")

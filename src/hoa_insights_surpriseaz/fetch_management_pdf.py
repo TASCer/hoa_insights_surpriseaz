@@ -12,7 +12,7 @@ from selenium.webdriver.firefox.options import Options as FFOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from hoa_insights_surpriseaz.utils.rename_files import rename_file
+from hoa_insights_surpriseaz.utils import rename_files
 from hoa_insights_surpriseaz import parse_management_pdf
 from hoa_insights_surpriseaz import my_secrets
 
@@ -72,6 +72,6 @@ def pdf_download() -> None:
 
 if __name__ == "__main__":
     # pdf_download()
-    file_renamed: bool = rename_file()
+    file_renamed: bool = rename_files.rename()
     if file_renamed:
         parse_management_pdf.convert_pdf()
