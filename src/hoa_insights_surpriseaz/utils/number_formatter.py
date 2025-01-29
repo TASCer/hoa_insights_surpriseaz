@@ -1,19 +1,19 @@
 import re
 
 
-def parse_apn(apn: str) -> str:
+def format_apn(apn: str) -> str:
     """
-    Takes an unformatted APN value (xxxxxxxx) from API
-    Returns a formatted xxx-xx-xxx str
+    Function takes an Assessor Parcel Number (APN) value from API.
+    Returns a formatted xxx-xx-xxx str.
     """
     apn: str = re.sub(r"(\d{3})(\d{2})(\d{3})", r"\1-\2-\3", apn)
 
     return apn
 
 
-def parse_ph_nums(num: str) -> str:
+def format_phone(num: str) -> str:
     """
-    Takes phone number field data reponse from API
+    Function takes phone number field data reponse from API
     Returns a formatted (xxx) xxx-xxxx number, empty fields are all 9's
     """
     if num == "~~~~~~~~~~" or num is None:
@@ -31,3 +31,10 @@ def format_price(price: int) -> str:
     """
     price = int(price)
     return "${:,}".format(price)
+
+
+if __name__ == "__main__":
+    print(format_apn("50911455"))
+    print(format_phone("6023153315"))
+    print(format_price("50911455"))
+    print(format_phone("~~~~~~~~~~"))

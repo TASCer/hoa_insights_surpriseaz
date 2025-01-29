@@ -2,7 +2,7 @@ import logging
 
 from logging import Logger
 from hoa_insights_surpriseaz.schemas import Rentals, Owners
-from hoa_insights_surpriseaz.utils.number_parser import parse_apn, parse_ph_nums
+from hoa_insights_surpriseaz.utils.number_formatter import parse_apn, parse_ph_nums
 from hoa_insights_surpriseaz.utils.date_parser import api_date
 
 logger: Logger = logging.getLogger(__name__)

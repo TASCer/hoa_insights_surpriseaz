@@ -36,4 +36,4 @@ def rename():
 
 
 if __name__ == "__main__":
-    rename_file()
+    rename()

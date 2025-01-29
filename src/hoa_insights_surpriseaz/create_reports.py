@@ -10,7 +10,7 @@ from pandas import DataFrame
 from pandas.io.formats.style import Styler
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz import styles
-from hoa_insights_surpriseaz.utils.number_parser import format_price
+from hoa_insights_surpriseaz.utils.number_formatter import format_price
 from hoa_insights_surpriseaz.utils.date_parser import log_date
 
 logger: Logger = logging.getLogger(__name__)

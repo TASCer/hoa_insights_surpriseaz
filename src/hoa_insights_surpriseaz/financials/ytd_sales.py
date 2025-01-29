@@ -3,7 +3,7 @@ import pandas as pd
 
 from hoa_insights_surpriseaz import create_reports
 from hoa_insights_surpriseaz import my_secrets
-from hoa_insights_surpriseaz.utils.number_parser import format_price
+from hoa_insights_surpriseaz.utils.number_formatter import format_price
 from hoa_insights_surpriseaz.utils.date_parser import year_to_date
 from logging import Logger
 from pandas import DataFrame
