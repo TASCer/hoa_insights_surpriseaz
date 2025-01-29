@@ -7,10 +7,13 @@ from hoa_insights_surpriseaz.my_secrets import prod_debian_uri
 from hoa_insights_surpriseaz.parse_api_data import parse
 from hoa_insights_surpriseaz import update_parcel_data
 from hoa_insights_surpriseaz import process_updated_parcels
+from hoa_insights_surpriseaz import parse_management_pdf
+
 
 TEST_SEED_FILES_PATH: str = "./tests/input/json_seed_data/"
 TEST_UPDATE_FILES_PATH: str = "./tests/input/json_update_data/"
-
+TEST_MANAGEMENT_PDF_PATH: str ="./tests/input/HOA Contact List (PDF).pdf"
+TEST_MANAGEMENT_CSV_PATH: str ="./tests/input/surprise-hoa-management.csv"
 
 @pytest.fixture(scope="session")
 def engine():
@@ -70,6 +73,30 @@ def parse_parcel_update_data(get_update_parcel_data):
 
     return test_parsed_owners_data, test_parsed_rentals_data
 
+
+@pytest.fixture(scope="function")
+def parse_pdf():
+    csvfile = f"{TEST_MANAGEMENT_CSV_PATH}" 
+    converted = parse_management_pdf.parse_csv(csvfile)
+
+
+    return converted
+
+    
+    # pdf = f"{TEST_MANAGEMENT_PDF_PATH}"
+    # converted = parse_management_pdf.convert_pdf(pdf)
+
+
+    # return converted
+
+
+# @pytest.fixture(scope="function")
+# def parse_pdf():
+#     pdf = f"{TEST_MANAGEMENT_PDF_PATH}"
+#     converted = parse_management_pdf.convert_pdf(pdf)
+
+
+#     return converted
 
 
 # TODO need to send updates to check reports etc..
