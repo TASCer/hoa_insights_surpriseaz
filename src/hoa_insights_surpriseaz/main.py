@@ -35,7 +35,7 @@ root_logger.addHandler(fh)
 logger: Logger = logging.getLogger(__name__)
 
 
-def process_management() -> None:
+def process_management_pdf() -> None:
     """
     Function downloads, renames, and parses HOA management pdf.
     Deletes management pdf file to ensure latest data.
@@ -83,9 +83,9 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    if int(log_date().split("-")[1]) == first_tuesday_of_month():
-        process_management()
-        update_management.update()
+    # if int(log_date().split("-")[1]) == first_tuesday_of_month():
+    process_management_pdf()
+    update_management.update()
 
     changes: bool = main()
 

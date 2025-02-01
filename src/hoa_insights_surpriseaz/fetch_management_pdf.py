@@ -26,7 +26,6 @@ def pdf_download() -> None:
     """
     Function creates a Selenium browser to download hoa management pdf file.
     """
-    # url, xpath = get_url_xpath()
     logger.info("\tDOWNLOADING MANAGEMENT PDF")
     options = FFOptions()
     ff_profile = FFProfile()
