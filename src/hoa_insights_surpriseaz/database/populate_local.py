@@ -130,7 +130,9 @@ def communities() -> list:
     return community_totals
 
 
-def parcels(datapath: str = "./seed_data/parcel_constants.csv", engine: Engine = engine) -> bool:
+def parcels(
+    datapath: str = "./seed_data/parcel_constants.csv", engine: Engine = engine
+) -> bool:
     with Session(engine) as s:
         parcel_instances: list = []
 

@@ -46,7 +46,9 @@ def create_local_tables() -> bool:
 
 if __name__ == "__main__":
     # CREATE LOCAL
-    logger.info(f"*** STARTED LOCAL DATABASE SETUP ON: {my_secrets.prod_debian_dbhost} ***")
+    logger.info(
+        f"*** STARTED LOCAL DATABASE SETUP ON: {my_secrets.prod_debian_dbhost} ***"
+    )
     logger.info(f"\tLOCAL tables created: {create_local_tables()}")
     logger.info(f"\tLOCAL triggers created: {check_local.triggers()}")
     logger.info(f"\tLOCAL views created: {check_local.views()}")

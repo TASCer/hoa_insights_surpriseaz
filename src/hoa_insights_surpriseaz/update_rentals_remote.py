@@ -21,7 +21,9 @@ def update() -> None:
             q_registered_rentals: TextClause = conn.execute(
                 text("""SELECT * FROM registered_rentals;""")
             )
-            q_classed_rentals: list[Row] = conn.execute(text("""SELECT * FROM classed_rentals;"""))
+            q_classed_rentals: list[Row] = conn.execute(
+                text("""SELECT * FROM classed_rentals;""")
+            )
 
     except exc.DBAPIError as db_err:
         logger.error(str(db_err))

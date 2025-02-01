@@ -26,10 +26,6 @@ RENTALS_TABLE: str = "rentals"
 MANAGEMENT_TABLE: str = "conmmunity_managers"
 
 OWNERS_SALES_TRIGGER: str = "after_sale_update"
-# SALES_HISTORY_TABLE: str = "historical_sales"
-# OWNERS_HISTORY_TABLE: str = "historical_owners"
-# COMMUNITIES_TABLE: str = "communities"
-# PARCELS_TABLE: str = "parcels"
 
 
 

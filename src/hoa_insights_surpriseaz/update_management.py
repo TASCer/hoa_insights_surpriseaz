@@ -75,7 +75,9 @@ def update() -> None:
                 logger.error(e)
 
     # TODO REMOTE ISSUES VERIFY FEB RUN
-    remote_engine: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
+    remote_engine: Engine = create_engine(
+        f"mysql+pymysql://{REMOTE_DB_URI}", echo=False
+    )
 
     with Session(remote_engine) as rs:
         for pdf_item in pdf_managers:
