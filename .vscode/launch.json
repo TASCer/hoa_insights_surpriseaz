@@ -8,7 +8,7 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "cwd": "${workspaceFolder}/src/test_hoa_surpriseaz/",
+            "cwd": "${workspaceFolder}/src/hoa_insights_surpriseaz/",
             "program": "main.py",
             "console": "integratedTerminal",
             "justMyCode": true
