@@ -17,7 +17,7 @@ from hoa_insights_surpriseaz.utils.date_parser import (
     first_tuesday_of_month,
 )
 from hoa_insights_surpriseaz.utils.delete_files import delete
-from hoa_insights_surpriseaz.utils.rename_files import rename_file
+from hoa_insights_surpriseaz.utils.rename_files import rename
 
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
@@ -42,7 +42,7 @@ def process_management() -> None:
     """
     logger.info("\tMonthly HOA Management Data Update Started")
     fetch_management_pdf.pdf_download()
-    file_renamed: bool = rename_file()
+    file_renamed: bool = rename()
 
     if file_renamed:
         logger.info("Management file renamed")
