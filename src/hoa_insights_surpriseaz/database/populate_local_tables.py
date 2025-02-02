@@ -7,12 +7,12 @@ from hoa_insights_surpriseaz.schemas import CommunityManagement, Community, Parc
 from sqlalchemy import Engine, create_engine, exc, TextClause
 from sqlalchemy import text
 from sqlalchemy.orm import Session
-from hoa_insights_surpriseaz.update_management import get_pdf_communities
+from hoa_insights_surpriseaz.update_community_management import get_pdf_communities
 from hoa_insights_surpriseaz.utils.rename_files import rename
 from hoa_insights_surpriseaz.database import models
 from hoa_insights_surpriseaz import my_secrets
-from hoa_insights_surpriseaz import parse_management_pdf
-from hoa_insights_surpriseaz.fetch_management_pdf import pdf_download
+from hoa_insights_surpriseaz import parse_management_data
+from hoa_insights_surpriseaz.fetch_community_management_data import pdf_download
 
 LOCAL_DB_URI = f"{my_secrets.prod_debian_uri}"
 
@@ -61,7 +61,7 @@ def community_management(s: Session) -> bool:
             pdf_download()
             file_renamed: bool = rename()
             if file_renamed:
-                parse_management_pdf.convert_pdf()
+                parse_management_data.convert_pdf()
             community_management(s=s)
 
         except FileNotFoundError as ffe:

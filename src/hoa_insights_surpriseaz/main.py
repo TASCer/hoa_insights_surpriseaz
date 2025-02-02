@@ -2,15 +2,15 @@ import logging
 
 from logging import Logger, Formatter
 from pandas import DataFrame
-from hoa_insights_surpriseaz import fetch_api_data
+from hoa_insights_surpriseaz import fetch_accessor_data
 from hoa_insights_surpriseaz import create_reports
-from hoa_insights_surpriseaz import parse_api_data
+from hoa_insights_surpriseaz import parse_accessor_api_data
 from hoa_insights_surpriseaz import process_updated_parcels
-from hoa_insights_surpriseaz import update_management
+from hoa_insights_surpriseaz import update_community_management
 from hoa_insights_surpriseaz import update_rentals_remote
 from hoa_insights_surpriseaz import update_parcel_data
-from hoa_insights_surpriseaz import fetch_management_pdf
-from hoa_insights_surpriseaz import parse_management_pdf
+from hoa_insights_surpriseaz import fetch_community_management_data
+from hoa_insights_surpriseaz import parse_management_data
 from hoa_insights_surpriseaz.utils import (
     date_parser,
     delete_files,
@@ -40,13 +40,13 @@ def process_management_pdf() -> None:
     Deletes management pdf file to ensure latest data.
     """
     logger.info("\tMonthly HOA Management Data Update Started")
-    fetch_management_pdf.pdf_download()
+    fetch_community_management_data.pdf_download()
     file_renamed: bool = rename_files.rename()
 
     if file_renamed:
         logger.info("Management file renamed")
-        parse_management_pdf.convert_pdf()
-        update_management.update()
+        parse_management_data.convert_pdf()
+        update_community_management.update()
 
         delete_files.delete()
 
@@ -59,8 +59,10 @@ def process_parcels() -> None:
     """
 
     logger.info("********** PARCEL PROCESSING STARTED **********")
-    consumed_api_data = fetch_api_data.parcels_api()
-    parsed_owner_data, parsed_rental_data = parse_api_data.parse(consumed_api_data)
+    consumed_api_data = fetch_accessor_data.parcels_api()
+    parsed_owner_data, parsed_rental_data = parse_accessor_api_data.parse(
+        consumed_api_data
+    )
     update_parcel_data.owners(parsed_owner_data)
     update_parcel_data.rentals(parsed_rental_data)
     # update_rentals_remote.update()
@@ -87,7 +89,7 @@ if __name__ == "__main__":
         == date_parser.first_tuesday_of_month()
     ):
         process_management_pdf()
-        update_management.update()
+        update_community_management.update()
 
     delete_files.delete()
 

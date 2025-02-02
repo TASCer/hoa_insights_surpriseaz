@@ -34,6 +34,7 @@ def parse_csv(filename: str) -> None:
 
     try:
         managers: DataFrame = pd.read_csv(filename, header=0)
+        print(managers)
     except FileNotFoundError as fnf_error:
         logger.error(fnf_error)
 
