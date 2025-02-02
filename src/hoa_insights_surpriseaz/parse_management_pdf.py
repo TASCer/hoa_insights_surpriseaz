@@ -26,8 +26,8 @@ pdf_filename: str = r"./output/pdf/MANAGEMENT.pdf"
 
 def parse_csv(filename: str) -> None:
     """
-    Function takes in a csv filename and creates Pandas dataframe.
-    Renames columns and cleans data in dataframe.
+    Function takes in a csv filename and creates a dataframe.
+    Renames columns and cleans data.
     Saves csv file to disk.
     """
     logger.info(f"Parsing csv file: {csv_filename}")

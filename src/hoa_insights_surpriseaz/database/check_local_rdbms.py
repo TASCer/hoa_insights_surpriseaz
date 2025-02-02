@@ -27,21 +27,16 @@ MANAGEMENT_TABLE: str = "conmmunity_managers"
 
 OWNERS_SALES_TRIGGER: str = "after_sale_update"
 
+VIEW_COMMUNITY_RENTAL_TYPES: str = "community_rental_owner_types"
+VIEW_TOP_RENTAL_TYPES: str = "top_rental_ownership_type"
+VIEW_TOP_REGISTERED_RENTAL_OWNERS: str = "top_registered_rental_ownership"
+VIEW_TOP_CLASSED_RENTAL_OWNERS: str = "top_classed_rental_ownership"
+VIEW_TOP_RENTAL_OWNERS: str = "top_rental_ownership"
+VIEW_REGISTERED_RENTALS: str = "registered_rentals"
+VIEW_CLASSED_RENTALS: str = "classed_rentals"
+VIEW_RENTAL_CONTACTS: str = "rental_contacts"
 
-
-# SQL VIEWS
-COMMUNITY_RENTAL_TYPES: str = "community_rental_owner_types"
-TOP_RENTAL_TYPES: str = "top_rental_ownership_type"
-TOP_REGISTERED_RENTAL_OWNERS: str = "top_registered_rental_ownership"
-TOP_CLASSED_RENTAL_OWNERS: str = "top_classed_rental_ownership"
-TOP_RENTAL_OWNERS: str = "top_rental_ownership"
-REGISTERED_RENTALS: str = "registered_rentals"
-CLASSED_RENTALS: str = "classed_rentals"
-RENTAL_CONTACTS: str = "rental_contacts"
-
-
-# SQL STORED PROCs
-UPDATE_COMMUNITIES: str = "update_communities"
+UPDATE_COMMUNITIES_SP: str = "update_communities"
 
 logger: Logger = logging.getLogger(__name__)
 
@@ -198,7 +193,7 @@ def views() -> bool:
                 ALGORITHM = UNDEFINED 
                 DEFINER = `todd`@`%` 
                 SQL SECURITY DEFINER
-            VIEW `{COMMUNITY_RENTAL_TYPES}` AS
+            VIEW `{VIEW_COMMUNITY_RENTAL_TYPES}` AS
                 SELECT 
                     `parcels`.`COMMUNITY` AS `COMMUNITY`,
                     `rentals`.`OWNER_TYPE` AS `OWNER_TYPE`,
@@ -223,7 +218,7 @@ def views() -> bool:
                 ALGORITHM = UNDEFINED 
                 DEFINER = `todd`@`%` 
                 SQL SECURITY DEFINER
-            VIEW `{TOP_RENTAL_TYPES}` AS
+            VIEW `{VIEW_TOP_RENTAL_TYPES}` AS
                 SELECT 
                     `rentals`.`OWNER_TYPE` AS `OWNER_TYPE`,
                     COUNT('OWNER_TYPE') AS `count`
@@ -239,7 +234,7 @@ def views() -> bool:
         logger.critical(str(e))
         return False
 
-    # WEB VIEWS FOR LOCAL WEBSITE
+# WEB VIEWS FOR LOCAL WEBSITE
     try:
         with engine.connect() as conn, conn.begin():
             conn.execute(
@@ -249,7 +244,7 @@ def views() -> bool:
                 ALGORITHM = UNDEFINED 
                 DEFINER = `todd`@`%` 
                 SQL SECURITY DEFINER
-            VIEW `{REGISTERED_RENTALS}` AS
+            VIEW `{VIEW_REGISTERED_RENTALS}` AS
                 SELECT 
                     `rentals`.`APN` AS `APN`,
                     `rentals`.`OWNER` AS `OWNER`,
@@ -281,7 +276,7 @@ def views() -> bool:
                 ALGORITHM = UNDEFINED
                 DEFINER = `todd`@`%`
                 SQL SECURITY DEFINER
-            VIEW `{CLASSED_RENTALS}` AS
+            VIEW `{VIEW_CLASSED_RENTALS}` AS
             SELECT
                 `owners`.`OWNER` AS `OWNER`,
                 `owners`.`LEGAL_CODE` AS `LEGAL_CODE`,
@@ -314,7 +309,7 @@ def views() -> bool:
                 ALGORITHM = UNDEFINED 
                 DEFINER = `todd`@`%` 
                 SQL SECURITY DEFINER
-            VIEW `{TOP_REGISTERED_RENTAL_OWNERS}` AS
+            VIEW `{VIEW_TOP_REGISTERED_RENTAL_OWNERS}` AS
             SELECT 
                 `registered_rentals`.`OWNER` AS `OWNER`,
                 COUNT(`registered_rentals`.`OWNER`) AS `c`
@@ -339,7 +334,7 @@ def views() -> bool:
                    ALGORITHM = UNDEFINED 
                    DEFINER = `todd`@`%` 
                    SQL SECURITY DEFINER
-               VIEW `{TOP_CLASSED_RENTAL_OWNERS}` AS
+               VIEW `{VIEW_TOP_CLASSED_RENTAL_OWNERS}` AS
                SELECT 
                    `classed_rentals`.`OWNER` AS `OWNER`,
                    COUNT(`classed_rentals`.`OWNER`) AS `c`
@@ -364,7 +359,7 @@ def views() -> bool:
                    ALGORITHM = UNDEFINED 
                    DEFINER = `todd`@`%` 
                    SQL SECURITY DEFINER
-               VIEW `{RENTAL_CONTACTS}` AS
+               VIEW `{VIEW_RENTAL_CONTACTS}` AS
                SELECT 
                     `rentals`.`CONTACT` AS `CONTACT`,
                 COUNT(`rentals`.`CONTACT`) AS `count`
@@ -388,7 +383,7 @@ def views() -> bool:
                    ALGORITHM = UNDEFINED 
                    DEFINER = `todd`@`%` 
                    SQL SECURITY DEFINER
-               VIEW `{TOP_RENTAL_OWNERS}` AS
+               VIEW `{VIEW_TOP_RENTAL_OWNERS}` AS
                SELECT 
                     `reg`.`OWNER` AS `OWNER`, `cls`.`c` + `reg`.`c` AS `tot`
                 FROM
@@ -419,7 +414,7 @@ def stored_procs():
     try:
         with engine.connect() as conn, conn.begin():
             conn.execute(
-                text(f"""CREATE DEFINER=`todd`@`%` PROCEDURE `{UPDATE_COMMUNITIES}`()
+                text(f"""CREATE DEFINER=`todd`@`%` PROCEDURE `{UPDATE_COMMUNITIES_SP}`()
                 BEGIN
                 SELECT COMMUNITY , count(COMMUNITY) as COUNT FROM parcels group by COMMUNITY order by COMMUNITY;
 

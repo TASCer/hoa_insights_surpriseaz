@@ -11,7 +11,7 @@ from pandas.core.generic import NDFrame
 from sqlalchemy import create_engine, exc
 from sqlalchemy.engine import Engine
 
-ytd_start, ytd_end = year_to_date()
+year_start, year_end = year_to_date()
 
 DB_HOSTNAME: str = f"{my_secrets.prod_debian_dbhost}"
 DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
@@ -21,9 +21,10 @@ DB_PW: str = f"{my_secrets.prod_debian_dbpass}"
 
 def get_average_sale_price() -> None:
     """
-    Function queries owners table data for YTD sales data.
-    Creates dataframe of all YTD sales in all communities.
-    Sends dataframe to create_reports.financial for procesing.
+    Function queries owners table data for any sales date for the year.
+    Creates dataframe of all YTD sales in all communities and saves to csv.
+    Also saves a csv of YTD sales price averages grouped by community.
+    Finally sends dataframe to create_reports.financials for procesing to pdf report.
     """
     logger: Logger = logging.getLogger(__name__)
     try:
@@ -46,7 +47,7 @@ def get_average_sale_price() -> None:
 				FROM
 				owners o 
 				INNER JOIN parcels p ON p.APN = o.APN
-				where o.SALE_DATE >= '{ytd_start}' and o.SALE_DATE < '{ytd_end}';""",
+				where o.SALE_DATE >= '{year_start}' and o.SALE_DATE < '{year_end}';""",
                 con=conn,
                 parse_dates=[1],
                 coerce_float=False,

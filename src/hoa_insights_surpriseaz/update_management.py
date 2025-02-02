@@ -16,7 +16,6 @@ logger: Logger = logging.getLogger(__name__)
 
 MANAGEMENT_TABLE: str = "community_managers"
 
-csv_filename: str = "../../output/csv/surpriseaz-hoa-management.csv"
 
 
 def get_pdf_communities(parsed_pdf: str) -> list[str]:
@@ -46,7 +45,6 @@ def update() -> None:
         os.path.abspath("./output/csv/surpriseaz-hoa-management.csv")
     )
 
-    # LOCAL
     local_engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
 
     with Session(local_engine) as ls:
@@ -108,4 +106,5 @@ def update() -> None:
 
 if __name__ == "__main__":
     # print(update())
+    csv_filename: str = "./output/csv/surpriseaz-hoa-management.csv"
     print(get_pdf_communities(csv_filename))

@@ -1,7 +1,7 @@
 import logging
 import pandas as pd
 
-from hoa_insights_surpriseaz.financials import ytd_sales
+from hoa_insights_surpriseaz.financials import get_ytd_sales
 from logging import Logger
 from hoa_insights_surpriseaz.utils.date_parser import log_date
 from hoa_insights_surpriseaz import get_updated_parcels
@@ -21,7 +21,7 @@ def get_new_insights() -> pd.DataFrame:
     sale_update_count: int = len(sale_updates)
 
     if sale_update_count >= 1:
-        ytd_sales.get_average_sale_price()
+        get_ytd_sales.get_average_sale_price()
 
     if owner_update_count >= 1 or sale_update_count >= 1:
         logger.info(

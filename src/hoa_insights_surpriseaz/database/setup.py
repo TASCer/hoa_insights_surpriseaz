@@ -4,13 +4,13 @@ from logging import Logger, Formatter
 from sqlalchemy import create_engine
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.database import (
-    check_local,
-    check_remote,
+    check_local_rdbms,
+    check_remote_rdbms,
     models,
-    populate_local,
+    populate_local_tables,
 )
 from hoa_insights_surpriseaz.database import (
-    populate_remote,
+    populate_remote_tables,
 )
 
 root_logger: Logger = logging.getLogger()
@@ -36,7 +36,7 @@ engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
 
 
 def create_local_tables() -> bool:
-    if check_local.schema():
+    if check_local_rdbms.schema():
         models.Base.metadata.create_all(engine)
         return True
 
@@ -50,9 +50,9 @@ if __name__ == "__main__":
         f"*** STARTED LOCAL DATABASE SETUP ON: {my_secrets.prod_debian_dbhost} ***"
     )
     logger.info(f"\tLOCAL tables created: {create_local_tables()}")
-    logger.info(f"\tLOCAL triggers created: {check_local.triggers()}")
-    logger.info(f"\tLOCAL views created: {check_local.views()}")
-    logger.info(f"\tLOCAL stored proc(s) created: {check_local.stored_procs()}")
+    logger.info(f"\tLOCAL triggers created: {check_local_rdbms.triggers()}")
+    logger.info(f"\tLOCAL views created: {check_local_rdbms.views()}")
+    logger.info(f"\tLOCAL stored proc(s) created: {check_local_rdbms.stored_procs()}")
     logger.info(
         f"--- COMPLETED LOCAL DATABASE SETUP ON: {my_secrets.prod_debian_dbhost} ---"
     )
@@ -60,8 +60,8 @@ if __name__ == "__main__":
     logger.info(
         f"*** STARTED LOCAL DATABASE POPULATION ON: {my_secrets.prod_debian_dbhost} ***"
     )
-    logger.info(f"\tLOCAL parcels table populated: {populate_local.parcels()}")
-    community_data_for_bluehost = populate_local.communities()
+    logger.info(f"\tLOCAL parcels table populated: {populate_local_tables.parcels()}")
+    community_data_for_bluehost = populate_local_tables.communities()
     logger.info(
         f"\tLOCAL communities table populated: {len(community_data_for_bluehost) > 0}"
     )
