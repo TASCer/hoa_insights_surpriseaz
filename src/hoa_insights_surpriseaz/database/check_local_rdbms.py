@@ -234,7 +234,7 @@ def views() -> bool:
         logger.critical(str(e))
         return False
 
-# WEB VIEWS FOR LOCAL WEBSITE
+    # WEB VIEWS FOR LOCAL WEBSITE
     try:
         with engine.connect() as conn, conn.begin():
             conn.execute(

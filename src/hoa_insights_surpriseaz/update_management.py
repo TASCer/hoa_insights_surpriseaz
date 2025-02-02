@@ -17,7 +17,6 @@ logger: Logger = logging.getLogger(__name__)
 MANAGEMENT_TABLE: str = "community_managers"
 
 
-
 def get_pdf_communities(parsed_pdf: str) -> list[str]:
     """
     Function takes in the path of the management pdf file that was downloaded and parsed to csv.

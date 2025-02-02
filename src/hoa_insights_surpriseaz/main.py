@@ -17,12 +17,6 @@ from hoa_insights_surpriseaz.utils import (
     rename_files,
     mailer,
 )
-# from hoa_insights_surpriseaz.utils.date_parser import (
-#     log_date,
-#     first_tuesday_of_month,
-# )
-# from hoa_insights_surpriseaz.utils.delete_files import delete
-# from hoa_insights_surpriseaz.utils.rename_files import rename
 
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
