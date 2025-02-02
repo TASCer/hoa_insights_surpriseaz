@@ -33,8 +33,6 @@ root_logger.addHandler(fh)
 
 logger: Logger = logging.getLogger(__name__)
 
-# time_to_update_management_data = int(date_parser.log_date().split("-")[1]) == date_parser.first_tuesday_of_month()
-# print(time_to_update_management_data)
 
 def process_community_management_data() -> None:
     """
@@ -42,7 +40,7 @@ def process_community_management_data() -> None:
     Deletes management pdf file to ensure latest data.
     """
     logger.info("\tMonthly HOA Management Data Update Started")
-    fetch_community_management_data.pdf_download()
+    fetch_community_management_data.download()
     file_renamed: bool = rename_files.rename()
 
     if file_renamed:

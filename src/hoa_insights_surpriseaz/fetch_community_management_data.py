@@ -24,7 +24,7 @@ XPATH = "/html/body/div[4]/div/div[2]/div[2]/div[3]/div/div/div[1]/div/div[2]/di
 
 def download() -> None:
     """
-    Function creates a Selenium browser to download hoa management pdf file.
+    Function creates a Selenium browser to download hoa management file.
     """
     logger.info("\tDOWNLOADING MANAGEMENT PDF")
     options = FFOptions()
@@ -63,7 +63,6 @@ def download() -> None:
         logger.error(err)
         ff_browser.close()
 
-    # ensure file downloaded
     time.sleep(10)
 
     logger.info("\tDOWNLOADED MANAGEMENT PDF")
