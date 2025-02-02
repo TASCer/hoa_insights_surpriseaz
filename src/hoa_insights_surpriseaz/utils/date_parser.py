@@ -66,7 +66,9 @@ def first_tuesday_of_month() -> int:
         month_calendar[0][calendar.TUESDAY], month_calendar[1][calendar.TUESDAY]
     )
 
-    return first_tuesday
+    is_first_tuesday = int(log_date().split("-")[1]) == first_tuesday
+
+    return is_first_tuesday
 
 
 def api_date(date: str) -> str:

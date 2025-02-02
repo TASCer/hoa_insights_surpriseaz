@@ -22,7 +22,7 @@ URL = my_secrets.hoa_management_pdf_url
 XPATH = "/html/body/div[4]/div/div[2]/div[2]/div[3]/div/div/div[1]/div/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/div/div/div[2]/div/ul/li/a"
 
 
-def pdf_download() -> None:
+def download() -> None:
     """
     Function creates a Selenium browser to download hoa management pdf file.
     """
