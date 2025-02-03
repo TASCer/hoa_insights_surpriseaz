@@ -4,7 +4,7 @@ from logging import Logger, Formatter
 from pandas import DataFrame
 from hoa_insights_surpriseaz import fetch_accessor_data
 from hoa_insights_surpriseaz import create_reports
-from hoa_insights_surpriseaz import parse_accessor_api_data
+from hoa_insights_surpriseaz import parse_assessor_data
 from hoa_insights_surpriseaz import process_updated_parcels
 from hoa_insights_surpriseaz import update_community_management
 from hoa_insights_surpriseaz import update_rentals_remote
@@ -60,7 +60,7 @@ def process_parcels() -> None:
 
     logger.info("********** PARCEL PROCESSING STARTED **********")
     consumed_api_data = fetch_accessor_data.parcels_api()
-    parsed_owner_data, parsed_rental_data = parse_accessor_api_data.parse(
+    parsed_owner_data, parsed_rental_data = parse_assessor_data.parse(
         consumed_api_data
     )
     update_parcel_data.owners(parsed_owner_data)
