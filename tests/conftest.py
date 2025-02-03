@@ -4,7 +4,7 @@ import pytest
 
 from sqlalchemy import create_engine
 from hoa_insights_surpriseaz.my_secrets import test_debian_uri
-from hoa_insights_surpriseaz.parse_accessor_api_data import parse
+from hoa_insights_surpriseaz.parse_assessor_data import parse
 
 # from hoa_insights_surpriseaz import update_parcel_data
 # from hoa_insights_surpriseaz import process_updated_parcels
