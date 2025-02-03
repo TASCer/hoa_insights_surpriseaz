@@ -69,7 +69,7 @@ def download() -> None:
 
 
 if __name__ == "__main__":
-    # pdf_download()
+    # download()
     file_renamed: bool = rename_files.rename()
     if file_renamed:
         parse_management_data.convert_pdf()
