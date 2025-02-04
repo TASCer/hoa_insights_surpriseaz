@@ -5,13 +5,28 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "Python: main",
             "type": "python",
             "request": "launch",
             "cwd": "${workspaceFolder}/src/hoa_insights_surpriseaz/",
             "program": "main.py",
             "console": "integratedTerminal",
             "justMyCode": true
+        },
+    
+        {
+            "name": "Python: database",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/src/hoa_insights_surpriseaz/database",
+            "program": "setup.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
         }
+    
+    
+    
+    
+    
     ]
 }
