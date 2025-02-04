@@ -1,4 +1,6 @@
 import logging
+
+# from numpy import sort
 import pandas as pd
 
 from hoa_insights_surpriseaz.financials import get_ytd_sales
@@ -31,17 +33,25 @@ def get_new_insights() -> pd.DataFrame:
             owner_updates,
             columns=["APN", "COMMUNITY", "OWNER", "DEED_DATE", "DEED_TYPE"],
         ).set_index(["APN"])
+
         sale_changes = pd.DataFrame(
             sale_updates, columns=["APN", "COMMUNITY", "SALE_DATE", "SALE_PRICE"]
         ).set_index("APN")
-        all_changes = owner_changes.merge(
-            sale_changes, how="outer", on=["APN"], sort=True, suffixes=("", "_y")
-        )
-        all_changes["SALE_PRICE"] = all_changes["SALE_PRICE"].fillna(0.0).astype(int)
-        all_changes.drop(all_changes.filter(regex="_y$").columns, axis=1, inplace=True)
-        all_changes.to_csv(f"{my_secrets.csv_changes_path}{log_date()}.csv")
 
-        return all_changes
+        merged_changes = owner_changes.merge(
+            sale_changes, how="outer", on=["APN", "COMMUNITY"], suffixes=("", "_y")
+        )
+
+        merged_changes["SALE_PRICE"] = (
+            merged_changes["SALE_PRICE"].fillna(0.0).astype(int)
+        )
+
+        merged_changes.drop(
+            merged_changes.filter(regex="_y$").columns, axis=1, inplace=True
+        )
+        merged_changes.to_csv(f"{my_secrets.csv_changes_path}{log_date()}.csv")
+
+        return merged_changes
 
     else:
         return pd.DataFrame()
