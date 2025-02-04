@@ -7,9 +7,10 @@ from sqlalchemy.orm import Session
 from sqlalchemy_utils import create_database, database_exists
 from hoa_insights_surpriseaz.my_secrets import test_debian_uri, prod_debian_uri
 from hoa_insights_surpriseaz.parse_assessor_data import parse
-
+from hoa_insights_surpriseaz.database import models
 # from hoa_insights_surpriseaz import update_parcel_data
 # from hoa_insights_surpriseaz import process_updated_parcels
+from hoa_insights_surpriseaz.database import populate_local_tables
 from hoa_insights_surpriseaz import parse_management_data
 
 
@@ -17,7 +18,7 @@ TEST_SEED_FILES_PATH: str = "./tests/input/json_seed_data/"
 TEST_UPDATE_FILES_PATH: str = "./tests/input/json_update_data/"
 TEST_MANAGEMENT_PDF_PATH: str = "./tests/input/HOA Contact List (PDF).pdf"
 TEST_MANAGEMENT_CSV_PATH: str = "./tests/input/surpriseaz-hoa-management.csv"
-TEST_PARCELS_CONSTANTS: str = "./tests/database/test_parcel_constants"
+TEST_PARCELS_CONSTANTS: str = "./tests/database/test_parcel_constants.csv"
 
 
 @pytest.fixture(scope="session")
@@ -33,6 +34,11 @@ def engine():
 @pytest.fixture(scope="function")
 def session(engine):
     sess = Session(engine)
+    models.Base.metadata.create_all(engine)
+    populate_local_tables.parcels(TEST_PARCELS_CONSTANTS, engine=engine)
+    # ISSUE w/management processing
+    # populate_local_tables.communities(engine=engine)
+    
     yield sess
 
     sess.close()

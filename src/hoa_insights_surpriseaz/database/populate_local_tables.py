@@ -12,7 +12,7 @@ from hoa_insights_surpriseaz.utils.rename_files import rename
 from hoa_insights_surpriseaz.database import models
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz import parse_management_data
-from hoa_insights_surpriseaz.fetch_community_management_data import pdf_download
+from hoa_insights_surpriseaz.fetch_community_management_data import download
 
 LOCAL_DB_URI = f"{my_secrets.prod_debian_uri}"
 
@@ -58,7 +58,7 @@ def community_management(s: Session) -> bool:
         print("Management csv not found")
         try:
             logger.info("Management Data Not Found. Downloading/Processing PDF")
-            pdf_download()
+            download()
             file_renamed: bool = rename()
             if file_renamed:
                 parse_management_data.convert_pdf()
@@ -91,7 +91,7 @@ def community_management(s: Session) -> bool:
     return True
 
 
-def communities() -> list:
+def communities(engine: Engine = engine) -> list:
     """
     Function creates a table of communities from parcel table data.
     """
