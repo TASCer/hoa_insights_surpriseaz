@@ -3,6 +3,8 @@ import os
 import pytest
 
 from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
+from sqlalchemy_utils import create_database, database_exists
 from hoa_insights_surpriseaz.my_secrets import test_debian_uri, prod_debian_uri
 from hoa_insights_surpriseaz.parse_assessor_data import parse
 
@@ -20,17 +22,22 @@ TEST_PARCELS_CONSTANTS: str = "./tests/database/test_parcel_constants"
 
 @pytest.fixture(scope="session")
 def engine():
-    engine = create_engine(f"mysql+pymysql://{prod_debian_uri}")
+    engine = create_engine(f"mysql+pymysql://{test_debian_uri}")
+    
+    if not database_exists(engine.url):
+        create_database(engine.url)
 
     return engine
 
 
 @pytest.fixture(scope="function")
-def connection(engine):
-    conn = engine.connect()
-    yield conn
+def session(engine):
+    sess = Session(engine)
+    yield sess
 
-    conn.close()
+    sess.close()
+
+
 
 
 @pytest.fixture(scope="function")
@@ -46,6 +53,7 @@ def get_seed_parcel_data():
 
     return consumed_seed_data
 
+
 # def get_seed_parcel_data():
 #     test_seed_parcels: list[str] = os.listdir(f"{TEST_SEED_FILES_PATH}")
 
@@ -57,7 +65,6 @@ def get_seed_parcel_data():
 #         consumed_seed_data.append(parcel_data)
 
 #     return consumed_seed_data
-
 
 
 @pytest.fixture(scope="function")
@@ -88,19 +95,18 @@ def parse_parcel_update_data(get_update_parcel_data):
 
     return test_parsed_owners_data, test_parsed_rentals_data
 
-
-# @pytest.fixture(scope="function")
-# def parse_pdf():
-#     csvfile = f"{TEST_MANAGEMENT_CSV_PATH}"
-#     parsed = parse_management_data.parse_csv(csvfile)
-#     print(parsed)
+    # @pytest.fixture(scope="function")
+    # def parse_pdf():
+    #     csvfile = f"{TEST_MANAGEMENT_CSV_PATH}"
+    #     parsed = parse_management_data.parse_csv(csvfile)
+    #     print(parsed)
 
     # return type(parsed)
 
     # pdf = f"{TEST_MANAGEMENT_PDF_PATH}"
     # converted = parse_management_pdf.convert_pdf(pdf)
 
-    return parsed
+    # return parsed
 
 
 # @pytest.fixture(scope="function")
