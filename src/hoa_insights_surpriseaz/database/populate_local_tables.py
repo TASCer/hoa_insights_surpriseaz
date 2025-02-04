@@ -16,6 +16,8 @@ from hoa_insights_surpriseaz.fetch_community_management_data import download
 
 LOCAL_DB_URI = f"{my_secrets.prod_debian_uri}"
 
+MANAGEMENT_FILE_PATH = "../output/csv/surpriseaz-hoa-management.csv"
+
 PARCELS_TABLE = "parcels"
 COMMUNITY_TABLE = "communitites"
 
@@ -48,14 +50,15 @@ management_ids: list = [
 ]
 
 
-def community_management(s: Session) -> bool:
+def community_management(s: Session, file_path: str) -> bool:
     """
     Function takes a database session and checks if management csv file exists.
     If not found, download the pdf, rename and convert to csv.
     If found, read file and update database with data.
     """
-    if not os.path.exists("../output/csv/surpriseaz-hoa-management.csv"):
+    if not os.path.exists(file_path):
         print("Management csv not found")
+        exit()
         try:
             logger.info("Management Data Not Found. Downloading/Processing PDF")
             download()
@@ -70,7 +73,7 @@ def community_management(s: Session) -> bool:
     else:
         print("management file found")
         pdf_managers = get_pdf_communities(
-            os.path.abspath("../output/csv/surpriseaz-hoa-management.csv")
+            os.path.abspath(file_path)
         )
 
         for pdf_item in pdf_managers:
@@ -91,10 +94,11 @@ def community_management(s: Session) -> bool:
     return True
 
 
-def communities(engine: Engine = engine) -> list:
+def communities(engine: Engine = engine, file_path=MANAGEMENT_FILE_PATH) -> list:
     """
     Function creates a table of communities from parcel table data.
     """
+    print(file_path)
     ix = 0
     with Session(engine) as s:
         community_instances: list = []
@@ -125,7 +129,7 @@ def communities(engine: Engine = engine) -> list:
             s.add(community_instance, _warn=False)
             s.commit()
 
-    community_management(s)
+    community_management(s, file_path=file_path)
 
     return community_totals
 
