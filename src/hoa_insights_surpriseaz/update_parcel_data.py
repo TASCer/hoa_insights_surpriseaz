@@ -20,7 +20,7 @@ def owners(
     latest_parsed_owners, db_name: str = LOCAL_DB_NAME, db_uri: str = f"{LOCAL_DB_URI}"
 ) -> None:
     """
-    Function takes in latest parsed API data and updates the owners table.
+    Function takes in latest parsed API and sql data and updates the owners table.
     """
     if latest_parsed_owners is None:
         return
@@ -59,7 +59,7 @@ def owners(
         exit()
 
 
-def rentals(latest_parsed_rentals) -> None:
+def rentals(latest_parsed_rentals, db_name: str = LOCAL_DB_NAME, db_uri: str = f"{LOCAL_DB_URI}") -> None:
     """
     Function takes in latest parsed API data with is_rental == 1
     updates the rentals table.
@@ -69,16 +69,16 @@ def rentals(latest_parsed_rentals) -> None:
 
     logger: Logger = logging.getLogger(__name__)
 
-    engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
+    engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
 
     with engine.connect() as conn, conn.begin():
-        delete_rentals: str = f"DELETE FROM {LOCAL_DB_NAME}.{RENTALS_TABLE};"
+        delete_rentals: str = f"DELETE FROM {db_name}.{RENTALS_TABLE};"
         conn.execute(text(delete_rentals))
 
         for lr in latest_parsed_rentals:
             try:
                 insert_qry = (
-                    f"INSERT INTO {LOCAL_DB_NAME}.{RENTALS_TABLE} (APN, OWNER, OWNER_TYPE, CONTACT, CONTACT_ADX, CONTACT_PH) "
+                    f"INSERT INTO {db_name}.{RENTALS_TABLE} (APN, OWNER, OWNER_TYPE, CONTACT, CONTACT_ADX, CONTACT_PH) "
                     f"VALUES('{lr.APN}', '{lr.OWNER}', '{lr.OWNER_TYPE}', '{lr.CONTACT}', '{lr.CONTACT_ADX}', '{lr.CONTACT_PH}')"
                     f"ON DUPLICATE KEY UPDATE OWNER='{lr.OWNER}', OWNER_TYPE='{lr.OWNER_TYPE}', CONTACT='{lr.CONTACT}', CONTACT_ADX='{lr.CONTACT_ADX}', CONTACT_PH='{lr.CONTACT_PH}';"
                 )
