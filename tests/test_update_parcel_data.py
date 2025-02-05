@@ -30,8 +30,8 @@ def test_update_owner_data(session, parse_owner_update_data) -> list[dict]:
 
     assert len(update_rentals) == 3
 
-#     update_parcel_data.owners(update_owners, db_name=test_debian_dbname, db_uri=test_debian_uri)
-#     update_parcel_data.rentals(update_rentals, db_name=test_debian_dbname, db_uri=test_debian_uri)
+    update_parcel_data.owners(update_owners, db_name=test_debian_dbname, db_uri=test_debian_uri)
+    update_parcel_data.rentals(update_rentals, db_name=test_debian_dbname, db_uri=test_debian_uri)
 
 
 if __name__ == "__main__":
