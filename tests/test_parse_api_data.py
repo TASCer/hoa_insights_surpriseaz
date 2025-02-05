@@ -1,7 +1,7 @@
 from hoa_insights_surpriseaz.schemas import Owners
 
 
-def test_parse_api(parse_owner_seed_data) -> list[dict]:
+def test_parse_api_data(parse_owner_seed_data):
     parsed_test_owners, parsed_test_rentals = parse_owner_seed_data
     assert len(parsed_test_owners) == 15
     assert len(parsed_test_rentals) == 4
@@ -11,4 +11,4 @@ def test_parse_api(parse_owner_seed_data) -> list[dict]:
 
 
 if __name__ == "__main__":
-    print(test_parse_api())
+    print(test_parse_api_data())
