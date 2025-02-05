@@ -31,7 +31,7 @@ def engine():
     return engine
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def session(engine):
     sess = Session(engine)
     models.Base.metadata.create_all(engine)
@@ -73,20 +73,20 @@ def get_owner_update_data():
     consumed_owner_update_data: list[dict] = []
 
     for parcel in test_owner_update_data:
-        parcel_file = open(f"{TEST_SEED_FILES_PATH}{parcel}", "r")
+        parcel_file = open(f"{TEST_UPDATE_FILES_PATH}{parcel}", "r")
         parcel_data: dict = json.load(parcel_file)
         consumed_owner_update_data.append(parcel_data)
 
     return consumed_owner_update_data
 
 
-# @pytest.fixture(scope="function")
-# def parse_owner_update_data(get_update_parcel_data):
-#     test_parsed_owners_update_data, test_parsed_rentals_update_data = parse(
-#         get_update_parcel_data
-#     )
+@pytest.fixture(scope="function")
+def parse_owner_update_data(get_owner_update_data):
+    test_parsed_owners_update_data, test_parsed_rentals_update_data = parse(
+        get_owner_update_data
+    )
 
-#     return test_parsed_owners_update_data, test_parsed_rentals_update_data
+    return test_parsed_owners_update_data, test_parsed_rentals_update_data
 
 
 # @pytest.fixture(scope="function")
