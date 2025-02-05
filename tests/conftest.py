@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy_utils import create_database, database_exists
 from hoa_insights_surpriseaz.my_secrets import test_debian_uri, prod_debian_uri
 from hoa_insights_surpriseaz.parse_assessor_data import parse
-from hoa_insights_surpriseaz.database import models
+from hoa_insights_surpriseaz.database import models, check_local_rdbms
 
 # from hoa_insights_surpriseaz import update_parcel_data
 # from hoa_insights_surpriseaz import process_updated_parcels
@@ -37,6 +37,8 @@ def session(engine):
     models.Base.metadata.create_all(engine)
     populate_local_tables.parcels(TEST_PARCELS_CONSTANTS, engine=engine)
     populate_local_tables.communities(engine=engine, file_path=TEST_MANAGEMENT_CSV_PATH)
+    check_local_rdbms.triggers(test_debian_uri)
+    check_local_rdbms.views(test_debian_uri)
 
     yield sess
 
