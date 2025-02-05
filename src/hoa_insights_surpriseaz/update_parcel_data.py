@@ -16,7 +16,9 @@ OWNERS_TABLE: str = "owners"
 RENTALS_TABLE: str = "rentals"
 
 
-def owners(latest_parsed_owners) -> None:
+def owners(
+    latest_parsed_owners, db_name: str = LOCAL_DB_NAME, db_uri: str = f"{LOCAL_DB_URI}"
+) -> None:
     """
     Function takes in latest parsed API data and updates the owners table.
     """
@@ -25,17 +27,17 @@ def owners(latest_parsed_owners) -> None:
 
     logger: Logger = logging.getLogger(__name__)
 
-    engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
+    engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
 
     try:
         with engine.connect() as conn, conn.begin():
-            delete_rentals = f"DELETE FROM {LOCAL_DB_NAME}.{RENTALS_TABLE};"
+            delete_rentals = f"DELETE FROM {db_name}.{RENTALS_TABLE};"
             conn.execute(text(delete_rentals))
 
             for lo in latest_parsed_owners:
                 try:
                     insert_qry = (
-                        f"INSERT INTO {LOCAL_DB_NAME}.{OWNERS_TABLE} (APN, OWNER, MAIL_ADX, SALE_DATE, SALE_PRICE, DEED_DATE, DEED_TYPE, LEGAL_CODE, RENTAL)"
+                        f"INSERT INTO {db_name}.{OWNERS_TABLE} (APN, OWNER, MAIL_ADX, SALE_DATE, SALE_PRICE, DEED_DATE, DEED_TYPE, LEGAL_CODE, RENTAL)"
                         f"VALUES('{lo.APN}', '{lo.OWNER}', '{lo.MAIL_ADX}', '{lo.SALE_DATE}', '{lo.SALE_PRICE}', '{lo.DEED_DATE}', '{lo.DEED_TYPE}', '{lo.LEGAL_CODE}', '{int(lo.RENTAL)}')"
                         f"ON DUPLICATE KEY UPDATE OWNER='{lo.OWNER}',MAIL_ADX='{lo.MAIL_ADX}',RENTAL='{int(lo.RENTAL)}', SALE_DATE='{lo.SALE_DATE}', SALE_PRICE='{lo.SALE_PRICE}', DEED_DATE='{lo.DEED_DATE}', DEED_TYPE='{lo.DEED_TYPE}', LEGAL_CODE='{lo.LEGAL_CODE}';"
                     )

@@ -72,9 +72,7 @@ def community_management(s: Session, file_path: str) -> bool:
 
     else:
         print("management file found")
-        pdf_managers = get_pdf_communities(
-            os.path.abspath(file_path)
-        )
+        pdf_managers = get_pdf_communities(os.path.abspath(file_path))
 
         for pdf_item in pdf_managers:
             _, community, situs, city, ph, email, mgr = pdf_item
