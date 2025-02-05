@@ -63,7 +63,7 @@ def schema(db_uri: str = f"{LOCAL_DB_URI}") -> bool:
     return True
 
 
-def triggers() -> bool:
+def triggers(db_uri: str = f"{LOCAL_DB_URI}") -> bool:
     """
     Function checks if 'after_sale_owners' and 'after_sale_update triggers are present on 'owners' table.
     Returns True if both are created.
@@ -72,7 +72,7 @@ def triggers() -> bool:
     logger: Logger = logging.getLogger(__name__)
 
     try:
-        engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
+        engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
 
         _meta = MetaData()
 
@@ -171,14 +171,14 @@ def triggers() -> bool:
                 return False
 
 
-def views() -> bool:
+def views(db_uri: str = f"{LOCAL_DB_URI}") -> bool:
     """
     Function checks if views are present.
     Returns True if so.
     Returns False if any missing and could not be created.
     """
     try:
-        engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
+        engine = create_engine(f"mysql+pymysql://{db_uri}")
         _meta = MetaData()
 
     except exc.SQLAlchemyError as e:
