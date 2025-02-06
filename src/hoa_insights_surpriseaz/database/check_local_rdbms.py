@@ -41,7 +41,7 @@ UPDATE_COMMUNITIES_SP: str = "update_communities"
 logger: Logger = logging.getLogger(__name__)
 
 
-def schema(db_uri: str = f"{LOCAL_DB_URI}") -> bool:
+def schema(db_uri: str = LOCAL_DB_URI) -> bool:
     print(db_uri)
     """
     Function checks if schema/DB_NAME is present.
@@ -63,7 +63,7 @@ def schema(db_uri: str = f"{LOCAL_DB_URI}") -> bool:
     return True
 
 
-def triggers(db_uri: str = f"{LOCAL_DB_URI}") -> bool:
+def triggers(db_uri: str = LOCAL_DB_URI, db_name=LOCAL_DB_NAME) -> bool:
     """
     Function checks if 'after_sale_owners' and 'after_sale_update triggers are present on 'owners' table.
     Returns True if both are created.
@@ -99,7 +99,7 @@ def triggers(db_uri: str = f"{LOCAL_DB_URI}") -> bool:
         management_trigger: list[str] = [x[1] for x in management_result]
 
         # OWNERS TRIGGER
-        if LOCAL_DB_NAME in owners_triggers:
+        if db_name in owners_triggers:
             return True
 
         else:
@@ -171,7 +171,7 @@ def triggers(db_uri: str = f"{LOCAL_DB_URI}") -> bool:
                 return False
 
 
-def views(db_uri: str = f"{LOCAL_DB_URI}") -> bool:
+def views(db_uri: str = LOCAL_DB_URI) -> bool:
     """
     Function checks if views are present.
     Returns True if so.
@@ -401,9 +401,9 @@ def views(db_uri: str = f"{LOCAL_DB_URI}") -> bool:
 
 
 # POC
-def stored_procs():
+def stored_procs(db_uri: str = LOCAL_DB_URI):
     try:
-        engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
+        engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
 
         _meta = MetaData()
 
@@ -433,4 +433,4 @@ def stored_procs():
 
 if __name__ == "__main__":
     # print(views())
-    print(triggers())
+    print(triggers(f"{my_secrets.test_debian_uri}"))

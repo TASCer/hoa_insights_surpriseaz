@@ -5,10 +5,9 @@ import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from sqlalchemy_utils import create_database, database_exists
-from hoa_insights_surpriseaz.my_secrets import test_debian_uri, prod_debian_uri
+from hoa_insights_surpriseaz.my_secrets import test_debian_uri, test_debian_dbname, prod_debian_uri
 from hoa_insights_surpriseaz.parse_assessor_data import parse
 from hoa_insights_surpriseaz.database import models, check_local_rdbms
-
 # from hoa_insights_surpriseaz import update_parcel_data
 # from hoa_insights_surpriseaz import process_updated_parcels
 from hoa_insights_surpriseaz.database import populate_local_tables
@@ -37,7 +36,7 @@ def session(engine):
     models.Base.metadata.create_all(engine)
     populate_local_tables.parcels(TEST_PARCELS_CONSTANTS, engine=engine)
     populate_local_tables.communities(engine=engine, file_path=TEST_MANAGEMENT_CSV_PATH)
-    check_local_rdbms.triggers(db_uri=test_debian_uri)
+    check_local_rdbms.triggers(db_uri=test_debian_uri, db_name=test_debian_dbname)
     check_local_rdbms.views(db_uri=test_debian_uri)
 
     yield sess
@@ -60,7 +59,7 @@ def get_owner_seed_data():
 
 
 @pytest.fixture(scope="function")
-def parse_owner_seed_data(get_owner_seed_data):
+def parse_owner_seed_data(session, get_owner_seed_data):
     test_parsed_owners_seed_data, test_parsed_rentals_seed_data = parse(
         get_owner_seed_data
     )

@@ -17,7 +17,7 @@ RENTALS_TABLE: str = "rentals"
 
 
 def owners(
-    latest_parsed_owners, db_name: str = LOCAL_DB_NAME, db_uri: str = f"{LOCAL_DB_URI}"
+    latest_parsed_owners: list, db_uri: str = LOCAL_DB_URI, db_name: str = LOCAL_DB_NAME 
 ) -> None:
     """
     Function takes in latest parsed API and sql data and updates the owners table.
@@ -59,7 +59,7 @@ def owners(
         exit()
 
 
-def rentals(latest_parsed_rentals, db_name: str = LOCAL_DB_NAME, db_uri: str = f"{LOCAL_DB_URI}") -> None:
+def rentals(latest_parsed_rentals: list, db_name: str = LOCAL_DB_NAME, db_uri: str = LOCAL_DB_URI) -> None:
     """
     Function takes in latest parsed API data with is_rental == 1
     updates the rentals table.
