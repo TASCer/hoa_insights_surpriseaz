@@ -37,8 +37,8 @@ def session(engine):
     models.Base.metadata.create_all(engine)
     populate_local_tables.parcels(TEST_PARCELS_CONSTANTS, engine=engine)
     populate_local_tables.communities(engine=engine, file_path=TEST_MANAGEMENT_CSV_PATH)
-    check_local_rdbms.triggers(test_debian_uri)
-    check_local_rdbms.views(test_debian_uri)
+    check_local_rdbms.triggers(db_uri=test_debian_uri)
+    check_local_rdbms.views(db_uri=test_debian_uri)
 
     yield sess
 
