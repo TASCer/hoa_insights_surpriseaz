@@ -2,7 +2,7 @@ import json
 import os
 import pytest
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.orm import Session
 from sqlalchemy_utils import create_database, database_exists
 from hoa_insights_surpriseaz.my_secrets import test_debian_uri, test_debian_dbname, prod_debian_uri
@@ -41,7 +41,7 @@ def session(engine):
 
     yield sess
 
-    sess.close()
+    sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
 
 
 @pytest.fixture(scope="function")
