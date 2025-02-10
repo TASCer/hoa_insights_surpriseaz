@@ -82,6 +82,12 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    """
+    Checks:
+     If today is the first Tusday of this month and if so update community management data.
+     If parcel changes were encountered
+     Sends e-mail.
+    """
     if date_parser.first_tuesday_of_month():
         process_community_management_data()
         update_community_management.update()
