@@ -8,7 +8,6 @@ from sqlalchemy_utils import create_database, database_exists
 from hoa_insights_surpriseaz.my_secrets import (
     test_debian_uri,
     test_debian_dbname,
-    prod_debian_uri,
 )
 from hoa_insights_surpriseaz.parse_assessor_data import parse
 from hoa_insights_surpriseaz.database import models, check_local_rdbms
@@ -46,7 +45,7 @@ def session(engine):
 
     yield sess
 
-    sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
+    # sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
 
 
 @pytest.fixture(scope="function")
