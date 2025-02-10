@@ -6,26 +6,20 @@ from hoa_insights_surpriseaz.my_secrets import test_debian_uri, test_debian_dbna
 
 # TODO issue getting results from query?
 def test_process_updates(session):
-        sales = session.execute(text(f"SELECT * FROM test_hoa_insights_surpriseaz.historical_sales;"))
-        
-        sales_updated = sales.fetchall()
-        
-        # print(sales_result, len(sales_result))
-        sales = [s for s in sales_updated]
-        print(sales)
-        # assert len(sales) >= 1
-        # sess.commit(sales)
+    sales = session.execute(
+        text(f"SELECT * FROM test_hoa_insights_surpriseaz.historical_sales;")
+    )
 
-        # owners = sess.execute(text("SELECT * from historical_owners"))
-        # sess.commit(sales)
+    sales_updated = sales.fetchall()
 
-    
+    # print(sales_result, len(sales_result))
+    sales = [s for s in sales_updated]
+    print(sales)
+    # assert len(sales) >= 1
+    # sess.commit(sales)
 
-
-
-
-
-
+    # owners = sess.execute(text("SELECT * from historical_owners"))
+    # sess.commit(sales)
 
 
 #     seed_owners, seed_rentals = parse_owner_seed_data

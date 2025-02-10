@@ -31,3 +31,4 @@ wheels/
 # /output/web_reports/parcel_changes/*.html
 # /TODO/
 
+.coverage

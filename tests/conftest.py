@@ -5,9 +5,14 @@ import pytest
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import Session
 from sqlalchemy_utils import create_database, database_exists
-from hoa_insights_surpriseaz.my_secrets import test_debian_uri, test_debian_dbname, prod_debian_uri
+from hoa_insights_surpriseaz.my_secrets import (
+    test_debian_uri,
+    test_debian_dbname,
+    prod_debian_uri,
+)
 from hoa_insights_surpriseaz.parse_assessor_data import parse
 from hoa_insights_surpriseaz.database import models, check_local_rdbms
+
 # from hoa_insights_surpriseaz import update_parcel_data
 # from hoa_insights_surpriseaz import process_updated_parcels
 from hoa_insights_surpriseaz.database import populate_local_tables
@@ -104,18 +109,18 @@ def parse_owner_update_data(get_owner_update_data):
 #     return consumed_update_data
 
 
-    # @pytest.fixture(scope="function")
-    # def parse_pdf():
-    #     csvfile = f"{TEST_MANAGEMENT_CSV_PATH}"
-    #     parsed = parse_management_data.parse_csv(csvfile)
-    #     print(parsed)
+# @pytest.fixture(scope="function")
+# def parse_pdf():
+#     csvfile = f"{TEST_MANAGEMENT_CSV_PATH}"
+#     parsed = parse_management_data.parse_csv(csvfile)
+#     print(parsed)
 
-    # return type(parsed)
+# return type(parsed)
 
-    # pdf = f"{TEST_MANAGEMENT_PDF_PATH}"
-    # converted = parse_management_pdf.convert_pdf(pdf)
+# pdf = f"{TEST_MANAGEMENT_PDF_PATH}"
+# converted = parse_management_pdf.convert_pdf(pdf)
 
-    # return parsed
+# return parsed
 
 
 # @pytest.fixture(scope="function")

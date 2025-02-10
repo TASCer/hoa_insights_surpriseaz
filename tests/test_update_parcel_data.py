@@ -18,7 +18,10 @@ def test_seed_owner_data(session, parse_owner_seed_data) -> list[dict]:
     update_parcel_data.owners(
         seed_owners, db_name=test_debian_dbname, db_uri=test_debian_uri
     )
-    update_parcel_data.rentals(seed_rentals, db_name=test_debian_dbname, db_uri=test_debian_uri)
+    update_parcel_data.rentals(
+        seed_rentals, db_name=test_debian_dbname, db_uri=test_debian_uri
+    )
+
 
 def test_update_owner_data(session, parse_owner_update_data) -> list[dict]:
     update_owners, update_rentals = parse_owner_update_data
@@ -30,9 +33,14 @@ def test_update_owner_data(session, parse_owner_update_data) -> list[dict]:
 
     assert len(update_rentals) == 3
 
-    update_parcel_data.owners(update_owners, db_name=test_debian_dbname, db_uri=test_debian_uri)
-    update_parcel_data.rentals(update_rentals, db_name=test_debian_dbname, db_uri=test_debian_uri)
+    update_parcel_data.owners(
+        update_owners, db_name=test_debian_dbname, db_uri=test_debian_uri
+    )
+    update_parcel_data.rentals(
+        update_rentals, db_name=test_debian_dbname, db_uri=test_debian_uri
+    )
 
 
 if __name__ == "__main__":
-    updates = test_seed_owner_data()
+    # updates = test_seed_owner_data()
+    pass
