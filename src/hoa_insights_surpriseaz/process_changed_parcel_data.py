@@ -10,7 +10,7 @@ from hoa_insights_surpriseaz import my_secrets
 logger: Logger = logging.getLogger(__name__)
 
 
-def get_new_insights() -> pd.DataFrame:
+def insights() -> pd.DataFrame:
     """
     Function retrieves changes to parcel data by querying historical_sales and Historical_owners tables with timestamp of today.
     Creates a merged dataframe of changes that outputs to csv.
@@ -56,4 +56,4 @@ def get_new_insights() -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    print(get_new_insights())
+    print(insights())
