@@ -60,7 +60,9 @@ def process_parcels() -> None:
 
     logger.info("********** PARCEL PROCESSING STARTED **********")
     consumed_api_data = fetch_assessor_parcel_data.parcels_api()
-    parsed_owner_data, parsed_rental_data = parse_assessor_parcel_data.parse(consumed_api_data)
+    parsed_owner_data, parsed_rental_data = parse_assessor_parcel_data.parse(
+        consumed_api_data
+    )
     update_parcel_data.owners(parsed_owner_data)
     update_parcel_data.rentals(parsed_rental_data)
     # update_rentals_remote.update()
@@ -70,11 +72,11 @@ def main() -> None:
     """
     Function controls the application.
     """
-    process_parcels()
-    parcel_changes: DataFrame = process_changed_parcel_data.get_new_insights()
+    # process_parcels()
+    parcel_changes: DataFrame = process_changed_parcel_data.insights()
 
     if not parcel_changes.empty:
-        create_change_reports.parcel_changes(parcel_changes)
+        create_change_reports.parcels(parcel_changes)
 
         return True
 
