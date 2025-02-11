@@ -12,16 +12,18 @@ def test_process_updates(session):
 
     sales_updated = q_sales.fetchall()
     sales = [s for s in sales_updated]
-    assert len(sales) >= 0 
-    
+    assert len(sales) >= 0
+
     print("SALES", len(sales))
     # assert len(sales) >= 1
     # sess.commit(sales)
 
-    q_owners = session.execute(text("SELECT * from test_hoa_insights_surpriseaz.historical_owners"))
+    q_owners = session.execute(
+        text("SELECT * from test_hoa_insights_surpriseaz.historical_owners")
+    )
     owners_updated = q_owners.fetchall()
     owners = [o for o in owners_updated]
-    assert len(owners_updated) >=0
+    assert len(owners_updated) >= 0
     print("OWNERS", len(owners))
 
     # sess.commit(sales)

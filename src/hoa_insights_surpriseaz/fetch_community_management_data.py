@@ -13,7 +13,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from hoa_insights_surpriseaz.utils import rename_files
-from hoa_insights_surpriseaz import parse_management_data
+from hoa_insights_surpriseaz import parse_community_management_data
 from hoa_insights_surpriseaz import my_secrets
 
 logger: Logger = logging.getLogger(__name__)
@@ -72,4 +72,4 @@ if __name__ == "__main__":
     # download()
     file_renamed: bool = rename_files.rename()
     if file_renamed:
-        parse_management_data.convert_pdf()
+        parse_community_management_data.convert_pdf()

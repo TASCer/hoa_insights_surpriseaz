@@ -2,15 +2,15 @@ import logging
 
 from logging import Logger, Formatter
 from pandas import DataFrame
-from hoa_insights_surpriseaz import fetch_accessor_data
-from hoa_insights_surpriseaz import create_reports
-from hoa_insights_surpriseaz import parse_assessor_data
-from hoa_insights_surpriseaz import process_updated_parcels
+from hoa_insights_surpriseaz import fetch_assessor_parcel_data
+from hoa_insights_surpriseaz import create_change_reports
+from hoa_insights_surpriseaz import parse_assessor_parcel_data
+from hoa_insights_surpriseaz import process_changed_parcel_data
 from hoa_insights_surpriseaz import update_community_management
 from hoa_insights_surpriseaz import update_rentals_remote
 from hoa_insights_surpriseaz import update_parcel_data
 from hoa_insights_surpriseaz import fetch_community_management_data
-from hoa_insights_surpriseaz import parse_management_data
+from hoa_insights_surpriseaz import parse_community_management_data
 from hoa_insights_surpriseaz.utils import (
     date_parser,
     delete_files,
@@ -45,7 +45,7 @@ def process_community_management_data() -> None:
 
     if file_renamed:
         logger.info("Management file renamed")
-        parse_management_data.convert_pdf()
+        parse_community_management_data.convert_pdf()
         update_community_management.update()
 
         delete_files.delete()
@@ -59,8 +59,8 @@ def process_parcels() -> None:
     """
 
     logger.info("********** PARCEL PROCESSING STARTED **********")
-    consumed_api_data = fetch_accessor_data.parcels_api()
-    parsed_owner_data, parsed_rental_data = parse_assessor_data.parse(consumed_api_data)
+    consumed_api_data = fetch_assessor_parcel_data.parcels_api()
+    parsed_owner_data, parsed_rental_data = parse_assessor_parcel_data.parse(consumed_api_data)
     update_parcel_data.owners(parsed_owner_data)
     update_parcel_data.rentals(parsed_rental_data)
     # update_rentals_remote.update()
@@ -71,10 +71,10 @@ def main() -> None:
     Function controls the application.
     """
     process_parcels()
-    parcel_changes: DataFrame = process_updated_parcels.get_new_insights()
+    parcel_changes: DataFrame = process_changed_parcel_data.get_new_insights()
 
     if not parcel_changes.empty:
-        create_reports.parcel_changes(parcel_changes)
+        create_change_reports.parcel_changes(parcel_changes)
 
         return True
 

@@ -1,6 +1,4 @@
 import logging
-
-# from numpy import sort
 import pandas as pd
 
 from hoa_insights_surpriseaz.financials import get_ytd_sales

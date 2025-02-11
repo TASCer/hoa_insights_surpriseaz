@@ -9,13 +9,13 @@ from hoa_insights_surpriseaz.my_secrets import (
     test_debian_uri,
     test_debian_dbname,
 )
-from hoa_insights_surpriseaz.parse_assessor_data import parse
+from hoa_insights_surpriseaz.parse_assessor_parcel_data import parse
 from hoa_insights_surpriseaz.database import models, check_local_rdbms
 
 # from hoa_insights_surpriseaz import update_parcel_data
 # from hoa_insights_surpriseaz import process_updated_parcels
 from hoa_insights_surpriseaz.database import populate_local_tables
-from hoa_insights_surpriseaz import parse_management_data
+from hoa_insights_surpriseaz import parse_community_management_data
 
 TEST_SEED_FILES_PATH: str = "./tests/input/json_seed_data/"
 TEST_UPDATE_FILES_PATH: str = "./tests/input/json_update_data/"
