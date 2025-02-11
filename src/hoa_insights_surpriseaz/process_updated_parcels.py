@@ -6,7 +6,7 @@ import pandas as pd
 from hoa_insights_surpriseaz.financials import get_ytd_sales
 from logging import Logger
 from hoa_insights_surpriseaz.utils.date_parser import log_date
-from hoa_insights_surpriseaz import get_updated_parcels
+from hoa_insights_surpriseaz import get_changed_parcel_data
 from hoa_insights_surpriseaz import my_secrets
 
 logger: Logger = logging.getLogger(__name__)
@@ -18,7 +18,7 @@ def get_new_insights() -> pd.DataFrame:
     Creates a merged dataframe of changes that outputs to csv.
     Returns dataframe.
     """
-    owner_updates, sale_updates = get_updated_parcels.check()
+    owner_updates, sale_updates = get_changed_parcel_data.check()
     owner_update_count: int = len(owner_updates)
     sale_update_count: int = len(sale_updates)
 
