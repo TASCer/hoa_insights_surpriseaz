@@ -16,7 +16,7 @@ def get_new_insights() -> pd.DataFrame:
     Creates a merged dataframe of changes that outputs to csv.
     Returns dataframe.
     """
-    owner_updates, sale_updates = get_changed_parcel_data.check()
+    owner_updates, sale_updates = get_changed_parcel_data.changes()
     owner_update_count: int = len(owner_updates)
     sale_update_count: int = len(sale_updates)
 
