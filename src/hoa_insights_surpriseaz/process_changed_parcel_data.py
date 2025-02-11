@@ -16,24 +16,24 @@ def insights() -> pd.DataFrame:
     Creates a merged dataframe of changes that outputs to csv.
     Returns dataframe.
     """
-    owner_updates, sale_updates = get_changed_parcel_data.changes()
-    owner_update_count: int = len(owner_updates)
-    sale_update_count: int = len(sale_updates)
+    owner_changes, sale_changes = get_changed_parcel_data.changes()
+    owner_update_count: int = len(owner_changes)
+    sale_update_count: int = len(sale_changes)
 
     if sale_update_count >= 1:
         get_ytd_sales.get_average_sale_price()
 
     if owner_update_count >= 1 or sale_update_count >= 1:
         logger.info(
-            f"New Owners: {len(owner_updates)} - New Sales: {len(sale_updates)}"
+            f"New Owners: {len(owner_changes)} - New Sales: {len(sale_changes)}"
         )
         owner_changes = pd.DataFrame(
-            owner_updates,
+            owner_changes,
             columns=["APN", "COMMUNITY", "OWNER", "DEED_DATE", "DEED_TYPE"],
         ).set_index(["APN"])
 
         sale_changes = pd.DataFrame(
-            sale_updates, columns=["APN", "COMMUNITY", "SALE_DATE", "SALE_PRICE"]
+            sale_changes, columns=["APN", "COMMUNITY", "SALE_DATE", "SALE_PRICE"]
         ).set_index("APN")
 
         merged_changes = owner_changes.merge(
