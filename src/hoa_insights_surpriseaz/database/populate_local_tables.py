@@ -7,7 +7,7 @@ from hoa_insights_surpriseaz.schemas import CommunityManagement, Community, Parc
 from sqlalchemy import Engine, create_engine, exc, TextClause
 from sqlalchemy import text
 from sqlalchemy.orm import Session
-from hoa_insights_surpriseaz.update_community_management import get_pdf_communities
+from hoa_insights_surpriseaz.update_community_management_data import get_pdf_communities
 from hoa_insights_surpriseaz.utils.rename_files import rename
 from hoa_insights_surpriseaz.database import models
 from hoa_insights_surpriseaz import my_secrets
