@@ -5,7 +5,7 @@ from pandas import DataFrame
 from hoa_insights_surpriseaz import fetch_assessor_parcel_data
 from hoa_insights_surpriseaz import create_change_reports
 from hoa_insights_surpriseaz import parse_assessor_parcel_data
-from hoa_insights_surpriseaz import process_changed_parcel_data
+from hoa_insights_surpriseaz import process_updated_parcel_data
 from hoa_insights_surpriseaz import update_community_management_data
 from hoa_insights_surpriseaz import update_rentals_remote
 from hoa_insights_surpriseaz import update_parcel_data
@@ -73,7 +73,7 @@ def main() -> None:
     Function controls the application.
     """
     # process_parcels()
-    parcel_changes: DataFrame = process_changed_parcel_data.insights()
+    parcel_changes: DataFrame = process_updated_parcel_data.insights()
 
     if not parcel_changes.empty:
         create_change_reports.parcels(parcel_changes)
