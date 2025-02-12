@@ -1,9 +1,7 @@
 import logging
-import os
+
 import pandas as pd
 import pdfkit as pdf
-import platform
-import shutil
 
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz import styles
@@ -17,34 +15,34 @@ from hoa_insights_surpriseaz.utils import file_copier
 logger: Logger = logging.getLogger(__name__)
 
 
-def parcels(parcel_changes: DataFrame) -> None:
+def parcels(parcel_updates: DataFrame) -> None:
     """
     Function takes in a dataframe of owner and sale changes.
     Produces and saves html report.
     Sends html report to web server.
     """
-    parcel_changes["SALE_PRICE"] = (
-        parcel_changes["SALE_PRICE"].fillna(0).astype(int).apply(format_price)
+    parcel_updates["SALE_PRICE"] = (
+        parcel_updates["SALE_PRICE"].fillna(0).astype(int).apply(format_price)
     )
-    parcel_changes["SALE_DATE"] = parcel_changes["SALE_DATE"].fillna("")
+    parcel_updates["SALE_DATE"] = parcel_updates["SALE_DATE"].fillna("")
 
-    parcel_changes = parcel_changes.reset_index()
+    parcel_updates = parcel_updates.reset_index()
 
-    parcel_changes_caption: str = f"RECENT PARCEL CHANGES <br> Processed: {log_date()}"
+    parcel_updates_caption: str = f"RECENT PARCEL CHANGES <br> Processed: {log_date()}"
 
-    parcel_changes_style: Styler = (
-        parcel_changes.style.set_table_styles(styles.get_style_changes())
-        .set_caption(parcel_changes_caption)
+    parcel_updates_style: Styler = (
+        parcel_updates.style.set_table_styles(styles.parcel_updates())
+        .set_caption(parcel_updates_caption)
         .hide(axis="index")
     )
 
-    parcel_changes_report: str = f"{my_secrets.html_changes_path}recent_changes.html"
-    parcel_changes_style.to_html(parcel_changes_report)
+    parcel_updates_report: str = f"{my_secrets.html_changes_path}recent_changes.html"
+    parcel_updates_style.to_html(parcel_updates_report)
 
-    file_copier.copy(parcel_changes_report)
+    file_copier.copy(parcel_updates_report)
 
     # TO PDF and email
-    pdf.from_file(parcel_changes_report, "./output/pdf/latest_changes.pdf")
+    pdf.from_file(parcel_updates_report, "./output/pdf/latest_changes.pdf")
 
 
 def financials(community_avg_prices: DataFrame) -> None:
@@ -56,7 +54,7 @@ def financials(community_avg_prices: DataFrame) -> None:
     finance_caption: str = f"AVERAGE SALES PRICE (YTD) <br> PROCESSED: {log_date()}"
 
     finance_style: Styler = (
-        community_avg_prices.style.set_table_styles(styles.get_style_finance())
+        community_avg_prices.style.set_table_styles(styles.finance_updates())
         .set_caption(finance_caption)
         .hide(axis="index")
     )
@@ -70,7 +68,7 @@ def financials(community_avg_prices: DataFrame) -> None:
 
 
 if __name__ == "__main__":
-    c_df = pd.read_csv("./output/csv/latest_changes/01-23-25.csv")
+    c_df = pd.read_csv("./output/csv/latest_changes/02-03-25.csv")
     parcels(c_df)
     f_df = pd.read_csv("./output/csv/financial/ytd_community_avg_sale_price.csv")
     financials(f_df)

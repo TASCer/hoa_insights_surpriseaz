@@ -72,7 +72,8 @@ def main() -> None:
     """
     Function controls the application.
     """
-    # process_parcels()
+
+    process_parcels()
     parcel_changes: DataFrame = process_updated_parcel_data.insights()
 
     if not parcel_changes.empty:

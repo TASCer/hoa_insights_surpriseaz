@@ -1,5 +1,5 @@
 # TODO work on header format
-def get_style_changes():
+def parcel_updates() -> list[dict]:
     web_styles_changes = [
         dict(
             selector="th",
@@ -34,7 +34,7 @@ def get_style_changes():
     return web_styles_changes
 
 
-def get_style_finance():
+def finance_updates() -> list[dict]:
     web_styles_finance = [
         dict(
             selector="th",
@@ -68,21 +68,3 @@ def get_style_finance():
 
     return web_styles_finance
 
-
-# dict(selector="td:last-child", props=[("color", "#006400"),
-# 	("text-align", "center"),
-# 	("font-size", "15px")
-# 	]),
-
-
-# dict(selector="th:last-child", props=[("color", "red")]),
-# dict(selector="td", props=[("text-align", "center"), ("font-size", "15px"), ('color', 'green')]),
-
-# dict(selector="th:first-child", props=[("color", "red"),
-# 	("margin", "2px auto"),
-# 	("border-collapse", "collapse"),
-# 	("border", "6px solid black"),
-# ]),
-
-
-# <table border="1" cellpadding="5" cellspacing="0" style="background-color: #F0F5FF; border-style: ridge; color: #4040C0" width="100%">
