@@ -18,7 +18,7 @@ from hoa_insights_surpriseaz.fetch_community_management_data import download
 
 LOCAL_DB_URI = f"{my_secrets.prod_debian_uri}"
 
-MANAGEMENT_FILE_PATH = "../output/csv/surpriseaz-hoa-management.csv"
+MANAGEMENT_FILE_PATH = "../../output/csv/surpriseaz-hoa-management.csv"
 
 PARCELS_TABLE = "parcels"
 COMMUNITY_TABLE = "communitites"
