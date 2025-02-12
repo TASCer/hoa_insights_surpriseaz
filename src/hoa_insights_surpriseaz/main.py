@@ -8,7 +8,7 @@ from hoa_insights_surpriseaz import parse_assessor_parcel_data
 from hoa_insights_surpriseaz import process_updated_parcel_data
 from hoa_insights_surpriseaz import update_community_management_data
 from hoa_insights_surpriseaz import update_rentals_remote
-from hoa_insights_surpriseaz import update_parcel_data
+from hoa_insights_surpriseaz.database import update_local_tables
 from hoa_insights_surpriseaz import fetch_community_management_data
 from hoa_insights_surpriseaz import parse_community_management_data
 from hoa_insights_surpriseaz.utils import (
@@ -63,8 +63,8 @@ def process_parcels() -> None:
     parsed_owner_data, parsed_rental_data = parse_assessor_parcel_data.parse(
         consumed_api_data
     )
-    update_parcel_data.owners(parsed_owner_data)
-    update_parcel_data.rentals(parsed_rental_data)
+    update_local_tables.owners(parsed_owner_data)
+    update_local_tables.rentals(parsed_rental_data)
     # update_rentals_remote.update()
 
 

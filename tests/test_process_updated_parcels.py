@@ -1,6 +1,6 @@
 from sqlalchemy import text
 
-from hoa_insights_surpriseaz import update_parcel_data
+from hoa_insights_surpriseaz.database import update_local_tables
 from hoa_insights_surpriseaz.my_secrets import test_debian_uri, test_debian_dbname
 
 

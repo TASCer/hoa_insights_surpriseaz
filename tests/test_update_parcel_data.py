@@ -1,6 +1,6 @@
 from sqlalchemy import text
 
-from hoa_insights_surpriseaz import update_parcel_data
+from hoa_insights_surpriseaz.database import update_local_tables
 from hoa_insights_surpriseaz.my_secrets import test_debian_uri, test_debian_dbname
 
 
@@ -15,10 +15,10 @@ def test_seed_owner_data(session, parse_owner_seed_data) -> list[dict]:
 
     assert len(seed_rentals) == 4
 
-    update_parcel_data.owners(
+    update_local_tables.owners(
         seed_owners, db_name=test_debian_dbname, db_uri=test_debian_uri
     )
-    update_parcel_data.rentals(
+    update_local_tables.rentals(
         seed_rentals, db_name=test_debian_dbname, db_uri=test_debian_uri
     )
 
@@ -33,10 +33,10 @@ def test_update_owner_data(session, parse_owner_update_data) -> list[dict]:
 
     assert len(update_rentals) == 3
 
-    update_parcel_data.owners(
+    update_local_tables.owners(
         update_owners, db_name=test_debian_dbname, db_uri=test_debian_uri
     )
-    update_parcel_data.rentals(
+    update_local_tables.rentals(
         update_rentals, db_name=test_debian_dbname, db_uri=test_debian_uri
     )
 

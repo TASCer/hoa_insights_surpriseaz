@@ -7,16 +7,16 @@ from hoa_insights_surpriseaz.database import (
     check_local_rdbms,
     check_remote_rdbms,
     models,
-    populate_local_tables,
 )
-from hoa_insights_surpriseaz.database import (
+from hoa_insights_surpriseaz.database.setup import (
+    populate_local_tables,
     populate_remote_tables,
 )
 
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
-fh = logging.FileHandler("__rdbms-creation__.log")
+fh = logging.FileHandler("__db-init__.log")
 fh.setLevel(logging.DEBUG)
 
 formatter: Formatter = logging.Formatter(
