@@ -59,10 +59,11 @@ def community_management(s: Session, file_path: str) -> bool:
     If found, read file and update database with data.
     """
     if not os.path.exists(file_path):
-        print("Management csv not found")
+        logger.warning(f"{MANAGEMENT_FILE_PATH} not found.")
+        print(f"{MANAGEMENT_FILE_PATH} not found.")
         exit()
         try:
-            logger.info("Management Data Not Found. Downloading/Processing PDF")
+            logger.info("Fetching Community Management Data")
             download()
             file_renamed: bool = rename()
             if file_renamed:
@@ -98,7 +99,6 @@ def communities(engine: Engine = engine, file_path=MANAGEMENT_FILE_PATH) -> list
     """
     Function creates a table of communities from parcel table data.
     """
-    print(file_path)
     ix = 0
     with Session(engine) as s:
         community_instances: list = []

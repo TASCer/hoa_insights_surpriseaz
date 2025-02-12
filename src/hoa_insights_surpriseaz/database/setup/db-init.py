@@ -35,28 +35,24 @@ logger: Logger = logging.getLogger(__name__)
 engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
 
 
-def create_local_tables() -> bool:
-    if check_local_rdbms.schema():
-        models.Base.metadata.create_all(engine)
-        return True
-
-    else:
-        return False
-
-
-if __name__ == "__main__":
-    # CREATE LOCAL
+def local_database():
     logger.info(
         f"*** STARTED LOCAL DATABASE SETUP ON: {my_secrets.prod_debian_dbhost} ***"
     )
-    logger.info(f"\tLOCAL tables created: {create_local_tables()}")
-    logger.info(f"\tLOCAL triggers created: {check_local_rdbms.triggers()}")
-    logger.info(f"\tLOCAL views created: {check_local_rdbms.views()}")
-    logger.info(f"\tLOCAL stored proc(s) created: {check_local_rdbms.stored_procs()}")
-    logger.info(
-        f"--- COMPLETED LOCAL DATABASE SETUP ON: {my_secrets.prod_debian_dbhost} ---"
-    )
-    # POPULATE LOCAL
+    if check_local_rdbms.schema():
+        models.Base.metadata.create_all(engine)
+
+        logger.info(f"\tLOCAL triggers created: {check_local_rdbms.triggers()}")
+        logger.info(f"\tLOCAL views created: {check_local_rdbms.views()}")
+        logger.info(
+            f"\tLOCAL stored proc(s) created: {check_local_rdbms.stored_procs()}"
+        )
+        logger.info(
+            f"--- COMPLETED LOCAL DATABASE SETUP ON: {my_secrets.prod_debian_dbhost} ---"
+        )
+
+
+def remote_database():
     logger.info(
         f"*** STARTED LOCAL DATABASE POPULATION ON: {my_secrets.prod_debian_dbhost} ***"
     )
@@ -68,13 +64,8 @@ if __name__ == "__main__":
     logger.info(
         f"--- COMPLETED LOCAL DATABASE POPULATION ON: {my_secrets.prod_debian_dbhost} ---"
     )
-# CREATE REMOTE
-# logger.info(f"*** STARTED REMOTE DATABASE SETUP ON: {my_secrets.prod_bluehost_dbhost} ***")
-# logger.info((f"\tREMOTE tables check: {database_check_remote.tables()}"))
-# logger.info(f"\tREMOTE schema check: {database_check_remote.schema()}")
-# logger.info(f"\tREMOTE tables created: {database_check_remote.tables()}")
-# logger.info(f"--- COMPLETED REMOTE DATABASE SETUP ON: {my_secrets.prod_bluehost_dbhost} ---")
-# POPULATE REMOTE
-# logger.info(f"*** STARTED REMOTE DATABASE POPULATION ON: {my_secrets.prod_bluehost_dbhost} ***")
-# database_populate_remote.communities(community_data_for_bluehost)
-# logger.info(f"--- COMPLETED REMOTE DATABASE POPULATION ON: {my_secrets.prod_bluehost_dbhost} ---")
+
+
+if __name__ == "__main__":
+    local_database()
+    remote_database()
