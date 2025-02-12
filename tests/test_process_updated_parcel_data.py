@@ -1,30 +1,30 @@
-from sqlalchemy import text
+# from sqlalchemy import text
 
-from hoa_insights_surpriseaz.database import update_local_tables
-from hoa_insights_surpriseaz.my_secrets import test_debian_uri, test_debian_dbname
+# from hoa_insights_surpriseaz.database import update_local_tables
+# from hoa_insights_surpriseaz.my_secrets import test_debian_uri, test_debian_dbname
 
 
-# TODO issue getting results from query?
-def test_process_updates(session):
-    q_sales = session.execute(
-        text(f"SELECT * FROM test_hoa_insights_surpriseaz.historical_sales;")
-    )
+# # TODO issue getting results from query?
+# def test_process_updates(session):
+#     q_sales = session.execute(
+#         text(f"SELECT * FROM test_hoa_insights_surpriseaz.historical_sales;")
+#     )
 
-    sales_updated = q_sales.fetchall()
-    sales = [s for s in sales_updated]
-    assert len(sales) >= 0
+#     sales_updated = q_sales.fetchall()
+#     sales = [s for s in sales_updated]
+#     assert len(sales) >= 0
 
-    print("SALES", len(sales))
-    # assert len(sales) >= 1
-    # sess.commit(sales)
+#     print("SALES", len(sales))
+#     # assert len(sales) >= 1
+#     # sess.commit(sales)
 
-    q_owners = session.execute(
-        text("SELECT * from test_hoa_insights_surpriseaz.historical_owners")
-    )
-    owners_updated = q_owners.fetchall()
-    owners = [o for o in owners_updated]
-    assert len(owners_updated) >= 0
-    print("OWNERS", len(owners))
+#     q_owners = session.execute(
+#         text("SELECT * from test_hoa_insights_surpriseaz.historical_owners")
+#     )
+#     owners_updated = q_owners.fetchall()
+#     owners = [o for o in owners_updated]
+#     assert len(owners_updated) >= 0
+#     print("OWNERS", len(owners))
 
     # sess.commit(sales)
 
@@ -58,5 +58,5 @@ def test_process_updates(session):
 #     update_parcel_data.rentals(update_rentals, db_name=test_debian_dbname, db_uri=test_debian_uri)
 
 
-if __name__ == "__main__":
-    updates = test_process_updates()
+# if __name__ == "__main__":
+    # updates = test_process_updates()

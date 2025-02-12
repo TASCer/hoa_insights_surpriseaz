@@ -4,7 +4,7 @@ import pandas as pd
 from hoa_insights_surpriseaz.financials import get_ytd_sales
 from logging import Logger
 from hoa_insights_surpriseaz.utils.date_parser import log_date
-from hoa_insights_surpriseaz import get_updated_parcel_data
+from hoa_insights_surpriseaz.database import get_updated_parcel_data
 from hoa_insights_surpriseaz import my_secrets
 
 logger: Logger = logging.getLogger(__name__)
