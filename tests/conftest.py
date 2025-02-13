@@ -48,7 +48,7 @@ def session(engine):
     # sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def get_owner_seed_data():
     test_owner_seed_parcels: list[str] = os.listdir(f"{TEST_SEED_FILES_PATH}")
 
@@ -66,7 +66,7 @@ def get_owner_seed_data():
     return consumed_owner_seed_data
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def parse_owner_seed_data(session, get_owner_seed_data):
     test_parsed_owners_seed_data, test_parsed_rentals_seed_data = parse(
         get_owner_seed_data
@@ -75,7 +75,7 @@ def parse_owner_seed_data(session, get_owner_seed_data):
     return test_parsed_owners_seed_data, test_parsed_rentals_seed_data
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def get_owner_update_data():
     test_owner_update_data: list[str] = os.listdir(f"{TEST_UPDATE_FILES_PATH}")
 
@@ -89,7 +89,7 @@ def get_owner_update_data():
     return consumed_owner_update_data
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def parse_owner_update_data(get_owner_update_data):
     test_parsed_owners_update_data, test_parsed_rentals_update_data = parse(
         get_owner_update_data
