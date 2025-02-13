@@ -21,7 +21,7 @@ TEST_SEED_FILES_PATH: str = "./tests/input/json_seed_data/"
 TEST_UPDATE_FILES_PATH: str = "./tests/input/json_update_data/"
 TEST_MANAGEMENT_PDF_PATH: str = "./tests/input/HOA Contact List (PDF).pdf"
 TEST_MANAGEMENT_CSV_PATH: str = "./tests/output/csv/surpriseaz-hoa-management.csv"
-TEST_PARCELS_CONSTANTS: str = "./tests/database/parcel_constants.csv"
+PARCELS_CONSTANTS: str = "./src/hoa_insights_surpriseaz/database/setup/seed_data/parcel_constants.csv"
 
 
 @pytest.fixture(scope="session")
@@ -38,7 +38,7 @@ def engine():
 def session(engine):
     sess = Session(engine)
     models.Base.metadata.create_all(engine)
-    populate_local_tables.parcels(TEST_PARCELS_CONSTANTS, engine=engine)
+    populate_local_tables.parcels(PARCELS_CONSTANTS, engine=engine)
     populate_local_tables.communities(engine=engine, file_path=TEST_MANAGEMENT_CSV_PATH)
     check_local_rdbms.triggers(db_uri=test_debian_uri, db_name=test_debian_dbname)
     check_local_rdbms.views(db_uri=test_debian_uri)
