@@ -45,7 +45,7 @@ def session(engine):
 
     yield sess
 
-    sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
+    # sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
 
 
 @pytest.fixture(scope="function")
