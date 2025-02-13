@@ -14,7 +14,7 @@ from hoa_insights_surpriseaz.database import models, check_local_rdbms
 
 # from hoa_insights_surpriseaz import update_parcel_data
 # from hoa_insights_surpriseaz import process_updated_parcels
-from hoa_insights_surpriseaz.database import populate_local_tables
+from hoa_insights_surpriseaz.database.setup import populate_local_tables
 from hoa_insights_surpriseaz import parse_community_management_data
 
 TEST_SEED_FILES_PATH: str = "./tests/input/json_seed_data/"
@@ -57,8 +57,12 @@ def get_owner_seed_data():
     for parcel in test_owner_seed_parcels:
         parcel_file = open(f"{TEST_SEED_FILES_PATH}{parcel}", "r")
         parcel_data: dict = json.load(parcel_file)
+        # print(parcel_data)
         consumed_owner_seed_data.append(parcel_data)
-
+    print(len(consumed_owner_seed_data))
+    
+    
+    
     return consumed_owner_seed_data
 
 
@@ -71,27 +75,27 @@ def parse_owner_seed_data(session, get_owner_seed_data):
     return test_parsed_owners_seed_data, test_parsed_rentals_seed_data
 
 
-@pytest.fixture(scope="function")
-def get_owner_update_data():
-    test_owner_update_data: list[str] = os.listdir(f"{TEST_UPDATE_FILES_PATH}")
+# @pytest.fixture(scope="function")
+# def get_owner_update_data():
+#     test_owner_update_data: list[str] = os.listdir(f"{TEST_UPDATE_FILES_PATH}")
 
-    consumed_owner_update_data: list[dict] = []
+#     consumed_owner_update_data: list[dict] = []
 
-    for parcel in test_owner_update_data:
-        parcel_file = open(f"{TEST_UPDATE_FILES_PATH}{parcel}", "r")
-        parcel_data: dict = json.load(parcel_file)
-        consumed_owner_update_data.append(parcel_data)
+#     for parcel in test_owner_update_data:
+#         parcel_file = open(f"{TEST_UPDATE_FILES_PATH}{parcel}", "r")
+#         parcel_data: dict = json.load(parcel_file)
+#         consumed_owner_update_data.append(parcel_data)
 
-    return consumed_owner_update_data
+#     return consumed_owner_update_data
 
 
-@pytest.fixture(scope="function")
-def parse_owner_update_data(get_owner_update_data):
-    test_parsed_owners_update_data, test_parsed_rentals_update_data = parse(
-        get_owner_update_data
-    )
+# @pytest.fixture(scope="function")
+# def parse_owner_update_data(get_owner_update_data):
+#     test_parsed_owners_update_data, test_parsed_rentals_update_data = parse(
+#         get_owner_update_data
+#     )
 
-    return test_parsed_owners_update_data, test_parsed_rentals_update_data
+#     return test_parsed_owners_update_data, test_parsed_rentals_update_data
 
 
 # @pytest.fixture(scope="function")
