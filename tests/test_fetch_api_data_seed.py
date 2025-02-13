@@ -8,7 +8,6 @@ def test_api_seed(get_owner_seed_data) -> list[dict]:
 #     assert len(get_owner_update_data) == 2
 
 
-
 # if __name__ == "__main__":
 #     print(test_api_seed())
 #     print(test_api_update())

@@ -22,4 +22,3 @@ def test_update_owner_data(parse_owner_update_data) -> list[dict]:
     update_local_tables.rentals(
         update_rentals, db_name=test_debian_dbname, db_uri=test_debian_uri
     )
-

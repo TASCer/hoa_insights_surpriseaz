@@ -21,7 +21,9 @@ TEST_SEED_FILES_PATH: str = "./tests/input/json_seed_data/"
 TEST_UPDATE_FILES_PATH: str = "./tests/input/json_update_data/"
 TEST_MANAGEMENT_PDF_PATH: str = "./tests/input/HOA Contact List (PDF).pdf"
 TEST_MANAGEMENT_CSV_PATH: str = "./tests/output/csv/surpriseaz-hoa-management.csv"
-PARCELS_CONSTANTS: str = "./src/hoa_insights_surpriseaz/database/setup/seed_data/parcel_constants.csv"
+PARCELS_CONSTANTS: str = (
+    "./src/hoa_insights_surpriseaz/database/setup/seed_data/parcel_constants.csv"
+)
 
 
 @pytest.fixture(scope="session")
@@ -60,9 +62,7 @@ def get_owner_seed_data():
         # print(parcel_data)
         consumed_owner_seed_data.append(parcel_data)
     print(len(consumed_owner_seed_data))
-    
-    
-    
+
     return consumed_owner_seed_data
 
 
@@ -110,20 +110,6 @@ def parse_owner_update_data(get_owner_update_data):
 #         consumed_update_data.append(parcel_data)
 
 #     return consumed_update_data
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # @pytest.fixture(scope="function")

@@ -67,4 +67,3 @@ def finance_updates() -> list[dict]:
     ]
 
     return web_styles_finance
-
