@@ -98,18 +98,18 @@ def parse_owner_update_data(get_owner_update_data):
     return test_parsed_owners_update_data, test_parsed_rentals_update_data
 
 
-@pytest.fixture(scope="function")
-def get_update_parcel_data():
-    test_update_parcels: list[str] = os.listdir(f"{TEST_UPDATE_FILES_PATH}")
+# @pytest.fixture(scope="function")
+# def get_update_parcel_data():
+#     test_update_parcels: list[str] = os.listdir(f"{TEST_UPDATE_FILES_PATH}")
 
-    consumed_update_data: list[dict] = []
+#     consumed_update_data: list[dict] = []
 
-    for parcel in test_update_parcels:
-        parcel_file = open(f"{TEST_UPDATE_FILES_PATH}{parcel}", "r")
-        parcel_data: dict = json.load(parcel_file)
-        consumed_update_data.append(parcel_data)
+#     for parcel in test_update_parcels:
+#         parcel_file = open(f"{TEST_UPDATE_FILES_PATH}{parcel}", "r")
+#         parcel_data: dict = json.load(parcel_file)
+#         consumed_update_data.append(parcel_data)
 
-    return consumed_update_data
+#     return consumed_update_data
 
 
 
