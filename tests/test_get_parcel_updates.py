@@ -10,18 +10,18 @@
 #     # assert len(sales) == 1
 
 #     print(owners)
-    # seed_owner_check = [x for x in seed_owners if x.APN == "509-11-455"]
+# seed_owner_check = [x for x in seed_owners if x.APN == "509-11-455"]
 
-    # assert seed_owner_check[0].OWNER == "STEVENS TODD"
+# assert seed_owner_check[0].OWNER == "STEVENS TODD"
 
-    # assert len(seed_rentals) == 7
+# assert len(seed_rentals) == 7
 
-    # update_local_tables.owners(
-    #     seed_owners, db_name=test_debian_dbname, db_uri=test_debian_uri
-    # )
-    # update_local_tables.rentals(
-    #     seed_rentals, db_name=test_debian_dbname, db_uri=test_debian_uri
-    # )
+# update_local_tables.owners(
+#     seed_owners, db_name=test_debian_dbname, db_uri=test_debian_uri
+# )
+# update_local_tables.rentals(
+#     seed_rentals, db_name=test_debian_dbname, db_uri=test_debian_uri
+# )
 
 
 # if __name__ == "__main__":
