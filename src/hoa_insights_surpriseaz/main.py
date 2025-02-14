@@ -10,7 +10,7 @@ from hoa_insights_surpriseaz.database import update_community_management_data
 from hoa_insights_surpriseaz.database import update_remote_tables
 from hoa_insights_surpriseaz.database import update_local_tables
 from hoa_insights_surpriseaz import fetch_community_management_data
-from hoa_insights_surpriseaz import parse_community_management_data
+# from hoa_insights_surpriseaz import process_community_management_data
 from hoa_insights_surpriseaz.utils import (
     date_parser,
     delete_files,
@@ -45,7 +45,7 @@ def process_community_management_data() -> None:
 
     if file_renamed:
         logger.info("Management file renamed")
-        parse_community_management_data.convert_pdf()
+        process_community_management_data.convert_pdf()
         update_community_management_data.update()
 
         delete_files.delete()

@@ -15,7 +15,7 @@ from hoa_insights_surpriseaz.database import models, check_local_rdbms
 # from hoa_insights_surpriseaz import update_parcel_data
 # from hoa_insights_surpriseaz import process_updated_parcels
 from hoa_insights_surpriseaz.database.setup import populate_local_tables
-from hoa_insights_surpriseaz import parse_community_management_data
+from hoa_insights_surpriseaz import process_community_management_data
 
 INITIAL_PARCELS_PATH: str = "./tests/input/initial_parcel_json/"
 UPDATE_PARCELS_PATH: str = "./tests/input/update_parcel_json/"
