@@ -10,7 +10,7 @@ from hoa_insights_surpriseaz.my_secrets import (
     test_debian_dbname,
 )
 from hoa_insights_surpriseaz.parse_assessor_parcel_data import parse
-from hoa_insights_surpriseaz.database import models, check_local_rdbms
+from hoa_insights_surpriseaz.database import local_models, check_local_rdbms
 
 # from hoa_insights_surpriseaz import update_parcel_data
 # from hoa_insights_surpriseaz import process_updated_parcels
@@ -39,7 +39,7 @@ def engine():
 @pytest.fixture(scope="session")
 def session(engine):
     sess = Session(engine)
-    models.Base.metadata.create_all(engine)
+    local_models.Base.metadata.create_all(engine)
     populate_local_tables.parcels(PARCELS_CONSTANTS, engine=engine)
     populate_local_tables.communities(engine=engine, file_path=MANAGEMENT_CSV_PATH)
     check_local_rdbms.triggers(db_uri=test_debian_uri, db_name=test_debian_dbname)

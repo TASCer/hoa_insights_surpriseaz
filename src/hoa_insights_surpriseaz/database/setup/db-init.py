@@ -30,7 +30,7 @@ root_logger.addHandler(fh)
 LOCAL_DB_URI = f"{my_secrets.prod_debian_uri}"
 REMOTE_DB_URI = f"{my_secrets.prod_bluehost_uri}"
 
-LOCAL_DB_HOSTNAME = f"{my_secrets.prod_local_dbhost}"
+LOCAL_DB_HOSTNAME = f"{my_secrets.prod_debian_dbhost}"
 REMOTE_DB_HOSTNAME = f"{my_secrets.prod_bluehost_dbhost}"
 
 
@@ -87,5 +87,5 @@ def remote_database():
 
 
 if __name__ == "__main__":
-    local_database()
-    # remote_database()
+    # local_database()
+    remote_database()
