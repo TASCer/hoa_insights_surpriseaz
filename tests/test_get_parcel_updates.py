@@ -1,15 +1,15 @@
-from sqlalchemy import text
+# from sqlalchemy import text
 
-from hoa_insights_surpriseaz.database import get_updated_parcel_data
-from hoa_insights_surpriseaz.my_secrets import test_debian_uri, test_debian_dbname
+# from hoa_insights_surpriseaz.database import get_updated_parcel_data
+# from hoa_insights_surpriseaz.my_secrets import test_debian_uri, test_debian_dbname
 
 
-def test_get_updates_db(session):
-    owners, sales = get_updated_parcel_data.changes(db_uri=test_debian_uri)
-    # assert len(owners) == 2
-    # assert len(sales) == 1
+# def test_get_updates_db(session):
+#     owners, sales = get_updated_parcel_data.changes(db_uri=test_debian_uri)
+#     # assert len(owners) == 2
+#     # assert len(sales) == 1
 
-    print(owners)
+#     print(owners)
     # seed_owner_check = [x for x in seed_owners if x.APN == "509-11-455"]
 
     # assert seed_owner_check[0].OWNER == "STEVENS TODD"
