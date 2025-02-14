@@ -5,7 +5,7 @@ import logging
 from logging import Logger
 from sqlalchemy.orm import Session
 from sqlalchemy import Engine, create_engine, exc, TextClause, text
-from hoa_insights_surpriseaz.database.models import CommunityManagement as DBCM
+from hoa_insights_surpriseaz.database.local_models import CommunityManagement as DBCM
 from hoa_insights_surpriseaz.schemas import CommunityManagement as SCM
 from hoa_insights_surpriseaz import my_secrets
 

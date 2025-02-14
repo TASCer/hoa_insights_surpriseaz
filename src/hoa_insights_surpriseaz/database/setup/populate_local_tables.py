@@ -11,7 +11,7 @@ from hoa_insights_surpriseaz.database.update_community_management_data import (
     get_pdf_communities,
 )
 from hoa_insights_surpriseaz.utils.rename_files import rename
-from hoa_insights_surpriseaz.database import models
+from hoa_insights_surpriseaz.database import local_models
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz import process_community_management_data
 from hoa_insights_surpriseaz.fetch_community_management_data import download
@@ -87,7 +87,7 @@ def community_management(s: Session, file_path: str) -> bool:
                 CONTACT_ADX=email,
                 CONTACT_PH=ph,
             )
-            db_item = models.CommunityManagement(**item.model_dump())
+            db_item = local_models.CommunityManagement(**item.model_dump())
 
             s.add(db_item, _warn=False)
             s.commit()
@@ -123,7 +123,7 @@ def communities(engine: Engine = engine, file_path=MANAGEMENT_FILE_PATH) -> list
                 COUNT=parcel_total,
                 MANAGED_ID=management_ids[ix],
             )
-            community_instance = models.Community(**community_schema.model_dump())
+            community_instance = local_models.Community(**community_schema.model_dump())
             community_instances.append(community_instance)
             ix += 1
             s.add(community_instance, _warn=False)
@@ -149,7 +149,7 @@ def parcels(
                     parcel_instance = Parcels(
                         APN=APN, COMMUNITY=COMMUNITY, SITUS=SITUS, LAT=LAT, LONG=LONG
                     )
-                    db_parcel_instance = models.Parcel(**parcel_instance.model_dump())
+                    db_parcel_instance = local_models.Parcel(**parcel_instance.model_dump())
                     parcel_instances.append(db_parcel_instance)
                 s.add_all(parcel_instances)
                 s.commit()

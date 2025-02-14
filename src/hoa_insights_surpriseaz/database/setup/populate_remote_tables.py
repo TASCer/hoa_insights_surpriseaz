@@ -4,7 +4,7 @@ from logging import Logger
 from sqlalchemy import create_engine, exc
 from sqlalchemy import text, TextClause
 from sqlalchemy.orm import Session
-from hoa_insights_surpriseaz.database import models
+from hoa_insights_surpriseaz.database import local_models
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.schemas import Community
 
@@ -53,7 +53,7 @@ def communities(community_totals) -> bool:
 
         with Session(bluehost_engine) as rs:
             for community, parcel_total, long, lat in community_totals:
-                community_instance: Community = models.Community(
+                community_instance: Community = local_models.Community(
                     COMMUNITY=community,
                     COUNT=parcel_total,
                     LAT=lat,
@@ -66,7 +66,7 @@ def communities(community_totals) -> bool:
 
             for item in community_managers:
                 _, community, situs, city, mgr, email, ph = item
-                db_item = models.CommunityManagement(
+                db_item = local_models.CommunityManagement(
                     COMMUNITY=community,
                     BOARD_SITUS=situs,
                     BOARD_CITY=city,
