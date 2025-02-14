@@ -8,13 +8,13 @@ from hoa_insights_surpriseaz import my_secrets
 LOCAL_DB_URI = f"{my_secrets.prod_debian_uri}"
 
 
-def changes() -> tuple[list]:
+def changes(db_uri: str = f"{LOCAL_DB_URI}") -> tuple[list]:
     """
     Function queries historical_sales and historical_owners tables with a TS(timestamp) of today.
     Returns tuple of sale change list and owner change lists.
     """
     logger: Logger = logging.getLogger(__name__)
-    engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
+    engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
 
     with engine.connect() as conn, conn.begin():
         try:
