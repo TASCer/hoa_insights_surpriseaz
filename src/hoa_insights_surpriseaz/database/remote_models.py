@@ -36,7 +36,7 @@ class CommunityManagement(Base):
 class last_update(Base):
     __tablename__ = "last_updated"
 
-    _: Mapped[datetime] = mapped_column(TIMESTAMP(6), index=True, primary_key=True)
+    TS: Mapped[datetime] = mapped_column(TIMESTAMP(6), index=True, primary_key=True)
 
 # TODO Can't determine the inherit condition between inherited table 'rentals' and inheriting table 'registered_rentals';
 # class registered_rentals(Rentals):

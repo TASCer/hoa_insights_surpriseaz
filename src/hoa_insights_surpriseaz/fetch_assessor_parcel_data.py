@@ -96,7 +96,7 @@ async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> d
         TypeError,
         aiohttp.ClientPayloadError,
     ) as e:
-        logger.warning(f"{url} -  {e} ")
+        logger.warning(f"{e} ")
 
         await asyncio.sleep(4)
 

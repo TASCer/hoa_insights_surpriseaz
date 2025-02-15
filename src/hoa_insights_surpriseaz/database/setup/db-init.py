@@ -17,7 +17,7 @@ from hoa_insights_surpriseaz.database.setup import (
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
-fh = logging.FileHandler("__db-init__.log")
+fh = logging.FileHandler("__database-setup__.log")
 fh.setLevel(logging.DEBUG)
 
 formatter: Formatter = logging.Formatter(
@@ -77,9 +77,11 @@ def remote_database(management):
         remote_models.Base.metadata.create_all(engine)
     logger.info(f"--- COMPLETED REMOTE DATABASE SETUP ON: {REMOTE_DB_HOSTNAME} ---")
     populate_remote_tables.communities(management)
+    logger.info(
+            f"--- COMPLETED remote DATABASE POPULATION ON: {REMOTE_DB_HOSTNAME} ---"
+        )
 
 
 if __name__ == "__main__":
     community_management = local_database()
-    print(community_management)
     remote_database(community_management)
