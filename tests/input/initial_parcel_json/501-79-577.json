@@ -1,1 +1,363 @@
-{"MCR":"130806","AssociatedParcels":[],"MoreAssociatedParcelsExist":false,"PropertyAddress":"15847 W PORT ROYALE LN SURPRISE 85379","PropertyDescription":"ACOMA COURT MCR 1308-06","LotSize":"6240","IsResidential":true,"MapidExists":false,"SectionTownshipRange":"7 3N 1W","AssessorMarket":"23","AreaNeighborhood":"006","SubdivisionName":"ACOMA COURT","Lot":"13","HighSchoolDistrict":"DYSART UNIFIED #89","ElementarySchoolDistrict":"DYSART UNIFIED SCHOOL DISTRICT","LocalJusidiction":"SURPRISE","PropertyType":"Residential","ParcelStatus":"A","APL_flag":"1","Owner":{"OwnerID":"BC7FA712-8D76-486F-F8A9-08DD033F263D","Ownership":"BLISSVILLE LLC","InCareOf":null,"ContoOwnership":"","MailingAddress1":"13488 N 141ST LN","MailingAddress2":null,"MailingCity":"SURPRISE","MailingState":"AZ","MailingZip":"85379","MailingCountry":"USA","MostCurrentDeed":"20240587149","DeedDate":"11\/01\/2024","DeedType":"QD","SalePrice":null,"SaleDate":null,"Redacted":false,"FullMailingAddress":"13488 N 141ST LN, SURPRISE, AZ 85379","DeedTypeID":null},"Geo":{"lat":null,"long":null,"address":"15847 W PORT ROYALE LN SURPRISE 85379"},"Zoning":[],"IsRental":true,"RentalInformation":{"ParcelNumber":"50179577","SitusAddress":"15847 W PORT ROYALE LN SURPRISE 85379","AccountNumber":"","OwnerBusinessEntity":"","PropertyType":"Single Family Residence","YearBuilt":"2017","OwnershipType":"Property Owner(s)","OwnerName":"BOWEN LOGAN DOMANI\/MEGAN MARLEM","OwnerAddress":"15847 W PORT ROYALE LN SURPRISE, AZ 85379","OwnerPhone":"","BusinessContactName":"","BusinessContactAddress":"","BusinessContactPhone":"","AgentName":"","AgentAddress":"","AgentPhone":"","DateRegistered":"06\/19\/2023","LastUpdate":"06\/22\/2023"},"IsPending":false,"McrTransitionUrl":"https:\/\/recorder.maricopa.gov\/recording\/map-results.html?book=1308&page=06","TreasurersTransitionUrl":"https:\/\/treasurer.maricopa.gov\/parcel\/default.aspx?Parcel=50179577","DeedTransitionUrl":"https:\/\/recorder.maricopa.gov\/recording\/document-details.html?recordingNumber=20240587149&suffix=","IsCancelled":false,"NumberOfParcelsInSubdivision":130,"IsCommercial":false,"Improvements":[],"Valuations":[{"TaxYear":"2025","FullCashValue":"355100","LimitedPropertyValue":"193263      ","LegalClassificationCode":"3.1 ","LegalClassification":"PRIMARY RESIDENCE","AssessmentRatioPercentage":"0.1000","AssessedFCV":"na","AssessedLPV":"19326       ","ValuationSource":"Notice","PEPropUseDesc":"Single Family Residence","PropertyUseCode":"0131","TaxAreaCode":"891503","NoticeOfChangeIndc":"N"},{"TaxYear":"2024","FullCashValue":"389700","LimitedPropertyValue":"184060      ","LegalClassificationCode":"4.2 ","LegalClassification":"RESIDENTIAL RENTAL","AssessmentRatioPercentage":"0.1000","AssessedFCV":"na","AssessedLPV":"18406       ","ValuationSource":"Notice","PEPropUseDesc":"Single Family Residence","PropertyUseCode":"0131","TaxAreaCode":"891503","NoticeOfChangeIndc":"N"},{"TaxYear":"2023","FullCashValue":"333700","LimitedPropertyValue":"175295      ","LegalClassificationCode":"4.2 ","LegalClassification":"RESIDENTIAL RENTAL","AssessmentRatioPercentage":"0.1000","AssessedFCV":"na","AssessedLPV":"17530       ","ValuationSource":"Notice","PEPropUseDesc":"Single Family Residence","PropertyUseCode":"0131","TaxAreaCode":"891503","NoticeOfChangeIndc":"N"},{"TaxYear":"2022","FullCashValue":"254200","LimitedPropertyValue":"166948      ","LegalClassificationCode":"3.1 ","LegalClassification":"PRIMARY RESIDENCE","AssessmentRatioPercentage":"0.1000","AssessedFCV":"na","AssessedLPV":"16695       ","ValuationSource":"Notice","PEPropUseDesc":"Single Family Residence","PropertyUseCode":"0131","TaxAreaCode":"891503","NoticeOfChangeIndc":"N"},{"TaxYear":"2021","FullCashValue":"234300","LimitedPropertyValue":"158998      ","LegalClassificationCode":"3.1 ","LegalClassification":"PRIMARY RESIDENCE","AssessmentRatioPercentage":"0.1000","AssessedFCV":"na","AssessedLPV":"15900       ","ValuationSource":"Notice","PEPropUseDesc":"Single Family Residence","PropertyUseCode":"0131","TaxAreaCode":"891503","NoticeOfChangeIndc":"N"},{"TaxYear":"2020","FullCashValue":"219600","LimitedPropertyValue":"151427      ","LegalClassificationCode":"3.1 ","LegalClassification":"PRIMARY RESIDENCE","AssessmentRatioPercentage":"0.1000","AssessedFCV":"na","AssessedLPV":"15143       ","ValuationSource":"Notice","PEPropUseDesc":"Single Family Residence","PropertyUseCode":"0131","TaxAreaCode":"891503","NoticeOfChangeIndc":"N"}],"TaxAreaCode":"891503","PropertyUseCode":"0131","PEPropUseDesc":"Single Family Residence","NumberOfParcelsInMCR":0,"NumberOfParcelsInSTR":0,"ResidentialPropertyData":{"ConstructionYear":"2017","OriginalConstructionYear":"2017","LotSize":"6240","LivableSpace":"1895","Detached_Livable_sqft":null,"AssessorMarket":"23","AreaNeighborhood":"006","Pool":false,"PEImprovementQualityGrade":"Comparable","ImprovementQualityGrade":"CLASS R3","NumberOfCoveredPatios":"1","NumberOfUncoveredPatios":0,"NumberOfPatios":"1","PatioType":"Covered","ExteriorWalls":"Fs - Frame Stucco","RoofType":"Ct - Concrete Tile","BathFixtures":"9","Cooling":"RF - REFRIGERATION","Heating":"Yes","NumberOfGarages":"2","NumberOfCarports":0,"ParkingDetails":{"ParkingType":"Garage","ParkingCount":"1"},"LocationalFactors":"","OtherStructures":"","ParkingType":"Garage","CoveredParking":true,"LocationalCharacteristics":"","PhysicalCondition":null},"SimilarParcels":[{"Parcel":"501-79-674","LandSize":"6480","SalesPriceDate":"$448000 \/ 7 -2023","FullCashValue":"357600","LivableSqFootage":"1895","ConstructionYear":"2018","PoolArea":[],"SitusAddress":"15793 W LISBON LN","ForeClosed":[]},{"Parcel":"501-79-572","LandSize":"6000","SalesPriceDate":"$455000 \/ 3 -2023","FullCashValue":"352300","LivableSqFootage":"1986","ConstructionYear":"2019","PoolArea":[],"SitusAddress":"15794 W PORT ROYALE LN","ForeClosed":[]},{"Parcel":"501-79-671","LandSize":"6240","SalesPriceDate":"$468000 \/ 4 -2022","FullCashValue":"355100","LivableSqFootage":"1895","ConstructionYear":"2017","PoolArea":[],"SitusAddress":"15852 W LISBON LN","ForeClosed":[]},{"Parcel":"501-79-602","LandSize":"7829","SalesPriceDate":"$474900 \/ 12-2022","FullCashValue":"388700","LivableSqFootage":"2086","ConstructionYear":"2019","PoolArea":[],"SitusAddress":"15870 W PORT ROYALE LN","ForeClosed":[]},{"Parcel":"501-79-590","LandSize":"6240","SalesPriceDate":"$420000 \/ 10-2021","FullCashValue":"352100","LivableSqFootage":"1986","ConstructionYear":"2018","PoolArea":[],"SitusAddress":"15814 W MAUNA LOA LN","ForeClosed":[]}],"Sketches":{"TotalPages":0,"Pages":[]},"MapIDs":{"Parcel Maps":[{"FileName":"803070103","UpdateDate":"04-APR-17","Url":"https:\/\/mcassessor.maricopa.gov\/getmapid\/803070103\/"}],"Subdivision Maps":[{"FileName":"803070103","UpdateDate":"04-APR-17","Url":"https:\/\/mcassessor.maricopa.gov\/getmapid\/803070103\/"}],"MCR Maps":[{"FileName":"803070103","UpdateDate":"04-APR-17","Url":"https:\/\/mcassessor.maricopa.gov\/getmapid\/803070103\/"}],"S\/T\/R Maps":[],"Book\/Map Maps":[{"FileName":"803020402","UpdateDate":"01-SEP-20","Url":"https:\/\/mcassessor.maricopa.gov\/getmapid\/803020402\/"},{"FileName":"803060404","UpdateDate":"26-AUG-11","Url":"https:\/\/mcassessor.maricopa.gov\/getmapid\/803060404\/"},{"FileName":"803070103","UpdateDate":"04-APR-17","Url":"https:\/\/mcassessor.maricopa.gov\/getmapid\/803070103\/"},{"FileName":"803070204","UpdateDate":"04-APR-17","Url":"https:\/\/mcassessor.maricopa.gov\/getmapid\/803070204\/"},{"FileName":"803070404","UpdateDate":"20-MAY-21","Url":"https:\/\/mcassessor.maricopa.gov\/getmapid\/803070404\/"},{"FileName":"803110404","UpdateDate":"20-AUG-15","Url":"https:\/\/mcassessor.maricopa.gov\/getmapid\/803110404\/"},{"FileName":"803190102","UpdateDate":"01-DEC-08","Url":"https:\/\/mcassessor.maricopa.gov\/getmapid\/803190102\/"},{"FileName":"803190103","UpdateDate":"01-DEC-08","Url":"https:\/\/mcassessor.maricopa.gov\/getmapid\/803190103\/"},{"FileName":"803190201","UpdateDate":"01-DEC-08","Url":"https:\/\/mcassessor.maricopa.gov\/getmapid\/803190201\/"},{"FileName":"803190202","UpdateDate":"01-DEC-08","Url":"https:\/\/mcassessor.maricopa.gov\/getmapid\/803190202\/"},{"FileName":"803190203","UpdateDate":"01-DEC-08","Url":"https:\/\/mcassessor.maricopa.gov\/getmapid\/803190203\/"},{"FileName":"803190204","UpdateDate":"01-DEC-08","Url":"https:\/\/mcassessor.maricopa.gov\/getmapid\/803190204\/"},{"FileName":"803190301","UpdateDate":"01-DEC-08","Url":"https:\/\/mcassessor.maricopa.gov\/getmapid\/803190301\/"},{"FileName":"803190402","UpdateDate":"01-DEC-08","Url":"https:\/\/mcassessor.maricopa.gov\/getmapid\/803190402\/"}]}}
+{
+    "MCR": "130806",
+    "AssociatedParcels": [],
+    "MoreAssociatedParcelsExist": false,
+    "PropertyAddress": "15847 W PORT ROYALE LN SURPRISE 85379",
+    "PropertyDescription": "ACOMA COURT MCR 1308-06",
+    "LotSize": "6240",
+    "IsResidential": true,
+    "MapidExists": false,
+    "SectionTownshipRange": "7 3N 1W",
+    "AssessorMarket": "23",
+    "AreaNeighborhood": "006",
+    "SubdivisionName": "ACOMA COURT",
+    "Lot": "13",
+    "HighSchoolDistrict": "DYSART UNIFIED #89",
+    "ElementarySchoolDistrict": "DYSART UNIFIED SCHOOL DISTRICT",
+    "LocalJusidiction": "SURPRISE",
+    "PropertyType": "Residential",
+    "ParcelStatus": "A",
+    "APL_flag": "1",
+    "Owner": {
+        "OwnerID": "BC7FA712-8D76-486F-F8A9-08DD033F263D",
+        "Ownership": "BLISSVILLE LLC",
+        "InCareOf": null,
+        "ContoOwnership": "",
+        "MailingAddress1": "13488 N 141ST LN",
+        "MailingAddress2": null,
+        "MailingCity": "SURPRISE",
+        "MailingState": "AZ",
+        "MailingZip": "85379",
+        "MailingCountry": "USA",
+        "MostCurrentDeed": "20240587149",
+        "DeedDate": "11\/01\/2024",
+        "DeedType": "QD",
+        "SalePrice": null,
+        "SaleDate": null,
+        "Redacted": false,
+        "FullMailingAddress": "13488 N 141ST LN, SURPRISE, AZ 85379",
+        "DeedTypeID": null
+    },
+    "Geo": {
+        "lat": null,
+        "long": null,
+        "address": "15847 W PORT ROYALE LN SURPRISE 85379"
+    },
+    "Zoning": [],
+    "IsRental": true,
+    "RentalInformation": {
+        "ParcelNumber": "50179577",
+        "SitusAddress": "15847 W PORT ROYALE LN SURPRISE 85379",
+        "AccountNumber": "",
+        "OwnerBusinessEntity": "",
+        "PropertyType": "Single Family Residence",
+        "YearBuilt": "2017",
+        "OwnershipType": "Property Owner(s)",
+        "OwnerName": "BOWEN LOGAN DOMANI\/MEGAN MARLEM",
+        "OwnerAddress": "15847 W PORT ROYALE LN SURPRISE, AZ 85379",
+        "OwnerPhone": "",
+        "BusinessContactName": "",
+        "BusinessContactAddress": "",
+        "BusinessContactPhone": "",
+        "AgentName": "",
+        "AgentAddress": "",
+        "AgentPhone": "",
+        "DateRegistered": "06\/19\/2023",
+        "LastUpdate": "06\/22\/2023"
+    },
+    "IsPending": false,
+    "McrTransitionUrl": "https:\/\/recorder.maricopa.gov\/recording\/map-results.html?book=1308&page=06",
+    "TreasurersTransitionUrl": "https:\/\/treasurer.maricopa.gov\/parcel\/default.aspx?Parcel=50179577",
+    "DeedTransitionUrl": "https:\/\/recorder.maricopa.gov\/recording\/document-details.html?recordingNumber=20240587149&suffix=",
+    "IsCancelled": false,
+    "NumberOfParcelsInSubdivision": 130,
+    "IsCommercial": false,
+    "Improvements": [],
+    "Valuations": [
+        {
+            "TaxYear": "2025",
+            "FullCashValue": "355100",
+            "LimitedPropertyValue": "193263      ",
+            "LegalClassificationCode": "3.1 ",
+            "LegalClassification": "PRIMARY RESIDENCE",
+            "AssessmentRatioPercentage": "0.1000",
+            "AssessedFCV": "na",
+            "AssessedLPV": "19326       ",
+            "ValuationSource": "Notice",
+            "PEPropUseDesc": "Single Family Residence",
+            "PropertyUseCode": "0131",
+            "TaxAreaCode": "891503",
+            "NoticeOfChangeIndc": "N"
+        },
+        {
+            "TaxYear": "2024",
+            "FullCashValue": "389700",
+            "LimitedPropertyValue": "184060      ",
+            "LegalClassificationCode": "4.2 ",
+            "LegalClassification": "RESIDENTIAL RENTAL",
+            "AssessmentRatioPercentage": "0.1000",
+            "AssessedFCV": "na",
+            "AssessedLPV": "18406       ",
+            "ValuationSource": "Notice",
+            "PEPropUseDesc": "Single Family Residence",
+            "PropertyUseCode": "0131",
+            "TaxAreaCode": "891503",
+            "NoticeOfChangeIndc": "N"
+        },
+        {
+            "TaxYear": "2023",
+            "FullCashValue": "333700",
+            "LimitedPropertyValue": "175295      ",
+            "LegalClassificationCode": "4.2 ",
+            "LegalClassification": "RESIDENTIAL RENTAL",
+            "AssessmentRatioPercentage": "0.1000",
+            "AssessedFCV": "na",
+            "AssessedLPV": "17530       ",
+            "ValuationSource": "Notice",
+            "PEPropUseDesc": "Single Family Residence",
+            "PropertyUseCode": "0131",
+            "TaxAreaCode": "891503",
+            "NoticeOfChangeIndc": "N"
+        },
+        {
+            "TaxYear": "2022",
+            "FullCashValue": "254200",
+            "LimitedPropertyValue": "166948      ",
+            "LegalClassificationCode": "3.1 ",
+            "LegalClassification": "PRIMARY RESIDENCE",
+            "AssessmentRatioPercentage": "0.1000",
+            "AssessedFCV": "na",
+            "AssessedLPV": "16695       ",
+            "ValuationSource": "Notice",
+            "PEPropUseDesc": "Single Family Residence",
+            "PropertyUseCode": "0131",
+            "TaxAreaCode": "891503",
+            "NoticeOfChangeIndc": "N"
+        },
+        {
+            "TaxYear": "2021",
+            "FullCashValue": "234300",
+            "LimitedPropertyValue": "158998      ",
+            "LegalClassificationCode": "3.1 ",
+            "LegalClassification": "PRIMARY RESIDENCE",
+            "AssessmentRatioPercentage": "0.1000",
+            "AssessedFCV": "na",
+            "AssessedLPV": "15900       ",
+            "ValuationSource": "Notice",
+            "PEPropUseDesc": "Single Family Residence",
+            "PropertyUseCode": "0131",
+            "TaxAreaCode": "891503",
+            "NoticeOfChangeIndc": "N"
+        },
+        {
+            "TaxYear": "2020",
+            "FullCashValue": "219600",
+            "LimitedPropertyValue": "151427      ",
+            "LegalClassificationCode": "3.1 ",
+            "LegalClassification": "PRIMARY RESIDENCE",
+            "AssessmentRatioPercentage": "0.1000",
+            "AssessedFCV": "na",
+            "AssessedLPV": "15143       ",
+            "ValuationSource": "Notice",
+            "PEPropUseDesc": "Single Family Residence",
+            "PropertyUseCode": "0131",
+            "TaxAreaCode": "891503",
+            "NoticeOfChangeIndc": "N"
+        }
+    ],
+    "TaxAreaCode": "891503",
+    "PropertyUseCode": "0131",
+    "PEPropUseDesc": "Single Family Residence",
+    "NumberOfParcelsInMCR": 0,
+    "NumberOfParcelsInSTR": 0,
+    "ResidentialPropertyData": {
+        "ConstructionYear": "2017",
+        "OriginalConstructionYear": "2017",
+        "LotSize": "6240",
+        "LivableSpace": "1895",
+        "Detached_Livable_sqft": null,
+        "AssessorMarket": "23",
+        "AreaNeighborhood": "006",
+        "Pool": false,
+        "PEImprovementQualityGrade": "Comparable",
+        "ImprovementQualityGrade": "CLASS R3",
+        "NumberOfCoveredPatios": "1",
+        "NumberOfUncoveredPatios": 0,
+        "NumberOfPatios": "1",
+        "PatioType": "Covered",
+        "ExteriorWalls": "Fs - Frame Stucco",
+        "RoofType": "Ct - Concrete Tile",
+        "BathFixtures": "9",
+        "Cooling": "RF - REFRIGERATION",
+        "Heating": "Yes",
+        "NumberOfGarages": "2",
+        "NumberOfCarports": 0,
+        "ParkingDetails": {
+            "ParkingType": "Garage",
+            "ParkingCount": "1"
+        },
+        "LocationalFactors": "",
+        "OtherStructures": "",
+        "ParkingType": "Garage",
+        "CoveredParking": true,
+        "LocationalCharacteristics": "",
+        "PhysicalCondition": null
+    },
+    "SimilarParcels": [
+        {
+            "Parcel": "501-79-674",
+            "LandSize": "6480",
+            "SalesPriceDate": "$448000 \/ 7 -2023",
+            "FullCashValue": "357600",
+            "LivableSqFootage": "1895",
+            "ConstructionYear": "2018",
+            "PoolArea": [],
+            "SitusAddress": "15793 W LISBON LN",
+            "ForeClosed": []
+        },
+        {
+            "Parcel": "501-79-572",
+            "LandSize": "6000",
+            "SalesPriceDate": "$455000 \/ 3 -2023",
+            "FullCashValue": "352300",
+            "LivableSqFootage": "1986",
+            "ConstructionYear": "2019",
+            "PoolArea": [],
+            "SitusAddress": "15794 W PORT ROYALE LN",
+            "ForeClosed": []
+        },
+        {
+            "Parcel": "501-79-671",
+            "LandSize": "6240",
+            "SalesPriceDate": "$468000 \/ 4 -2022",
+            "FullCashValue": "355100",
+            "LivableSqFootage": "1895",
+            "ConstructionYear": "2017",
+            "PoolArea": [],
+            "SitusAddress": "15852 W LISBON LN",
+            "ForeClosed": []
+        },
+        {
+            "Parcel": "501-79-602",
+            "LandSize": "7829",
+            "SalesPriceDate": "$474900 \/ 12-2022",
+            "FullCashValue": "388700",
+            "LivableSqFootage": "2086",
+            "ConstructionYear": "2019",
+            "PoolArea": [],
+            "SitusAddress": "15870 W PORT ROYALE LN",
+            "ForeClosed": []
+        },
+        {
+            "Parcel": "501-79-590",
+            "LandSize": "6240",
+            "SalesPriceDate": "$420000 \/ 10-2021",
+            "FullCashValue": "352100",
+            "LivableSqFootage": "1986",
+            "ConstructionYear": "2018",
+            "PoolArea": [],
+            "SitusAddress": "15814 W MAUNA LOA LN",
+            "ForeClosed": []
+        }
+    ],
+    "Sketches": {
+        "TotalPages": 0,
+        "Pages": []
+    },
+    "MapIDs": {
+        "Parcel Maps": [
+            {
+                "FileName": "803070103",
+                "UpdateDate": "04-APR-17",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070103\/"
+            }
+        ],
+        "Subdivision Maps": [
+            {
+                "FileName": "803070103",
+                "UpdateDate": "04-APR-17",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070103\/"
+            }
+        ],
+        "MCR Maps": [
+            {
+                "FileName": "803070103",
+                "UpdateDate": "04-APR-17",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070103\/"
+            }
+        ],
+        "S\/T\/R Maps": [],
+        "Book\/Map Maps": [
+            {
+                "FileName": "803020402",
+                "UpdateDate": "01-SEP-20",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803020402\/"
+            },
+            {
+                "FileName": "803060404",
+                "UpdateDate": "26-AUG-11",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803060404\/"
+            },
+            {
+                "FileName": "803070103",
+                "UpdateDate": "04-APR-17",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070103\/"
+            },
+            {
+                "FileName": "803070204",
+                "UpdateDate": "04-APR-17",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070204\/"
+            },
+            {
+                "FileName": "803070404",
+                "UpdateDate": "20-MAY-21",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070404\/"
+            },
+            {
+                "FileName": "803110404",
+                "UpdateDate": "20-AUG-15",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803110404\/"
+            },
+            {
+                "FileName": "803190102",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803190102\/"
+            },
+            {
+                "FileName": "803190103",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803190103\/"
+            },
+            {
+                "FileName": "803190201",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803190201\/"
+            },
+            {
+                "FileName": "803190202",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803190202\/"
+            },
+            {
+                "FileName": "803190203",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803190203\/"
+            },
+            {
+                "FileName": "803190204",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803190204\/"
+            },
+            {
+                "FileName": "803190301",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803190301\/"
+            },
+            {
+                "FileName": "803190402",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803190402\/"
+            }
+        ]
+    }
+}

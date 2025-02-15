@@ -10,7 +10,7 @@ from hoa_insights_surpriseaz.my_secrets import (
     test_debian_dbname,
 )
 from hoa_insights_surpriseaz.parse_assessor_parcel_data import parse
-from hoa_insights_surpriseaz.database import local_models, check_local_rdbms
+from hoa_insights_surpriseaz.database import local_models, check_local_rdbms, check_remote_rdbms, remote_models
 
 # from hoa_insights_surpriseaz import update_parcel_data
 # from hoa_insights_surpriseaz import process_updated_parcels
@@ -40,14 +40,16 @@ def engine():
 def session(engine):
     sess = Session(engine)
     local_models.Base.metadata.create_all(engine)
+    check_remote_rdbms.schema()
+    remote_models.Base.metadata.create_all(engine)
     populate_local_tables.parcels(PARCELS_CONSTANTS, engine=engine)
     populate_local_tables.communities(engine=engine, file_path=MANAGEMENT_CSV_PATH)
     check_local_rdbms.triggers(db_uri=test_debian_uri, db_name=test_debian_dbname)
     check_local_rdbms.views(db_uri=test_debian_uri)
-
+    
     yield sess
 
-    sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
+    # sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
 
 
 @pytest.fixture()

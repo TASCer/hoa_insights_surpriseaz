@@ -12,7 +12,7 @@ def test_update_owner_data(parse_owner_update_data) -> list[dict]:
 
     assert updated_owners[0].OWNER == "BUYER NEW A"
 
-    assert len(update_rentals) == 1
+    assert len(update_rentals) == 2
 
     # assert update_rentals[0].OWNER == "RENTAL NEW A"
 
