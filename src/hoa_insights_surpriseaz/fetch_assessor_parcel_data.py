@@ -102,7 +102,7 @@ async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> d
 
         async with sem, client.get(url) as resp:
             parcel_details: dict = await resp.json()
-            logger.warning(f"{url} {e} -- After Retry")
+            logger.warning(f"{e} -- Retried")
 
         return parcel_details
 

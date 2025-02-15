@@ -65,7 +65,7 @@ def process_parcels() -> None:
     )
     update_local_tables.owners(parsed_owner_data)
     update_local_tables.rentals(parsed_rental_data)
-    # update_remote_tables.update()
+    update_remote_tables.update()
 
 
 def main() -> None:
