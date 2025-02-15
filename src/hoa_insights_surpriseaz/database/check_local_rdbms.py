@@ -42,7 +42,6 @@ logger: Logger = logging.getLogger(__name__)
 
 
 def schema(db_uri: str = LOCAL_DB_URI) -> bool:
-    print(db_uri)
     """
     Function checks if schema/DB_NAME is present.
     Return True if it is.

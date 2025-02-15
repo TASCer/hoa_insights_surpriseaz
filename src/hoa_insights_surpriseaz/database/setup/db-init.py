@@ -28,10 +28,10 @@ fh.setFormatter(formatter)
 root_logger.addHandler(fh)
 
 LOCAL_DB_URI = f"{my_secrets.prod_debian_uri}"
-REMOTE_DB_URI = f"{my_secrets.prod_bluehost_uri}"
+REMOTE_DB_URI = f"{my_secrets.test_bluehost_uri}"
 
 LOCAL_DB_HOSTNAME = f"{my_secrets.prod_debian_dbhost}"
-REMOTE_DB_HOSTNAME = f"{my_secrets.prod_bluehost_dbhost}"
+REMOTE_DB_HOSTNAME = f"{my_secrets.test_bluehost_dbhost}"
 
 
 logger: Logger = logging.getLogger(__name__)
@@ -68,24 +68,25 @@ def local_database():
             f"--- COMPLETED LOCAL DATABASE POPULATION ON: {LOCAL_DB_HOSTNAME} ---"
         )
 
-def remote_database():
-    engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
+    return community_data_for_bluehost
+    
 
-    if check_remote_rdbms:
-        remote_models.Base.metadata.create_all(engine)
+def remote_database(management):
+    engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
 
     logger.info(
         f"*** STARTED REMOTE DATABASE SETUP ON: {REMOTE_DB_HOSTNAME} ***"
     )
-    community_data_for_bluehost = populate_local_tables.communities()
-    logger.info(
-        f"\tREMOTE communities table populated: {len(community_data_for_bluehost) > 0}"
-    )
-    logger.info(
-        f"--- COMPLETED LOCAL DATABASE POPULATION ON: {REMOTE_DB_HOSTNAME} ---"
-    )
 
+    if check_remote_rdbms.schema():
+        remote_models.Base.metadata.create_all(engine)
+        # local_models.Community.metadata.create_all(engine)
+    logger.info(
+        f"--- COMPLETED REMOTE DATABASE SETUP ON: {REMOTE_DB_HOSTNAME} ---"
+    )
+    populate_remote_tables.communities(management)
 
 if __name__ == "__main__":
-    # local_database()
-    remote_database()
+    community_management = local_database()
+    print(community_management)
+    remote_database(community_management)
