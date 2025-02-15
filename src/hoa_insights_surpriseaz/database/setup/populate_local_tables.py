@@ -149,7 +149,9 @@ def parcels(
                     parcel_instance = Parcels(
                         APN=APN, COMMUNITY=COMMUNITY, SITUS=SITUS, LAT=LAT, LONG=LONG
                     )
-                    db_parcel_instance = local_models.Parcel(**parcel_instance.model_dump())
+                    db_parcel_instance = local_models.Parcel(
+                        **parcel_instance.model_dump()
+                    )
                     parcel_instances.append(db_parcel_instance)
                 s.add_all(parcel_instances)
                 s.commit()

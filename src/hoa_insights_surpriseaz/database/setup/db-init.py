@@ -7,7 +7,7 @@ from hoa_insights_surpriseaz.database import (
     check_local_rdbms,
     check_remote_rdbms,
     local_models,
-    remote_models
+    remote_models,
 )
 from hoa_insights_surpriseaz.database.setup import (
     populate_local_tables,
@@ -37,13 +37,10 @@ REMOTE_DB_HOSTNAME = f"{my_secrets.test_bluehost_dbhost}"
 logger: Logger = logging.getLogger(__name__)
 
 
-
 def local_database():
     engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
 
-    logger.info(
-        f"*** STARTED LOCAL DATABASE SETUP ON: {LOCAL_DB_HOSTNAME} ***"
-    )
+    logger.info(f"*** STARTED LOCAL DATABASE SETUP ON: {LOCAL_DB_HOSTNAME} ***")
     if check_local_rdbms.schema():
         local_models.Base.metadata.create_all(engine)
 
@@ -52,14 +49,14 @@ def local_database():
         logger.info(
             f"\tLOCAL stored proc(s) created: {check_local_rdbms.stored_procs()}"
         )
-        logger.info(
-            f"--- COMPLETED LOCAL DATABASE SETUP ON: {LOCAL_DB_HOSTNAME} ---"
-        )
+        logger.info(f"--- COMPLETED LOCAL DATABASE SETUP ON: {LOCAL_DB_HOSTNAME} ---")
 
         logger.info(
             f"*** STARTED LOCAL DATABASE POPULATION ON: {LOCAL_DB_HOSTNAME} ***"
         )
-        logger.info(f"\tLOCAL parcels table populated: {populate_local_tables.parcels()}")
+        logger.info(
+            f"\tLOCAL parcels table populated: {populate_local_tables.parcels()}"
+        )
         community_data_for_bluehost = populate_local_tables.communities()
         logger.info(
             f"\tLOCAL communities table populated: {len(community_data_for_bluehost) > 0}"
@@ -69,22 +66,18 @@ def local_database():
         )
 
     return community_data_for_bluehost
-    
+
 
 def remote_database(management):
     engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
 
-    logger.info(
-        f"*** STARTED REMOTE DATABASE SETUP ON: {REMOTE_DB_HOSTNAME} ***"
-    )
+    logger.info(f"*** STARTED REMOTE DATABASE SETUP ON: {REMOTE_DB_HOSTNAME} ***")
 
     if check_remote_rdbms.schema():
         remote_models.Base.metadata.create_all(engine)
-        # local_models.Community.metadata.create_all(engine)
-    logger.info(
-        f"--- COMPLETED REMOTE DATABASE SETUP ON: {REMOTE_DB_HOSTNAME} ---"
-    )
+    logger.info(f"--- COMPLETED REMOTE DATABASE SETUP ON: {REMOTE_DB_HOSTNAME} ---")
     populate_remote_tables.communities(management)
+
 
 if __name__ == "__main__":
     community_management = local_database()
