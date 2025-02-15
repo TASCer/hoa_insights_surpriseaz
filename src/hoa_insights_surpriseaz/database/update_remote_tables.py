@@ -60,11 +60,10 @@ def update() -> None:
                 )
                 logger.info("Table: 'classed_rentals' has been updated REMOTELY")
 
-                pd.Series(sql_timestamp()).to_sql(
+                pd.Series(sql_timestamp(), name="TS").to_sql(
                     name="last_updated",
                     con=conn,
                     if_exists="replace",
-                    index_label="TS",
                     index=False,
                 )
                 logger.info("Table: 'last_updated' has been updated REMOTELY")

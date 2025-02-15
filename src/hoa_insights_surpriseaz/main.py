@@ -59,9 +59,9 @@ def process_parcels() -> None:
     """
 
     logger.info("********** PARCEL PROCESSING STARTED **********")
-    consumed_api_data = fetch_assessor_parcel_data.parcels_api()
+    consumed_parcel_api_data = fetch_assessor_parcel_data.parcels_api()
     parsed_owner_data, parsed_rental_data = parse_assessor_parcel_data.parse(
-        consumed_api_data
+        consumed_parcel_api_data
     )
     update_local_tables.owners(parsed_owner_data)
     update_local_tables.rentals(parsed_rental_data)
