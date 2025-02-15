@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "Python: main",
             "type": "python",
@@ -15,15 +16,24 @@
         },
     
         {
-            "name": "Python: database",
+            "name": "Python: db setup",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/src/hoa_insights_surpriseaz/database/setup",
+            "program": "db-init.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+    
+        {
+            "name": "Python: update remote",
             "type": "python",
             "request": "launch",
             "cwd": "${workspaceFolder}/src/hoa_insights_surpriseaz/database",
-            "program": "setup.py",
+            "program": "update_remote_tables.py",
             "console": "integratedTerminal",
             "justMyCode": true
         }
-    
     
     
     
