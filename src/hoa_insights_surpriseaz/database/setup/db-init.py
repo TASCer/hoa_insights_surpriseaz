@@ -78,7 +78,7 @@ def remote_database(management):
     logger.info(f"--- COMPLETED REMOTE DATABASE SETUP ON: {REMOTE_DB_HOSTNAME} ---")
     populate_remote_tables.communities(management)
     logger.info(
-            f"--- COMPLETED remote DATABASE POPULATION ON: {REMOTE_DB_HOSTNAME} ---"
+            f"--- COMPLETED REMOTE DATABASE POPULATION ON: {REMOTE_DB_HOSTNAME} ---"
         )
 
 
