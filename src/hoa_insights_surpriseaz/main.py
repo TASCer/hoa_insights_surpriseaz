@@ -3,7 +3,7 @@ import logging
 from logging import Logger, Formatter
 from pandas import DataFrame
 from hoa_insights_surpriseaz import fetch_assessor_parcel_data
-from hoa_insights_surpriseaz import create_change_reports
+from hoa_insights_surpriseaz import create_reports
 from hoa_insights_surpriseaz import parse_assessor_parcel_data
 from hoa_insights_surpriseaz import process_updated_parcel_data
 from hoa_insights_surpriseaz.database import update_community_management_data
@@ -77,7 +77,7 @@ def main() -> None:
     parcel_changes: DataFrame = process_updated_parcel_data.insights()
 
     if not parcel_changes.empty:
-        create_change_reports.parcels(parcel_changes)
+        create_reports.parcels(parcel_changes)
 
         return True
 
@@ -102,6 +102,6 @@ if __name__ == "__main__":
     if not changes:
         logger.info("NO SALES OR OWNER CHANGES")
 
-    mailer.send_mail("HOA INSIGHTS PROCESSING COMPLETE")
+    # mailer.send_mail("HOA INSIGHTS PROCESSING COMPLETE")
 
     logger.info("********** HOA INSIGHT PROCESSING COMPLETED **********")

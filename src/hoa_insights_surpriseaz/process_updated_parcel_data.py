@@ -1,7 +1,7 @@
 import logging
 import pandas as pd
 
-from hoa_insights_surpriseaz.financials import get_ytd_sales
+from hoa_insights_surpriseaz.database import get_ytd_sales
 from logging import Logger
 from hoa_insights_surpriseaz.utils.date_parser import log_date
 from hoa_insights_surpriseaz.database import get_updated_parcel_data

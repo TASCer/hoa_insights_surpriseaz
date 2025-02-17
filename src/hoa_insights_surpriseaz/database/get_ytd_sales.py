@@ -1,7 +1,7 @@
 import logging
 import pandas as pd
 
-from hoa_insights_surpriseaz import create_change_reports
+from hoa_insights_surpriseaz import create_reports
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.utils.number_formatter import format_price
 from hoa_insights_surpriseaz.utils.date_parser import year_to_date
@@ -93,7 +93,7 @@ def get_average_sale_price() -> None:
         f"{my_secrets.csv_finance_path}ytd_community_avg_sale_price.csv"
     )
 
-    create_change_reports.financials(ytd_community_avg_sale_price)
+    create_reports.financials(ytd_community_avg_sale_price)
 
 
 if __name__ == "__main__":

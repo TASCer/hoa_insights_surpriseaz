@@ -15,7 +15,7 @@ from hoa_insights_surpriseaz.utils import file_copier
 logger: Logger = logging.getLogger(__name__)
 
 
-def parcels(parcel_updates: DataFrame) -> None:
+def owner_changes(parcel_updates: DataFrame) -> None:
     """
     Function takes in a dataframe of owner and sale changes.
     Produces and saves html report.
@@ -45,7 +45,7 @@ def parcels(parcel_updates: DataFrame) -> None:
     pdf.from_file(parcel_updates_report, "./output/pdf/latest_changes.pdf")
 
 
-def financials(community_avg_prices: DataFrame) -> None:
+def ytd_community_sales(community_avg_prices: DataFrame) -> None:
     """
     Function takes in a dataFrame of the average community home sales price YTD.
     Produces and saves html report.
@@ -69,6 +69,6 @@ def financials(community_avg_prices: DataFrame) -> None:
 
 if __name__ == "__main__":
     c_df = pd.read_csv("./output/csv/latest_changes/02-03-25.csv")
-    parcels(c_df)
+    owner_changes()(c_df)
     f_df = pd.read_csv("./output/csv/financial/ytd_community_avg_sale_price.csv")
-    financials(f_df)
+    ytd_community_sales()(f_df)
