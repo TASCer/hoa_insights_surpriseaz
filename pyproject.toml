@@ -1,6 +1,6 @@
 [project]
 name = "hoa_insights_surpriseaz"
-version = "0.1.0"
+version = "0.2.0"
 description = "Information on HOA Communitieds"
 readme = "README.md"
 authors = [
@@ -44,8 +44,8 @@ testpaths = [
 [tool.setuptools.package-data]
 "hoa_insights_surpriseaz" = ["py.typed"]
 
-[tool.setuptools.packages.find]
-where = ["src"]
+# [tool.setuptools.packages.find]
+# where = ["src"]
 
 classifiers = [
     "Programming Language :: Python :: 3",
