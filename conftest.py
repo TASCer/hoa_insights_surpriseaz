@@ -27,29 +27,33 @@ PARCELS_CONSTANTS: str = (
 
 
 @pytest.fixture(scope="session")
-def engine():
-    engine = create_engine(f"mysql+pymysql://{test_debian_uri}")
+def local_engine():
+    local_engine = create_engine(f"mysql+pymysql://{test_debian_uri}")
 
-    if not database_exists(engine.url):
-        create_database(engine.url)
+    if not database_exists(local_engine.url):
+        create_database(local_engine.url)
 
-    return engine
+    return local_engine
 
 
 @pytest.fixture(scope="session")
-def session(engine):
-    sess = Session(engine)
-    local_models.Base.metadata.create_all(engine)
-    check_remote_rdbms.schema()
-    remote_models.Base.metadata.create_all(engine)
-    populate_local_tables.parcels(PARCELS_CONSTANTS, engine=engine)
-    populate_local_tables.communities(engine=engine, file_path=MANAGEMENT_CSV_PATH)
+def session(local_engine):
+    sess = Session(local_engine)
+    local_models.Base.metadata.create_all(local_engine)
+    populate_local_tables.parcels(PARCELS_CONSTANTS, engine=local_engine)
+    populate_local_tables.communities(engine=local_engine, file_path=MANAGEMENT_CSV_PATH)
     check_local_rdbms.triggers(db_uri=test_debian_uri, db_name=test_debian_dbname)
     check_local_rdbms.views(db_uri=test_debian_uri)
     
     yield sess
 
-    # sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
+    sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
+
+# ISSUE POPULATING TEST BH DB
+    # check_remote_rdbms.schema()
+    # remote_models.Base.metadata.create_all(engine) # adding tables to local db?!
+
+
 
 
 @pytest.fixture()
