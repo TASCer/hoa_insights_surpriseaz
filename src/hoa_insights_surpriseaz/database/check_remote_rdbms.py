@@ -23,7 +23,6 @@ meta = MetaData()
 
 def schema() -> bool:
     """Check to see if schema is present, if not, create and return True"""
-    print("SCHEMA")
     logger: Logger = logging.getLogger(__name__)
     try:
         engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}")
