@@ -24,7 +24,7 @@ def sql_date() -> date:
     return todays_date
 
 
-def sql_timestamp() -> dt:
+def get_now() -> dt:
     """
     Function returns current datetime.
     used for 'latest_update' table located on remote website.

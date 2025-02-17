@@ -3,7 +3,7 @@ import pandas as pd
 
 from logging import Logger
 from sqlalchemy import Engine, TextClause, create_engine, exc, text, Row
-from hoa_insights_surpriseaz.utils.date_parser import sql_timestamp
+from hoa_insights_surpriseaz.utils.date_parser import get_now
 from hoa_insights_surpriseaz import my_secrets
 
 LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
@@ -61,7 +61,7 @@ def update() -> None:
                 )
                 logger.info("Table: 'classed_rentals' has been updated REMOTELY")
 
-                pd.Series(sql_timestamp(), name="TS").to_sql(
+                pd.Series(get_now(), name="TS").to_sql(
                     name="last_updated",
                     con=conn,
                     if_exists="replace",

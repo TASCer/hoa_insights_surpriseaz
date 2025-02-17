@@ -3,7 +3,7 @@ from hoa_insights_surpriseaz.utils import date_parser, number_formatter
 
 
 def test_date_parser():
-    date = date_parser.log_date()
+    date = date_parser.logger_date()
     assert "-" in date
 
 
@@ -13,7 +13,7 @@ def test_sql_date():
 
 
 def test_sql_timestamp():
-    date = date_parser.sql_timestamp()
+    date = date_parser.get_now()
     print(date)
 
 

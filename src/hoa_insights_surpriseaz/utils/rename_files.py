@@ -9,11 +9,6 @@ ORIG_PDF_FILENAME: str = ORIG_PDF_FILEPATH.split("/")[-1]
 NEW_PDF_FILEPATH: str = "./output/pdf/MANAGEMENT.pdf"
 NEW_PDF_FILENAME: str = NEW_PDF_FILEPATH.split("/")[-1]
 
-# TEST_PDF_FILEPATH: str = "../output/pdf/StrengthLeadershipTest.pdf"
-# TEST_PDF_FILENAME: str = TEST_PDF_FILEPATH.split("/")[-1]
-# NEW_TEST_PDF_FILEPATH: str = "../output/pdf/Gallop.pdf"
-# NEW_TEST_PDF_FILENAME: str = NEW_TEST_PDF_FILEPATH.split("/")[-1]
-
 
 def rename():
     if os.path.abspath(f"../output/pdf/{ORIG_PDF_FILEPATH}"):

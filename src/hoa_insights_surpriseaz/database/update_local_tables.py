@@ -4,8 +4,6 @@ from hoa_insights_surpriseaz import my_secrets
 from logging import Logger
 from sqlalchemy import Engine, create_engine, exc, text
 
-# from hoa_insights_surpriseaz.database.populate_local import PARCELS_TABLE
-
 LOCAL_DB_HOSTNAME: str = f"{my_secrets.prod_debian_dbhost}"
 LOCAL_DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
 LOCAL_DB_USER: str = f"{my_secrets.prod_debian_dbuser}"
