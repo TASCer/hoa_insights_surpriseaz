@@ -23,15 +23,6 @@ def rename():
         except FileNotFoundError as ffe:
             logger.error(ffe)
 
-    # if os.path.abspath(f"../output/pdf/{TEST_PDF_FILEPATH}"):
-    #     try:
-    #         os.rename(TEST_PDF_FILEPATH, NEW_TEST_PDF_FILEPATH)
-    #         logger.info(
-    #             f"Downloading Completed, renamed file to: {NEW_TEST_PDF_FILENAME}"
-    #         )
-    #     except FileNotFoundError as ffe:
-    #         logger.error(ffe)
-
     return True
 
 

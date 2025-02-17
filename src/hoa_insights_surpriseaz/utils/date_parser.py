@@ -5,7 +5,7 @@ from datetime import date
 from dateutil.parser import parse
 
 
-def log_date() -> str:
+def logger_date() -> str:
     """
     Function uses datetime.date.today object formatted for logfiles.
     """
@@ -66,7 +66,7 @@ def first_tuesday_of_month() -> int:
         month_calendar[0][calendar.TUESDAY], month_calendar[1][calendar.TUESDAY]
     )
 
-    is_first_tuesday = int(log_date().split("-")[1]) == first_tuesday
+    is_first_tuesday = int(logger_date().split("-")[1]) == first_tuesday
 
     return is_first_tuesday
 
