@@ -12,7 +12,8 @@ REMOTE_DB_URI: str = f"{my_secrets.test_bluehost_uri}"
 
 def update() -> None:
     """
-    Function gets all rental parcels from local database views and populates remote databases table for web site.
+    Function gets all rental parcels from local database views and populates remote databases tables for web site.
+
     """
     logger: Logger = logging.getLogger(__name__)
     try:

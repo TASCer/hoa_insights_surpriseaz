@@ -60,8 +60,7 @@ def community_management(s: Session, file_path: str) -> bool:
     """
     if not os.path.exists(file_path):
         logger.warning(f"{MANAGEMENT_FILE_PATH} not found.")
-        print(f"{MANAGEMENT_FILE_PATH} not found.")
-        exit()
+
         try:
             logger.info("Fetching Community Management Data")
             download()
@@ -74,7 +73,7 @@ def community_management(s: Session, file_path: str) -> bool:
             logger.error(ffe)
 
     else:
-        print("management file found")
+        logger.info("community management data file found")
         pdf_managers = get_pdf_communities(os.path.abspath(file_path))
 
         for pdf_item in pdf_managers:

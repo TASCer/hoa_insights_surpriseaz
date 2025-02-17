@@ -75,15 +75,15 @@ def remote_database(management):
 
     if check_remote_rdbms.schema():
         remote_models.Base.metadata.create_all(engine)
-        
+
     logger.info(f"--- COMPLETED REMOTE DATABASE SETUP ON: {REMOTE_DB_HOSTNAME} ---")
-    logger.info(f"*** STARTED REMOTE DATABASE POPULATION ON: {REMOTE_DB_HOSTNAME} ***"
-        )
+    logger.info(f"*** STARTED REMOTE DATABASE POPULATION ON: {REMOTE_DB_HOSTNAME} ***")
     logger.info(
-        f"\tREMOTE tables populated: {populate_remote_tables.communities(management)}")
+        f"\tREMOTE tables populated: {populate_remote_tables.communities(management)}"
+    )
     logger.info(
-            f"--- COMPLETED REMOTE DATABASE POPULATION ON: {REMOTE_DB_HOSTNAME} ---"
-        )
+        f"--- COMPLETED REMOTE DATABASE POPULATION ON: {REMOTE_DB_HOSTNAME} ---"
+    )
 
 
 if __name__ == "__main__":
