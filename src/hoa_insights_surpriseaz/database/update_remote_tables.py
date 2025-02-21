@@ -18,8 +18,8 @@ def get_ytd_community_avg_sale():
 
 def all() -> None:
     """
-    Function gets all rental parcels from local database views and populates remote databases tables for web site.
-
+    Function gets all rental parcels from local database views, last table update, and community sales 
+    and populates remote databases tables for web site.
     """
     logger: Logger = logging.getLogger(__name__)
   
