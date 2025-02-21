@@ -1,3 +1,4 @@
+# https://stackoverflow.com/questions/12352455/how-to-use-sqlalchemy-to-seamlessly-access-multiple-databases
 import json
 import os
 import pytest
@@ -8,13 +9,15 @@ from sqlalchemy_utils import create_database, database_exists
 from hoa_insights_surpriseaz.my_secrets import (
     test_debian_uri,
     test_debian_dbname,
+    test_bluehost_dbname,
+    test_bluehost_uri
 )
-from hoa_insights_surpriseaz.parse_assessor_parcel_data import parse
+from hoa_insights_surpriseaz.parse_assessor_data import parse
 from hoa_insights_surpriseaz.database import local_models, check_local_rdbms, check_remote_rdbms, remote_models
 
 # from hoa_insights_surpriseaz import update_parcel_data
 # from hoa_insights_surpriseaz import process_updated_parcels
-from hoa_insights_surpriseaz.database.setup import populate_local_tables
+from hoa_insights_surpriseaz.database.setup import populate_local_tables, populate_remote_tables
 from hoa_insights_surpriseaz import process_community_management_data
 
 INITIAL_PARCELS_PATH: str = "./tests/input/initial_parcel_json/"
@@ -37,21 +40,42 @@ def local_engine():
 
 
 @pytest.fixture(scope="session")
-def session(local_engine):
-    sess = Session(local_engine)
+def local_session(local_engine):
+    local_sess = Session(local_engine)
     local_models.Base.metadata.create_all(local_engine)
     populate_local_tables.parcels(PARCELS_CONSTANTS, engine=local_engine)
     populate_local_tables.communities(engine=local_engine, file_path=MANAGEMENT_CSV_PATH)
     check_local_rdbms.triggers(db_uri=test_debian_uri, db_name=test_debian_dbname)
     check_local_rdbms.views(db_uri=test_debian_uri)
     
-    yield sess
+    yield local_sess
 
-    sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
+    # local_sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
 
 # ISSUE POPULATING TEST BH DB
-    # check_remote_rdbms.schema()
-    # remote_models.Base.metadata.create_all(engine) # adding tables to local db?!
+@pytest.fixture(scope="session")
+def remote_engine():
+    remote_engine = create_engine(f"mysql+pymysql://{test_bluehost_uri}")
+
+    if not database_exists(remote_engine.url):
+        create_database(remote_engine.url)
+
+    return remote_engine
+
+
+@pytest.fixture(scope="session")
+def remote_session(remote_engine):
+    remote_sess = Session(remote_engine)
+    remote_models.Base.metadata.create_all(remote_engine)
+  
+    # populate_remote_tables.parcels(PARCELS_CONSTANTS, engine=local_engine)
+    populate_remote_tables.communities(engine=remote_engine, file_path=MANAGEMENT_CSV_PATH)
+    # check_local_rdbms.triggers(db_uri=test_debian_uri, db_name=test_debian_dbname)
+    # check_local_rdbms.views(db_uri=test_debian_uri)
+    
+    yield remote_sess
+
+    # remote_sess.execute(text(f"DROP DATABASE {test_bluehost_dbname};"))
 
 
 
@@ -71,7 +95,7 @@ def get_owner_seed_data():
 
 
 @pytest.fixture()
-def parse_owner_seed_data(session, get_owner_seed_data):
+def parse_owner_seed_data(get_owner_seed_data):
     test_parsed_owners_seed_data, test_parsed_rentals_seed_data = parse(
         get_owner_seed_data
     )

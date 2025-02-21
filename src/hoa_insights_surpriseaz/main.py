@@ -2,10 +2,10 @@ import logging
 
 from logging import Logger, Formatter
 from pandas import DataFrame
-from hoa_insights_surpriseaz import fetch_assessor_parcel_data
+from hoa_insights_surpriseaz import fetch_assessor_data
 from hoa_insights_surpriseaz import create_reports
-from hoa_insights_surpriseaz import parse_assessor_parcel_data
-from hoa_insights_surpriseaz import process_updated_parcel_data
+from hoa_insights_surpriseaz import parse_assessor_data
+from hoa_insights_surpriseaz import process_updated_data
 from hoa_insights_surpriseaz.database import update_community_management_data
 from hoa_insights_surpriseaz.database import update_remote_tables
 from hoa_insights_surpriseaz.database import update_local_tables
@@ -59,8 +59,8 @@ def process_parcels() -> None:
     """
 
     logger.info("********** PARCEL PROCESSING STARTED **********")
-    consumed_parcel_api_data = fetch_assessor_parcel_data.parcels_api()
-    parsed_owner_data, parsed_rental_data = parse_assessor_parcel_data.parse(
+    consumed_parcel_api_data = fetch_assessor_data.parcels_api()
+    parsed_owner_data, parsed_rental_data = parse_assessor_data.parse(
         consumed_parcel_api_data
     )
     update_local_tables.owners(parsed_owner_data)
@@ -74,7 +74,7 @@ def main() -> None:
     """
 
     process_parcels()
-    parcel_changes: DataFrame = process_updated_parcel_data.insights()
+    parcel_changes: DataFrame = process_updated_data.insights()
 
     if not parcel_changes.empty:
         create_reports.parcels(parcel_changes)
