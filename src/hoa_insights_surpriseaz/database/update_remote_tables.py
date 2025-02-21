@@ -12,8 +12,9 @@ REMOTE_DB_URI: str = f"{my_secrets.test_bluehost_uri}"
 
 def get_ytd_community_avg_sale():
     data = pd.read_csv(f"{my_secrets.csv_finance_path}ytd_community_avg_sale_price.csv")
-
     print(data)
+    return data
+
 
 def all() -> None:
     """
@@ -21,7 +22,8 @@ def all() -> None:
 
     """
     logger: Logger = logging.getLogger(__name__)
-    get_ytd_community_avg_sale()
+  
+    
     try:
         engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
         with engine.connect() as conn, conn.begin():
@@ -50,6 +52,8 @@ def all() -> None:
         engine: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}")
 
         with engine.connect() as conn, conn.begin():
+            community_sales = get_ytd_community_avg_sale()
+
             try:
                 registered_rentals.to_sql(
                     name="registered_rentals",
@@ -66,6 +70,15 @@ def all() -> None:
                     index=False,
                 )
                 logger.info("Table: 'classed_rentals' has been updated REMOTELY")
+
+                community_sales.to_sql(
+                    name="community_sales",
+                    con=conn,
+                    if_exists="replace",
+                    index=False,
+                )
+                logger.info("Table: 'community_sales' has been updated REMOTELY")
+
 
                 pd.Series(get_now(), name="TS").to_sql(
                     name="last_updated",
