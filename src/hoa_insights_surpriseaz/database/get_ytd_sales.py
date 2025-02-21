@@ -93,7 +93,7 @@ def get_average_sale_price() -> None:
         f"{my_secrets.csv_finance_path}ytd_community_avg_sale_price.csv"
     )
 
-    create_reports.financials(ytd_community_avg_sale_price)
+    create_reports.ytd_community_sales(ytd_community_avg_sale_price)
 
 
 if __name__ == "__main__":
