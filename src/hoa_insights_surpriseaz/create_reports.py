@@ -28,7 +28,9 @@ def owner_changes(parcel_updates: DataFrame) -> None:
 
     parcel_updates = parcel_updates.reset_index()
 
-    parcel_updates_caption: str = f"RECENT PARCEL CHANGES <br> Processed: {logger_date()}"
+    parcel_updates_caption: str = (
+        f"RECENT PARCEL CHANGES <br> Processed: {logger_date()}"
+    )
 
     parcel_updates_style: Styler = (
         parcel_updates.style.set_table_styles(styles.parcel_updates())

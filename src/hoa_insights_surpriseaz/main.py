@@ -10,6 +10,7 @@ from hoa_insights_surpriseaz.database import update_community_management_data
 from hoa_insights_surpriseaz.database import update_remote_tables
 from hoa_insights_surpriseaz.database import update_local_tables
 from hoa_insights_surpriseaz import fetch_community_management_data
+
 # from hoa_insights_surpriseaz import process_community_management_data
 from hoa_insights_surpriseaz.utils import (
     date_parser,
@@ -74,10 +75,10 @@ def main() -> None:
     """
 
     process_parcels()
-    parcel_changes: DataFrame = process_updated_data.insights()
+    changes: DataFrame = process_updated_data.insights()
 
-    if not parcel_changes.empty:
-        create_reports.parcels(parcel_changes)
+    if not changes.empty:
+        create_reports.owner_changes(changes)
 
         return True
 
