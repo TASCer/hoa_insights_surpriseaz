@@ -21,7 +21,7 @@ from hoa_insights_surpriseaz.utils import (
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
-fh = logging.FileHandler(f"../{date_parser.log_date()}.log")
+fh = logging.FileHandler(f"../{date_parser.logger_date()}.log")
 fh.setLevel(logging.DEBUG)
 
 formatter: Formatter = logging.Formatter(
@@ -65,7 +65,7 @@ def process_parcels() -> None:
     )
     update_local_tables.owners(parsed_owner_data)
     update_local_tables.rentals(parsed_rental_data)
-    update_remote_tables.update()
+    update_remote_tables.all()
 
 
 def main() -> None:

@@ -6,7 +6,7 @@ import pdfkit as pdf
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz import styles
 from hoa_insights_surpriseaz.utils.number_formatter import format_price
-from hoa_insights_surpriseaz.utils.date_parser import log_date
+from hoa_insights_surpriseaz.utils.date_parser import logger_date
 from logging import Logger
 from pandas import DataFrame
 from pandas.io.formats.style import Styler
@@ -28,7 +28,7 @@ def owner_changes(parcel_updates: DataFrame) -> None:
 
     parcel_updates = parcel_updates.reset_index()
 
-    parcel_updates_caption: str = f"RECENT PARCEL CHANGES <br> Processed: {log_date()}"
+    parcel_updates_caption: str = f"RECENT PARCEL CHANGES <br> Processed: {logger_date()}"
 
     parcel_updates_style: Styler = (
         parcel_updates.style.set_table_styles(styles.parcel_updates())
@@ -51,7 +51,7 @@ def ytd_community_sales(community_avg_prices: DataFrame) -> None:
     Produces and saves html report.
     Sends html report to web server for display.
     """
-    finance_caption: str = f"AVERAGE SALES PRICE (YTD) <br> PROCESSED: {log_date()}"
+    finance_caption: str = f"AVERAGE SALES PRICE (YTD) <br> PROCESSED: {logger_date()}"
 
     finance_style: Styler = (
         community_avg_prices.style.set_table_styles(styles.finance_updates())

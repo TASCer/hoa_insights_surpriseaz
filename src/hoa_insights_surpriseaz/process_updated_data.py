@@ -3,7 +3,7 @@ import pandas as pd
 
 from hoa_insights_surpriseaz.database import get_ytd_sales
 from logging import Logger
-from hoa_insights_surpriseaz.utils.date_parser import log_date
+from hoa_insights_surpriseaz.utils.date_parser import logger_date
 from hoa_insights_surpriseaz.database import get_updated_data
 from hoa_insights_surpriseaz import my_secrets
 
@@ -47,7 +47,7 @@ def insights() -> pd.DataFrame:
         merged_changes.drop(
             merged_changes.filter(regex="_y$").columns, axis=1, inplace=True
         )
-        merged_changes.to_csv(f"{my_secrets.csv_changes_path}{log_date()}.csv")
+        merged_changes.to_csv(f"{my_secrets.csv_changes_path}{logger_date()}.csv")
 
         return merged_changes
 
