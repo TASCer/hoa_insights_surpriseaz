@@ -36,6 +36,7 @@ class last_update(Base):
 
     TS: Mapped[datetime] = mapped_column(TIMESTAMP(6), index=True, primary_key=True)
 
+
 # TESTING
 
 
@@ -52,7 +53,7 @@ class RegisteredRentals(Base):
     LAT: Mapped[float] = mapped_column(DOUBLE_PRECISION, primary_key=True)
     LONG: Mapped[float] = mapped_column(DOUBLE_PRECISION, primary_key=True)
     SITUS: Mapped[str] = mapped_column(String(100))
-    
+
 
 class ClassedRentals(Base):
     __tablename__ = "classed_rentals"
@@ -63,7 +64,6 @@ class ClassedRentals(Base):
     SITUS: Mapped[str] = mapped_column(String(100))
     APN: Mapped[str] = mapped_column(String(11), primary_key=True)
     COMMUNITY: Mapped[str] = mapped_column(String(100))
-
 
 
 #     pass

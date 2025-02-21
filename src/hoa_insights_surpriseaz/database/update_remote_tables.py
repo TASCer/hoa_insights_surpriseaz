@@ -10,7 +10,10 @@ LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 REMOTE_DB_URI: str = f"{my_secrets.test_bluehost_uri}"
 
 
-def update() -> None:
+# def
+
+
+def all() -> None:
     """
     Function gets all rental parcels from local database views and populates remote databases tables for web site.
 
@@ -77,4 +80,4 @@ def update() -> None:
 
 
 if __name__ == "__main__":
-    update()
+    all()

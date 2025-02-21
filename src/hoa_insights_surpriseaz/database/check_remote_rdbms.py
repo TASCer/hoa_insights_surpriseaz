@@ -37,6 +37,7 @@ def schema() -> bool:
 
     return True
 
+
 # if __name__ == "__main__":
 #     print(schema())
 #     print(tables())
