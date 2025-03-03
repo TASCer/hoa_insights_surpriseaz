@@ -34,7 +34,7 @@ def get_parcel_apns() -> tuple[str]:
         engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
         with engine.connect() as conn, conn.begin():
             result: TextClause = conn.execute(
-                text(f"SELECT APN FROM {LOCAL_DB_NAME}.{PARCELS_TABLE} limit 50;")
+                text(f"SELECT APN FROM {LOCAL_DB_NAME}.{PARCELS_TABLE};")
             )
             all_results: CursorResult = result.all()
             APNs: list[Row] = [x[0] for x in all_results]

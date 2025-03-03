@@ -37,10 +37,6 @@ class last_update(Base):
     TS: Mapped[datetime] = mapped_column(TIMESTAMP(6), index=True, primary_key=True)
 
 
-# TESTING
-
-
-# # TODO Can't determine the inherit condition between inherited table 'rentals' and inheriting table 'registered_rentals';
 class RegisteredRentals(Base):
     __tablename__ = "registered_rentals"
     APN: Mapped[str] = mapped_column(String(11), primary_key=True)
@@ -64,15 +60,3 @@ class ClassedRentals(Base):
     SITUS: Mapped[str] = mapped_column(String(100))
     APN: Mapped[str] = mapped_column(String(11), primary_key=True)
     COMMUNITY: Mapped[str] = mapped_column(String(100))
-
-
-#     pass
-
-# TODO SEEMS RO WORK BUT NEED TO SETUP REMOTE DB FOR TESTING
-# class Community(Community):
-#     __tablename__ = "communities"
-
-
-# if __name__ == "__main__":
-#     c = Community()
-#     print(c, type(c))

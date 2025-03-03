@@ -71,7 +71,7 @@ def update() -> None:
             except exc.OperationalError as e:
                 logger.error(e)
 
-    # TODO REMOTE ISSUES VERIFY FEB RUN
+    # TODO REMOTE ISSUES VERIFY MAR RUN
     remote_engine: Engine = create_engine(
         f"mysql+pymysql://{REMOTE_DB_URI}", echo=False
     )
