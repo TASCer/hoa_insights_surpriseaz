@@ -16,11 +16,11 @@ wheels/
 /src/hoa_insights_surpriseaz/my_secrets.py
 *.log
 /__old_logs/
-/src/hoa_insights_surpriseaz/output/csv/financial/*
-/src/hoa_insights_surpriseaz/output/csv/latest_changes/*
-/src/hoa_insights_surpriseaz/output/pdf/*
-/src/hoa_insights_surpriseaz/output/web_reports/financial/*
-/src/hoa_insights_surpriseaz/output/web_reports/latest_changes/*
+/src/hoa_insights_surpriseaz/output/csv/financial/*.csv
+/src/hoa_insights_surpriseaz/output/csv/latest_changes/*.csv
+/src/hoa_insights_surpriseaz/output/pdf/*.pdf
+/src/hoa_insights_surpriseaz/output/web_reports/financial/*.html
+/src/hoa_insights_surpriseaz/output/web_reports/latest_changes/*.html
 /misc/
 
 # /output/pdf/community_ytd_sales_avg.pdf
