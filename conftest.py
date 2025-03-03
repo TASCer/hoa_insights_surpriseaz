@@ -14,10 +14,10 @@ from hoa_insights_surpriseaz.my_secrets import (
 )
 from hoa_insights_surpriseaz.parse_assessor_data import parse
 from hoa_insights_surpriseaz.database import (
-    local_models,
     check_local_rdbms,
     check_remote_rdbms,
-    remote_models,
+    models_local,
+    models_remote,
 )
 
 # from hoa_insights_surpriseaz import update_parcel_data
@@ -50,7 +50,7 @@ def local_engine():
 @pytest.fixture(scope="session")
 def local_session(local_engine):
     local_sess = Session(local_engine)
-    local_models.Base.metadata.create_all(local_engine)
+    models_local.Base.metadata.create_all(local_engine)
     populate_local_tables.parcels(PARCELS_CONSTANTS, engine=local_engine)
     populate_local_tables.communities(
         engine=local_engine, file_path=MANAGEMENT_CSV_PATH
@@ -77,7 +77,7 @@ def remote_engine():
 @pytest.fixture(scope="session")
 def remote_session(remote_engine):
     remote_sess = Session(remote_engine)
-    remote_models.Base.metadata.create_all(remote_engine)
+    models_remote.Base.metadata.create_all(remote_engine)
 
     # populate_remote_tables.parcels(PARCELS_CONSTANTS, engine=local_engine)
     populate_remote_tables.communities(

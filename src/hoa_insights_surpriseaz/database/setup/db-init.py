@@ -6,8 +6,8 @@ from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.database import (
     check_local_rdbms,
     check_remote_rdbms,
-    local_models,
-    remote_models,
+    models_local,
+    models_remote,
 )
 from hoa_insights_surpriseaz.database.setup import (
     populate_local_tables,
@@ -42,7 +42,7 @@ def local_database():
 
     logger.info(f"*** STARTED LOCAL DATABASE SETUP ON: {LOCAL_DB_HOSTNAME} ***")
     if check_local_rdbms.schema():
-        local_models.Base.metadata.create_all(engine)
+        models_local.Base.metadata.create_all(engine)
 
         logger.info(f"\tLOCAL triggers created: {check_local_rdbms.triggers()}")
         logger.info(f"\tLOCAL views created: {check_local_rdbms.views()}")
@@ -74,7 +74,7 @@ def remote_database(management):
     logger.info(f"*** STARTED REMOTE DATABASE SETUP ON: {REMOTE_DB_HOSTNAME} ***")
 
     if check_remote_rdbms.schema():
-        remote_models.Base.metadata.create_all(engine)
+        models_remote.Base.metadata.create_all(engine)
 
     logger.info(f"--- COMPLETED REMOTE DATABASE SETUP ON: {REMOTE_DB_HOSTNAME} ---")
     logger.info(f"*** STARTED REMOTE DATABASE POPULATION ON: {REMOTE_DB_HOSTNAME} ***")

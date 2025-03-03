@@ -34,7 +34,7 @@ def get_parcel_apns() -> tuple[str]:
         engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
         with engine.connect() as conn, conn.begin():
             result: TextClause = conn.execute(
-                text(f"SELECT APN FROM {LOCAL_DB_NAME}.{PARCELS_TABLE};")
+                text(f"SELECT APN FROM {LOCAL_DB_NAME}.{PARCELS_TABLE} limit 50;")
             )
             all_results: CursorResult = result.all()
             APNs: list[Row] = [x[0] for x in all_results]
@@ -48,8 +48,9 @@ def get_parcel_apns() -> tuple[str]:
         )
         logger.info("\t\tlogfile: '__rdbms-creation__.log' will be created.")
         print(
-            f"** ISSUE: check log: '{date_parser.log_date()}.log'. If initial setup, run 'uv run db-init.py' from database/setup dir. **"
+            f"** ISSUE: check log: '{date_parser.logger_date()}.log'. If initial setup, run 'uv run db-init.py' from database/setup dir. **"
         )
+
         exit()
 
     except BaseException as be:

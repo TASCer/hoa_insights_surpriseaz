@@ -5,7 +5,7 @@ from logging import Logger
 from sqlalchemy import create_engine, exc, types, Column, Table, MetaData
 from sqlalchemy_utils import database_exists, create_database
 from hoa_insights_surpriseaz import my_secrets
-from hoa_insights_surpriseaz.database.local_models import Community, CommunityManagement
+from hoa_insights_surpriseaz.database.models_local import Community, CommunityManagement
 
 # REMOTE/BLUEHOST SQL DB CREDS
 REMOTE_DB_HOSTNAME: str = f"{my_secrets.test_bluehost_dbhost}"
