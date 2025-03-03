@@ -2,23 +2,23 @@ import logging
 import sqlalchemy as sa
 
 from logging import Logger
-from sqlalchemy import create_engine, exc, types, Column, Table, MetaData
+from sqlalchemy import create_engine, exc  # , MetaData
 from sqlalchemy_utils import database_exists, create_database
 from hoa_insights_surpriseaz import my_secrets
-from hoa_insights_surpriseaz.database.models_local import Community, CommunityManagement
+# from hoa_insights_surpriseaz.database.models_local import Community, CommunityManagement
 
 # REMOTE/BLUEHOST SQL DB CREDS
-REMOTE_DB_HOSTNAME: str = f"{my_secrets.test_bluehost_dbhost}"
-REMOTE_DB_NAME: str = f"{my_secrets.test_bluehost_dbname}"
-REMOTE_DB_USER: str = f"{my_secrets.test_bluehost_dbuser}"
-REMOTE_DB_PW: str = f"{my_secrets.test_bluehost_dbpass}"
+# REMOTE_DB_HOSTNAME: str = f"{my_secrets.test_bluehost_dbhost}"
+# REMOTE_DB_NAME: str = f"{my_secrets.test_bluehost_dbname}"
+# REMOTE_DB_USER: str = f"{my_secrets.test_bluehost_dbuser}"
+# REMOTE_DB_PW: str = f"{my_secrets.test_bluehost_dbpass}"
 REMOTE_DB_URI: str = f"{my_secrets.test_bluehost_uri}"
 
 # REMOTE/BLUEHOST SQL TABLES
-COMMUNITIES_TABLE: str = "communities"
-COMMUNITY_MANAGENT_TABLE: str = "community_managers"
+# COMMUNITIES_TABLE: str = "communities"
+# COMMUNITY_MANAGENT_TABLE: str = "community_managers"
 
-meta = MetaData()
+# meta = MetaData()
 
 
 def schema() -> bool:

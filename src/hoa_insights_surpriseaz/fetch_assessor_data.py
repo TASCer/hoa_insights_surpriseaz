@@ -97,13 +97,13 @@ async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> d
         TypeError,
         aiohttp.ClientPayloadError,
     ) as e:
-        logger.warning(f"{e} ")
+        logger.warning(f"{e.message}")
 
         await asyncio.sleep(4)
 
         async with sem, client.get(url) as resp:
             parcel_details: dict = await resp.json()
-            logger.warning(f"{e} -- Retried")
+            logger.warning(f"{url} was retried")
 
         return parcel_details
 

@@ -10,8 +10,6 @@ from hoa_insights_surpriseaz.database import update_community_management_data
 from hoa_insights_surpriseaz.database import update_remote_tables
 from hoa_insights_surpriseaz.database import update_local_tables
 from hoa_insights_surpriseaz import fetch_community_management_data
-
-# from hoa_insights_surpriseaz import process_community_management_data
 from hoa_insights_surpriseaz.utils import (
     date_parser,
     delete_files,
