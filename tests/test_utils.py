@@ -28,7 +28,6 @@ def test_number_formatter():
     num = number_formatter.format_phone("6023153315")
     assert num == "(602) 315-3315"
 
-
     # print(last_saturday_of_month())
     # print(first_tuesday_of_month())
     # print(format_apn("50911455"))

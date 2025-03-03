@@ -18,12 +18,11 @@ def get_ytd_community_avg_sale():
 
 def all() -> None:
     """
-    Function gets all rental parcels from local database views, last table update, and community sales 
+    Function gets all rental parcels from local database views, last table update, and community sales
     and populates remote databases tables for web site.
     """
     logger: Logger = logging.getLogger(__name__)
-  
-    
+
     try:
         engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
         with engine.connect() as conn, conn.begin():
@@ -78,7 +77,6 @@ def all() -> None:
                     index=False,
                 )
                 logger.info("Table: 'community_sales' has been updated REMOTELY")
-
 
                 pd.Series(get_now(), name="TS").to_sql(
                     name="last_updated",
