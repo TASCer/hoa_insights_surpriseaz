@@ -6,7 +6,7 @@ from hoa_insights_surpriseaz import fetch_assessor_data
 from hoa_insights_surpriseaz import create_reports
 from hoa_insights_surpriseaz import parse_assessor_data
 from hoa_insights_surpriseaz import process_updated_data
-from hoa_insights_surpriseaz.database import update_community_management_data
+from hoa_insights_surpriseaz.database import update_community_management
 from hoa_insights_surpriseaz.database import update_remote_tables
 from hoa_insights_surpriseaz.database import update_local_tables
 from hoa_insights_surpriseaz import fetch_community_management_data
@@ -45,7 +45,7 @@ def process_community_management_data() -> None:
     if file_renamed:
         logger.info("Management file renamed")
         process_community_management_data.convert_pdf()
-        update_community_management_data.update()
+        update_community_management.update()
 
         delete_files.delete()
 
@@ -92,7 +92,7 @@ if __name__ == "__main__":
     """
     if date_parser.first_tuesday_of_month():
         process_community_management_data()
-        update_community_management_data.update()
+        update_community_management.update()
 
         delete_files.delete()
 
