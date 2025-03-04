@@ -12,7 +12,7 @@ from hoa_insights_surpriseaz.my_secrets import (
     test_bluehost_dbname,
     test_bluehost_uri,
 )
-from hoa_insights_surpriseaz.parse_assessor_data import parse
+from hoa_insights_surpriseaz.parse_assessor_parcels import parse
 from hoa_insights_surpriseaz.database import (
     check_local_rdbms,
     check_remote_rdbms,
@@ -26,7 +26,7 @@ from hoa_insights_surpriseaz.database.setup import (
     populate_local_tables,
     populate_remote_tables,
 )
-from hoa_insights_surpriseaz import process_community_management_data
+from hoa_insights_surpriseaz import convert_management_data
 
 INITIAL_PARCELS_PATH: str = "./tests/input/initial_parcel_json/"
 UPDATE_PARCELS_PATH: str = "./tests/input/update_parcel_json/"

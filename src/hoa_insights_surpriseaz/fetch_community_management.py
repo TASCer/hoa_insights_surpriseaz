@@ -1,5 +1,6 @@
 import os
 import logging
+import platform
 import time
 
 from logging import Logger
@@ -13,13 +14,22 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from hoa_insights_surpriseaz.utils import rename_files
-from hoa_insights_surpriseaz import process_community_management_data
+from hoa_insights_surpriseaz import convert_management_data
 from hoa_insights_surpriseaz import my_secrets
 
 logger: Logger = logging.getLogger(__name__)
 
 URL = my_secrets.hoa_management_pdf_url
 XPATH = "/html/body/div[4]/div/div[2]/div[2]/div[3]/div/div/div[1]/div/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/div/div/div[2]/div/ul/li/a"
+
+if platform.system() == "Windows":
+    FF_DRIVER = my_secrets.firefox_driver_win
+    FF_BINARY_PATH = r"P:\Firefox\firefox.exe"
+    print("WIN")
+if platform.system() == "Linux":
+    FF_DRIVER = my_secrets.firefox_driver_linux
+    FF_BINARY_PATH = None
+    print("LIN")
 
 
 def download() -> None:
@@ -44,7 +54,7 @@ def download() -> None:
     options.profile = ff_profile
     options.add_argument("-headless")
 
-    service = FFService(f"{my_secrets.firefox_driver}")
+    service = FFService(f"{FF_DRIVER}")
 
     ff_browser = webdriver.Firefox(service=service, options=options)
     ff_browser.get(URL)
@@ -72,4 +82,4 @@ if __name__ == "__main__":
     # download()
     file_renamed: bool = rename_files.rename()
     if file_renamed:
-        process_community_management_data.convert_pdf()
+        convert_management_data.convert_pdf()

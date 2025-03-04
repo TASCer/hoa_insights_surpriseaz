@@ -69,7 +69,7 @@ def parse_csv(filename: str) -> None:
     managers.to_csv(filename)
 
 
-def convert_pdf(*args) -> None:
+def pdf_to_csv(file: str = csv_filename) -> None:
     """
     Function converts the downloaded pdf document's table data to csv.
     Sends the csv file to parse_csv() for formatting/parsing/saving.
@@ -94,6 +94,6 @@ def convert_pdf(*args) -> None:
 
 if __name__ == "__main__":
     # filename: str = "./output/pdf/MANAGEMENT.pdf"
-    convert_pdf()
+    pdf_to_csv()
     # filename: str = "./output/pdf/MANAGEMENT.pdf"
     # parse_csv(csv_filename)

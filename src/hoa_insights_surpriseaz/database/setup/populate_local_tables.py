@@ -13,8 +13,8 @@ from hoa_insights_surpriseaz.database.update_community_management import (
 from hoa_insights_surpriseaz.utils.rename_files import rename
 from hoa_insights_surpriseaz.database import models_local
 from hoa_insights_surpriseaz import my_secrets
-from hoa_insights_surpriseaz import process_community_management_data
-from hoa_insights_surpriseaz.fetch_community_management_data import download
+from hoa_insights_surpriseaz import convert_management_data
+from hoa_insights_surpriseaz.fetch_community_management import download
 
 LOCAL_DB_URI = f"{my_secrets.prod_debian_uri}"
 
@@ -66,7 +66,7 @@ def community_management(s: Session, file_path: str) -> bool:
             download()
             file_renamed: bool = rename()
             if file_renamed:
-                process_community_management_data.convert_pdf()
+                convert_management_data.convert_pdf()
             community_management(s=s)
 
         except FileNotFoundError as ffe:

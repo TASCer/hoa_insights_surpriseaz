@@ -2,14 +2,15 @@ import logging
 
 from logging import Logger, Formatter
 from pandas import DataFrame
-from hoa_insights_surpriseaz import fetch_assessor_data
+from hoa_insights_surpriseaz import fetch_assessor_parcels
 from hoa_insights_surpriseaz import create_reports
-from hoa_insights_surpriseaz import parse_assessor_data
-from hoa_insights_surpriseaz import process_updated_data
+from hoa_insights_surpriseaz import parse_assessor_parcels
+from hoa_insights_surpriseaz import process_updated_parcels
+from hoa_insights_surpriseaz import convert_management_data
 from hoa_insights_surpriseaz.database import update_community_management
 from hoa_insights_surpriseaz.database import update_remote_tables
 from hoa_insights_surpriseaz.database import update_local_tables
-from hoa_insights_surpriseaz import fetch_community_management_data
+from hoa_insights_surpriseaz import fetch_community_management
 from hoa_insights_surpriseaz.utils import (
     date_parser,
     delete_files,
@@ -33,18 +34,17 @@ root_logger.addHandler(fh)
 logger: Logger = logging.getLogger(__name__)
 
 
-def process_community_management_data() -> None:
+def start_community_management_update() -> None:
     """
     Function downloads, renames, and parses HOA management pdf.
     Deletes management pdf file to ensure latest data.
     """
     logger.info("\tMonthly HOA Management Data Update Started")
-    fetch_community_management_data.download()
+    fetch_community_management.download()
     file_renamed: bool = rename_files.rename()
 
     if file_renamed:
-        logger.info("Management file renamed")
-        process_community_management_data.convert_pdf()
+        convert_management_data.pdf_to_csv()
         update_community_management.update()
 
         delete_files.delete()
@@ -58,8 +58,8 @@ def process_parcels() -> None:
     """
 
     logger.info("********** PARCEL PROCESSING STARTED **********")
-    consumed_parcel_api_data = fetch_assessor_data.parcels_api()
-    parsed_owner_data, parsed_rental_data = parse_assessor_data.parse(
+    consumed_parcel_api_data = fetch_assessor_parcels.parcels_api()
+    parsed_owner_data, parsed_rental_data = parse_assessor_parcels.parse(
         consumed_parcel_api_data
     )
     update_local_tables.owners(parsed_owner_data)
@@ -73,7 +73,7 @@ def main() -> None:
     """
 
     process_parcels()
-    changes: DataFrame = process_updated_data.insights()
+    changes: DataFrame = process_updated_parcels.insights()
 
     if not changes.empty:
         create_reports.owner_changes(changes)
@@ -91,7 +91,7 @@ if __name__ == "__main__":
      Sends e-mail.
     """
     if date_parser.first_tuesday_of_month():
-        process_community_management_data()
+        start_community_management_update()
         update_community_management.update()
 
         delete_files.delete()
