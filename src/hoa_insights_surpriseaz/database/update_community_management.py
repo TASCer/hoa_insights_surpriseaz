@@ -91,7 +91,7 @@ def update() -> None:
             db_item = DBCM(**item.model_dump())
 
             try:
-                insert_qry: TextClause = f"""UPDATE tascsnet_test_hoa_insights.{MANAGEMENT_TABLE} 
+                insert_qry: TextClause = f"""UPDATE tascsnet_hoa_surpriseaz.{MANAGEMENT_TABLE} 
                 SET BOARD_SITUS='{db_item.BOARD_SITUS}', BOARD_CITY='{db_item.BOARD_CITY}', MANAGER='{db_item.MANAGER}', CONTACT_ADX='{db_item.CONTACT_ADX}', CONTACT_PH='{db_item.CONTACT_PH}'
                 WHERE COMMUNITY = '{db_item.ID}'
                     ;"""
