@@ -1,8 +1,9 @@
 # ![TASCS LOGO](images/logo.png)
 
-## HOA_SURPRISEAZ
 
-"KEEPING HOA COMMUNITY MEMBERS IN THE KNOW, AND COMMUNITY MANAGEMENT COMPANIES."
+## HOA_INSIGHTS_SURPRISEAZ
+
+
 
 Provides information on Surprise, AZ Home Owners Association (HOA) communities by accessing and aggragating various public data sources for insights and analysis.
 
@@ -13,6 +14,7 @@ Provides information on Surprise, AZ Home Owners Association (HOA) communities b
 [Relevant HOA Legislation](https://hoa.tascs.net/relevant_bills.php)
 
 [Community Sales](https://hoa.tascs.net)
+
 
 ### Provides insights on:
 - Community Management
