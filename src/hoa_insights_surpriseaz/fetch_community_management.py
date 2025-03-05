@@ -78,7 +78,7 @@ def download() -> None:
     time.sleep(10)
 
     logger.info("\tDOWNLOADED MANAGEMENT PDF")
-# TEST TO SEE IF TERMINATES firefox-esr
+    # TEST TO SEE IF TERMINATES firefox-esr
     ff_browser.quit()
 
 
