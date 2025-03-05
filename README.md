@@ -58,13 +58,15 @@ PDF financial report functionality will need the [pdfkit Python module](https://
 
 #### src/utils folder contains
 
-- gecko driver (geckodriver) for monthly management pdf download via Firefox
-- various parsers
-- file delete/rename utility
+- LINUX gecko driver (geckodriver) for monthly management pdf download via Firefox
+- WINDOWS gecko driver (geckodriver) for monthly management pdf download via Firefox
+- various parsers/formaters
+- file deletes/renames
 
 ---
 
 #### PRE INITIAL_LAUNCH TODO's
 
-- [ ] TASC 1 - CREATE 'output' directory in project root and in it, create 'csv', 'pdf', 'web_reports' subdirectories
-- [ ] TASC 2 - CREATE 'financial' and 'latest_changes' subdirectories in 'web_reports' amd 'csv'
+- [ ] TASC 1 - Execute command: "uv run db-init.py" from database/setup directory 
+- [ ] TASC 2 - Verify database initialized via __database-setup.log
+- [ ] TASC 3 - Change directory to src/hoa_insights_surpriseaz/ and execute command "uv run main.py"
