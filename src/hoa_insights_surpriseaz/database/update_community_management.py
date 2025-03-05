@@ -79,7 +79,6 @@ def update() -> None:
     with Session(remote_engine) as rs:
         for pdf_item in pdf_managers:
             id, community, situs, city, ph, email, mgr = pdf_item
-            print(id)
             item = SCM(
                 COMMUNITY=community,
                 BOARD_SITUS=situs,

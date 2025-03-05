@@ -32,6 +32,8 @@ if platform.system() == "Linux":
     print("LIN")
 
 
+# TODO find way to terminate firefox-esr on linux. Hangs.
+# Try to quit browser or terminate process by bash
 def download() -> None:
     """
     Function creates a Selenium browser to download hoa management file.
@@ -76,6 +78,8 @@ def download() -> None:
     time.sleep(10)
 
     logger.info("\tDOWNLOADED MANAGEMENT PDF")
+# TEST TO SEE IF TERMINATES firefox-esr
+    ff_browser.quit()
 
 
 if __name__ == "__main__":
