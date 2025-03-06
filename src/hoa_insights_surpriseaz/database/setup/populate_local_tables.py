@@ -4,6 +4,7 @@ import os
 
 from logging import Logger
 from hoa_insights_surpriseaz.schemas import CommunityManagement, Community, Parcels
+from pathlib import Path
 from sqlalchemy import Engine, create_engine, exc, TextClause
 from sqlalchemy import text
 from sqlalchemy.orm import Session
@@ -17,11 +18,13 @@ from hoa_insights_surpriseaz import convert_management_data
 from hoa_insights_surpriseaz.fetch_community_management import download
 
 LOCAL_DB_URI = f"{my_secrets.prod_debian_uri}"
+# MANAGEMENT_FILE_PATH = "../../output/csv/surpriseaz-hoa-management.csv"
+# PARCEL_CONSTANTS_PATH: str = "./seed_data/parcel_constants.csv"
+MANAGEMENT_FILE = Path.cwd().parent.parent / "output" / "csv" / "surpriseaz-hoa-management.csv"
+PARCELS_SEED_FILE = Path.cwd() / "seed_data" / "parcel_constants.csv"
 
-MANAGEMENT_FILE_PATH = "../../output/csv/surpriseaz-hoa-management.csv"
-
-PARCELS_TABLE = "parcels"
-COMMUNITY_TABLE = "communitites"
+PARCELS_TABLE: str = "parcels"
+COMMUNITY_TABLE: str = "communitites"
 
 logger: Logger = logging.getLogger(__name__)
 
@@ -59,7 +62,7 @@ def community_management(s: Session, file_path: str) -> bool:
     If found, read file and update database with data.
     """
     if not os.path.exists(file_path):
-        logger.warning(f"{MANAGEMENT_FILE_PATH} not found.")
+        logger.warning(f"{MANAGEMENT_FILE} not found.")
 
         try:
             logger.info("Fetching Community Management Data")
@@ -94,7 +97,7 @@ def community_management(s: Session, file_path: str) -> bool:
     return True
 
 
-def communities(engine: Engine = engine, file_path=MANAGEMENT_FILE_PATH) -> list:
+def communities(engine: Engine = engine, file_path=MANAGEMENT_FILE) -> list:
     """
     Function creates a table of communities from parcel table data.
     """
@@ -134,13 +137,13 @@ def communities(engine: Engine = engine, file_path=MANAGEMENT_FILE_PATH) -> list
 
 
 def parcels(
-    datapath: str = "./seed_data/parcel_constants.csv", engine: Engine = engine
+    file_path: str = f"{PARCELS_SEED_FILE}", engine: Engine = engine
 ) -> bool:
     with Session(engine) as s:
         parcel_instances: list = []
 
         try:
-            with open(datapath) as f:
+            with open(file_path) as f:
                 reader = csv.reader(f)
                 next(reader)
                 for parcel in reader:
