@@ -4,6 +4,7 @@ import platform
 import time
 
 from logging import Logger
+from pathlib import Path
 from selenium import webdriver
 from selenium.common.exceptions import ElementNotSelectableException
 from selenium.common.exceptions import TimeoutException
@@ -17,19 +18,24 @@ from hoa_insights_surpriseaz.utils import rename_files
 from hoa_insights_surpriseaz import convert_management_data
 from hoa_insights_surpriseaz import my_secrets
 
+DOWNLOADED_PDF_FILENAME: str = "HOA Contact List (PDF).pdf"
+NEW_PDF_FILENAME: str = "MANAGEMENT.pdf"
+
+pdf_path = Path.cwd() / "output" / "pdf"
+
 logger: Logger = logging.getLogger(__name__)
 
 URL = my_secrets.hoa_management_pdf_url
 XPATH = "/html/body/div[4]/div/div[2]/div[2]/div[3]/div/div/div[1]/div/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/div/div/div[2]/div/ul/li/a"
 
 if platform.system() == "Windows":
-    FF_DRIVER = my_secrets.firefox_driver_win
-    FF_BINARY_PATH = r"P:\Firefox\firefox.exe"
+    FF_DRIVER = Path.cwd() / "utils" / "geckodriver.exe"
+    FF_BINARY_PATH = Path(r"P:\Firefox\firefox.exe")  # how to with path?
     print("WIN")
 if platform.system() == "Linux":
-    FF_DRIVER = my_secrets.firefox_driver_linux
+    FF_DRIVER = Path.cwd() / "utils" / "geckodriver"
     FF_BINARY_PATH = None
-    print("LIN")
+    print(FF_DRIVER)
 
 
 # TODO find way to terminate firefox-esr on linux. Hangs.
@@ -83,7 +89,7 @@ def download() -> None:
 
 
 if __name__ == "__main__":
-    # download()
-    file_renamed: bool = rename_files.rename()
-    if file_renamed:
-        convert_management_data.convert_pdf()
+    download()
+    # file_renamed: bool = rename_files.rename()
+    # if file_renamed:
+    #     convert_management_data.pdf_to_csv()
