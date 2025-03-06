@@ -5,6 +5,7 @@
     "version": "0.2.0",
     "configurations": [
 
+
         {
             "name": "Python: main",
             "type": "python",
@@ -33,7 +34,18 @@
             "program": "update_remote_tables.py",
             "console": "integratedTerminal",
             "justMyCode": true
-        }
+        }, 
+
+        {
+            "name": "Python: get pdf",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/src/hoa_insights_surpriseaz/",
+            "program": "fetch_community_management.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+
     
     
     
