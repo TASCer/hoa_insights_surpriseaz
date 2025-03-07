@@ -44,8 +44,8 @@ def start_community_management_update() -> None:
     file_renamed: bool = rename_files.rename(old=orig_pdf, new=new_pdf)
 
     if file_renamed:
-        convert_management_data.pdf_to_csv(new_pdf)
-        update_community_management.update()
+        parsed_csv: str = convert_management_data.pdf_to_csv(new_pdf)
+        update_community_management.update(parsed_csv)
 
         delete_files.delete()
 
