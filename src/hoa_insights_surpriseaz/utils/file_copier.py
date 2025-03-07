@@ -11,7 +11,9 @@ from pathlib import Path
 logger: Logger = logging.getLogger(__name__)
 
 WEB_SERVER_REPORT_PATH_LINUX = Path("/var/www/html/hoa/reports/")
-WEB_SERVER_REPORT_PATH_WINDOWS = Path(r"\\OPERATIONS\c$\inetpub\wwwroot\TASCSlocal\hoa\reports")
+WEB_SERVER_REPORT_PATH_WINDOWS = Path(
+    r"\\OPERATIONS\c$\inetpub\wwwroot\TASCSlocal\hoa\reports"
+)
 
 
 def copy(file: str) -> bool:
