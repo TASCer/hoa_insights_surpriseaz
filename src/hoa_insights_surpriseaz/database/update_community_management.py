@@ -8,16 +8,18 @@ from sqlalchemy import Engine, create_engine, exc, TextClause, text
 from hoa_insights_surpriseaz.database.models_local import CommunityManagement as DBCM
 from hoa_insights_surpriseaz.schemas import CommunityManagement as SCM
 from hoa_insights_surpriseaz import my_secrets
+from hoa_insights_surpriseaz.database.check_remote_rdbms import REMOTE_DB_HOSTNAME
+from hoa_insights_surpriseaz.database.check_local_rdbms import LOCAL_DB_HOSTNAME
 
 LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
-REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
+REMOTE_DB_URI: str = f"{my_secrets.test_bluehost_uri}"
 
 logger: Logger = logging.getLogger(__name__)
 
 MANAGEMENT_TABLE: str = "community_managers"
 
 
-def get_pdf_communities(parsed_pdf: str) -> list[str]:
+def get_pdf_communities(parsed_csv: str) -> list[str]:
     """
     Function takes in the path of the management pdf file that was downloaded and parsed to csv.
     Reads the file and creates a row for each community and drops the header.
@@ -25,7 +27,7 @@ def get_pdf_communities(parsed_pdf: str) -> list[str]:
     """
 
     try:
-        with open(parsed_pdf, "r") as f:
+        with open(parsed_csv, "r") as f:
             reader = csv.reader(f)
             pdf_communitities: list = [f for f in reader]
             pdf_communitities.pop(0)
@@ -36,13 +38,11 @@ def get_pdf_communities(parsed_pdf: str) -> list[str]:
         logger.addFilter(f"{ffe}")
 
 
-def update() -> None:
+def update(file: str = None) -> None:
     """
     Function updates the community_managers tables (local, remote) with data from the monthly pdf download.
     """
-    pdf_managers: list = get_pdf_communities(
-        os.path.abspath("./output/csv/surpriseaz-hoa-management.csv")
-    )
+    pdf_managers: list = get_pdf_communities(file)
 
     local_engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
 
@@ -60,7 +60,7 @@ def update() -> None:
             db_item = DBCM(**item.model_dump())
 
             try:
-                insert_qry: TextClause = f"""UPDATE hoa_surpriseaz.{MANAGEMENT_TABLE} 
+                insert_qry: TextClause = f"""UPDATE {LOCAL_DB_HOSTNAME}.{MANAGEMENT_TABLE} 
                 SET BOARD_SITUS='{db_item.BOARD_SITUS}', BOARD_CITY='{db_item.BOARD_CITY}', MANAGER='{db_item.MANAGER}', CONTACT_ADX='{db_item.CONTACT_ADX}', CONTACT_PH='{db_item.CONTACT_PH}'
                 WHERE ID = '{db_item.ID}'
                     ;"""
@@ -90,7 +90,7 @@ def update() -> None:
             db_item = DBCM(**item.model_dump())
 
             try:
-                insert_qry: TextClause = f"""UPDATE tascsnet_hoa_surpriseaz.{MANAGEMENT_TABLE} 
+                insert_qry: TextClause = f"""UPDATE {REMOTE_DB_HOSTNAME}.{MANAGEMENT_TABLE} 
                 SET BOARD_SITUS='{db_item.BOARD_SITUS}', BOARD_CITY='{db_item.BOARD_CITY}', MANAGER='{db_item.MANAGER}', CONTACT_ADX='{db_item.CONTACT_ADX}', CONTACT_PH='{db_item.CONTACT_PH}'
                 WHERE COMMUNITY = '{db_item.ID}'
                     ;"""
