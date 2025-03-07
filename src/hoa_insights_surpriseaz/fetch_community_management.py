@@ -34,7 +34,7 @@ if platform.system() == "Windows":
     FF_DRIVER = Path.cwd() / "utils" / "geckodriver.exe"
     FF_BINARY_PATH = Path(r"P:\Firefox\firefox.exe")  # how to with path?
     FF_DOWNLOAD_DIR = r".\output\pdf"
-    
+
 if platform.system() == "Linux":
     FF_DRIVER = Path.cwd() / "utils" / "geckodriver"
     FF_BINARY_PATH = None
@@ -91,6 +91,7 @@ def download() -> None:
     ff_browser.quit()
 
     return PDF_PATH / PDF_DOWNLOADED_FILENAME, PDF_PATH / PDF_NEW_FILENAME
+
 
 if __name__ == "__main__":
     download()
