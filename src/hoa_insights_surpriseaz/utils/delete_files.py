@@ -2,21 +2,22 @@ import logging
 import os
 
 from logging import Logger
+from pathlib import Path
 
 logger: Logger = logging.getLogger(__name__)
 
-MANAGEMENT_PDF_PATH = "./output/pdf/MANAGEMENT.pdf"
+MANAGEMENT_PDF_PATH = Path.cwd().parent / "output" / "pdf" / "MANAGEMENT.pdf"
 
 
-def delete():
-    if os.path.exists(MANAGEMENT_PDF_PATH):
-        os.remove(MANAGEMENT_PDF_PATH)
+def delete(file: Path = MANAGEMENT_PDF_PATH):
+    if Path.exists(file):
+        Path.unlink(file)
         logger.info("DOWNLOADED MANAGEMENT PDF FILE DELETED")
 
         return True
 
     else:
-        logger.warning("**NO DOWNLOADED MANAGEMENT PDF FILE FOUND**")
+        logger.warning(f"** FILE: {file} NOT FOUND **")
 
         return False
 

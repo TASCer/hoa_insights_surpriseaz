@@ -18,10 +18,12 @@ from hoa_insights_surpriseaz.utils import rename_files
 from hoa_insights_surpriseaz import convert_management_data
 from hoa_insights_surpriseaz import my_secrets
 
-DOWNLOADED_PDF_FILENAME: str = "HOA Contact List (PDF).pdf"
-NEW_PDF_FILENAME: str = "MANAGEMENT.pdf"
+PDF_DOWNLOADED_FILENAME: str = "HOA Contact List (PDF).pdf"
+PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
+CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
 
-pdf_path = Path.cwd() / "output" / "pdf"
+PDF_PATH = Path.cwd() / "output" / "pdf"
+CSV_PATH = Path.cwd() / "output" / "csv"
 
 logger: Logger = logging.getLogger(__name__)
 
@@ -31,11 +33,12 @@ XPATH = "/html/body/div[4]/div/div[2]/div[2]/div[3]/div/div/div[1]/div/div[2]/di
 if platform.system() == "Windows":
     FF_DRIVER = Path.cwd() / "utils" / "geckodriver.exe"
     FF_BINARY_PATH = Path(r"P:\Firefox\firefox.exe")  # how to with path?
-    print("WIN")
+    FF_DOWNLOAD_DIR = r".\output\pdf"
+    
 if platform.system() == "Linux":
     FF_DRIVER = Path.cwd() / "utils" / "geckodriver"
     FF_BINARY_PATH = None
-    print(FF_DRIVER)
+    FF_DOWNLOAD_DIR = "./output/pdf"
 
 
 # TODO find way to terminate firefox-esr on linux. Hangs.
@@ -50,7 +53,7 @@ def download() -> None:
     options.set_preference("browser.download.folderList", 2)
     options.set_preference("browser.download.manager.showWhenStarting", False)
     options.set_preference("browser.download.manager.focusWhenStarting", False)
-    options.set_preference("browser.download.dir", os.path.abspath("./output/pdf"))
+    options.set_preference("browser.download.dir", os.path.abspath(FF_DOWNLOAD_DIR))
     options.set_preference("browser.helperApps.alwaysAsk.force", False)
     options.set_preference("browser.download.manager.alertOnEXEOpen", False)
     options.set_preference("browser.download.manager.closeWhenDone", True)
@@ -84,12 +87,10 @@ def download() -> None:
     time.sleep(10)
 
     logger.info("\tDOWNLOADED MANAGEMENT PDF")
-    # TEST TO SEE IF TERMINATES firefox-esr
+
     ff_browser.quit()
 
+    return PDF_PATH / PDF_DOWNLOADED_FILENAME, PDF_PATH / PDF_NEW_FILENAME
 
 if __name__ == "__main__":
     download()
-    # file_renamed: bool = rename_files.rename()
-    # if file_renamed:
-    #     convert_management_data.pdf_to_csv()

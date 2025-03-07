@@ -63,7 +63,7 @@ def community_management(s: Session, file_path: str) -> bool:
     """
     if not os.path.exists(file_path):
         logger.warning(f"{MANAGEMENT_FILE} not found.")
-
+# TODO TRY TO GET DOWNLOAD FROM HERE WORK. PATH?
         try:
             logger.info("Fetching Community Management Data")
             download()

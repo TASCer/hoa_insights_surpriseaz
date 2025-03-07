@@ -40,11 +40,11 @@ def start_community_management_update() -> None:
     Deletes management pdf file to ensure latest data.
     """
     logger.info("\tMonthly HOA Management Data Update Started")
-    fetch_community_management.download()
-    file_renamed: bool = rename_files.rename()
+    orig_pdf, new_pdf = fetch_community_management.download()
+    file_renamed: bool = rename_files.rename(old=orig_pdf, new=new_pdf)
 
     if file_renamed:
-        convert_management_data.pdf_to_csv()
+        convert_management_data.pdf_to_csv(new_pdf)
         update_community_management.update()
 
         delete_files.delete()
@@ -90,7 +90,7 @@ if __name__ == "__main__":
      If parcel changes were encountered
      Sends e-mail.
     """
-    if date_parser.first_tuesday_of_month():
+    if not date_parser.first_tuesday_of_month():
         start_community_management_update()
         update_community_management.update()
 
