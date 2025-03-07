@@ -21,7 +21,6 @@ header: list = [
 ]
 
 csv_filename: str = r"./output/csv/surpriseaz-hoa-management.csv"
-pdf_filename: str = r"./output/pdf/MANAGEMENT.pdf"
 
 
 def parse_csv(filename: str) -> None:
@@ -30,7 +29,7 @@ def parse_csv(filename: str) -> None:
     Renames columns and cleans data.
     Saves csv file to disk.
     """
-    logger.info(f"Parsing csv file: {csv_filename}")
+    logger.info(f"Parsing csv file: {filename}")
 
     try:
         managers: DataFrame = pd.read_csv(filename, header=0)
@@ -68,16 +67,16 @@ def parse_csv(filename: str) -> None:
     managers.to_csv(filename)
 
 
-def pdf_to_csv(file: str = csv_filename) -> None:
+def pdf_to_csv(pdf: str = None, csv: str = csv_filename) -> None:
     """
     Function converts the downloaded pdf document's table data to csv.
     Sends the csv file to parse_csv() for formatting/parsing/saving.
     """
-    logger.info(f"Converting pdf file: {pdf_filename} to csv")
+    logger.info(f"Converting {pdf}  to {csv} ")
 
     try:
         tabula.convert_into(
-            pdf_filename, csv_filename, output_format="csv", pages="all"
+            pdf, csv, output_format="csv", pages="all"
         )
 
     except FileNotFoundError as fnf_error:
@@ -86,9 +85,9 @@ def pdf_to_csv(file: str = csv_filename) -> None:
 
     logger.info("Converting pdf file to csv complete.")
 
-    parse_csv(csv_filename)
+    parse_csv(csv)
 
-    return csv_filename
+    # return csv
 
 
 if __name__ == "__main__":
