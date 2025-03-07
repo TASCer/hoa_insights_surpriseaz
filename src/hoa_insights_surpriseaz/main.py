@@ -90,7 +90,7 @@ if __name__ == "__main__":
      If parcel changes were encountered
      Sends e-mail.
     """
-    if not date_parser.first_tuesday_of_month():
+    if date_parser.first_tuesday_of_month():
         start_community_management_update()
         update_community_management.update()
 
