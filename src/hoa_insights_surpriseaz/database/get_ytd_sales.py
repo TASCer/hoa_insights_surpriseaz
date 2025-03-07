@@ -8,6 +8,7 @@ from hoa_insights_surpriseaz.utils.date_parser import year_to_date
 from logging import Logger
 from pandas import DataFrame
 from pandas.core.generic import NDFrame
+from pathlib import Path
 from sqlalchemy import create_engine, exc
 from sqlalchemy.engine import Engine
 
@@ -17,6 +18,13 @@ DB_HOSTNAME: str = f"{my_secrets.prod_debian_dbhost}"
 DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
 DB_USER: str = f"{my_secrets.prod_debian_dbuser}"
 DB_PW: str = f"{my_secrets.prod_debian_dbpass}"
+
+ALL_SALES_PATH = (
+    Path.cwd() / "output" / "csv" / "financial" / "all_ytd_community_sales.csv"
+)
+YTD_COMMUNITY_AVG_PATH = (
+    Path.cwd() / "output" / "csv" / "financial" / "ytd_community_avg_sale_price.csv"
+)
 
 
 def get_average_sale_price() -> None:
@@ -64,9 +72,7 @@ def get_average_sale_price() -> None:
         return None
 
     all_community_sales_ytd: DataFrame = pd.DataFrame(all_sales_ytd)
-    all_community_sales_ytd.to_csv(
-        f"{my_secrets.csv_finance_path}all_ytd_community_sales.csv"
-    )
+    all_community_sales_ytd.to_csv(f"{ALL_SALES_PATH}")
 
     community_sold_count: NDFrame = all_community_sales_ytd.groupby("COMMUNITY").count()
     community_sold_count: NDFrame = community_sold_count.rename(
@@ -89,9 +95,7 @@ def get_average_sale_price() -> None:
     ].apply(format_price)
 
     ytd_community_avg_sale_price.reset_index(inplace=True)
-    ytd_community_avg_sale_price.to_csv(
-        f"{my_secrets.csv_finance_path}ytd_community_avg_sale_price.csv"
-    )
+    ytd_community_avg_sale_price.to_csv(f"{YTD_COMMUNITY_AVG_PATH}")
 
     create_reports.ytd_community_sales(ytd_community_avg_sale_price)
 

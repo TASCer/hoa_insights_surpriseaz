@@ -3,16 +3,24 @@ import logging
 import pandas as pd
 import pdfkit as pdf
 
-from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz import styles
 from hoa_insights_surpriseaz.utils.number_formatter import format_price
+from hoa_insights_surpriseaz.utils import file_copier
 from hoa_insights_surpriseaz.utils.date_parser import logger_date
 from logging import Logger
 from pandas import DataFrame
 from pandas.io.formats.style import Styler
-from hoa_insights_surpriseaz.utils import file_copier
+from pathlib import Path
 
 logger: Logger = logging.getLogger(__name__)
+
+PDF_REPORT_PATH = Path.cwd() / "output" / "pdf"
+HTML_REPORT_PATH_CHANGES = (
+    Path.cwd() / "output" / "web_reports" / "latest_changes" / "recent_changes.html"
+)
+HTML_REPORT_PATH_FINANCIAL = (
+    Path.cwd() / "output" / "web_reports" / "financial" / "community_ytd_sales_avg.html"
+)
 
 
 def owner_changes(parcel_updates: DataFrame) -> None:
@@ -38,13 +46,15 @@ def owner_changes(parcel_updates: DataFrame) -> None:
         .hide(axis="index")
     )
 
-    parcel_updates_report: str = f"{my_secrets.html_changes_path}recent_changes.html"
-    parcel_updates_style.to_html(parcel_updates_report)
+    parcel_updates_report: str = f"{HTML_REPORT_PATH_CHANGES}"
+    parcel_updates_style.to_html(HTML_REPORT_PATH_CHANGES)
 
     file_copier.copy(parcel_updates_report)
 
     # TO PDF and email
-    pdf.from_file(parcel_updates_report, "./output/pdf/latest_changes.pdf")
+    pdf.from_file(
+        input=parcel_updates_report, output_path=PDF_REPORT_PATH / "latest_changes.pdf"
+    )
 
 
 def ytd_community_sales(community_avg_prices: DataFrame) -> None:
@@ -61,12 +71,12 @@ def ytd_community_sales(community_avg_prices: DataFrame) -> None:
         .hide(axis="index")
     )
 
-    finance_report: str = f"{my_secrets.html_finance_path}community_ytd_sales_avg.html"
+    finance_report: str = f"{HTML_REPORT_PATH_FINANCIAL}"
 
     finance_style.to_html(finance_report)
     file_copier.copy(finance_report)
 
-    pdf.from_file(finance_report, "./output/pdf/community_ytd_sales_avg.pdf")
+    pdf.from_file(finance_report, PDF_REPORT_PATH / "community_ytd_sales_avg.pdf")
 
 
 if __name__ == "__main__":
