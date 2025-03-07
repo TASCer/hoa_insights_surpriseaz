@@ -75,9 +75,7 @@ def pdf_to_csv(pdf: str = None, csv: str = csv_filename) -> None:
     logger.info(f"Converting {pdf}  to {csv} ")
 
     try:
-        tabula.convert_into(
-            pdf, csv, output_format="csv", pages="all"
-        )
+        tabula.convert_into(pdf, csv, output_format="csv", pages="all")
 
     except FileNotFoundError as fnf_error:
         logger.error(fnf_error)
@@ -85,9 +83,9 @@ def pdf_to_csv(pdf: str = None, csv: str = csv_filename) -> None:
 
     logger.info("Converting pdf file to csv complete.")
 
-    parse_csv(csv)
+    parsed_csv = parse_csv(csv)
 
-    # return csv
+    return parsed_csv
 
 
 if __name__ == "__main__":
