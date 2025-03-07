@@ -2,6 +2,7 @@ import logging
 import pandas as pd
 
 from logging import Logger
+from pathlib import Path
 from sqlalchemy import Engine, TextClause, create_engine, exc, text, Row
 from hoa_insights_surpriseaz.utils.date_parser import get_now
 from hoa_insights_surpriseaz import my_secrets
@@ -9,9 +10,18 @@ from hoa_insights_surpriseaz import my_secrets
 LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 REMOTE_DB_URI: str = f"{my_secrets.test_bluehost_uri}"
 
+FINANCIAL_YTD_CSV_PATH = (
+    Path.cwd().parent
+    / "output"
+    / "financial"
+    / "csv"
+    / "ytd_community_avg_sale_price.csv"
+)
+# YTD_SALES_FILENAME =
+
 
 def get_ytd_community_avg_sale():
-    data = pd.read_csv(f"{my_secrets.csv_finance_path}ytd_community_avg_sale_price.csv")
+    data = pd.read_csv(f"{FINANCIAL_YTD_CSV_PATH}")
     print(data)
     return data
 

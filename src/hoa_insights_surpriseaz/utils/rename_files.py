@@ -18,7 +18,7 @@ def rename(old: Path, new: Path) -> bool:
             logger.error(ffe)
 
             return False
-    
+
 
 if __name__ == "__main__":
     rename()

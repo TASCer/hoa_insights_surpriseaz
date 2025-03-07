@@ -20,7 +20,9 @@ from hoa_insights_surpriseaz.fetch_community_management import download
 LOCAL_DB_URI = f"{my_secrets.prod_debian_uri}"
 # MANAGEMENT_FILE_PATH = "../../output/csv/surpriseaz-hoa-management.csv"
 # PARCEL_CONSTANTS_PATH: str = "./seed_data/parcel_constants.csv"
-MANAGEMENT_FILE = Path.cwd().parent.parent / "output" / "csv" / "surpriseaz-hoa-management.csv"
+MANAGEMENT_FILE = (
+    Path.cwd().parent.parent / "output" / "csv" / "surpriseaz-hoa-management.csv"
+)
 PARCELS_SEED_FILE = Path.cwd() / "seed_data" / "parcel_constants.csv"
 
 PARCELS_TABLE: str = "parcels"
@@ -63,7 +65,7 @@ def community_management(s: Session, file_path: str) -> bool:
     """
     if not os.path.exists(file_path):
         logger.warning(f"{MANAGEMENT_FILE} not found.")
-# TODO TRY TO GET DOWNLOAD FROM HERE WORK. PATH?
+        # TODO TRY TO GET DOWNLOAD FROM HERE WORK. PATH?
         try:
             logger.info("Fetching Community Management Data")
             download()
@@ -136,9 +138,7 @@ def communities(engine: Engine = engine, file_path=MANAGEMENT_FILE) -> list:
     return community_totals
 
 
-def parcels(
-    file_path: str = f"{PARCELS_SEED_FILE}", engine: Engine = engine
-) -> bool:
+def parcels(file_path: str = f"{PARCELS_SEED_FILE}", engine: Engine = engine) -> bool:
     with Session(engine) as s:
         parcel_instances: list = []
 
