@@ -66,6 +66,8 @@ def parse_csv(filename: str) -> None:
 
     managers.to_csv(filename)
 
+    return filename
+
 
 def pdf_to_csv(pdf: str = None, csv: str = csv_filename) -> None:
     """
