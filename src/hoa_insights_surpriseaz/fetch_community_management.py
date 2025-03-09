@@ -41,9 +41,7 @@ if platform.system() == "Linux":
     FF_DOWNLOAD_DIR = "./output/pdf"
 
 
-# TODO find way to terminate firefox-esr on linux. Hangs.
-# Try to quit browser or terminate process by bash
-def download() -> None:
+def download() -> tuple[Path]:
     """
     Function creates a Selenium browser to download hoa management file.
     """
