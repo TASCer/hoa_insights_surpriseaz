@@ -14,8 +14,9 @@ from selenium.webdriver.firefox.options import Options as FFOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from hoa_insights_surpriseaz.utils import rename_files
-from hoa_insights_surpriseaz import convert_management_data
+
+# from hoa_insights_surpriseaz.utils import rename_files
+# from hoa_insights_surpriseaz import convert_management_data
 from hoa_insights_surpriseaz import my_secrets
 
 PDF_DOWNLOADED_FILENAME: str = "HOA Contact List (PDF).pdf"
@@ -88,7 +89,11 @@ def download() -> tuple[Path]:
 
     ff_browser.quit()
 
-    return PDF_PATH / PDF_DOWNLOADED_FILENAME, PDF_PATH / PDF_NEW_FILENAME
+    return (
+        PDF_PATH / PDF_DOWNLOADED_FILENAME,
+        PDF_PATH / PDF_NEW_FILENAME,
+        CSV_PATH / CSV_FILENAME,
+    )
 
 
 if __name__ == "__main__":
