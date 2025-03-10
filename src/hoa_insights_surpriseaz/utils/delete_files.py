@@ -6,7 +6,7 @@ from pathlib import Path
 
 logger: Logger = logging.getLogger(__name__)
 
-MANAGEMENT_PDF_PATH = Path.cwd().parent / "output" / "pdf" / "MANAGEMENT.pdf"
+MANAGEMENT_PDF_PATH = Path.cwd() / "output" / "pdf" / "MANAGEMENT.pdf"
 
 
 def delete(file: Path = MANAGEMENT_PDF_PATH):
