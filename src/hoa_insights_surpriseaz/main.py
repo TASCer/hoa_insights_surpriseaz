@@ -64,7 +64,7 @@ def process_parcels() -> None:
     """
 
     logger.info("********** PARCEL PROCESSING STARTED **********")
-    consumed_parcel_api_data = fetch_assessor_parcels.parcels_api()
+    consumed_parcel_api_data: tuple[dict] = fetch_assessor_parcels.parcels_api()
     parsed_owner_data, parsed_rental_data = parse_assessor_parcels.parse(
         consumed_parcel_api_data
     )
@@ -78,7 +78,7 @@ def main() -> None:
     Function controls the application.
     """
 
-    # process_parcels()
+    process_parcels()
     changes: DataFrame = process_updated_parcels.insights()
 
     if not changes.empty:
