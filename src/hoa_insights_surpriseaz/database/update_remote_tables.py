@@ -11,11 +11,7 @@ LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 REMOTE_DB_URI: str = f"{my_secrets.test_bluehost_uri}"
 
 FINANCIAL_YTD_CSV_PATH = (
-    Path.cwd()
-    / "output"
-    / "csv"
-    / "financial"
-    / "ytd_community_avg_sale_price.csv"
+    Path.cwd() / "output" / "csv" / "financial" / "ytd_community_avg_sale_price.csv"
 )
 
 
