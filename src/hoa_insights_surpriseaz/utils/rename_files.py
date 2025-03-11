@@ -10,7 +10,7 @@ def rename(old: Path, new: Path) -> bool:
     if old:
         try:
             old.replace(new)
-            logger.info(f"FILE: {old} renamed to: {new}")
+            logger.info(f"FILE: {old.name} renamed to: {new.name}")
 
             return True
 
