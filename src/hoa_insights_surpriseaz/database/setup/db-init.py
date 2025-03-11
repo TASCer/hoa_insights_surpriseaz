@@ -77,7 +77,9 @@ def remote_database(management) -> None:
         models_remote.Base.metadata.create_all(engine)
 
         logger.info(f"--- COMPLETED REMOTE DATABASE SETUP ON: {REMOTE_DB_HOSTNAME} ---")
-        logger.info(f"*** STARTED REMOTE DATABASE POPULATION ON: {REMOTE_DB_HOSTNAME} ***")
+        logger.info(
+            f"*** STARTED REMOTE DATABASE POPULATION ON: {REMOTE_DB_HOSTNAME} ***"
+        )
         logger.info(
             f"\tREMOTE tables populated: {populate_remote_tables.communities(management)}"
         )

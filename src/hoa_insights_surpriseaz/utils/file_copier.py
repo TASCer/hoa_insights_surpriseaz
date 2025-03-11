@@ -6,7 +6,6 @@ import shutil
 
 from logging import Logger
 from pathlib import Path
-# from hoa_insights_surpriseaz import my_secrets
 
 logger: Logger = logging.getLogger(__name__)
 

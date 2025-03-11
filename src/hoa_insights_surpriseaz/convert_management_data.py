@@ -24,7 +24,7 @@ header: list = [
 # TODO FIX PATHS STILL
 
 
-def parse_csv(filename: str) -> None:
+def parse_csv(filename: str) -> str:
     """
     Function takes in a csv filename and creates a dataframe.
     Renames columns and cleans data.
