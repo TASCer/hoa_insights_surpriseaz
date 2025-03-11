@@ -51,7 +51,7 @@ def start_community_management_update() -> None:
         parsed_csv: str = convert_management_data.pdf_to_csv(new_pdf, mgmt_csv)
         update_community_management.update(parsed_csv)
 
-        # delete_files.delete()
+        delete_files.delete()
 
     return mgmt_csv
 
