@@ -4,7 +4,8 @@ import tabula
 
 from logging import Logger
 from pandas import DataFrame
-# from test_hoa_surpriseaz import update_management
+from pathlib import Path
+
 
 logger: Logger = logging.getLogger(__name__)
 
@@ -20,7 +21,7 @@ header: list = [
     "CONTACT_PH",
 ]
 
-csv_filename: str = r"./output/csv/surpriseaz-hoa-management.csv"
+# TODO FIX PATHS STILL
 
 
 def parse_csv(filename: str) -> None:
@@ -69,15 +70,17 @@ def parse_csv(filename: str) -> None:
     return filename
 
 
-def pdf_to_csv(pdf: str = None, csv: str = csv_filename) -> None:
+def pdf_to_csv(pdf_file: Path, csv_file: Path) -> Path:
     """
     Function converts the downloaded pdf document's table data to csv.
     Sends the csv file to parse_csv() for formatting/parsing/saving.
     """
-    logger.info(f"Converting {pdf}  to {csv} ")
+    logger.info(f"Converting {pdf_file.name}  to {csv_file.name} ")
 
     try:
-        tabula.convert_into(pdf, csv, output_format="csv", pages="all")
+        tabula.convert_into(
+            str(pdf_file), str(csv_file), output_format="csv", pages="all"
+        )
 
     except FileNotFoundError as fnf_error:
         logger.error(fnf_error)
@@ -85,13 +88,15 @@ def pdf_to_csv(pdf: str = None, csv: str = csv_filename) -> None:
 
     logger.info("Converting pdf file to csv complete.")
 
-    parsed_csv = parse_csv(csv)
+    parsed_csv = parse_csv(csv_file)
 
     return parsed_csv
 
 
 if __name__ == "__main__":
-    # filename: str = "./output/pdf/MANAGEMENT.pdf"
-    pdf_to_csv()
-    # filename: str = "./output/pdf/MANAGEMENT.pdf"
-    # parse_csv(csv_filename)
+    CSV_PATH = Path.cwd() / "output" / "csv"
+    CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
+    PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
+    PDF_PATH = Path.cwd() / "output" / "pdf"
+
+    pdf_to_csv(pdf_file=PDF_PATH / PDF_NEW_FILENAME, csv_file=CSV_PATH / CSV_FILENAME)

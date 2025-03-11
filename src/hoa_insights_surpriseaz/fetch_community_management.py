@@ -21,10 +21,10 @@ from hoa_insights_surpriseaz import my_secrets
 
 PDF_DOWNLOADED_FILENAME: str = "HOA Contact List (PDF).pdf"
 PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
-CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
-
 PDF_PATH = Path.cwd() / "output" / "pdf"
+
 CSV_PATH = Path.cwd() / "output" / "csv"
+CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
 
 logger: Logger = logging.getLogger(__name__)
 
@@ -46,7 +46,7 @@ def download() -> tuple[Path]:
     """
     Function creates a Selenium browser to download hoa management file.
     """
-    logger.info("\tDOWNLOADING MANAGEMENT PDF")
+    logger.info("\tSTARTED: MANAGEMENT PDF DOWNLOAD")
     options = FFOptions()
     ff_profile = FFProfile()
     options.set_preference("browser.download.folderList", 2)
@@ -85,7 +85,7 @@ def download() -> tuple[Path]:
 
     time.sleep(10)
 
-    logger.info("\tDOWNLOADED MANAGEMENT PDF")
+    logger.info("\tCOMPLETED: MANAGEMENT PDF DOWNLOAD")
 
     ff_browser.quit()
 

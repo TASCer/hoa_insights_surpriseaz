@@ -2,6 +2,7 @@ import logging
 
 from logging import Logger, Formatter
 from pandas import DataFrame
+from pathlib import Path
 from hoa_insights_surpriseaz import fetch_assessor_parcels
 from hoa_insights_surpriseaz import create_reports
 from hoa_insights_surpriseaz import parse_assessor_parcels
@@ -18,10 +19,13 @@ from hoa_insights_surpriseaz.utils import (
     mailer,
 )
 
+PROJECT_ROOT = Path.cwd()
+LOG_DATE = str(date_parser.logger_date()) + ".log"
+
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
-fh = logging.FileHandler(f"../{date_parser.logger_date()}.log")
+fh = logging.FileHandler(PROJECT_ROOT / LOG_DATE)
 fh.setLevel(logging.DEBUG)
 
 formatter: Formatter = logging.Formatter(
@@ -39,15 +43,17 @@ def start_community_management_update() -> None:
     Function downloads, renames, and parses HOA management pdf.
     Deletes management pdf file to ensure latest data.
     """
-    logger.info("\tMonthly HOA Management Data Update Started")
-    orig_pdf, new_pdf = fetch_community_management.download()
+    logger.info("\tSTARTED: Monthly HOA Management Update")
+    orig_pdf, new_pdf, mgmt_csv = fetch_community_management.download()
     file_renamed: bool = rename_files.rename(old=orig_pdf, new=new_pdf)
 
     if file_renamed:
-        parsed_csv: str = convert_management_data.pdf_to_csv(new_pdf)
+        parsed_csv: str = convert_management_data.pdf_to_csv(new_pdf, mgmt_csv)
         update_community_management.update(parsed_csv)
 
-        delete_files.delete()
+        # delete_files.delete()
+
+    return mgmt_csv
 
 
 def process_parcels() -> None:
@@ -72,7 +78,7 @@ def main() -> None:
     Function controls the application.
     """
 
-    process_parcels()
+    # process_parcels()
     changes: DataFrame = process_updated_parcels.insights()
 
     if not changes.empty:
@@ -90,11 +96,9 @@ if __name__ == "__main__":
      If parcel changes were encountered
      Sends e-mail.
     """
-    if date_parser.first_tuesday_of_month():
-        start_community_management_update()
-        update_community_management.update()
-
-        delete_files.delete()
+    # if date_parser.first_tuesday_of_month():
+    mgmt_csv = start_community_management_update()
+    update_community_management.update(mgmt_csv)
 
     changes: bool = main()
 
