@@ -96,9 +96,9 @@ if __name__ == "__main__":
      If parcel changes were encountered
      Sends e-mail.
     """
-    # if date_parser.first_tuesday_of_month():
-    mgmt_csv = start_community_management_update()
-    update_community_management.update(mgmt_csv)
+    if date_parser.first_tuesday_of_month():
+        mgmt_csv = start_community_management_update()
+        update_community_management.update(mgmt_csv)
 
     changes: bool = main()
 
