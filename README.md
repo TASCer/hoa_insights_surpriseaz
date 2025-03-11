@@ -68,5 +68,5 @@ PDF financial report functionality will need the [pdfkit Python module](https://
 #### PRE INITIAL_LAUNCH TODO's
 
 - [ ] TASC 1 - Execute command: "uv run db-init.py" from database/setup directory 
-- [ ] TASC 2 - Verify database initialized via __database-setup.log
+- [ ] TASC 2 - Verify database initialized via __database-setup__.log
 - [ ] TASC 3 - Change directory to src/hoa_insights_surpriseaz/ and execute command "uv run main.py"
