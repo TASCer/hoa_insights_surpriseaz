@@ -9,7 +9,7 @@ from sqlalchemy import Engine, create_engine, exc, TextClause
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from hoa_insights_surpriseaz.database.update_community_management import (
-    get_pdf_communities,
+    get_communities,
 )
 from hoa_insights_surpriseaz.utils.rename_files import rename
 from hoa_insights_surpriseaz.database import models_local
@@ -18,8 +18,6 @@ from hoa_insights_surpriseaz import convert_management_data
 from hoa_insights_surpriseaz.fetch_community_management import download
 
 LOCAL_DB_URI = f"{my_secrets.prod_debian_uri}"
-# MANAGEMENT_FILE_PATH = "../../output/csv/surpriseaz-hoa-management.csv"
-# PARCEL_CONSTANTS_PATH: str = "./seed_data/parcel_constants.csv"
 MANAGEMENT_FILE = (
     Path.cwd().parent.parent / "output" / "csv" / "surpriseaz-hoa-management.csv"
 )
@@ -63,8 +61,8 @@ def community_management(s: Session, file_path: str) -> bool:
     If not found, download the pdf, rename and convert to csv.
     If found, read file and update database with data.
     """
-    if not os.path.exists(file_path):
-        logger.warning(f"{MANAGEMENT_FILE} not found.")
+    if not MANAGEMENT_FILE:
+        logger.warning(f"{MANAGEMENT_FILE.name} not found.")
         # TODO TRY TO GET DOWNLOAD FROM HERE WORK. PATH?
         try:
             logger.info("Fetching Community Management Data")
@@ -78,11 +76,11 @@ def community_management(s: Session, file_path: str) -> bool:
             logger.error(ffe)
 
     else:
-        logger.info("community management data file found")
-        pdf_managers = get_pdf_communities(os.path.abspath(file_path))
+        logger.info(f"** {MANAGEMENT_FILE.name} found. **")
+        management: list = get_communities(MANAGEMENT_FILE)
 
-        for pdf_item in pdf_managers:
-            _, community, situs, city, ph, email, mgr = pdf_item
+        for manager in management:
+            _, community, situs, city, ph, email, mgr = manager
             item = CommunityManagement(
                 COMMUNITY=community,
                 BOARD_SITUS=situs,
