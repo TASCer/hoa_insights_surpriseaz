@@ -21,6 +21,7 @@ from hoa_insights_surpriseaz.utils import (
 
 PROJECT_ROOT = Path.cwd()
 LOG_DATE = str(date_parser.logger_date()) + ".log"
+FIRST_TUE_OF_MONTH: bool = date_parser.first_tuesday_of_month()
 
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
@@ -93,10 +94,14 @@ if __name__ == "__main__":
     """
     Checks:
      If today is the first Tusday of this month and if so update community management data.
+    Runs:
+     Main program    
+    Checks:
      If parcel changes were encountered
      Sends e-mail.
     """
-    if date_parser.first_tuesday_of_month():
+
+    if FIRST_TUE_OF_MONTH:
         mgmt_csv = start_community_management_update()
         update_community_management.update(mgmt_csv)
 
@@ -105,6 +110,6 @@ if __name__ == "__main__":
     if not changes:
         logger.info("NO SALES OR OWNER CHANGES")
 
-    # mailer.send_mail("HOA INSIGHTS PROCESSING COMPLETE")
+    mailer.send_mail("HOA INSIGHTS PROCESSING COMPLETE")
 
     logger.info("********** HOA INSIGHT PROCESSING COMPLETED **********")
