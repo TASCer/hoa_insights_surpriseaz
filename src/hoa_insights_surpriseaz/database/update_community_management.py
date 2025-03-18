@@ -10,11 +10,9 @@ from hoa_insights_surpriseaz.database.models_local import CommunityManagement as
 from hoa_insights_surpriseaz.schemas import CommunityManagement as SCM
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.database.check_remote_rdbms import (
-    REMOTE_DB_HOSTNAME,
     REMOTE_DB_NAME,
 )
 from hoa_insights_surpriseaz.database.check_local_rdbms import (
-    LOCAL_DB_HOSTNAME,
     LOCAL_DB_NAME,
 )
 

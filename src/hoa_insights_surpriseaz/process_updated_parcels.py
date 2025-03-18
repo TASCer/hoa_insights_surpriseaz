@@ -6,7 +6,6 @@ from logging import Logger
 from pathlib import Path
 from hoa_insights_surpriseaz.utils.date_parser import logger_date
 from hoa_insights_surpriseaz.database import get_updated_data
-from hoa_insights_surpriseaz import my_secrets
 
 logger: Logger = logging.getLogger(__name__)
 

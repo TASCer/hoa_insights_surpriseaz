@@ -1,6 +1,5 @@
 import csv
 import logging
-import os
 
 from logging import Logger
 from hoa_insights_surpriseaz.schemas import CommunityManagement, Community, Parcels
