@@ -27,4 +27,3 @@ def schema() -> bool:
         return False
 
     return True
-
