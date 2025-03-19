@@ -1,7 +1,7 @@
 [project]
 name = "hoa_insights_surpriseaz"
 version = "0.5.0"
-description = "Area HOA Community Insights "
+description = "HOA Community Insights - Surprise AZ"
 readme = "README.md"
 authors = [
     { name = "Todd S", email = "info@tascs.net" }
