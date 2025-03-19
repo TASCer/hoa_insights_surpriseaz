@@ -8,7 +8,7 @@ from hoa_insights_surpriseaz.utils.date_parser import get_now
 from hoa_insights_surpriseaz import my_secrets
 
 LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
-REMOTE_DB_URI: str = f"{my_secrets.test_bluehost_uri}"
+REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
 
 FINANCIAL_YTD_CSV_PATH = (
     Path.cwd() / "output" / "csv" / "financial" / "ytd_community_avg_sale_price.csv"
