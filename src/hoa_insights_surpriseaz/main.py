@@ -26,11 +26,11 @@ FIRST_TUE_OF_MONTH: bool = date_parser.first_tuesday_of_month()
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
-fh = logging.FileHandler(PROJECT_ROOT / LOG_DATE)
+fh = logging.FileHandler(PROJECT_ROOT.parent.parent / LOG_DATE)
 fh.setLevel(logging.DEBUG)
 
 formatter: Formatter = logging.Formatter(
-    "%(asctime)s - %(name)s - %(lineno)d - %(levelname)s - %(message)s"
+    "%(asctime)s - %(filename)s - %(lineno)d - %(levelname)s - %(message)s"
 )
 fh.setFormatter(formatter)
 
