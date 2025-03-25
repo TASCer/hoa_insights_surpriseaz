@@ -17,7 +17,6 @@ FINANCIAL_YTD_CSV_PATH = (
 
 def get_ytd_community_avg_sale():
     data = pd.read_csv(f"{FINANCIAL_YTD_CSV_PATH}")
-    print(data)
     return data
 
 
