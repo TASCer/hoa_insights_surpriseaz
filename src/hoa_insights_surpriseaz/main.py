@@ -112,4 +112,4 @@ if __name__ == "__main__":
 
     mailer.send_mail("HOA INSIGHTS PROCESSING COMPLETE")
 
-    logger.info("********** HOA INSIGHT PROCESSING COMPLETED **********")
+    logger.info("********** PARCEL PROCESSING COMPLETED **********")
