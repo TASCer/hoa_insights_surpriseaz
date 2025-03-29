@@ -33,7 +33,7 @@ def owner_changes(parcel_updates: DataFrame) -> None:
     )
     parcel_updates["SALE_DATE"] = parcel_updates["SALE_DATE"].fillna("")
 
-    parcel_updates = parcel_updates.reset_index()
+    parcel_updates.sort_values("COMMUNITY", inplace=True, ignore_index=True)
 
     parcel_updates_caption: str = (
         f"RECENT PARCEL CHANGES <br> Processed: {logger_date()}"
@@ -79,7 +79,8 @@ def ytd_community_sales(community_avg_prices: DataFrame) -> None:
 
 
 if __name__ == "__main__":
-    c_df = pd.read_csv("./output/csv/latest_changes/02-03-25.csv")
-    owner_changes()(c_df)
-    f_df = pd.read_csv("./output/csv/financial/ytd_community_avg_sale_price.csv")
-    ytd_community_sales()(f_df)
+    c_df = pd.read_csv("./output/csv/latest_changes/03-29-25.csv")
+    print(owner_changes(c_df))
+    # f_df = pd.read_csv("./output/csv/financial/ytd_community_avg_sale_price.csv", index_col=0)
+    # print(f_df)
+    # print(ytd_community_sales(f_df))
