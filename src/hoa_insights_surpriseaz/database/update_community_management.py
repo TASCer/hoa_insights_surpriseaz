@@ -17,7 +17,7 @@ from hoa_insights_surpriseaz.database.check_local_rdbms import (
 )
 
 LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
-REMOTE_DB_URI: str = f"{my_secrets.test_bluehost_uri}"
+REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
 
 logger: Logger = logging.getLogger(__name__)
 
