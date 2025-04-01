@@ -62,7 +62,7 @@ def first_tuesday_of_month() -> int:
     cur_year = dt.date.today().year
     cur_month = dt.date.today().month
     month_calendar = calendar.monthcalendar(year=cur_year, month=cur_month)
-    first_tuesday: int = max(
+    first_tuesday: int = min(
         month_calendar[0][calendar.TUESDAY], month_calendar[1][calendar.TUESDAY]
     )
 
