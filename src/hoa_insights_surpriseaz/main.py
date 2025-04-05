@@ -21,7 +21,6 @@ from hoa_insights_surpriseaz.utils import (
 
 PROJECT_ROOT = Path.cwd()
 LOG_DATE = str(date_parser.logger_date()) + ".log"
-FIRST_TUE_OF_MONTH: bool = date_parser.first_tuesday_of_month()
 
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
@@ -101,7 +100,7 @@ if __name__ == "__main__":
      Sends e-mail.
     """
 
-    if FIRST_TUE_OF_MONTH:
+    if date_parser.first_tuesday_of_month():
         mgmt_csv = start_community_management_update()
         update_community_management.update(mgmt_csv)
 
