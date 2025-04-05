@@ -39,10 +39,9 @@ def owner_changes(parcel_updates: DataFrame) -> None:
         f"RECENT PARCEL CHANGES <br> Processed: {logger_date()}"
     )
 
-    parcel_updates_style: Styler = (
-        parcel_updates.style.set_table_styles(styles.parcel_updates())
-        .set_caption(parcel_updates_caption)
-    )
+    parcel_updates_style: Styler = parcel_updates.style.set_table_styles(
+        styles.parcel_updates()
+    ).set_caption(parcel_updates_caption)
 
     parcel_updates_report: str = f"{HTML_REPORT_PATH_CHANGES}"
     parcel_updates_style.to_html(HTML_REPORT_PATH_CHANGES)
@@ -78,6 +77,8 @@ def ytd_community_sales(community_avg_prices: DataFrame) -> None:
 
 
 if __name__ == "__main__":
-    f_df = pd.read_csv("./output/csv/financial/ytd_community_avg_sale_price.csv", index_col=0)
+    f_df = pd.read_csv(
+        "./output/csv/financial/ytd_community_avg_sale_price.csv", index_col=0
+    )
     print(f_df)
     print(ytd_community_sales(f_df))

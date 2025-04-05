@@ -33,6 +33,7 @@ def get_now() -> dt:
 
     return now
 
+
 # TODO will use for another automated monthly task
 # def last_saturday_of_month() -> int:
 #     """
@@ -61,24 +62,29 @@ def first_tuesday_of_month() -> bool:
     """
     current_year = dt.date.today().year
     current_month = dt.date.today().month
-    current_month_calendar = calendar.monthcalendar(year=current_year, month=current_month)
+    current_month_calendar = calendar.monthcalendar(
+        year=current_year, month=current_month
+    )
     first_tuesday_date: int = min(
-        current_month_calendar[0][calendar.TUESDAY], current_month_calendar[1][calendar.TUESDAY]
+        current_month_calendar[0][calendar.TUESDAY],
+        current_month_calendar[1][calendar.TUESDAY],
     )
 
-    is_today_first_tuesday: bool = int(logger_date().split("-")[1]) == first_tuesday_date
+    is_today_first_tuesday: bool = (
+        int(logger_date().split("-")[1]) == first_tuesday_date
+    )
 
     return is_today_first_tuesday
 
 
-def api_date(date: str) -> str:
+def api_date(date: str) -> dt.datetime:
     """
     Function takes a date from API fetch result.
     Returns formatted str for mysql date fields.
     If date not parseable, returns "1901-01-01".
     """
     try:
-        date_parsed = parse(date)
+        date_parsed: dt.datetime = parse(date)
 
     except TypeError:
         date_parsed = parse("1901-01-01")
@@ -99,9 +105,9 @@ def year_to_date() -> tuple[str]:
     return ytd_start, ytd_end
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
     # print(last_saturday_of_month())
-    # print(first_tuesday_of_month())
+    print(api_date({}))
     # print(sql_timestamp())
     # print(sql_date())
     # print(log_date())
