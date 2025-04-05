@@ -33,42 +33,42 @@ def get_now() -> dt:
 
     return now
 
+# TODO will use for another automated monthly task
+# def last_saturday_of_month() -> int:
+#     """
+#     Application is scheduled to run every Tuesday and Saturday morning @ 2am.
+#     Function determines the date for the LAST SATURDAY of each month.
+#     Used to update HOA management data monthly.
+#     Returns date as int.
+#     """
+#     cur_year = dt.date.today().year
+#     cur_month = dt.date.today().month
+#     cur_month_calendar = calendar.monthcalendar(year=cur_year, month=cur_month)
 
-def last_saturday_of_month() -> int:
-    """
-    Application is scheduled to run every Tuesday and Saturday morning @ 2am.
-    Function determines the date for the LAST SATURDAY of each month.
-    Used to update HOA management data monthly.
-    Returns date as int.
-    """
-    cur_year = dt.date.today().year
-    cur_month = dt.date.today().month
-    month_calendar = calendar.monthcalendar(year=cur_year, month=cur_month)
+#     last_saturday: int = max(
+#         cur_month_calendar[-1][calendar.SATURDAY], cur_month_calendar[-2][calendar.SATURDAY]
+#     )
 
-    last_saturday: int = max(
-        month_calendar[-1][calendar.SATURDAY], month_calendar[-2][calendar.SATURDAY]
-    )
-
-    return last_saturday
+#     return last_saturday
 
 
-def first_tuesday_of_month() -> int:
+def first_tuesday_of_month() -> bool:
     """
     Application is scheduled to run every Tuesday and Saturday morning @ 2am.
     Function determines the date for the FIRST TUESDAY of each month.
     Used to update HOA management data monthly.
     Returns date as int.
     """
-    cur_year = dt.date.today().year
-    cur_month = dt.date.today().month
-    month_calendar = calendar.monthcalendar(year=cur_year, month=cur_month)
-    first_tuesday: int = min(
-        month_calendar[0][calendar.TUESDAY], month_calendar[1][calendar.TUESDAY]
+    current_year = dt.date.today().year
+    current_month = dt.date.today().month
+    current_month_calendar = calendar.monthcalendar(year=current_year, month=current_month)
+    first_tuesday_date: int = min(
+        current_month_calendar[0][calendar.TUESDAY], current_month_calendar[1][calendar.TUESDAY]
     )
 
-    is_first_tuesday = int(logger_date().split("-")[1]) == first_tuesday
+    is_today_first_tuesday: bool = int(logger_date().split("-")[1]) == first_tuesday_date
 
-    return is_first_tuesday
+    return is_today_first_tuesday
 
 
 def api_date(date: str) -> str:
@@ -99,9 +99,9 @@ def year_to_date() -> tuple[str]:
     return ytd_start, ytd_end
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # print(last_saturday_of_month())
-    print(first_tuesday_of_month())
+    # print(first_tuesday_of_month())
     # print(sql_timestamp())
     # print(sql_date())
     # print(log_date())
