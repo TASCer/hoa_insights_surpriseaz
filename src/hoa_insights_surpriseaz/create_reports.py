@@ -33,7 +33,7 @@ def owner_changes(parcel_updates: DataFrame) -> None:
     )
     parcel_updates["SALE_DATE"] = parcel_updates["SALE_DATE"].fillna("")
 
-    parcel_updates.sort_values("COMMUNITY", inplace=True, ignore_index=True)
+    parcel_updates.sort_values("COMMUNITY", inplace=True, ignore_index=False)
 
     parcel_updates_caption: str = (
         f"RECENT PARCEL CHANGES <br> Processed: {logger_date()}"
@@ -42,7 +42,6 @@ def owner_changes(parcel_updates: DataFrame) -> None:
     parcel_updates_style: Styler = (
         parcel_updates.style.set_table_styles(styles.parcel_updates())
         .set_caption(parcel_updates_caption)
-        .hide(axis="index")
     )
 
     parcel_updates_report: str = f"{HTML_REPORT_PATH_CHANGES}"
@@ -50,7 +49,7 @@ def owner_changes(parcel_updates: DataFrame) -> None:
 
     file_copier.copy(parcel_updates_report)
 
-    # TO PDF and email
+    # TO PDF
     pdf.from_file(
         input=parcel_updates_report, output_path=PDF_REPORT_PATH / "latest_changes.pdf"
     )
@@ -79,8 +78,6 @@ def ytd_community_sales(community_avg_prices: DataFrame) -> None:
 
 
 if __name__ == "__main__":
-    c_df = pd.read_csv("./output/csv/latest_changes/03-29-25.csv")
-    print(owner_changes(c_df))
-    # f_df = pd.read_csv("./output/csv/financial/ytd_community_avg_sale_price.csv", index_col=0)
-    # print(f_df)
-    # print(ytd_community_sales(f_df))
+    f_df = pd.read_csv("./output/csv/financial/ytd_community_avg_sale_price.csv", index_col=0)
+    print(f_df)
+    print(ytd_community_sales(f_df))
