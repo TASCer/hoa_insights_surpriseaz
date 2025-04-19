@@ -4,18 +4,17 @@ def parcel_updates() -> list[dict]:
         dict(
             selector="th",
             props=[
-                ("color", "black"),
+                ("color", "blue"),
                 ("border", "1px solid #eee"),
                 ("padding", "6px 7px"),
-                ("background", "light-grey"),
-                ("font-size", "18px"),
+                ("font-size", "13px"),
             ],
         ),
         dict(
             selector="td:nth-child(-n + 2)",
-            props=[("color", "black"), ("font-size", "16px")],
+            props=[("color", "black"), ("font-size", "12px")],
         ),
-        dict(selector="tr", props=[("color", "red"), ("font-size", "15px")]),
+        dict(selector="tr", props=[("color", "red"), ("font-size", "14px")]),
         dict(
             selector=" ",
             props=[
