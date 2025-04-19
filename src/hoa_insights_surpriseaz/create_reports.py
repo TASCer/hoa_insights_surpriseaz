@@ -44,7 +44,7 @@ def owner_changes(parcel_updates: DataFrame) -> None:
     ).set_caption(parcel_updates_caption)
 
     parcel_updates_report: str = f"{HTML_REPORT_PATH_CHANGES}"
-    parcel_updates_style.to_html(HTML_REPORT_PATH_CHANGES)
+    parcel_updates_style.to_html(parcel_updates_report)
 
     file_copier.copy(parcel_updates_report)
 
