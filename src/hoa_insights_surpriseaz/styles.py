@@ -1,4 +1,4 @@
-# TODO work on header format
+# TODO work on header format. Add link from APN idx/col to map
 def parcel_updates() -> list[dict]:
     web_styles_changes = [
         dict(
@@ -12,7 +12,7 @@ def parcel_updates() -> list[dict]:
         ),
         dict(
             selector="td:nth-child(-n + 2)",
-            props=[("color", "black"), ("font-size", "12px")],
+            props=[("color", "purple"), ("font-size", "12px")],
         ),
         dict(selector="tr", props=[("color", "red"), ("font-size", "14px")]),
         dict(
