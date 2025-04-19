@@ -29,7 +29,7 @@ def owner_changes(parcel_updates: DataFrame) -> None:
     Sends html report to web server.
     """
 
-    parcel_updates['APN'] = parcel_updates['APN'].apply(lambda x: f'<a href="https://hoa.tascs.test/areaMap.php?{x}">{x}</a>')
+    parcel_updates['OWNER'] = parcel_updates['OWNER'].apply(lambda x: f'<a href="https://hoa.tascs.test/areaMap.php?{x}">{x}</a>')
  
 
 
