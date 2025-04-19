@@ -24,3 +24,4 @@ wheels/
 /src/hoa_insights_surpriseaz/output/web_reports/latest_changes/*.html
 /misc/
 .coverage
+.gitkeep

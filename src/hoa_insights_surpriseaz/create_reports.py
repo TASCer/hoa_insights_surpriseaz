@@ -28,6 +28,12 @@ def owner_changes(parcel_updates: DataFrame) -> None:
     Produces and saves html report.
     Sends html report to web server.
     """
+
+    parcel_updates['APN'] = parcel_updates['APN'].apply(lambda x: f'<a href="https://hoa.tascs.test/areaMap.php?{x}">{x}</a>')
+ 
+
+
+
     parcel_updates["SALE_PRICE"] = (
         parcel_updates["SALE_PRICE"].fillna(0).astype(int).apply(format_price)
     )
