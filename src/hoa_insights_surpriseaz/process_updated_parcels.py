@@ -15,7 +15,7 @@ UPDATED_PARCELS_PATH = Path.cwd() / "output" / "csv" / "latest_changes"
 
 def insights() -> pd.DataFrame:
     """
-    Function retrieves changes to parcel data by querying historical_sales and Historical_owners tables with timestamp of today.
+    Function retrieves changes to parcel data by querying historical_sales and historical_owners tables with timestamp of today.
     Creates a merged dataframe of changes that outputs to csv.
     Returns dataframe.
     """
