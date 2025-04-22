@@ -73,9 +73,10 @@ def process_parcels() -> None:
     update_remote_tables.all()
 
 
-def main() -> None:
+def main() -> bool:
     """
     Function controls the application.
+    Returns bool if any owner or sale changes.
     """
 
     # process_parcels()
@@ -109,6 +110,6 @@ if __name__ == "__main__":
     if not changes:
         logger.info("NO SALES OR OWNER CHANGES")
 
-    mailer.send_mail("HOA INSIGHTS PROCESSING COMPLETE")
+    # mailer.send_mail("HOA INSIGHTS PROCESSING COMPLETE")
 
     logger.info("********** PARCEL PROCESSING COMPLETED **********")
