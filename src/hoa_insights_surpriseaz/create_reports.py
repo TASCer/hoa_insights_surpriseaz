@@ -29,7 +29,9 @@ def owner_changes(parcel_updates: DataFrame) -> None:
     Sends html report to web server.
     """
     # TESTING ADDING LINK TO LPS MAP IF COMMUNITY LPS
-    parcel_updates['OWNER'] = parcel_updates['OWNER'].apply(lambda row: f'<a href="https://hoa.tascs.test/areaMap.php?{row}">{row}</a>')
+    parcel_updates["OWNER"] = parcel_updates["OWNER"].apply(
+        lambda row: f'<a href="https://hoa.tascs.test/areaMap.php?{row}">{row}</a>'
+    )
     # parcel_updates['OWNER'] = parcel_updates['OWNER'].apply(lambda x: parcel_updates.index)
 
     parcel_updates["SALE_PRICE"] = (
