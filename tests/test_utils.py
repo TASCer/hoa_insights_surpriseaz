@@ -1,6 +1,7 @@
 from sqlalchemy import null
 from hoa_insights_surpriseaz.utils import date_parser, number_formatter
 
+
 # DATE PARSER
 def test_date_parser():
     date = date_parser.logger_date()
@@ -20,6 +21,7 @@ def test_sql_timestamp():
 def test_api_date():
     date = date_parser.api_date(null)
     print(date)
+
 
 def test_first_tuesday():
     first_tuesday = date_parser.first_tuesday_of_month()
@@ -46,7 +48,7 @@ def test_number_formatter():
 #     pass
 
 # def test_mailer():
-#     pass    
-    
+#     pass
+
 # def test_rename_files():
 #     pass
