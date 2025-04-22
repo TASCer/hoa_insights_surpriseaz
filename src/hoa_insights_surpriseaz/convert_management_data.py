@@ -21,8 +21,6 @@ header: list = [
     "CONTACT_PH",
 ]
 
-# TODO FIX PATHS STILL
-
 
 def parse_csv(filename: str) -> str:
     """
