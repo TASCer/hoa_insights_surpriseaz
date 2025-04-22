@@ -28,11 +28,9 @@ def owner_changes(parcel_updates: DataFrame) -> None:
     Produces and saves html report.
     Sends html report to web server.
     """
-
-    parcel_updates['OWNER'] = parcel_updates['OWNER'].apply(lambda x: f'<a href="https://hoa.tascs.test/areaMap.php?{x}">{x}</a>')
- 
-
-
+    # TESTING ADDING LINK TO LPS MAP IF COMMUNITY LPS
+    parcel_updates['OWNER'] = parcel_updates['OWNER'].apply(lambda row: f'<a href="https://hoa.tascs.test/areaMap.php?{row}">{row}</a>')
+    # parcel_updates['OWNER'] = parcel_updates['OWNER'].apply(lambda x: parcel_updates.index)
 
     parcel_updates["SALE_PRICE"] = (
         parcel_updates["SALE_PRICE"].fillna(0).astype(int).apply(format_price)
@@ -54,7 +52,6 @@ def owner_changes(parcel_updates: DataFrame) -> None:
 
     file_copier.copy(parcel_updates_report)
 
-    # TO PDF
     pdf.from_file(
         input=parcel_updates_report, output_path=PDF_REPORT_PATH / "latest_changes.pdf"
     )
