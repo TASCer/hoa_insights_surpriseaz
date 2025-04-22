@@ -7,7 +7,8 @@ from dateutil.parser import parse
 
 def logger_date() -> str:
     """
-    Function uses datetime.date.today object formatted for logfiles.
+    Function uses datetime.date.today object
+    Returns formatted str for logger's log files.
     """
     now: date = dt.date.today()
     todays_date: str = now.strftime("%D").replace("/", "-")
@@ -34,7 +35,7 @@ def get_now() -> dt:
     return now
 
 
-# TODO will use for another automated monthly task
+# KEEP in case need for another automated monthly task
 # def last_saturday_of_month() -> int:
 #     """
 #     Application is scheduled to run every Tuesday and Saturday morning @ 2am.
@@ -55,10 +56,8 @@ def get_now() -> dt:
 
 def first_tuesday_of_month() -> bool:
     """
-    Application is scheduled to run every Tuesday and Saturday morning @ 2am.
-    Function determines the date for the FIRST TUESDAY of each month.
-    Used to update HOA management data monthly.
-    Returns date as int.
+    Function determines if today is the FIRST TUESDAY of this month.
+    Used to update HOA management data on a monthly during a scheduled run.
     """
     current_year = dt.date.today().year
     current_month = dt.date.today().month
