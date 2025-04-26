@@ -110,6 +110,6 @@ if __name__ == "__main__":
     if not changes:
         logger.info("NO SALES OR OWNER CHANGES")
 
-    # mailer.send_mail("HOA INSIGHTS PROCESSING COMPLETE")
+    mailer.send_mail("HOA INSIGHTS PROCESSING COMPLETE")
 
     logger.info("********** PARCEL PROCESSING COMPLETED **********")
