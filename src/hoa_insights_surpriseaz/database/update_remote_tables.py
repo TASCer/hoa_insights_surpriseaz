@@ -46,9 +46,7 @@ def all() -> None:
     classed: list = [x for x in q_classed_rentals]
     classed_rentals: pd.DataFrame = pd.DataFrame(classed)
 
-    logger.info(
-        f"Registered Rentals: {len(registered_rentals)} - Classed Rentals - {len(classed_rentals)}"
-    )
+    logger.info(f"{len(registered_rentals)=} - {len(classed_rentals)=}")
 
     try:
         logger: Logger = logging.getLogger(__name__)

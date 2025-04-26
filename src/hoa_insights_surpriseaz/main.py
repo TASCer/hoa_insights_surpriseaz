@@ -79,7 +79,7 @@ def main() -> bool:
     Returns bool if any owner or sale changes.
     """
 
-    # process_parcels()
+    process_parcels()
     changes: DataFrame = process_updated_parcels.insights()
 
     if not changes.empty:
