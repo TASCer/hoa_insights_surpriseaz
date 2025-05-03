@@ -1,4 +1,3 @@
-# TODO work on header format. Add link from APN idx/col to map
 def parcel_updates() -> list[dict]:
     web_styles_changes = [
         dict(

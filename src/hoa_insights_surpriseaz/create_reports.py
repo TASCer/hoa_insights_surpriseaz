@@ -31,7 +31,7 @@ def owner_changes(parcel_updates: DataFrame) -> None:
 
     parcel_updates["COMMUNITY"] = parcel_updates["COMMUNITY"].apply(
         lambda row: f'<a href="https://hoa.tascs.test/lpsMap.php?{row}">{row}</a>'
-        if row == "LPN"
+        if row == "LPS"
         else f'<a href="https://hoa.tascs.test/areaMap.php?{row}">{row}</a>'
     )
 

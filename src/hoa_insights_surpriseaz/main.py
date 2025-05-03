@@ -93,9 +93,9 @@ def main() -> bool:
 if __name__ == "__main__":
     """
     Checks:
-     If today is the first Tusday of this month and if so update community management data.
+     Is today is the first Tusday of this month? If so update community management data.
     Runs:
-     Main program    
+     Controlling application function: main()    
     Checks:
      If parcel changes were encountered
      Sends e-mail.
