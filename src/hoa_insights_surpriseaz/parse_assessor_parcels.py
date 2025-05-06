@@ -8,7 +8,7 @@ from hoa_insights_surpriseaz.utils.date_parser import api_date
 logger: Logger = logging.getLogger(__name__)
 
 
-def parse(api_data: list[dict]) -> tuple[list]:
+def parse(api_data: list[dict]) -> tuple[list, list]:
     parsed_owner_parcels: list = []
     parsed_rental_parcels: list = []
 

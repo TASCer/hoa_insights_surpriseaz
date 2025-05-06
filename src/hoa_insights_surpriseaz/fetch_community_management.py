@@ -39,7 +39,7 @@ if platform.system() == "Linux":
     FF_DOWNLOAD_DIR = "./output/pdf"
 
 
-def download() -> tuple[Path]:
+def download() -> tuple[Path, Path, Path]:
     """
     Function creates a Selenium browser to download hoa management file.
     """

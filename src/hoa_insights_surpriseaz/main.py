@@ -19,8 +19,8 @@ from hoa_insights_surpriseaz.utils import (
     mailer,
 )
 
-PROJECT_ROOT = Path.cwd()
-LOG_DATE = str(date_parser.logger_date()) + ".log"
+PROJECT_ROOT: Path = Path.cwd()
+LOG_DATE: str = str(date_parser.logger_date()) + ".log"
 
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
@@ -110,6 +110,6 @@ if __name__ == "__main__":
     if not changes:
         logger.info("NO SALES OR OWNER CHANGES")
 
-    # mailer.send_mail("HOA INSIGHTS PROCESSING COMPLETE")
+    mailer.send_mail("HOA INSIGHTS PROCESSING COMPLETE")
 
     logger.info("********** PARCEL PROCESSING COMPLETED **********")
