@@ -3,9 +3,7 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": [
-
-
+    "configurations": [ 
         {
             "name": "Python: main",
             "type": "python",
@@ -15,7 +13,7 @@
             "console": "integratedTerminal",
             "justMyCode": true
         },
-    
+        
         {
             "name": "Python: db setup",
             "type": "python",
@@ -27,7 +25,7 @@
         },
     
         {
-            "name": "Python: update remote",
+            "name": "Python: update remote base",
             "type": "python",
             "request": "launch",
             "cwd": "${workspaceFolder}/src/hoa_insights_surpriseaz/database",
@@ -46,6 +44,15 @@
             "justMyCode": true
         },
 
+        {
+            "name": "Python: update managers",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/src/hoa_insights_surpriseaz/database",
+            "program": "update_community_management.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
     
     
     

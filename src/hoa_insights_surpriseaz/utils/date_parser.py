@@ -64,7 +64,7 @@ def first_tuesday_of_month() -> bool:
     current_month_calendar = calendar.monthcalendar(
         year=current_year, month=current_month
     )
-    first_tuesday_date: int = min(
+    first_tuesday_date: int = max(
         current_month_calendar[0][calendar.TUESDAY],
         current_month_calendar[1][calendar.TUESDAY],
     )

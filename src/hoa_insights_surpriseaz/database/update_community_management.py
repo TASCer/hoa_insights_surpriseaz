@@ -111,7 +111,7 @@ def update(file: str = None) -> None:
 
 
 if __name__ == "__main__":
-    CSV_PATH = Path.cwd() / "output" / "csv"
+    CSV_PATH = Path.cwd().parent / "output" / "csv"
     CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
     PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
     PDF_PATH = Path.cwd() / "output" / "pdf"
