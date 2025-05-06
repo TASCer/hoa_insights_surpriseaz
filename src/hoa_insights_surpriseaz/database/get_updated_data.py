@@ -8,7 +8,7 @@ from hoa_insights_surpriseaz import my_secrets
 LOCAL_DB_URI = f"{my_secrets.prod_debian_uri}"
 
 
-def changes(db_uri: str = f"{LOCAL_DB_URI}") -> tuple[list]:
+def changes(db_uri: str = f"{LOCAL_DB_URI}") -> tuple[list[str], list[str]]:
     """
     Function queries historical_sales and historical_owners tables with a TS(timestamp) of today.
     Returns tuple of sale change list and owner change list.
