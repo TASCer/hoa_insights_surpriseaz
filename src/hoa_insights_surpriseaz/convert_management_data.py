@@ -18,16 +18,16 @@ header: list = [
 ]
 
 
-def parse_csv(filename: str) -> str:
+def parse_csv(file: Path) -> str:
     """
     Function takes in a csv filename and creates a dataframe.
     Renames columns and cleans data.
     Saves csv file to disk.
     """
-    logger.info(f"Parsing csv file: {filename}")
+    logger.info(f"Parsing csv file: {file.name}")
 
     try:
-        managers: DataFrame = read_csv(filename, header=0)
+        managers: DataFrame = read_csv(file, header=0)
     except FileNotFoundError as fnf_error:
         logger.error(fnf_error)
 
@@ -59,9 +59,9 @@ def parse_csv(filename: str) -> str:
 
     logger.info("Parsing csv complete")
 
-    managers.to_csv(filename)
+    managers.to_csv(file)
 
-    return filename
+    return file
 
 
 def pdf_to_csv(pdf_file: Path, csv_file: Path) -> Path:
