@@ -1,16 +1,12 @@
 import logging
-import pandas as pd
+
 import tabula
 
 from logging import Logger
-from pandas import DataFrame
+from pandas import DataFrame, read_csv
 from pathlib import Path
 
-
 logger: Logger = logging.getLogger(__name__)
-
-pd.set_option("display.max_rows", None)
-pd.set_option("display.max_columns", None)
 
 header: list = [
     "HOA",
@@ -31,7 +27,7 @@ def parse_csv(filename: str) -> str:
     logger.info(f"Parsing csv file: {filename}")
 
     try:
-        managers: DataFrame = pd.read_csv(filename, header=0)
+        managers: DataFrame = read_csv(filename, header=0)
     except FileNotFoundError as fnf_error:
         logger.error(fnf_error)
 
@@ -47,7 +43,7 @@ def parse_csv(filename: str) -> str:
         inplace=True,
     )
 
-    #   clean HOA COMMUNITY NAMES
+    # CLEANING HOA COMMUNITY NAMES
     managers["HOA"] = managers["HOA"].str.replace(" Homeowners Association", "")
     managers["HOA"] = managers["HOA"].str.replace(" Community Association", "")
     managers["HOA"] = managers["HOA"].str.replace(" Community", "")
@@ -57,7 +53,7 @@ def parse_csv(filename: str) -> str:
     managers["HOA"] = managers["HOA"].str.replace(" HOA", "")
     managers["HOA"] = managers["HOA"].str.rstrip()
 
-    #   clean management company name
+    # CLEANING HOA MANAGEMENT COMPANY NAMES
     managers["MANAGEMENT"] = managers["MANAGEMENT"].str.replace(",", "")
     managers.drop(managers.columns[[1]], axis=1, inplace=True)
 
@@ -86,7 +82,7 @@ def pdf_to_csv(pdf_file: Path, csv_file: Path) -> Path:
 
     logger.info("Converting pdf file to csv complete.")
 
-    parsed_csv = parse_csv(csv_file)
+    parsed_csv: str = parse_csv(csv_file)
 
     return parsed_csv
 

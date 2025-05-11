@@ -1,20 +1,16 @@
 import csv
-
 import logging
 
+from hoa_insights_surpriseaz.database.models_local import CommunityManagement as DBCM
+from hoa_insights_surpriseaz.schemas import CommunityManagement as SCM
+from hoa_insights_surpriseaz import my_secrets
+from hoa_insights_surpriseaz.database.check_remote_rdbms import REMOTE_DB_NAME
+from hoa_insights_surpriseaz.database.check_local_rdbms import LOCAL_DB_NAME
 from logging import Logger
 from pathlib import Path
 from sqlalchemy.orm import Session
 from sqlalchemy import Engine, create_engine, exc, TextClause, text
-from hoa_insights_surpriseaz.database.models_local import CommunityManagement as DBCM
-from hoa_insights_surpriseaz.schemas import CommunityManagement as SCM
-from hoa_insights_surpriseaz import my_secrets
-from hoa_insights_surpriseaz.database.check_remote_rdbms import (
-    REMOTE_DB_NAME,
-)
-from hoa_insights_surpriseaz.database.check_local_rdbms import (
-    LOCAL_DB_NAME,
-)
+from typing import TextIO
 
 LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
@@ -33,7 +29,7 @@ def get_communities(parsed_csv: str) -> list[str]:
 
     try:
         with open(parsed_csv, "r") as f:
-            reader = csv.reader(f)
+            reader: TextIO = csv.reader(f)
             communitities: list = [c for c in reader]
             communitities.pop(0)
 
@@ -111,8 +107,8 @@ def update(file: str = None) -> None:
 
 
 if __name__ == "__main__":
-    CSV_PATH = Path.cwd().parent / "output" / "csv"
+    CSV_PATH: Path = Path.cwd().parent / "output" / "csv"
     CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
     PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
-    PDF_PATH = Path.cwd() / "output" / "pdf"
+    PDF_PATH: Path = Path.cwd() / "output" / "pdf"
     print(update(CSV_PATH / CSV_FILENAME))

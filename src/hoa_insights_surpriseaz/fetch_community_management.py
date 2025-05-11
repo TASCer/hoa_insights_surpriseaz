@@ -18,14 +18,14 @@ from hoa_insights_surpriseaz import my_secrets
 
 PDF_DOWNLOADED_FILENAME: str = "HOA Contact List (PDF).pdf"
 PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
-PDF_PATH = Path.cwd() / "output" / "pdf"
+PDF_PATH: Path = Path.cwd() / "output" / "pdf"
 
-CSV_PATH = Path.cwd() / "output" / "csv"
+CSV_PATH: Path = Path.cwd() / "output" / "csv"
 CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
 
 logger: Logger = logging.getLogger(__name__)
 
-URL = my_secrets.hoa_management_pdf_url
+URL: str = my_secrets.hoa_management_pdf_url
 XPATH = "/html/body/div[4]/div/div[2]/div[2]/div[3]/div/div/div[1]/div/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/div/div/div[2]/div/ul/li/a"
 
 if platform.system() == "Windows":
@@ -34,7 +34,7 @@ if platform.system() == "Windows":
     FF_DOWNLOAD_DIR = r".\output\pdf"
 
 if platform.system() == "Linux":
-    FF_DRIVER = Path.cwd() / "utils" / "geckodriver"
+    FF_DRIVER: Path = Path.cwd() / "utils" / "geckodriver"
     FF_BINARY_PATH = None
     FF_DOWNLOAD_DIR = "./output/pdf"
 

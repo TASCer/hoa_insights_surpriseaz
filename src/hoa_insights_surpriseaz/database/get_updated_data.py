@@ -1,11 +1,12 @@
 import logging
 
-from logging import Logger
-from sqlalchemy import Engine, create_engine, exc, text
 from hoa_insights_surpriseaz.utils.date_parser import sql_date
 from hoa_insights_surpriseaz import my_secrets
+from logging import Logger
+from sqlalchemy import Engine, create_engine, exc, text, CursorResult
+from typing import Any
 
-LOCAL_DB_URI = f"{my_secrets.prod_debian_uri}"
+LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 
 
 def changes(db_uri: str = f"{LOCAL_DB_URI}") -> tuple[list[str], list[str]]:
@@ -18,12 +19,12 @@ def changes(db_uri: str = f"{LOCAL_DB_URI}") -> tuple[list[str], list[str]]:
 
     with engine.connect() as conn, conn.begin():
         try:
-            q_sales = conn.execute(
+            q_sales: CursorResult[Any] = conn.execute(
                 text(
                     f"SELECT hs.APN, c.COMMUNITY, hs.SALE_DATE, hs.SALE_PRICE from historical_sales hs inner join parcels c on hs.APN = c.APN where DATE(TS) = '{sql_date()}'"
                 )
             )
-            q_owners = conn.execute(
+            q_owners: CursorResult[Any] = conn.execute(
                 text(
                     f"SELECT ho.APN, c.COMMUNITY, ho.OWNER, ho.DEED_DATE, ho.DEED_TYPE from historical_owners ho inner join parcels c on ho.APN = c.APN where DATE(TS) = '{sql_date()}'"
                 )

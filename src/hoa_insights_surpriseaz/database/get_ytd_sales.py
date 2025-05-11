@@ -1,13 +1,12 @@
 import logging
-import pandas as pd
 
 from hoa_insights_surpriseaz import create_reports
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.utils.number_formatter import format_price
 from hoa_insights_surpriseaz.utils.date_parser import year_to_date
 from logging import Logger
-from pandas import DataFrame
-from pandas.core.generic import NDFrame
+from pandas import DataFrame, read_sql, concat
+from pandas.core.generic import NDFrame, DataFrame
 from pathlib import Path
 from sqlalchemy import create_engine, exc
 from sqlalchemy.engine import Engine
@@ -19,10 +18,10 @@ DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
 DB_USER: str = f"{my_secrets.prod_debian_dbuser}"
 DB_PW: str = f"{my_secrets.prod_debian_dbpass}"
 
-ALL_SALES_PATH = (
+ALL_SALES_PATH: Path = (
     Path.cwd() / "output" / "csv" / "financial" / "all_ytd_community_sales.csv"
 )
-YTD_COMMUNITY_AVG_PATH = (
+YTD_COMMUNITY_AVG_PATH: Path = (
     Path.cwd() / "output" / "csv" / "financial" / "ytd_community_avg_sale_price.csv"
 )
 
@@ -46,7 +45,7 @@ def get_average_sale_price() -> None:
 
     with engine.connect() as conn, conn.begin():
         try:
-            all_sales_ytd: DataFrame = pd.read_sql(
+            all_sales_ytd: DataFrame = read_sql(
                 f"""SELECT 
 				p.COMMUNITY,
 				o.SALE_DATE,
@@ -71,13 +70,17 @@ def get_average_sale_price() -> None:
 
         return None
 
-    all_community_sales_ytd: DataFrame = pd.DataFrame(all_sales_ytd)
+    all_community_sales_ytd: DataFrame = DataFrame(all_sales_ytd)
     all_community_sales_ytd.to_csv(f"{ALL_SALES_PATH}")
 
-    community_sold_count: NDFrame = all_community_sales_ytd.groupby("COMMUNITY").count()
-    community_sold_count: NDFrame = community_sold_count.rename(
+    community_sold_count: DataFrame = all_community_sales_ytd.groupby(
+        "COMMUNITY"
+    ).count()
+    print(type(community_sold_count))
+    community_sold_count: DataFrame = community_sold_count.rename(
         columns={"SALE_DATE": "#Sold"}
     )
+    print(type(community_sold_count))
 
     ytd_avg_price: DataFrame = all_community_sales_ytd.groupby(["COMMUNITY"]).mean(
         ["SALE_PRICE"]
@@ -85,7 +88,7 @@ def get_average_sale_price() -> None:
 
     ytd_avg_price: DataFrame = ytd_avg_price.rename(columns={"SALE_PRICE": "Avg_Price"})
 
-    ytd_community_avg_sale_price: DataFrame = pd.concat(
+    ytd_community_avg_sale_price: DataFrame = concat(
         [community_sold_count, ytd_avg_price], axis=1
     )
     del ytd_community_avg_sale_price["SALE_PRICE"]

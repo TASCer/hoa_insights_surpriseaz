@@ -1,9 +1,9 @@
 import logging
 
-from logging import Logger
-from sqlalchemy import create_engine, exc
-from sqlalchemy_utils import database_exists, create_database
 from hoa_insights_surpriseaz import my_secrets
+from logging import Logger
+from sqlalchemy import create_engine, exc, Engine
+from sqlalchemy_utils import database_exists, create_database
 
 REMOTE_DB_HOSTNAME: str = f"{my_secrets.prod_bluehost_dbhost}"
 REMOTE_DB_NAME: str = f"{my_secrets.prod_bluehost_dbname}"
@@ -16,7 +16,7 @@ def schema() -> bool:
     """Check to see if schema is present, if not, create and return True"""
     logger: Logger = logging.getLogger(__name__)
     try:
-        engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}")
+        engine: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}")
 
         if not database_exists(engine.url):
             create_database(engine.url)

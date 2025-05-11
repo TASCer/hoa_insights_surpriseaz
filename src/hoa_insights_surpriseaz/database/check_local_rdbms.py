@@ -177,7 +177,7 @@ def views(db_uri: str = LOCAL_DB_URI) -> bool:
     Returns False if any missing and could not be created.
     """
     try:
-        engine = create_engine(f"mysql+pymysql://{db_uri}")
+        engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
         _meta = MetaData()
 
     except exc.SQLAlchemyError as e:

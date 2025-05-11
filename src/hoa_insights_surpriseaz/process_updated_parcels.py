@@ -1,8 +1,8 @@
 import logging
-import pandas as pd
 
 from hoa_insights_surpriseaz.database import get_ytd_sales
 from logging import Logger
+from pandas import DataFrame
 from pathlib import Path
 from hoa_insights_surpriseaz.utils.date_parser import logger_date
 from hoa_insights_surpriseaz.database import get_updated_data
@@ -13,7 +13,7 @@ logger: Logger = logging.getLogger(__name__)
 UPDATED_PARCELS_PATH = Path.cwd() / "output" / "csv" / "latest_changes"
 
 
-def insights() -> pd.DataFrame:
+def insights() -> DataFrame:
     """
     Function retrieves changes to parcel data by querying historical_sales and historical_owners tables with timestamp of today.
     Creates a merged dataframe of changes that outputs to csv.
@@ -27,19 +27,19 @@ def insights() -> pd.DataFrame:
         get_ytd_sales.get_average_sale_price()
 
     if owner_change_count >= 1 or sale_change_count >= 1:
-        logger.info(
-            f"New Owners: {len(owner_changes)} - New Sales: {len(sale_changes)}"
-        )
-        owner_changes = pd.DataFrame(
+        logger.info(f"NEW OWNERS: {owner_change_count}")
+        logger.info(f"NEW SALES: {sale_change_count}")
+
+        owner_changes: DataFrame = DataFrame(
             owner_changes,
             columns=["APN", "COMMUNITY", "OWNER", "DEED_DATE", "DEED_TYPE"],
         ).set_index(["APN"])
 
-        sale_changes = pd.DataFrame(
+        sale_changes: DataFrame = DataFrame(
             sale_changes, columns=["APN", "COMMUNITY", "SALE_DATE", "SALE_PRICE"]
         ).set_index("APN")
 
-        merged_changes = owner_changes.merge(
+        merged_changes: DataFrame = owner_changes.merge(
             sale_changes, how="outer", on=["APN", "COMMUNITY"], suffixes=("", "_y")
         )
 
@@ -55,7 +55,7 @@ def insights() -> pd.DataFrame:
         return merged_changes
 
     else:
-        return pd.DataFrame()
+        return DataFrame()
 
 
 if __name__ == "__main__":

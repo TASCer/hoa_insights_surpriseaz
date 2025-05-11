@@ -1,5 +1,5 @@
 import logging
-import pandas as pd
+
 import pdfkit as pdf
 
 from hoa_insights_surpriseaz import styles
@@ -7,17 +7,17 @@ from hoa_insights_surpriseaz.utils.number_formatter import format_price
 from hoa_insights_surpriseaz.utils import file_copier
 from hoa_insights_surpriseaz.utils.date_parser import logger_date
 from logging import Logger
-from pandas import DataFrame
+from pandas import DataFrame, read_csv
 from pandas.io.formats.style import Styler
 from pathlib import Path
 
 logger: Logger = logging.getLogger(__name__)
 
-PDF_REPORT_PATH = Path.cwd() / "output" / "pdf"
-HTML_REPORT_PATH_CHANGES = (
+PDF_REPORT_PATH: Path = Path.cwd() / "output" / "pdf"
+HTML_REPORT_PATH_CHANGES: Path = (
     Path.cwd() / "output" / "web_reports" / "latest_changes" / "recent_changes.html"
 )
-HTML_REPORT_PATH_FINANCIAL = (
+HTML_REPORT_PATH_FINANCIAL: Path = (
     Path.cwd() / "output" / "web_reports" / "financial" / "community_ytd_sales_avg.html"
 )
 
@@ -83,7 +83,7 @@ def ytd_community_sales(community_avg_prices: DataFrame) -> None:
 
 
 if __name__ == "__main__":
-    f_df = pd.read_csv(
+    f_df: DataFrame = read_csv(
         "./output/csv/financial/ytd_community_avg_sale_price.csv", index_col=0
     )
     print(f_df)

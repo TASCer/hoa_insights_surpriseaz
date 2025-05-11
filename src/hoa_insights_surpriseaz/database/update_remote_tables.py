@@ -1,7 +1,8 @@
 import logging
-import pandas as pd
+# import pandas as pd
 
 from logging import Logger
+from pandas import Series, DataFrame, read_csv
 from pathlib import Path
 from sqlalchemy import Engine, TextClause, create_engine, exc, text, Row
 from hoa_insights_surpriseaz.utils.date_parser import get_now
@@ -15,8 +16,8 @@ FINANCIAL_YTD_CSV_PATH = (
 )
 
 
-def get_ytd_community_avg_sale():
-    data = pd.read_csv(f"{FINANCIAL_YTD_CSV_PATH}")
+def get_ytd_community_avg_sale() -> DataFrame:
+    data: DataFrame = read_csv(f"{FINANCIAL_YTD_CSV_PATH}")
     return data
 
 
@@ -41,19 +42,20 @@ def all() -> None:
         logger.error(str(db_err))
 
     registered: list = [x for x in q_registered_rentals]
-    registered_rentals: pd.DataFrame = pd.DataFrame(registered)
+    registered_rentals: DataFrame = DataFrame(registered)
 
     classed: list = [x for x in q_classed_rentals]
-    classed_rentals: pd.DataFrame = pd.DataFrame(classed)
+    classed_rentals: DataFrame = DataFrame(classed)
 
-    logger.info(f"{len(registered_rentals)=} - {len(classed_rentals)=}")
+    logger.info(f"REGISTERED RENTALS: {len(registered_rentals)}")
+    logger.info(f"CLASSED RENTALS: {len(classed_rentals)}")
 
     try:
         logger: Logger = logging.getLogger(__name__)
         engine: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}")
 
         with engine.connect() as conn, conn.begin():
-            community_sales = get_ytd_community_avg_sale()
+            community_sales: DataFrame = get_ytd_community_avg_sale()
 
             try:
                 registered_rentals.to_sql(
@@ -62,7 +64,7 @@ def all() -> None:
                     if_exists="replace",
                     index=False,
                 )
-                logger.info("Table 'registered_rentals' has been updated REMOTELY")
+                logger.info("\tTable 'registered_rentals' has been updated REMOTELY")
 
                 classed_rentals.to_sql(
                     name="classed_rentals",
@@ -70,7 +72,7 @@ def all() -> None:
                     if_exists="replace",
                     index=False,
                 )
-                logger.info("Table: 'classed_rentals' has been updated REMOTELY")
+                logger.info("\tTable: 'classed_rentals' has been updated REMOTELY")
 
                 community_sales.to_sql(
                     name="community_sales",
@@ -78,15 +80,15 @@ def all() -> None:
                     if_exists="replace",
                     index=False,
                 )
-                logger.info("Table: 'community_sales' has been updated REMOTELY")
+                logger.info("\tTable: 'community_sales' has been updated REMOTELY")
 
-                pd.Series(get_now(), name="TS").to_sql(
+                Series(get_now(), name="TS").to_sql(
                     name="last_updated",
                     con=conn,
                     if_exists="replace",
                     index=False,
                 )
-                logger.info("Table: 'last_updated' has been updated REMOTELY")
+                logger.info("\tTable: 'last_updated' has been updated REMOTELY")
 
             except exc.SQLAlchemyError as e:
                 logger.critical(repr(e))
