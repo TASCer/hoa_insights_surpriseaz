@@ -6,7 +6,6 @@ from hoa_insights_surpriseaz.utils.number_formatter import format_price
 from hoa_insights_surpriseaz.utils.date_parser import year_to_date
 from logging import Logger
 from pandas import DataFrame, read_sql, concat
-from pandas.core.generic import NDFrame, DataFrame
 from pathlib import Path
 from sqlalchemy import create_engine, exc
 from sqlalchemy.engine import Engine
