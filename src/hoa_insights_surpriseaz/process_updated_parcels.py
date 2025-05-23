@@ -10,7 +10,7 @@ from hoa_insights_surpriseaz.database import get_updated_data
 logger: Logger = logging.getLogger(__name__)
 
 
-UPDATED_PARCELS_PATH = Path.cwd() / "output" / "csv" / "latest_changes"
+UPDATED_PARCELS_PATH: Path = Path.cwd() / "output" / "csv" / "latest_changes"
 
 
 def insights() -> DataFrame:

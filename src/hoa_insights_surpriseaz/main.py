@@ -38,7 +38,7 @@ root_logger.addHandler(fh)
 logger: Logger = logging.getLogger(__name__)
 
 
-def start_community_management_update() -> None:
+def start_community_management_update() -> Path:
     """
     Function downloads, renames, and parses HOA management pdf.
     Deletes management pdf file to ensure latest data.
@@ -102,7 +102,7 @@ if __name__ == "__main__":
     """
 
     if date_parser.first_tuesday_of_month():
-        mgmt_csv = start_community_management_update()
+        mgmt_csv: Path = start_community_management_update()
         update_community_management.update(mgmt_csv)
 
     changes: bool = main()
