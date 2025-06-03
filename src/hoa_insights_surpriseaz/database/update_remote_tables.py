@@ -4,7 +4,7 @@ import logging
 from logging import Logger
 from pandas import Series, DataFrame, read_csv
 from pathlib import Path
-from sqlalchemy import Engine, TextClause, create_engine, exc, text, Row
+from sqlalchemy import Engine, TextClause, create_engine, exc, text
 from hoa_insights_surpriseaz.utils.date_parser import get_now
 from hoa_insights_surpriseaz import my_secrets
 
@@ -34,18 +34,24 @@ def all() -> None:
             q_registered_rentals: TextClause = conn.execute(
                 text("""SELECT * FROM registered_rentals;""")
             )
-            q_classed_rentals: list[Row] = conn.execute(
+            q_classed_rentals: TextClause = conn.execute(
                 text("""SELECT * FROM classed_rentals;""")
+            )
+            q_rental_owner_types: TextClause = conn.execute(
+                text("""SELECT * FROM community_rental_owner_types;""")
             )
 
     except exc.DBAPIError as db_err:
         logger.error(str(db_err))
 
-    registered: list = [x for x in q_registered_rentals]
+    registered: list = [r for r in q_registered_rentals]
     registered_rentals: DataFrame = DataFrame(registered)
 
-    classed: list = [x for x in q_classed_rentals]
+    classed: list = [c for c in q_classed_rentals]
     classed_rentals: DataFrame = DataFrame(classed)
+
+    community_rental_owners = [o for o in q_rental_owner_types]
+    community_rental_owner_types = DataFrame(community_rental_owners)
 
     logger.info(f"REGISTERED RENTALS: {len(registered_rentals)}")
     logger.info(f"CLASSED RENTALS: {len(classed_rentals)}")
@@ -81,6 +87,16 @@ def all() -> None:
                     index=False,
                 )
                 logger.info("\tTable: 'community_sales' has been updated REMOTELY")
+
+                community_rental_owner_types.to_sql(
+                    name="community_rental_owner_types",
+                    con=conn,
+                    if_exists="replace",
+                    index=False,
+                )
+                logger.info(
+                    "\tTable: 'community_rental_owners' has been updated REMOTELY"
+                )
 
                 Series(get_now(), name="TS").to_sql(
                     name="last_updated",
