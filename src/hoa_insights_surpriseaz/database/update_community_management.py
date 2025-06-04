@@ -30,7 +30,7 @@ def get_communities(parsed_csv: str) -> list[str]:
     try:
         with open(parsed_csv, "r") as f:
             reader: TextIO = csv.reader(f)
-            communitities: list = [c for c in reader]
+            communitities: list[str] = [c for c in reader]
             communitities.pop(0)
 
             return communitities
@@ -43,14 +43,14 @@ def update(file: str = None) -> None:
     """
     Function updates the community_managers tables (local, remote) with data from the monthly pdf download.
     """
-    community_managers: list = get_communities(file)
+    community_managers: list[str] = get_communities(file)
 
     local_engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
 
     with Session(local_engine) as ls:
         for m in community_managers:
             id, community, situs, city, ph, email, mgr = m
-            id = int(id) + 1
+            id: int = int(id) + 1
 
             item = SCM(
                 COMMUNITY=community,

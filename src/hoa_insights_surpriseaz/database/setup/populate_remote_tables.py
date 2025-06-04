@@ -1,7 +1,7 @@
 import logging
 
 from logging import Logger
-from sqlalchemy import create_engine, exc
+from sqlalchemy import create_engine, Engine, exc
 from sqlalchemy import text, TextClause
 from sqlalchemy.orm import Session
 from hoa_insights_surpriseaz.database import models_remote
@@ -37,8 +37,8 @@ management_ids: list = [
     74,
 ]
 
-local_engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
-bluehost_engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
+local_engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
+bluehost_engine: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
 
 
 def communities(community_totals) -> bool:
@@ -49,7 +49,7 @@ def communities(community_totals) -> bool:
             q_community_managers: TextClause = ls.execute(
                 text("SELECT * from community_managers;")
             ).fetchall()
-            community_managers: list = [m for m in q_community_managers]
+            community_managers: list[str] = [m for m in q_community_managers]
 
         with Session(bluehost_engine) as rs:
             for community, parcel_total, long, lat in community_totals:

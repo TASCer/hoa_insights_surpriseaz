@@ -16,18 +16,18 @@ from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz import convert_management_data
 from hoa_insights_surpriseaz.fetch_community_management import download
 
-LOCAL_DB_URI = f"{my_secrets.prod_debian_uri}"
-MANAGEMENT_FILE = (
+LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
+MANAGEMENT_FILE: Path = (
     Path.cwd().parent.parent / "output" / "csv" / "surpriseaz-hoa-management.csv"
 )
-PARCELS_SEED_FILE = Path.cwd() / "seed_data" / "parcel_constants.csv"
+PARCELS_SEED_FILE: Path = Path.cwd() / "seed_data" / "parcel_constants.csv"
 
 PARCELS_TABLE: str = "parcels"
 COMMUNITY_TABLE: str = "communitites"
 
 logger: Logger = logging.getLogger(__name__)
 
-engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
+engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
 
 management_ids: list = [
     1,
@@ -54,7 +54,7 @@ management_ids: list = [
 ]
 
 
-def community_management(s: Session, file_path: str) -> bool:
+def community_management(s: Session) -> bool:
     """
     Function takes a database session and checks if management csv file exists.
     If not found, download the pdf, rename and convert to csv.
@@ -62,7 +62,6 @@ def community_management(s: Session, file_path: str) -> bool:
     """
     if not MANAGEMENT_FILE:
         logger.warning(f"{MANAGEMENT_FILE.name} not found.")
-        # TODO TRY TO GET DOWNLOAD FROM HERE WORK. PATH?
         try:
             logger.info("Fetching Community Management Data")
             download()

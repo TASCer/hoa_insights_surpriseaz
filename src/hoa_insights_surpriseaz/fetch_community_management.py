@@ -41,7 +41,7 @@ if platform.system() == "Linux":
 
 def download() -> tuple[Path, Path, Path]:
     """
-    Function creates a Selenium browser to download hoa management file.
+    Function creates a Selenium browser to download HOA management file.
     """
     logger.info("\tSTARTED: MANAGEMENT PDF DOWNLOAD")
     options = FFOptions()

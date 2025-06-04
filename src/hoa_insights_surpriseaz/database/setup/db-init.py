@@ -12,7 +12,7 @@ from hoa_insights_surpriseaz.database.setup import (
     populate_remote_tables,
 )
 from logging import Logger, Formatter
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, Engine
 
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
@@ -33,12 +33,11 @@ REMOTE_DB_URI: str = f"{my_secrets.test_bluehost_uri}"
 LOCAL_DB_HOSTNAME: str = f"{my_secrets.prod_debian_dbhost}"
 REMOTE_DB_HOSTNAME: str = f"{my_secrets.test_bluehost_dbhost}"
 
-
 logger: Logger = logging.getLogger(__name__)
 
 
 def local_database() -> list:
-    engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
+    engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
 
     logger.info(f"*** STARTED LOCAL DATABASE SETUP ON: {LOCAL_DB_HOSTNAME} ***")
     if check_local_rdbms.schema():
@@ -69,7 +68,7 @@ def local_database() -> list:
 
 
 def remote_database(management) -> None:
-    engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
+    engine: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
 
     logger.info(f"*** STARTED REMOTE DATABASE SETUP ON: {REMOTE_DB_HOSTNAME} ***")
 

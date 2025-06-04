@@ -18,11 +18,11 @@ header: list = [
 ]
 
 
-def parse_csv(file: Path) -> str:
+def parse_csv(file: Path) -> Path:
     """
-    Function takes in a csv filename and creates a dataframe.
+    Function takes in a path for a csv file and creates a dataframe.
     Renames columns and cleans data.
-    Saves csv file to disk.
+    Saves csv file to disk and returns path.
     """
     logger.info(f"Parsing csv file: {file.name}")
 
@@ -88,9 +88,9 @@ def pdf_to_csv(pdf_file: Path, csv_file: Path) -> Path:
 
 
 if __name__ == "__main__":
-    CSV_PATH = Path.cwd() / "output" / "csv"
+    CSV_PATH: Path = Path.cwd() / "output" / "csv"
     CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
     PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
-    PDF_PATH = Path.cwd() / "output" / "pdf"
+    PDF_PATH: Path = Path.cwd() / "output" / "pdf"
 
     pdf_to_csv(pdf_file=PDF_PATH / PDF_NEW_FILENAME, csv_file=CSV_PATH / CSV_FILENAME)
