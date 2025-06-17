@@ -69,8 +69,12 @@ def process_parcels() -> None:
         consumed_parcel_api_data
     )
     update_local_tables.owners(parsed_owner_data)
-    update_local_tables.rentals(parsed_rental_data)
-    update_remote_tables.all()
+
+    if parsed_rental_data:
+        update_local_tables.rentals(parsed_rental_data)
+        update_remote_tables.all()
+    else:
+        logger.warning("NO REGISTERED RENTAL PROPERTIES FOUND")
 
 
 def main() -> bool:
