@@ -75,11 +75,9 @@ def get_average_sale_price() -> None:
     community_sold_count: DataFrame = all_community_sales_ytd.groupby(
         "COMMUNITY"
     ).count()
-    print(type(community_sold_count))
     community_sold_count: DataFrame = community_sold_count.rename(
         columns={"SALE_DATE": "#Sold"}
     )
-    print(type(community_sold_count))
 
     ytd_avg_price: DataFrame = all_community_sales_ytd.groupby(["COMMUNITY"]).mean(
         ["SALE_PRICE"]
