@@ -46,18 +46,7 @@ def test_number_formatter() -> None:
     assert num == "(999) 999-9999"
 
 
-# MISC
-
-# def test_delete_files():
-#     pass
-
-# def test_file_copier():
-#     pass
-
-# def test_mailer():
-#     pass
-
-
+# FILE RENAME
 def test_rename_files():
     # RENAME FILE
     assert (
@@ -83,3 +72,14 @@ def test_rename_files():
         )
         == 1
     )
+
+
+# TODO finish util testing
+# def test_delete_files():
+#     pass
+
+# def test_file_copier():
+#     pass
+
+# def test_mailer():
+#     pass
