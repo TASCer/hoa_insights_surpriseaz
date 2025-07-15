@@ -63,7 +63,7 @@ def update(file: str = None) -> None:
             db_item = DBCM(**item.model_dump())
 
             try:
-                insert_qry: TextClause = f"""UPDATE {LOCAL_DB_NAME}.{MANAGEMENT_TABLE} 
+                insert_qry: str = f"""UPDATE {LOCAL_DB_NAME}.{MANAGEMENT_TABLE} 
                 SET BOARD_SITUS='{db_item.BOARD_SITUS}', BOARD_CITY='{db_item.BOARD_CITY}', MANAGER='{db_item.MANAGER}', CONTACT_ADX='{db_item.CONTACT_ADX}', CONTACT_PH='{db_item.CONTACT_PH}'
                 WHERE ID = '{id}'
                     ;"""
@@ -94,7 +94,7 @@ def update(file: str = None) -> None:
             db_item = DBCM(**item.model_dump())
 
             try:
-                insert_qry: TextClause = f"""UPDATE {REMOTE_DB_NAME}.{MANAGEMENT_TABLE} 
+                insert_qry: str = f"""UPDATE {REMOTE_DB_NAME}.{MANAGEMENT_TABLE} 
                 SET BOARD_SITUS='{db_item.BOARD_SITUS}', BOARD_CITY='{db_item.BOARD_CITY}', MANAGER='{db_item.MANAGER}', CONTACT_ADX='{db_item.CONTACT_ADX}', CONTACT_PH='{db_item.CONTACT_PH}'
                 WHERE ID = '{id}'
                     ;"""
