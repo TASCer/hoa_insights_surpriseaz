@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from hoa_insights_surpriseaz.database.update_community_management import (
     get_communities,
 )
-from hoa_insights_surpriseaz.utils.rename_files import rename
+from hoa_insights_surpriseaz.utils.file_renamer import rename
 from hoa_insights_surpriseaz.database import models_local
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz import convert_management_data
