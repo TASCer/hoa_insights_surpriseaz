@@ -15,7 +15,7 @@ email_user = my_secrets.postfix_user
 email_password = my_secrets.postfix_password
 
 
-def send_mail(subject: str, attachment_path: str = None) -> None:
+def send_mail(subject: str, attachment_path: str | None = None) -> None:
     """
     Function takes a subject and optional file attachment path as strings.
     Sends email to contacts.
