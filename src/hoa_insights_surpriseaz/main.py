@@ -15,7 +15,7 @@ from hoa_insights_surpriseaz import fetch_community_management
 from hoa_insights_surpriseaz.utils import (
     date_parser,
     delete_files,
-    rename_files,
+    file_renamer,
     mailer,
 )
 
@@ -45,10 +45,10 @@ def start_community_management_update() -> Path:
     """
     logger.info("\tSTARTED: Monthly HOA Management Update")
     orig_pdf, new_pdf, mgmt_csv = fetch_community_management.download()
-    file_renamed: bool = rename_files.rename(old=orig_pdf, new=new_pdf)
+    file_renamed: bool = file_renamer.rename(old=orig_pdf, new=new_pdf)
 
     if file_renamed:
-        parsed_csv: str = convert_management_data.pdf_to_csv(new_pdf, mgmt_csv)
+        parsed_csv: Path = convert_management_data.pdf_to_csv(new_pdf, mgmt_csv)
         update_community_management.update(parsed_csv)
 
         delete_files.delete()
