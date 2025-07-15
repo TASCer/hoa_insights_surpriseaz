@@ -1,7 +1,7 @@
 import calendar
 import datetime as dt
 
-from datetime import date
+from datetime import date, datetime
 from dateutil.parser import parse
 
 
@@ -25,12 +25,12 @@ def sql_date() -> date:
     return todays_date
 
 
-def get_now() -> dt:
+def get_now() -> datetime:
     """
     Function returns current datetime.
     used for 'latest_update' table located on remote website.
     """
-    now: dt = dt.datetime.now()
+    now: datetime = dt.datetime.now()
 
     return now
 
@@ -91,7 +91,7 @@ def api_date(date: str) -> dt.datetime:
     return date_parsed
 
 
-def year_to_date() -> tuple[str]:
+def year_to_date() -> tuple[str, str]:
     """
     Function returns str representing current year and next year and appends "-01-01" to them.
     Used for YTD Sales table query.
@@ -106,7 +106,7 @@ def year_to_date() -> tuple[str]:
 
 if __name__ == "__main__":
     # print(last_saturday_of_month())
-    print(api_date({}))
+    print(api_date("2025-7-14"))
     # print(sql_timestamp())
     # print(sql_date())
     # print(log_date())

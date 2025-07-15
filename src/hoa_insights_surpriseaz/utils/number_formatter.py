@@ -36,5 +36,5 @@ def format_price(price: int) -> str:
 if __name__ == "__main__":
     print(format_apn("50911455"))
     print(format_phone("6023153315"))
-    print(format_price("50911455"))
+    print(format_price(50911455))
     print(format_phone("~~~~~~~~~~"))
