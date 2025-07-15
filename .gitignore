@@ -25,3 +25,5 @@ wheels/
 /misc/
 .coverage
 .gitkeep
+tests/input/TEST-ORIGINAL-PDF.pdf
+tests/input/TEST-RENAMED-PDF.pdf
