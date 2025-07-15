@@ -8,7 +8,7 @@ from pathlib import Path
 
 logger: Logger = logging.getLogger(__name__)
 
-header: list = [
+FILE_HEADER: list = [
     "HOA",
     "MANAGEMENT",
     "BOARD SITUS",
@@ -33,12 +33,12 @@ def parse_csv(file: Path) -> Path:
 
     managers.rename(
         columns={
-            "Board Address (ACC Listed)": header[2],
-            "City/Zip": header[3],
-            "HOA Name": header[0],
-            "Contact Email/Website": header[4],
-            "Management Company": header[1],
-            "Telephone": header[-1],
+            "Board Address (ACC Listed)": FILE_HEADER[2],
+            "City/Zip": FILE_HEADER[3],
+            "HOA Name": FILE_HEADER[0],
+            "Contact Email/Website": FILE_HEADER[4],
+            "Management Company": FILE_HEADER[1],
+            "Telephone": FILE_HEADER[-1],
         },
         inplace=True,
     )
