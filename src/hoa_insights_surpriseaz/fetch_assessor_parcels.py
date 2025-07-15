@@ -65,7 +65,7 @@ def parcels_api() -> tuple[dict]:
     Fetches latest data for APN from Accessor API.
     Returns tuple of api results as dict.
     """
-    APNS: list[str] = get_parcel_apns()
+    APNS: tuple[str] = get_parcel_apns()
     logger.info("Accessing Assessor API to get latest parcel data")
     consumed_parcel_data: tuple[dict] = asyncio.run(async_main(APNS))
     logger.info("All latest parcel data consumed from API")
@@ -92,7 +92,7 @@ async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> d
 
     except (
         json.JSONDecodeError,
-        aiohttp.client.ContentTypeError,
+        # aiohttp.client.ContentTypeError,  # ty caught this
         aiohttp.ClientResponseError,
         TypeError,
         aiohttp.ClientPayloadError,
