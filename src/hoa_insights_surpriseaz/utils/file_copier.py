@@ -15,7 +15,7 @@ WEB_SERVER_REPORT_PATH_WINDOWS = Path(
 )
 
 
-def copy(file: str) -> bool:
+def copy(file: str) -> None:
     if not platform.system() == "Windows":
         try:
             os.system(f"cp {file} {WEB_SERVER_REPORT_PATH_LINUX}")
