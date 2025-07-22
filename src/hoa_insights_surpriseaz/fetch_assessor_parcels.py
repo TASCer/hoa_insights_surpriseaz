@@ -1,3 +1,4 @@
+# TODO Seems they put rate limiting around 100 after July 15. Don't know if perm. Dropped connection from 40 to 2.
 import aiohttp
 import asyncio
 import json
@@ -80,9 +81,13 @@ async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> d
     """
     try:
         async with sem, client.get(url) as resp:
-            parcel_details: dict = await resp.json()
+            # print(resp.status, resp.headers)
             if resp.status != 200:
-                print(url, resp.status)
+                print(url, resp.status, resp.headers)
+                # exit()
+            parcel_details: dict = await resp.json()
+            # if resp.status != 200:
+            #     print(url, resp.status)
             return parcel_details
 
     except aiohttp.client_exceptions.ClientOSError as os:
@@ -92,7 +97,7 @@ async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> d
 
     except (
         json.JSONDecodeError,
-        # aiohttp.client.ContentTypeError,  # ty caught this
+        aiohttp.client.ContentTypeError,  # ty caught this.
         aiohttp.ClientResponseError,
         TypeError,
         aiohttp.ClientPayloadError,
@@ -116,7 +121,7 @@ async def async_main(apns: list) -> list[dict]:
     Returns a tuple of dictionary objects for each parcel processed.
     """
     connector: TCPConnector = TCPConnector(
-        ssl=False, limit=40, limit_per_host=40, enable_cleanup_closed=False
+        ssl=False, limit=2, limit_per_host=2, enable_cleanup_closed=False
     )
     async with RetryClient(
         headers=API_HEADER,
@@ -124,7 +129,7 @@ async def async_main(apns: list) -> list[dict]:
         raise_for_status=True,
         retry_options=ExponentialRetry(attempts=3),
     ) as retry_client:
-        sem: Semaphore = asyncio.Semaphore(40)
+        sem: Semaphore = asyncio.Semaphore(2)
         tasks: list[Task[object]] = []
         for apn in apns:
             parcel_url: str = f"https://mcassessor.maricopa.gov/parcel/{apn}"
@@ -138,4 +143,4 @@ async def async_main(apns: list) -> list[dict]:
 
 
 if __name__ == "__main__":
-    print(parcels_api())
+    parcels_api()
