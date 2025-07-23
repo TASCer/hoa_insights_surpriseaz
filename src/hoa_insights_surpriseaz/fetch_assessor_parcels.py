@@ -35,7 +35,9 @@ def get_parcel_apns() -> tuple[str]:
         engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
         with engine.connect() as conn, conn.begin():
             result: TextClause = conn.execute(
-                text(f"SELECT APN FROM {LOCAL_DB_NAME}.{PARCELS_TABLE};")
+                text(
+                    f"SELECT APN FROM {LOCAL_DB_NAME}.{PARCELS_TABLE} where COMMUNITY = 'LPS';"
+                )
             )
             all_results: CursorResult = result.all()
             APNs: list[Row] = [x[0] for x in all_results]
@@ -81,31 +83,33 @@ async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> d
     """
     try:
         async with sem, client.get(url) as resp:
-            # print(resp.status, resp.headers)
-            if resp.status != 200:
-                print(url, resp.status, resp.headers)
-                # exit()
+            response_code = resp.status
+            if response_code != 200:
+                print("NOT 200!!")
+
+            if response_code == 429:
+                raise aiohttp.ClientResponseError()
+
             parcel_details: dict = await resp.json()
-            # if resp.status != 200:
-            #     print(url, resp.status)
+
             return parcel_details
 
-    except aiohttp.client_exceptions.ClientOSError as os:
-        logger.error(f"{os} - {url}")
+    # except aiohttp.client_exceptions.ClientOSError as os:
+    #     logger.error(f"{os} - {url}")
 
-        return exit()
+    #     return exit()
 
     except (
         json.JSONDecodeError,
-        aiohttp.client.ContentTypeError,  # ty caught this.
-        aiohttp.ClientResponseError,
+        # aiohttp.client.ContentTypeError,  # ty caught this.
+        aiohttp.client.exceptions.ClientResponseError,
         TypeError,
         aiohttp.ClientPayloadError,
     ) as e:
-        logger.warning(f"{e.message}")
-
+        print("sleeping")
         await asyncio.sleep(4)
-
+        print("ERROR", e)
+        logger.error(e)
         async with sem, client.get(url) as resp:
             parcel_details: dict = await resp.json()
             logger.warning(f"{url} was retried")
@@ -121,7 +125,10 @@ async def async_main(apns: list) -> list[dict]:
     Returns a tuple of dictionary objects for each parcel processed.
     """
     connector: TCPConnector = TCPConnector(
-        ssl=False, limit=2, limit_per_host=2, enable_cleanup_closed=False
+        ssl=False,
+        limit=0,  # limit=0 defaults to 100
+        limit_per_host=20,
+        enable_cleanup_closed=False,
     )
     async with RetryClient(
         headers=API_HEADER,
@@ -129,7 +136,7 @@ async def async_main(apns: list) -> list[dict]:
         raise_for_status=True,
         retry_options=ExponentialRetry(attempts=3),
     ) as retry_client:
-        sem: Semaphore = asyncio.Semaphore(2)
+        sem: Semaphore = asyncio.Semaphore(2)  # 2 is the only not causeing 429's
         tasks: list[Task[object]] = []
         for apn in apns:
             parcel_url: str = f"https://mcassessor.maricopa.gov/parcel/{apn}"
@@ -137,7 +144,7 @@ async def async_main(apns: list) -> list[dict]:
                 asyncio.create_task(get_parcel_details(retry_client, sem, parcel_url))
             )
 
-        parcels: list = await asyncio.gather(*tasks, return_exceptions=True)
+        parcels: list = await asyncio.gather(*tasks, return_exceptions=False)
 
         return parcels
 
