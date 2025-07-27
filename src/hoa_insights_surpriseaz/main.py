@@ -1,8 +1,5 @@
 import logging
 
-from logging import Logger, Formatter
-from pandas import DataFrame
-from pathlib import Path
 from hoa_insights_surpriseaz import fetch_assessor_parcels
 from hoa_insights_surpriseaz import create_reports
 from hoa_insights_surpriseaz import parse_assessor_parcels
@@ -18,6 +15,9 @@ from hoa_insights_surpriseaz.utils import (
     file_renamer,
     mailer,
 )
+from logging import Logger, Formatter
+from pandas import DataFrame
+from pathlib import Path
 
 PROJECT_ROOT: Path = Path.cwd()
 LOG_DATE: str = str(date_parser.logger_date()) + ".log"
