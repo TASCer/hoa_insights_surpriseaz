@@ -82,7 +82,7 @@ def pdf_to_csv(pdf_file: Path, csv_file: Path) -> Path:
 
     logger.info("Converting pdf file to csv complete.")
 
-    parsed_csv: str = parse_csv(csv_file)
+    parsed_csv: Path = parse_csv(csv_file)
 
     return parsed_csv
 
