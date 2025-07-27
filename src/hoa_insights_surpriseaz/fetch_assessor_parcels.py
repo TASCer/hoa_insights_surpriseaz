@@ -92,15 +92,15 @@ async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> d
 
             return parcel_details
 
-    # except aiohttp.client_exceptions.ClientOSError as os:
-    #     logger.error(f"{os} - {url}")
+    except aiohttp.client_exceptions.ClientOSError as os:
+        logger.error(f"{os} - {url}")
 
-    #     return exit()
+        return exit()
 
     except (
         json.JSONDecodeError,
         # aiohttp.client.ContentTypeError,  # ty caught this.
-        aiohttp.client.exceptions.ClientResponseError,
+        aiohttp.client.ClientResponseError,
         TypeError,
         aiohttp.ClientPayloadError,
     ) as e:
@@ -134,7 +134,7 @@ async def async_main(apns: list) -> list[dict]:
         raise_for_status=True,
         retry_options=ExponentialRetry(attempts=3),
     ) as retry_client:
-        sem: Semaphore = asyncio.Semaphore(2)  # 2 is the only not causeing 429's
+        sem: Semaphore = asyncio.Semaphore(2)
         tasks: list[Task[object]] = []
         for apn in apns:
             parcel_url: str = f"https://mcassessor.maricopa.gov/parcel/{apn}"
