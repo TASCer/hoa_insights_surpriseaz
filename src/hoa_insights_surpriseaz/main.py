@@ -97,7 +97,7 @@ def main() -> bool:
 if __name__ == "__main__":
     """
     Checks:
-     Is today is the first Tusday of this month? If so update community management data.
+     Is today is the first Tuesday of this month? If so update community management data.
     Runs:
      Controlling application function: main()    
     Checks:
