@@ -40,7 +40,6 @@ def get_average_sale_price() -> None:
 
     except (exc.SQLAlchemyError, exc.OperationalError, exc.ProgrammingError) as e:
         logger.critical(e)
-        engine: Engine = None
 
     with engine.connect() as conn, conn.begin():
         try:
