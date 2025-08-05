@@ -76,7 +76,7 @@ def first_tuesday_of_month() -> bool:
     return is_today_first_tuesday
 
 
-def api_date(date: str) -> dt.datetime:
+def api_date(date: str) -> str:
     """
     Function takes a date from API fetch result.
     Returns formatted str for mysql date fields.
