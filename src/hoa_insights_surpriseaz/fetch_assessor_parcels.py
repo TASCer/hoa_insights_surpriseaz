@@ -26,7 +26,7 @@ if platform.system() == "Windows":
 API_HEADER: dict[str, str] = {my_secrets.api_header_type: my_secrets.api_header_creds}
 
 
-def get_parcel_apns() -> tuple[str]:
+def get_parcel_apns() -> list[str]:
     """
     Function retrieves the APN of all parcels from database.
     Returns tuple of APNs and db engine.
@@ -66,7 +66,7 @@ def parcels_api() -> tuple[dict]:
     Fetches latest data for APN from Accessor API.
     Returns tuple of api results as dict.
     """
-    APNS: tuple[str] = get_parcel_apns()
+    APNS: list[str] = get_parcel_apns()
     logger.info("Accessing Assessor API to get latest parcel data")
     consumed_parcel_data: tuple[dict] = asyncio.run(async_main(APNS))
     logger.info("All latest parcel data consumed from API")
@@ -85,22 +85,19 @@ async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> d
             if response_code != 200:
                 print("NOT 200!!")
 
-            if response_code == 429:
-                raise aiohttp.ClientResponseError()
-
             parcel_details: dict = await resp.json()
 
             return parcel_details
 
-    except aiohttp.client_exceptions.ClientOSError as os:
+    except aiohttp.ClientOSError as os:
         logger.error(f"{os} - {url}")
 
         return exit()
 
     except (
         json.JSONDecodeError,
-        # aiohttp.client.ContentTypeError,  # ty caught this.
-        aiohttp.client.ClientResponseError,
+        aiohttp.ContentTypeError,
+        aiohttp.ClientResponseError,
         TypeError,
         aiohttp.ClientPayloadError,
     ) as e:
