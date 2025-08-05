@@ -36,7 +36,7 @@ REMOTE_DB_HOSTNAME: str = f"{my_secrets.test_bluehost_dbhost}"
 logger: Logger = logging.getLogger(__name__)
 
 
-def local_database() -> list:
+def local_database() -> list | None:
     engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
 
     logger.info(f"*** STARTED LOCAL DATABASE SETUP ON: {LOCAL_DB_HOSTNAME} ***")
