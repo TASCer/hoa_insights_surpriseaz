@@ -69,7 +69,7 @@ def all() -> None:
                     if_exists="replace",
                     index=False,
                 )
-                logger.info("\tTable 'registered_rentals' has been updated REMOTELY")
+                logger.info("\tTable: 'registered_rentals' has been updated REMOTELY")
 
                 classed_rentals.to_sql(
                     name="classed_rentals",
