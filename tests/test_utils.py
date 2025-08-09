@@ -1,3 +1,18 @@
+from pathlib import Path
+
+from hoa_insights_surpriseaz.fetch_community_management import (
+    PDF_PATH,
+    PDF_DOWNLOADED_FILENAME,
+    PDF_NEW_FILENAME,
+)
+
+PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
+PDF_PATH: Path = Path.cwd() / "output" / "pdf"
+
+CSV_PATH: Path = Path.cwd() / "output" / "csv"
+CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
+
+
 from sqlalchemy import null
 from hoa_insights_surpriseaz.utils import (
     date_parser,
@@ -25,8 +40,8 @@ def test_sql_timestamp() -> None:
     print(date)
 
 
-def test_api_date() -> None:
-    date: datetime = date_parser.api_date(null)
+def test_format_api_date() -> None:
+    date: str = date_parser.api_date("")
     print(date)
 
 
@@ -51,12 +66,14 @@ def test_rename_files():
     # RENAME FILE
     assert (
         file_renamer.rename(
-            old=Path(
-                "/home/todd/python_projects/hoa_insights_surpriseaz/tests/input/TEST-ORIGINAL-PDF.pdf"
-            ),
-            new=Path(
-                "/home/todd/python_projects/hoa_insights_surpriseaz/tests/input/TEST-RENAMED-PDF.pdf"
-            ),
+            old=PDF_PATH / PDF_DOWNLOADED_FILENAME,
+            # Path(
+            #     "/home/todd/python_projects/hoa_insights_surpriseaz/tests/input/TEST-ORIGINAL-PDF.pdf"
+            # ),
+            new=PDF_PATH / PDF_NEW_FILENAME,
+            # Path(
+            #     "/home/todd/python_projects/hoa_insights_surpriseaz/tests/input/TEST-RENAMED-PDF.pdf"
+            # ),
         )
         == 1
     )
