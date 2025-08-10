@@ -9,7 +9,6 @@ from sqlalchemy import (
     Engine,
     text,
     Row,
-    TextClause,
 )
 from sqlalchemy_utils import database_exists, create_database
 from typing import Sequence
@@ -81,20 +80,25 @@ def triggers(db_uri: str = LOCAL_DB_URI, db_name=LOCAL_DB_NAME) -> bool:
         return False
 
     with engine.connect() as conn, conn.begin():
-        q_owners_triggers: TextClause = select(
-            text(
-                f"* from INFORMATION_SCHEMA.TRIGGERS where EVENT_OBJECT_TABLE='{OWNERS_TABLE}';"
+        # q_owners_triggers: CursorResult =
+        owners_result: Sequence[Row] = conn.execute(
+            select(
+                text(
+                    f"* from INFORMATION_SCHEMA.TRIGGERS where EVENT_OBJECT_TABLE='{OWNERS_TABLE}';"
+                )
             )
         )
-        owners_result: Sequence[Row] = conn.execute(q_owners_triggers)
+
         owners_triggers: list[str] = [x[1] for x in owners_result]
 
-        q_management_trigger: TextClause = select(
-            text(
-                f"* from INFORMATION_SCHEMA.TRIGGERS where EVENT_OBJECT_TABLE='{MANAGEMENT_TABLE}';"
+        # q_management_trigger: TextClause =
+        management_result: Sequence[Row] = conn.execute(
+            select(
+                text(
+                    f"* from INFORMATION_SCHEMA.TRIGGERS where EVENT_OBJECT_TABLE='{MANAGEMENT_TABLE}';"
+                )
             )
         )
-        management_result: Sequence[Row] = conn.execute(q_management_trigger)
         management_trigger: list[str] = [x[1] for x in management_result]
 
         # OWNERS TRIGGER

@@ -9,8 +9,7 @@ from hoa_insights_surpriseaz.database.check_local_rdbms import LOCAL_DB_NAME
 from logging import Logger
 from pathlib import Path
 from sqlalchemy.orm import Session
-from sqlalchemy import Engine, create_engine, exc, TextClause, text
-from typing import TextIO
+from sqlalchemy import Engine, create_engine, exc, text
 
 LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
@@ -20,7 +19,7 @@ logger: Logger = logging.getLogger(__name__)
 MANAGEMENT_TABLE: str = "community_managers"
 
 
-def get_communities(parsed_csv: str) -> list[str]:
+def get_communities(parsed_csv: Path) -> list[str]:
     """
     Function takes in the path of the management pdf file that was downloaded and parsed to csv.
     Reads the file and creates a row for each community and drops the header.
@@ -29,17 +28,18 @@ def get_communities(parsed_csv: str) -> list[str]:
 
     try:
         with open(parsed_csv, "r") as f:
-            reader: TextIO = csv.reader(f)
+            reader = csv.reader(f)
             communitities: list[str] = [c for c in reader]
             communitities.pop(0)
 
-            return communitities
-
     except FileNotFoundError as ffe:
+        communitities = []
         logger.addFilter(f"{ffe}")
 
+    return communitities
 
-def update(file: str = None) -> None:
+
+def update(file: Path) -> None:
     """
     Function updates the community_managers tables (local, remote) with data from the monthly pdf download.
     """

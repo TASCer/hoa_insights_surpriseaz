@@ -16,6 +16,10 @@ from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz import convert_management_data
 from hoa_insights_surpriseaz.fetch_community_management import download
 
+PDF_DOWNLOADED_FILENAME: str = "HOA Contact List (PDF) .pdf"
+PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
+PDF_PATH: Path = Path.cwd().parent.parent / "output" / "pdf"
+
 LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 MANAGEMENT_FILE: Path = (
     Path.cwd().parent.parent / "output" / "csv" / "surpriseaz-hoa-management.csv"
@@ -65,9 +69,14 @@ def community_management(s: Session) -> bool:
         try:
             logger.info("Fetching Community Management Data")
             download()
-            file_renamed: bool = rename()
+            file_renamed: bool = rename(
+                PDF_PATH / PDF_DOWNLOADED_FILENAME, PDF_PATH / PDF_NEW_FILENAME
+            )
             if file_renamed:
-                convert_management_data.convert_pdf()
+                convert_management_data.pdf_to_csv(
+                    pdf_file=PDF_PATH / PDF_DOWNLOADED_FILENAME,
+                    csv_file=MANAGEMENT_FILE,
+                )
             community_management(s=s)
 
         except FileNotFoundError as ffe:
@@ -129,7 +138,7 @@ def communities(engine: Engine = engine, file_path=MANAGEMENT_FILE) -> list:
             s.add(community_instance, _warn=False)
             s.commit()
 
-    community_management(s, file_path=file_path)
+    community_management(s)
 
     return community_totals
 

@@ -53,7 +53,7 @@ def communities(community_totals) -> bool:
 
         with Session(bluehost_engine) as rs:
             for community, parcel_total, long, lat in community_totals:
-                community_instance: Community = models_remote.Community(
+                community_instance = models_remote.Community(
                     COMMUNITY=community,
                     COUNT=parcel_total,
                     LAT=lat,
