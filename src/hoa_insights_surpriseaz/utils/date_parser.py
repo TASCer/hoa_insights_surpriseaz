@@ -2,7 +2,7 @@ import calendar
 import datetime as dt
 
 from datetime import date, datetime
-from dateutil.parser import parse
+from dateutil.parser import parse, ParserError
 
 
 def logger_date() -> str:
@@ -76,17 +76,17 @@ def first_tuesday_of_month() -> bool:
     return is_today_first_tuesday
 
 
-def api_date(date: str) -> str:
+def api_date(date: str) -> datetime:
     """
     Function takes a date from API fetch result.
     Returns formatted str for mysql date fields.
     If date not parseable, returns "1901-01-01".
     """
     try:
-        date_parsed: dt.datetime = parse(date)
+        date_parsed: datetime = parse(date)
 
-    except TypeError:
-        date_parsed = parse("1901-01-01")
+    except (TypeError, ParserError):
+        date_parsed: datetime = parse("1901-01-01")
 
     return date_parsed
 
@@ -106,7 +106,7 @@ def year_to_date() -> tuple[str, str]:
 
 if __name__ == "__main__":
     # print(last_saturday_of_month())
-    print(api_date("2025-7-14"))
+    print(api_date(""))
     # print(sql_timestamp())
     # print(sql_date())
     # print(log_date())
