@@ -7,21 +7,11 @@ from hoa_insights_surpriseaz.utils import (
 from pathlib import Path
 from sqlalchemy import null
 from datetime import datetime
-from hoa_insights_surpriseaz.fetch_community_management import (
-    PDF_PATH,
-    PDF_DOWNLOADED_FILENAME,
-    PDF_NEW_FILENAME,
-    CSV_PATH,
-    CSV_FILENAME
-)
-# PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
-# PDF_PATH: Path = Path.cwd() / "output" / "pdf"
 
-# CSV_PATH: Path = Path.cwd() / "output" / "csv"
-# CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
-
-
-
+TEST_ORIG_PDF_FILENAME: str = "TEST-MANAGEMENT.pdf"
+TEST_RENAMED_PDF_FILENAME: str = "TEST-RENAMED-MANAGEMENT.pdf"
+TEST_ORIG_CSV_FILENAME: str = "test-surpriseaz-hoa-management.csv"
+CSV_FILENAME: str = "test-renamed-surpriseaz-hoa-management.csv"
 
 # DATE PARSER
 def test_date_parser() -> None:
@@ -65,31 +55,32 @@ def test_number_formatter() -> None:
 
 # FILE RENAME
 def test_rename_files():
-    assert file_renamer.rename(Path().parent / "input" / "TEST-ORIGINAL-PDF.pdf", Path().parent / "input" / "TEST-RENAMED-PDF.pdf"
-            ) == 1
-    
+    tests_path = Path.cwd() / "tests" / "output" / "pdf"
+
+    # RENAME ORIG
+    assert (
+        file_renamer.rename(
+            tests_path / TEST_ORIG_PDF_FILENAME, tests_path / TEST_RENAMED_PDF_FILENAME
+        )
+        == 1
+    )
+
     # RENAME BACK
-    # assert (
-    #     file_renamer.rename(
-    #         old=Path(
-    #             "/home/todd/python_projects/hoa_insights_surpriseaz/tests/input/TEST-RENAMED-PDF.pdf"
-    #         ),
-    #         new=Path(
-    #             "/home/todd/python_projects/hoa_insights_surpriseaz/tests/input/TEST-ORIGINAL-PDF.pdf"
-    #         ),
-    #     )
-    #     == 1
-    # )
+    assert (
+        file_renamer.rename(
+            tests_path / TEST_RENAMED_PDF_FILENAME, tests_path / TEST_ORIG_PDF_FILENAME
+        )
+        == 1
+    )
 
 
 # TODO finish util testing
-def test_file_copier():
-    file_copier.to_folder(CSV_PATH/CSV_FILENAME, Path().parent / "output")
+# def test_file_copier():
+#     file_copier.to_folder(CSV_PATH/CSV_FILENAME, Path().parent / "output")
 
 
-
-def test_delete_files():
-    pass
+# def test_delete_files():
+#     pass
 
 
 # def test_mailer():
