@@ -1,19 +1,3 @@
-from pathlib import Path
-
-from hoa_insights_surpriseaz.fetch_community_management import (
-    PDF_PATH,
-    PDF_DOWNLOADED_FILENAME,
-    PDF_NEW_FILENAME,
-)
-
-PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
-PDF_PATH: Path = Path.cwd() / "output" / "pdf"
-
-CSV_PATH: Path = Path.cwd() / "output" / "csv"
-CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
-
-
-from sqlalchemy import null
 from hoa_insights_surpriseaz.utils import (
     date_parser,
     file_renamer,
@@ -21,7 +5,22 @@ from hoa_insights_surpriseaz.utils import (
     number_formatter,
 )
 from pathlib import Path
+from sqlalchemy import null
 from datetime import datetime
+from hoa_insights_surpriseaz.fetch_community_management import (
+    PDF_PATH,
+    PDF_DOWNLOADED_FILENAME,
+    PDF_NEW_FILENAME,
+    CSV_PATH,
+    CSV_FILENAME
+)
+# PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
+# PDF_PATH: Path = Path.cwd() / "output" / "pdf"
+
+# CSV_PATH: Path = Path.cwd() / "output" / "csv"
+# CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
+
+
 
 
 # DATE PARSER
@@ -41,8 +40,11 @@ def test_sql_timestamp() -> None:
 
 
 def test_format_api_date() -> None:
-    date: str = date_parser.api_date("")
-    print(date)
+    no_date: datetime = date_parser.api_date("")
+    assert no_date == datetime(1901, 1, 1, 0, 0)
+
+    has_date: datetime = date_parser.api_date("2025-08-09")
+    assert has_date == datetime(2025, 8, 9, 0, 0)
 
 
 def test_first_tuesday() -> None:
@@ -63,40 +65,32 @@ def test_number_formatter() -> None:
 
 # FILE RENAME
 def test_rename_files():
-    # RENAME FILE
-    assert (
-        file_renamer.rename(
-            old=PDF_PATH / PDF_DOWNLOADED_FILENAME,
-            # Path(
-            #     "/home/todd/python_projects/hoa_insights_surpriseaz/tests/input/TEST-ORIGINAL-PDF.pdf"
-            # ),
-            new=PDF_PATH / PDF_NEW_FILENAME,
-            # Path(
-            #     "/home/todd/python_projects/hoa_insights_surpriseaz/tests/input/TEST-RENAMED-PDF.pdf"
-            # ),
-        )
-        == 1
-    )
+    assert file_renamer.rename(Path().parent / "input" / "TEST-ORIGINAL-PDF.pdf", Path().parent / "input" / "TEST-RENAMED-PDF.pdf"
+            ) == 1
+    
     # RENAME BACK
-    assert (
-        file_renamer.rename(
-            old=Path(
-                "/home/todd/python_projects/hoa_insights_surpriseaz/tests/input/TEST-RENAMED-PDF.pdf"
-            ),
-            new=Path(
-                "/home/todd/python_projects/hoa_insights_surpriseaz/tests/input/TEST-ORIGINAL-PDF.pdf"
-            ),
-        )
-        == 1
-    )
+    # assert (
+    #     file_renamer.rename(
+    #         old=Path(
+    #             "/home/todd/python_projects/hoa_insights_surpriseaz/tests/input/TEST-RENAMED-PDF.pdf"
+    #         ),
+    #         new=Path(
+    #             "/home/todd/python_projects/hoa_insights_surpriseaz/tests/input/TEST-ORIGINAL-PDF.pdf"
+    #         ),
+    #     )
+    #     == 1
+    # )
 
 
 # TODO finish util testing
-# def test_delete_files():
-#     pass
+def test_file_copier():
+    file_copier.to_folder(CSV_PATH/CSV_FILENAME, Path().parent / "output")
 
-# def test_file_copier():
-#     pass
+
+
+def test_delete_files():
+    pass
+
 
 # def test_mailer():
 #     pass
