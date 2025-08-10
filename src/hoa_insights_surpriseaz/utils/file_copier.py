@@ -29,6 +29,7 @@ def to_webserver(file: str) -> None:
         except (IOError, FileNotFoundError) as e:
             logger.error(e)
 
+
 def to_folder(source: Path, destination: Path) -> None:
     pass
     # if not platform.system() == "Windows":
