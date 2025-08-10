@@ -35,25 +35,6 @@ def get_now() -> datetime:
     return now
 
 
-# KEEP in case need for another automated monthly task
-# def last_saturday_of_month() -> int:
-#     """
-#     Application is scheduled to run every Tuesday and Saturday morning @ 2am.
-#     Function determines the date for the LAST SATURDAY of each month.
-#     Used to update HOA management data monthly.
-#     Returns date as int.
-#     """
-#     cur_year = dt.date.today().year
-#     cur_month = dt.date.today().month
-#     cur_month_calendar = calendar.monthcalendar(year=cur_year, month=cur_month)
-
-#     last_saturday: int = max(
-#         cur_month_calendar[-1][calendar.SATURDAY], cur_month_calendar[-2][calendar.SATURDAY]
-#     )
-
-#     return last_saturday
-
-
 def first_tuesday_of_month() -> bool:
     """
     Function determines if today is the FIRST TUESDAY of this month.
@@ -111,3 +92,24 @@ if __name__ == "__main__":
     # print(sql_date())
     # print(log_date())
     # print(f"{}")
+
+
+
+
+# KEEP in case need for another automated monthly task
+# def last_saturday_of_month() -> int:
+#     """
+#     Application is scheduled to run every Tuesday and Saturday morning @ 2am.
+#     Function determines the date for the LAST SATURDAY of each month.
+#     Used to update HOA management data monthly.
+#     Returns date as int.
+#     """
+#     cur_year = dt.date.today().year
+#     cur_month = dt.date.today().month
+#     cur_month_calendar = calendar.monthcalendar(year=cur_year, month=cur_month)
+
+#     last_saturday: int = max(
+#         cur_month_calendar[-1][calendar.SATURDAY], cur_month_calendar[-2][calendar.SATURDAY]
+#     )
+
+#     return last_saturday
