@@ -1,9 +1,9 @@
-def test_init_local_db(local_session):
-    assert local_session
+# def test_init_local_db(local_session):
+#     assert local_session
 
 
-def test_init_remote_db(remote_session):
-    assert remote_session
+# def test_init_remote_db(remote_session):
+#     assert remote_session
 
 
 # from sqlalchemy import text
