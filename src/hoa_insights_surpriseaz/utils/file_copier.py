@@ -15,7 +15,7 @@ WEB_SERVER_REPORT_PATH_WINDOWS = Path(
 )
 
 
-def copy(file: str) -> None:
+def to_webserver(file: str) -> None:
     if not platform.system() == "Windows":
         try:
             os.system(f"cp {file} {WEB_SERVER_REPORT_PATH_LINUX}")
@@ -28,3 +28,18 @@ def copy(file: str) -> None:
 
         except (IOError, FileNotFoundError) as e:
             logger.error(e)
+
+def to_folder(source: Path, destination: Path) -> None:
+    pass
+    # if not platform.system() == "Windows":
+    #     try:
+    #         os.system(f"cp {file} {WEB_SERVER_REPORT_PATH_LINUX}")
+    #         logger.info(f"{file.split('/')[-1]} sent to tascs.test web server")
+    #     except BaseException as e:
+    #         logger.critical(f"{file} NOT sent to tascs.test web server. {e}")
+    # else:
+    #     try:
+    #         shutil.copy(file, WEB_SERVER_REPORT_PATH_WINDOWS)
+
+    #     except (IOError, FileNotFoundError) as e:
+    #         logger.error(e)
