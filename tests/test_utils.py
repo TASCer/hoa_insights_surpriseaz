@@ -1,3 +1,5 @@
+
+from datetime import datetime
 from hoa_insights_surpriseaz.utils import (
     date_parser,
     file_renamer,
@@ -6,7 +8,7 @@ from hoa_insights_surpriseaz.utils import (
 )
 from pathlib import Path
 from sqlalchemy import null
-from datetime import datetime
+from datetime import datetime as dt
 
 TEST_ORIG_PDF_FILENAME: str = "TEST-MANAGEMENT.pdf"
 TEST_RENAMED_PDF_FILENAME: str = "TEST-RENAMED-MANAGEMENT.pdf"
@@ -21,20 +23,19 @@ def test_date_parser() -> None:
 
 def test_sql_date() -> None:
     date = date_parser.sql_date()
-    print(date)
+    assert date == dt.today().date()
 
 
 def test_sql_timestamp() -> None:
     date = date_parser.get_now()
-    print(date)
-
+    assert dt.isoformat(date)
 
 def test_format_api_date() -> None:
     no_date: datetime = date_parser.api_date("")
-    assert no_date == datetime(1901, 1, 1, 0, 0)
+    assert no_date == dt(1901, 1, 1, 0, 0)
 
     has_date: datetime = date_parser.api_date("2025-08-09")
-    assert has_date == datetime(2025, 8, 9, 0, 0)
+    assert has_date == dt(2025, 8, 9, 0, 0)
 
 
 def test_first_tuesday() -> None:
