@@ -97,10 +97,9 @@ def send_mail(subject: str, attachment_path: str | None = None) -> None:
             server.sendmail(email_sender, email_reciever, msg.as_string())
             logger.info("\temail sent")
 
-    except smtplib.SMTPException as err:
-        if "Connection refused" in err.msg:
-            logger.error(f"\tCheck Email Server {err.msg}")
-            print(f"Check Email Server {err.msg}")
+    except smtplib.SMTPException as smtp_err:
+            logger.error(f"\tCheck Email Server {smtp_err}")
+            print(f"Check Email Server {smtp_err}")
 
     # #################################### SSL TESTING
     # context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)   # ssl.create_default_context
