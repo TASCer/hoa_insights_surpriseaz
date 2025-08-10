@@ -1,9 +1,10 @@
 import logging
 
-from logging import Logger
+from datetime import datetime
 from hoa_insights_surpriseaz.schemas import Rentals, Owners
 from hoa_insights_surpriseaz.utils.number_formatter import format_apn, format_phone
-from hoa_insights_surpriseaz.utils.date_parser import api_date
+from hoa_insights_surpriseaz.utils import date_parser
+from logging import Logger
 
 logger: Logger = logging.getLogger(__name__)
 
@@ -14,7 +15,7 @@ def parse(api_data: list[dict]) -> tuple[list, list]:
 
     for parcel_data in api_data:
         apn: str = format_apn(parcel_data["TreasurersTransitionUrl"].split("=")[1])
-        deed_date: str = api_date(parcel_data["Owner"]["DeedDate"])
+        deed_date: datetime = date_parser.api_date(parcel_data["Owner"]["DeedDate"])
         deed_type: str = parcel_data["Owner"]["DeedType"]
 
         if not deed_type:
@@ -28,7 +29,7 @@ def parse(api_data: list[dict]) -> tuple[list, list]:
 
         is_rental: bool = bool(parcel_data["IsRental"])
         last_legal_class: str = parcel_data["Valuations"][0]["LegalClassificationCode"]
-        sale_date: str = api_date(parcel_data["Owner"]["SaleDate"])
+        sale_date: datetime = date_parser.api_date(parcel_data["Owner"]["SaleDate"])
         sale_price: str = parcel_data["Owner"]["SalePrice"]
 
         if sale_price is None:
