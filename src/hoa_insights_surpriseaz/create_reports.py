@@ -53,7 +53,7 @@ def owner_changes(parcel_updates: DataFrame) -> None:
     parcel_updates_report: str = f"{HTML_REPORT_PATH_CHANGES}"
     parcel_updates_style.to_html(parcel_updates_report)
 
-    file_copier.copy(parcel_updates_report)
+    file_copier.to_webserver(parcel_updates_report)
 
     pdf.from_file(
         input=parcel_updates_report, output_path=PDF_REPORT_PATH / "latest_changes.pdf"
@@ -77,7 +77,7 @@ def ytd_community_sales(community_avg_prices: DataFrame) -> None:
     finance_report: str = f"{HTML_REPORT_PATH_FINANCIAL}"
 
     finance_style.to_html(finance_report)
-    file_copier.copy(finance_report)
+    file_copier.to_webserver(finance_report)
 
     pdf.from_file(finance_report, PDF_REPORT_PATH / "community_ytd_sales_avg.pdf")
 
