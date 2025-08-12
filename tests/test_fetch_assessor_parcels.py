@@ -1,7 +1,7 @@
-from hoa_insights_surpriseaz import fetch_assessor_parcels
+# from hoa_insights_surpriseaz import fetch_assessor_parcels
 
 
-APNS = ["509-11-455", "509-11-600"]
+# APNS = ["509-11-455", "509-11-600"]
 
 
 # PROD doesn't take any APNs, it gets them in the module
