@@ -1,3 +1,4 @@
+import pytest
 
 from datetime import datetime
 from hoa_insights_surpriseaz.utils import (
@@ -15,6 +16,7 @@ TEST_RENAMED_PDF_FILENAME: str = "TEST-RENAMED-MANAGEMENT.pdf"
 TEST_ORIG_CSV_FILENAME: str = "test-surpriseaz-hoa-management.csv"
 CSV_FILENAME: str = "test-renamed-surpriseaz-hoa-management.csv"
 
+
 # DATE PARSER
 def test_date_parser() -> None:
     date = date_parser.logger_date()
@@ -30,6 +32,7 @@ def test_sql_timestamp() -> None:
     date = date_parser.get_now()
     assert dt.isoformat(date)
 
+
 def test_format_api_date() -> None:
     no_date: datetime = date_parser.api_date("")
     assert no_date == dt(1901, 1, 1, 0, 0)
@@ -44,20 +47,38 @@ def test_first_tuesday() -> None:
     assert not first_tuesday
 
 
-# NUMBER FORMATTER
-def test_number_formatter() -> None:
-    num = number_formatter.format_apn("50911455")
-    assert num == "509-11-455"
-    num = number_formatter.format_phone("6023153315")
-    assert num == "(602) 315-3315"
-    num = number_formatter.format_phone("~~~~~~~~~~")
-    assert num == "(999) 999-9999"
+# APN NUMBER FORMATTER
+@pytest.mark.parametrize(
+    "apn, len_before, expected, len_after",
+    [("50911455", 8, "509-11-455", 10), ("50911600", 8, "509-11-600", 10)],
+)
+def test_apn_formatter(apn, len_before, len_after, expected) -> None:
+    assert apn.isdigit() is True
+    assert len_before == 8
+    apn: str = number_formatter.format_apn(apn)
+    assert len_after == 10
+    assert apn == expected
+    assert apn.isdigit() is False
+
+# PHONE NUMBER FORMATTER
+@pytest.mark.parametrize(
+    "ph_num, expected",
+    [
+        ("6023153315", "(602) 315-3315"),
+        ("3038889999", "(303) 888-9999"),
+        ("9999999999", "(999) 999-9999"),
+        ("", ""),
+    ],
+)
+def test_phones(ph_num, expected):
+    ph_num = number_formatter.format_phone(ph_num)
+    assert ph_num == expected
 
 
 # FILE RENAME
+@pytest.mark.skip("WIP")
 def test_rename_files():
     tests_path = Path.cwd() / "tests" / "output" / "pdf"
-
     # RENAME ORIG
     assert (
         file_renamer.rename(
@@ -65,7 +86,6 @@ def test_rename_files():
         )
         == 1
     )
-
     # RENAME BACK
     assert (
         file_renamer.rename(
@@ -76,13 +96,14 @@ def test_rename_files():
 
 
 # TODO finish util testing
-# def test_file_copier():
-#     file_copier.to_folder(CSV_PATH/CSV_FILENAME, Path().parent / "output")
+@pytest.mark.skip("WIP")
+def test_file_copier():
+    file_copier.to_folder(TEST_ORIG_CSV_FILENAME/CSV_FILENAME, Path().parent / "output")
 
+@pytest.mark.skip("WIP")
+def test_delete_files():
+    pass
 
-# def test_delete_files():
-#     pass
-
-
-# def test_mailer():
-#     pass
+@pytest.mark.skip("WIP")
+def test_mailer():
+    pass
