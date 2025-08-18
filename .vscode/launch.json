@@ -65,6 +65,14 @@
             "justMyCode": true
         },
     
+        {
+            "name": "Pytest",
+            "type": "python",
+            "request": "launch",
+            "module": "pytest",
+            // "args": 
+            "justMyCode": true
+        },
     
     
     ]
