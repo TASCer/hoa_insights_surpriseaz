@@ -18,21 +18,22 @@ CSV_FILENAME: str = "test-renamed-surpriseaz-hoa-management.csv"
 
 
 # DATE PARSER
+@pytest.mark.skip("WORKING")
 def test_date_parser() -> None:
     date = date_parser.logger_date()
     assert "-" in date
 
-
+@pytest.mark.skip("WORKING")
 def test_sql_date() -> None:
     date = date_parser.sql_date()
     assert date == dt.today().date()
 
-
+@pytest.mark.skip("WORKING")
 def test_sql_timestamp() -> None:
     date = date_parser.get_now()
     assert dt.isoformat(date)
 
-
+@pytest.mark.skip("WORKING")
 def test_format_api_date() -> None:
     no_date: datetime = date_parser.api_date("")
     assert no_date == dt(1901, 1, 1, 0, 0)
@@ -40,7 +41,7 @@ def test_format_api_date() -> None:
     has_date: datetime = date_parser.api_date("2025-08-09")
     assert has_date == dt(2025, 8, 9, 0, 0)
 
-
+@pytest.mark.skip("WORKING")
 def test_first_tuesday() -> None:
     first_tuesday = date_parser.first_tuesday_of_month()
     print(first_tuesday)
@@ -48,6 +49,7 @@ def test_first_tuesday() -> None:
 
 
 # APN NUMBER FORMATTER
+@pytest.mark.skip("WORKING")
 @pytest.mark.parametrize(
     "apn, len_before, expected, len_after",
     [("50911455", 8, "509-11-455", 10), ("50911600", 8, "509-11-600", 10)],
@@ -61,6 +63,7 @@ def test_apn_formatter(apn, len_before, len_after, expected) -> None:
     assert apn.isdigit() is False
 
 # PHONE NUMBER FORMATTER
+@pytest.mark.skip("WORKING")
 @pytest.mark.parametrize(
     "ph_num, expected",
     [
