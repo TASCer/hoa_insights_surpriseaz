@@ -1,4 +1,3 @@
-# TODO Seems they put rate limiting around 100 after July 15. Don't know if perm. Dropped connection from 40 to 2.
 import aiohttp
 import asyncio
 import json
@@ -76,14 +75,14 @@ def parcels_api() -> tuple[dict]:
 
 async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> dict:
     """
-    Function takes an api retry client, semaphore, and url to get latest parcel data from API endpoint.
-    Returns a dictionary object
+    Function takes an async http retry client, async semaphore, and url to get latest parcel data from API endpoint.
+    Returns a dictionary object.
     """
     try:
         async with sem, client.get(url) as resp:
             response_code = resp.status
             if response_code != 200:
-                print("NOT 200!!")
+                logger.warning(f"NON 200 Code Errer {response_code}")
 
             parcel_details: dict = await resp.json()
 
@@ -121,7 +120,7 @@ async def async_main(apns: list) -> list[dict]:
     """
     connector: TCPConnector = TCPConnector(
         ssl=False,
-        limit=0,  # limit=0 defaults to 100
+        limit=0,
         limit_per_host=20,
         enable_cleanup_closed=False,
     )
