@@ -28,10 +28,10 @@ from hoa_insights_surpriseaz.database.setup import (
 )
 from hoa_insights_surpriseaz import convert_management_data
 
-INITIAL_PARCELS_PATH: str = "./tests/input/initial_parcel_json/"
-UPDATE_PARCELS_PATH: str = "./tests/input/update_parcel_json/"
-MANAGEMENT_PDF_PATH: str = "./tests/input/HOA Contact List (PDF).pdf"
-MANAGEMENT_CSV_PATH: str = "./tests/output/csv/surpriseaz-hoa-management.csv"
+TEST_INITIAL_PARCELS_PATH: str = "./tests/input/initial_parcel_json/"
+TEST_UPDATE_PARCELS_PATH: str = "./tests/input/update_parcel_json/"
+TEST_MANAGEMENT_PDF_PATH: str = "./tests/input/HOA Contact List (PDF).pdf"
+TEST_MANAGEMENT_CSV_PATH: str = "./tests/output/csv/surpriseaz-hoa-management.csv"
 PARCELS_CONSTANTS: str = (
     "./src/hoa_insights_surpriseaz/database/setup/seed_data/parcel_constants.csv"
 )
@@ -53,7 +53,7 @@ def local_session(local_engine):
     models_local.Base.metadata.create_all(local_engine)
     populate_local_tables.parcels(PARCELS_CONSTANTS, engine=local_engine)
     populate_local_tables.communities(
-        engine=local_engine, file_path=MANAGEMENT_CSV_PATH
+        engine=local_engine, file_path=TEST_MANAGEMENT_CSV_PATH
     )
     check_local_rdbms.triggers(db_uri=test_debian_uri, db_name=test_debian_dbname)
     check_local_rdbms.views(db_uri=test_debian_uri)
@@ -79,9 +79,8 @@ def remote_session(remote_engine):
     remote_sess = Session(remote_engine)
     models_remote.Base.metadata.create_all(remote_engine)
 
-    # populate_remote_tables.parcels(PARCELS_CONSTANTS, engine=local_engine)
     populate_remote_tables.communities(
-        engine=remote_engine, file_path=MANAGEMENT_CSV_PATH
+        engine=remote_engine, file_path=TEST_MANAGEMENT_CSV_PATH
     )
     # check_local_rdbms.triggers(db_uri=test_debian_uri, db_name=test_debian_dbname)
     # check_local_rdbms.views(db_uri=test_debian_uri)
@@ -93,12 +92,12 @@ def remote_session(remote_engine):
 
 @pytest.fixture()
 def get_owner_seed_data():
-    test_owner_seed_parcels: list[str] = os.listdir(f"{INITIAL_PARCELS_PATH}")
+    test_owner_seed_parcels: list[str] = os.listdir(f"{TEST_INITIAL_PARCELS_PATH}")
 
     consumed_owner_seed_data: list[dict] = []
 
     for parcel in test_owner_seed_parcels:
-        parcel_file = open(f"{INITIAL_PARCELS_PATH}{parcel}", "r")
+        parcel_file = open(f"{TEST_INITIAL_PARCELS_PATH}{parcel}", "r")
         parcel_data: dict = json.load(parcel_file)
         consumed_owner_seed_data.append(parcel_data)
 
@@ -116,12 +115,12 @@ def parse_owner_seed_data(get_owner_seed_data):
 
 @pytest.fixture()
 def get_owner_update_data():
-    test_owner_update_data: list[str] = os.listdir(f"{UPDATE_PARCELS_PATH}")
+    test_owner_update_data: list[str] = os.listdir(f"{TEST_UPDATE_PARCELS_PATH}")
 
     consumed_owner_update_data: list[dict] = []
 
     for parcel in test_owner_update_data:
-        parcel_file = open(f"{UPDATE_PARCELS_PATH}{parcel}", "r")
+        parcel_file = open(f"{TEST_UPDATE_PARCELS_PATH}{parcel}", "r")
         parcel_data: dict = json.load(parcel_file)
         consumed_owner_update_data.append(parcel_data)
 
