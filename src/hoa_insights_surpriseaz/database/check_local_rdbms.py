@@ -80,7 +80,6 @@ def triggers(db_uri: str = LOCAL_DB_URI, db_name=LOCAL_DB_NAME) -> bool:
         return False
 
     with engine.connect() as conn, conn.begin():
-        # q_owners_triggers: CursorResult =
         owners_result: Sequence[Row] = conn.execute(
             select(
                 text(
@@ -91,7 +90,6 @@ def triggers(db_uri: str = LOCAL_DB_URI, db_name=LOCAL_DB_NAME) -> bool:
 
         owners_triggers: list[str] = [x[1] for x in owners_result]
 
-        # q_management_trigger: TextClause =
         management_result: Sequence[Row] = conn.execute(
             select(
                 text(
@@ -121,7 +119,7 @@ def triggers(db_uri: str = LOCAL_DB_URI, db_name=LOCAL_DB_NAME) -> bool:
                 conn.execute(text(trig_sales))
                 logger.info("TRIGGER: AFTER_SALE_UPDATE has been created")
 
-                trig_owner = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_owner_update`
+                trig_owner: str = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_owner_update`
                             AFTER UPDATE ON `owners`
                             FOR EACH ROW BEGIN
                                 IF OLD.OWNER <> new.OWNER THEN
@@ -140,11 +138,8 @@ def triggers(db_uri: str = LOCAL_DB_URI, db_name=LOCAL_DB_NAME) -> bool:
                 conn.execute(text(trig_owner))
                 logger.info("TRIGGER: AFTER_OWNER_UPDATE has been created")
 
-                # return True
-
             except exc.ProgrammingError as e:
                 logger.critical(str(e))
-                # return False
 
         # MANAGEMENT TRIGGER
         if LOCAL_DB_NAME in management_trigger:
