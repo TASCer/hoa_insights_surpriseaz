@@ -37,6 +37,10 @@ logger: Logger = logging.getLogger(__name__)
 
 
 def local_database() -> list | None:
+    """
+    Function creates a db engine and checks if schema, table, triggers, views are created.
+    Returns a 
+    """
     engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
 
     logger.info(f"*** STARTED LOCAL DATABASE SETUP ON: {LOCAL_DB_HOSTNAME} ***")

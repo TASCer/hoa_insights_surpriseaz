@@ -112,7 +112,9 @@ def community_management(s: Session) -> bool:
 
 def communities(engine: Engine = engine, file_path=MANAGEMENT_FILE) -> list:
     """
-    Function creates a table of communities from parcel table data.
+    Function takes a db engine and creates a table of community totals from parcel table data.
+    Calls community_management function with list of community totals to populate community_managers table.
+    Returns list of community totals for remote database.
     """
     ix = 0
     with Session(engine) as s:
@@ -150,6 +152,11 @@ def communities(engine: Engine = engine, file_path=MANAGEMENT_FILE) -> list:
 
 
 def parcels(file_path: str = f"{PARCELS_SEED_FILE}", engine: Engine = engine) -> bool:
+    """
+    Function takes in a Path to parcels seed data and a database engine.
+    Populates parcels table with data from file.
+    Returns True/False depending on if successful.
+    """
     with Session(engine) as s:
         parcel_instances: list = []
 

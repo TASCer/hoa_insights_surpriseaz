@@ -41,8 +41,11 @@ local_engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=Fal
 bluehost_engine: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
 
 
-def communities(community_totals) -> bool:
-    """ """
+def communities(community_totals: list[str]) -> bool:
+    """
+    Function takes in a list of community totals and updates remote communities and community_managers tables.
+    Returns True/False depending on result 
+    """
     ix: int = 0
     try:
         with Session(local_engine) as ls:
@@ -79,11 +82,12 @@ def communities(community_totals) -> bool:
                 rs.commit()
 
     except (exc.OperationalError, ValueError) as err:
-        logger.error(err._message())
+        logger.error(err)
         return False
 
     return True
 
 
 if __name__ == "__main__":
-    communities()
+    pass
+    # communities(needed)
