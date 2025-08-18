@@ -66,8 +66,12 @@ def community_management(s: Session) -> bool:
     """
     if not MANAGEMENT_FILE:
         logger.warning(f"{MANAGEMENT_FILE.name} not found.")
+        print(f"{MANAGEMENT_FILE.name} not found.")
+
         try:
             logger.info("Fetching Community Management Data")
+            print("Fetching Community Management Data")
+
             download()
             file_renamed: bool = rename(
                 PDF_PATH / PDF_DOWNLOADED_FILENAME, PDF_PATH / PDF_NEW_FILENAME
@@ -84,7 +88,9 @@ def community_management(s: Session) -> bool:
 
     else:
         logger.info(f"** {MANAGEMENT_FILE.name} found. **")
+        print(f"{MANAGEMENT_FILE.name} found.")
         management: list = get_communities(MANAGEMENT_FILE)
+        print("MGMT", management)
 
         for manager in management:
             _, community, situs, city, ph, email, mgr = manager
