@@ -202,6 +202,7 @@ def views(db_uri: str = LOCAL_DB_URI) -> bool:
                 GROUP BY `parcels`.`COMMUNITY` , `rentals`.`OWNER_TYPE`
             """)
             )
+        logger.info(f"View: {VIEW_COMMUNITY_RENTAL_TYPES} created")
 
     except exc.SQLAlchemyError as e:
         logger.critical(str(e))
@@ -227,6 +228,7 @@ def views(db_uri: str = LOCAL_DB_URI) -> bool:
             """
                 )
             )
+        logger.info(f"View: {VIEW_TOP_RENTAL_TYPES} created")
 
     except exc.SQLAlchemyError as e:
         logger.critical(str(e))
@@ -260,6 +262,7 @@ def views(db_uri: str = LOCAL_DB_URI) -> bool:
             """
                 )
             )
+        logger.info(f"View: {VIEW_REGISTERED_RENTALS} created")
 
     except exc.SQLAlchemyError as e:
         logger.critical(str(e))
@@ -293,6 +296,7 @@ def views(db_uri: str = LOCAL_DB_URI) -> bool:
                     """
                 )
             )
+        logger.info(f"View: {VIEW_CLASSED_RENTALS} created")
 
     except exc.SQLAlchemyError as e:
         logger.critical(str(e))
@@ -318,6 +322,7 @@ def views(db_uri: str = LOCAL_DB_URI) -> bool:
                                 """
                 )
             )
+        logger.info(f"View: {VIEW_TOP_REGISTERED_RENTAL_OWNERS} created")
 
     except exc.SQLAlchemyError as e:
         logger.critical(str(e))
@@ -343,6 +348,7 @@ def views(db_uri: str = LOCAL_DB_URI) -> bool:
                                    """
                 )
             )
+        logger.info(f"View: {VIEW_TOP_CLASSED_RENTAL_OWNERS} created")
 
     except exc.SQLAlchemyError as e:
         logger.critical(str(e))
@@ -367,6 +373,7 @@ def views(db_uri: str = LOCAL_DB_URI) -> bool:
                                             """
                 )
             )
+        logger.info(f"View: {VIEW_RENTAL_CONTACTS} created")
 
     except exc.SQLAlchemyError as e:
         logger.critical(str(e))
@@ -390,6 +397,7 @@ def views(db_uri: str = LOCAL_DB_URI) -> bool:
                 ORDER BY `cls`.`c` + `reg`.`c` DESC"""
                 )
             )
+        logger.info(f"View: {VIEW_TOP_RENTAL_OWNERS} created")
 
     except exc.SQLAlchemyError as e:
         logger.critical(str(e))
@@ -400,6 +408,9 @@ def views(db_uri: str = LOCAL_DB_URI) -> bool:
 
 # POC
 def stored_procs(db_uri: str = LOCAL_DB_URI):
+    """
+    Function [Beta] creates a mySQL Stored Procedure to update communities.
+    """
     try:
         engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
 
@@ -421,6 +432,7 @@ def stored_procs(db_uri: str = LOCAL_DB_URI):
 
                 END""")
             )
+        logger.info(f"StoredProc: {UPDATE_COMMUNITIES_SP} created")
 
     except exc.SQLAlchemyError as e:
         logger.critical(str(e))
