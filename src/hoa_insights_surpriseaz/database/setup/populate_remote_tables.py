@@ -38,13 +38,13 @@ management_ids: list = [
 ]
 
 local_engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
-bluehost_engine: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
+remote_engine: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
 
 
 def communities(community_totals: list[str]) -> bool:
     """
     Function takes in a list of community totals and updates remote communities and community_managers tables.
-    Returns True/False depending on result 
+    Returns True/False depending on result.
     """
     ix: int = 0
     try:
@@ -54,7 +54,7 @@ def communities(community_totals: list[str]) -> bool:
             ).fetchall()
             community_managers: list[str] = [m for m in q_community_managers]
 
-        with Session(bluehost_engine) as rs:
+        with Session(remote_engine) as rs:
             for community, parcel_total, long, lat in community_totals:
                 community_instance = models_remote.Community(
                     COMMUNITY=community,
