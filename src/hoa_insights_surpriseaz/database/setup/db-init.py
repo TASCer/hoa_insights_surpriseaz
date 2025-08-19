@@ -36,10 +36,10 @@ REMOTE_DB_HOSTNAME: str = f"{my_secrets.test_bluehost_dbhost}"
 logger: Logger = logging.getLogger(__name__)
 
 
-def local_database() -> list | None:
+def create_local_dbms() -> list:
     """
     Function creates a db engine and checks if schema, table, triggers, views are created.
-    Returns a 
+    Returns a list of community totals for remote table population.
     """
     engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
 
@@ -70,8 +70,14 @@ def local_database() -> list | None:
 
         return community_data_for_bluehost
 
+    else:
+        return []
 
-def remote_database(management) -> None:
+
+def remote_database(management_data: list[str]) -> None:
+    """
+    Function creates remote DBMS and populates community_managers and communities tables with seed data.
+    """
     engine: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
 
     logger.info(f"*** STARTED REMOTE DATABASE SETUP ON: {REMOTE_DB_HOSTNAME} ***")
@@ -84,7 +90,7 @@ def remote_database(management) -> None:
             f"*** STARTED REMOTE DATABASE POPULATION ON: {REMOTE_DB_HOSTNAME} ***"
         )
         logger.info(
-            f"\tREMOTE tables populated: {populate_remote_tables.communities(management)}"
+            f"\tREMOTE tables populated: {populate_remote_tables.communities(management_data)}"
         )
         logger.info(
             f"--- COMPLETED REMOTE DATABASE POPULATION ON: {REMOTE_DB_HOSTNAME} ---"
@@ -92,5 +98,6 @@ def remote_database(management) -> None:
 
 
 if __name__ == "__main__":
-    community_management = local_database()
+    community_management = create_local_dbms()
     remote_database(community_management)
+    logger.info("********  DATABASE INITIALIZATION COMPLETE********")
