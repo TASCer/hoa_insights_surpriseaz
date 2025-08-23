@@ -9,5 +9,3 @@ def test_parse_api_seed(parse_owner_seed_data):
     assert type(parsed_test_rentals[0]) is Rentals
 
 
-if __name__ == "__main__":
-    print(test_parse_api_seed())
