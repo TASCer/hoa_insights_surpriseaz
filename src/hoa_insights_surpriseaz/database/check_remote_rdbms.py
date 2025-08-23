@@ -12,11 +12,11 @@ REMOTE_DB_PW: str = f"{my_secrets.prod_bluehost_dbpass}"
 REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
 
 
-def schema() -> bool:
+def schema(db_uri: str = REMOTE_DB_URI) -> bool:
     """Check to see if schema is present, if not, create and return True"""
     logger: Logger = logging.getLogger(__name__)
     try:
-        engine: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}")
+        engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
 
         if not database_exists(engine.url):
             create_database(engine.url)
