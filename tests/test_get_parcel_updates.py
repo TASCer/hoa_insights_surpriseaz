@@ -6,14 +6,13 @@ def test_init_remote_db(remote_session):
     assert remote_session
 
 
-from sqlalchemy import text
-
-from hoa_insights_surpriseaz.database import get_updated_data
+from conftest import local_engine
+from hoa_insights_surpriseaz.database import get_updated_data, update_local_tables
 from hoa_insights_surpriseaz.my_secrets import test_debian_uri, test_debian_dbname
 
 
 def test_get_updates_db():
-    owners, sales = get_updated_data.changes()
+    owners, sales = get_updated_data.changes(test_debian_uri)
     print("OWNERS", owners)
     assert len(owners) == 2
     assert len(sales) == 1
@@ -25,8 +24,7 @@ def test_get_updates_db():
     assert len(sales) == 7
 
 
-
-# KEEP REMMED
+# KEEP REMMED NEED TO GET LIST OF SEED OWNERS TO PASS IN?
 # update_local_tables.owners(
 #     seed_owners, db_name=test_debian_dbname, db_uri=test_debian_uri
 # )

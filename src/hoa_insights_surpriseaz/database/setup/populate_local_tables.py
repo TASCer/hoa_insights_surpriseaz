@@ -58,15 +58,15 @@ management_ids: list = [
 ]
 
 
-def community_management(s: Session) -> bool:
+def community_management(s: Session, management_file: Path = MANAGEMENT_FILE) -> bool:
     """
     Function takes a database session and checks if management csv file exists.
     If not found, download the pdf, rename and convert to csv.
     If found, read file and update database with data.
     """
-    if not MANAGEMENT_FILE:
-        logger.warning(f"{MANAGEMENT_FILE.name} not found.")
-        print(f"{MANAGEMENT_FILE.name} not found.")
+    if not management_file:
+        logger.warning(f"{management_file.name} not found.")
+        print(f"{management_file.name} not found.")
 
         try:
             logger.info("Fetching Community Management Data")
@@ -74,7 +74,7 @@ def community_management(s: Session) -> bool:
 
             download()
             file_renamed: bool = rename(
-                PDF_PATH / PDF_DOWNLOADED_FILENAME, PDF_PATH / PDF_NEW_FILENAME
+                old=PDF_PATH / PDF_DOWNLOADED_FILENAME, new=PDF_PATH / PDF_NEW_FILENAME
             )
             if file_renamed:
                 convert_management_data.pdf_to_csv(
@@ -87,10 +87,10 @@ def community_management(s: Session) -> bool:
             logger.error(ffe)
 
     else:
-        logger.info(f"** {MANAGEMENT_FILE.name} found. **")
-        print(f"{MANAGEMENT_FILE.name} found.")
-        management: list = get_communities(MANAGEMENT_FILE)
-        print("MGMT", management)
+        logger.info(f"** {management_file.name} found. **")
+        print(f"{management_file.name} found.")
+        management: list = get_communities(management_file)
+        # print("MGMT", len(management))
 
         for manager in management:
             _, community, situs, city, ph, email, mgr = manager
@@ -146,7 +146,7 @@ def communities(engine: Engine = engine, file_path=MANAGEMENT_FILE) -> list:
             s.add(community_instance, _warn=False)
             s.commit()
 
-    community_management(s)
+    community_management(s, file_path)
 
     return community_totals
 
