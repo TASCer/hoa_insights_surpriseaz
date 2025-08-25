@@ -62,14 +62,14 @@ def local_engine():
 def local_session(local_engine):
     local_sess = Session(local_engine)
     populate_local_tables.parcels(TEST_PARCELS_CONSTANTS, engine=local_engine)
-    populate_local_tables.communities(
+    community_totals = populate_local_tables.communities(
         engine=local_engine, file_path=TEST_MANAGEMENT_CSV_PATH
     )
     check_local_rdbms.triggers(db_uri=test_debian_uri, db_name=test_debian_dbname)
     check_local_rdbms.views(db_uri=test_debian_uri)
 
     yield local_sess
-
+    # return community_totals
 
 #     # local_sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
 
@@ -91,11 +91,12 @@ def remote_engine():
 @pytest.fixture(scope="session")
 def remote_session(remote_engine):
     remote_sess = Session(remote_engine)
+    populate_remote_tables.communities(community_totals=None, local_db=local_engine, remote_db=remote_engine)
 
     yield remote_sess
 
 
-#     # remote_sess.execute(text(f"DROP DATABASE {test_bluehost_dbname};"))
+    # remote_sess.execute(text(f"DROP DATABASE {test_bluehost_dbname};"))
 
 
 @pytest.fixture()
