@@ -70,7 +70,7 @@
             "type": "python",
             "request": "launch",
             "module": "pytest",
-            // "args": 
+            "args": "-v", 
             "justMyCode": true
         },
     
