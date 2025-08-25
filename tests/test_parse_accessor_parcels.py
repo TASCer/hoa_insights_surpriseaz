@@ -8,7 +8,6 @@ def test_parse_psuedo_api_original(parse_original_parcel_data):
     assert type(parsed_test_original_parcels[0]) is Owners
     assert type(parsed_test_original_rentals[0]) is Rentals
     original_owner_check = [x for x in parsed_test_original_parcels if x.APN == "509-11-455"]
-    print(original_owner_check)
     assert original_owner_check[0].OWNER == "STEVENS TODD"
     assert original_owner_check[0].LEGAL_CODE == "3.1 "
     assert original_owner_check[0].DEED_TYPE == "WD"

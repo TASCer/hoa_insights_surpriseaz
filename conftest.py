@@ -137,26 +137,26 @@ def parse_original_parcel_data(get_original_parcel_data):
 
 
 @pytest.fixture()
-def parse_new_parcel_data(get_original_parcel_data):
-    test_parsed_owners_update_data, test_parsed_rentals_update_data = parse(
-        get_original_parcel_data
+def parse_new_parcel_data(get_new_parcel_data):
+    test_parsed_new_parcel_data, test_parsed_new_rentals_data = parse(
+        get_new_parcel_data
     )
 
-    return test_parsed_owners_update_data, test_parsed_rentals_update_data
+    return test_parsed_new_parcel_data, test_parsed_new_rentals_data
 
 
-@pytest.fixture()
-def get_updated_parcel_data():
-    test_updated_parcels: list[str] = os.listdir(f"{TEST_UPDATE_PARCELS_PATH}")
+# @pytest.fixture()
+# def get_updated_parcel_data():
+#     test_updated_parcels: list[str] = os.listdir(f"{TEST_UPDATE_PARCELS_PATH}")
 
-    consumed_update_data: list[dict] = []
+#     consumed_update_data: list[dict] = []
 
-    for parcel in test_updated_parcels:
-        parcel_file = open(f"{TEST_UPDATE_PARCELS_PATH}{parcel}", "r")
-        parcel_data: dict = json.load(parcel_file)
-        consumed_update_data.append(parcel_data)
+#     for parcel in test_updated_parcels:
+#         parcel_file = open(f"{TEST_UPDATE_PARCELS_PATH}{parcel}", "r")
+#         parcel_data: dict = json.load(parcel_file)
+#         consumed_update_data.append(parcel_data)
 
-    return consumed_update_data
+#     return consumed_update_data
 
 
 # ---------------------------------
