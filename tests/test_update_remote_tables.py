@@ -1,4 +1,4 @@
-# TODO NEED TO ADD PARAMS
+# TODO CURRENTLY IN PROCESS TEST_PROCESS_UPDATED_PARCELS?? Need to add params
 # from hoa_insights_surpriseaz.schemas import Owners, Rentals
 
 

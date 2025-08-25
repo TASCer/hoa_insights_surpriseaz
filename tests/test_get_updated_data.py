@@ -1,4 +1,4 @@
-def test_init_local_db(local_session):
+def test_init_local_db(local_session) -> None:
     assert local_session
 
 
@@ -10,7 +10,7 @@ from hoa_insights_surpriseaz.database import get_updated_data, update_local_tabl
 from hoa_insights_surpriseaz.my_secrets import test_debian_uri, test_debian_dbname
 
 
-def test_get_updates_db():
+def test_get_updates_db(local_session):
     owners, sales = get_updated_data.changes(test_debian_uri)
     print("OWNERS", owners)
     assert len(owners) == 2
