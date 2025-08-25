@@ -28,7 +28,9 @@ from hoa_insights_surpriseaz.database.setup import (
 )
 # from hoa_insights_surpriseaz import convert_management_data
 
-TEST_INITIAL_PARCELS_PATH: Path = Path.cwd() / "tests" / "input" / "original_parcel_json"
+TEST_INITIAL_PARCELS_PATH: Path = (
+    Path.cwd() / "tests" / "input" / "original_parcel_json"
+)
 TEST_UPDATE_PARCELS_PATH: Path = Path.cwd() / "tests" / "input" / "new_parcel_json"
 # TEST_MANAGEMENT_PDF_PATH: str = "./tests/input/HOA Contact List (PDF).pdf"
 TEST_MANAGEMENT_CSV_PATH: Path = (
@@ -94,7 +96,6 @@ def remote_session(remote_engine):
 
     yield remote_sess
 
-
     # remote_sess.execute(text(f"DROP DATABASE {test_bluehost_dbname};"))
 
 
@@ -135,7 +136,6 @@ def parse_original_parcel_data(get_original_parcel_data):
     return test_parsed_owners_original_data, test_parsed_rentals_original_data
 
 
-
 @pytest.fixture()
 def parse_new_parcel_data(get_new_parcel_data):
     test_parsed_new_parcel_data, test_parsed_new_rentals_data = parse(
@@ -143,20 +143,6 @@ def parse_new_parcel_data(get_new_parcel_data):
     )
 
     return test_parsed_new_parcel_data, test_parsed_new_rentals_data
-
-
-# @pytest.fixture()
-# def get_updated_parcel_data():
-#     test_updated_parcels: list[str] = os.listdir(f"{TEST_UPDATE_PARCELS_PATH}")
-
-#     consumed_update_data: list[dict] = []
-
-#     for parcel in test_updated_parcels:
-#         parcel_file = open(f"{TEST_UPDATE_PARCELS_PATH}{parcel}", "r")
-#         parcel_data: dict = json.load(parcel_file)
-#         consumed_update_data.append(parcel_data)
-
-#     return consumed_update_data
 
 
 # ---------------------------------

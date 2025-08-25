@@ -9,8 +9,4 @@ def test_update_local_tables(parse_new_parcel_data) -> list[dict]:
     update_local_tables.rentals(
         parse_new_parcel_data[1], db_name=test_debian_dbname, db_uri=test_debian_uri
     )
-    
-    # pass
 
-
-# TODO CURRENTLY IN PROCESS TEST_PROCESS_UPDATED_PARCELS??

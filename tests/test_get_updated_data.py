@@ -21,5 +21,3 @@ def test_init_remote_db(remote_session):
 #     assert seed_owner_check[0].OWNER == "STEVENS TODD"
 
 #     assert len(sales) == 7
-
-
