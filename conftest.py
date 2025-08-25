@@ -113,15 +113,6 @@ def get_owner_seed_data():
 
 
 @pytest.fixture()
-def parse_owner_seed_data(get_owner_seed_data):
-    test_parsed_owners_seed_data, test_parsed_rentals_seed_data = parse(
-        get_owner_seed_data
-    )
-
-    return test_parsed_owners_seed_data, test_parsed_rentals_seed_data
-
-
-@pytest.fixture()
 def get_owner_update_data():
     test_owner_update_data: list[str] = os.listdir(f"{TEST_UPDATE_PARCELS_PATH}")
 
@@ -133,6 +124,16 @@ def get_owner_update_data():
         consumed_owner_update_data.append(parcel_data)
 
     return consumed_owner_update_data
+
+
+@pytest.fixture()
+def parse_owner_seed_data(get_owner_seed_data):
+    test_parsed_owners_seed_data, test_parsed_rentals_seed_data = parse(
+        get_owner_seed_data
+    )
+
+    return test_parsed_owners_seed_data, test_parsed_rentals_seed_data
+
 
 
 @pytest.fixture()
@@ -157,6 +158,8 @@ def get_update_parcel_data():
 
     return consumed_update_data
 
+
+# ---------------------------------
 
 # @pytest.fixture(scope="function")
 # def parse_pdf():
