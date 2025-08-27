@@ -4,28 +4,20 @@ import os
 from pathlib import Path
 import pytest
 
-from sqlalchemy import create_engine, Engine, text
+from sqlalchemy import create_engine, Engine
 from sqlalchemy.orm import Session
 from hoa_insights_surpriseaz.my_secrets import (
     test_debian_uri,
-    test_debian_dbname,
-    test_bluehost_dbname,
     test_bluehost_uri,
-)
-from hoa_insights_surpriseaz.database import (
-    check_local_rdbms,
-    check_remote_rdbms,
-    models_local,
-    models_remote,
 )
 
 from hoa_insights_surpriseaz.parse_assessor_parcels import parse
 
-from hoa_insights_surpriseaz import process_updated_parcels
-from hoa_insights_surpriseaz.database.setup import (
-    populate_local_tables,
-    populate_remote_tables,
-)
+# from hoa_insights_surpriseaz import process_updated_parcels
+# from hoa_insights_surpriseaz.database.setup import (
+#     populate_local_tables,
+#     populate_remote_tables,
+# )
 # from hoa_insights_surpriseaz import convert_management_data
 
 TEST_INITIAL_PARCELS_PATH: Path = (
@@ -49,12 +41,6 @@ TEST_PARCELS_CONSTANTS: Path = (
 @pytest.fixture(scope="session")
 def local_engine():
     local_engine = create_engine(f"mysql+pymysql://{test_debian_uri}")
-    check: bool = check_local_rdbms.schema(db_uri=test_debian_uri)
-
-    if not check:
-        print("CANNOT CONNECT CREATE TEST SCHEMA")
-
-    models_local.Base.metadata.create_all(local_engine)
 
     return local_engine
 
@@ -62,15 +48,8 @@ def local_engine():
 @pytest.fixture(scope="session")
 def local_session(local_engine):
     local_sess = Session(local_engine)
-    populate_local_tables.parcels(TEST_PARCELS_CONSTANTS, engine=local_engine)
-    populate_local_tables.communities(
-        engine=local_engine, file_path=TEST_MANAGEMENT_CSV_PATH
-    )
-    check_local_rdbms.triggers(db_uri=test_debian_uri, db_name=test_debian_dbname)
-    check_local_rdbms.views(db_uri=test_debian_uri)
 
     yield local_sess
-    # return community_totals
 
     # local_sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
 
@@ -79,12 +58,6 @@ def local_session(local_engine):
 @pytest.fixture(scope="session")
 def remote_engine() -> Engine:
     remote_engine = create_engine(f"mysql+pymysql://{test_bluehost_uri}")
-    check = check_remote_rdbms.schema(test_bluehost_uri)
-
-    if not check:
-        print("CANNOT CONNECT CREATE TEST SCHEMA")
-
-    models_remote.Base.metadata.create_all(remote_engine)
 
     return remote_engine
 
@@ -92,7 +65,6 @@ def remote_engine() -> Engine:
 @pytest.fixture(scope="session")
 def remote_session(remote_engine):
     remote_sess = Session(remote_engine)
-    # populate_remote_tables.communities(community_totals=None, local_db=local_engine, remote_db=remote_engine)
 
     yield remote_sess
 

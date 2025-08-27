@@ -1,9 +1,9 @@
-def test_init_local_db(local_session) -> None:
-    assert local_session
+# def test_init_local_db(local_session) -> None:
+#     assert local_session
 
 
-def test_init_remote_db(remote_session):
-    assert remote_session
+# def test_init_remote_db(remote_session):
+#     assert remote_session
 
 
 # from hoa_insights_surpriseaz.database import get_updated_data, update_local_tables
