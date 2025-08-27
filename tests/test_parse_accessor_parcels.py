@@ -30,6 +30,7 @@ def test_parse_psuedo_api_new(parse_new_parcel_data):
     updated_owners = [x for x in parsed_test_update_parcels if x.APN == "509-11-455"]
 
     assert updated_owners[0].OWNER == "BUYER NEW A"
+    # TODO test dt
     # assert updated_owners[0].SALE_DATE == datetime.date(2025,1,1)
     assert updated_owners[0].SALE_PRICE == 375000
 

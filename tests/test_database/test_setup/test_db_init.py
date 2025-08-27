@@ -38,7 +38,7 @@ TEST_PARCELS_CONSTANTS: Path = (
 COMMUNITY_TOTALS = []
 
 
-def test_create_local_dbms(local_engine) -> list:
+def test_create_local_dbms(local_engine) -> None:
     check: bool = check_local_rdbms.schema(db_uri=test_debian_uri)
 
     if not check:
@@ -47,7 +47,7 @@ def test_create_local_dbms(local_engine) -> list:
     models_local.Base.metadata.create_all(local_engine)
 
 
-def test_create_renote_dbms(remote_engine) -> list:
+def test_create_renote_dbms(remote_engine) -> None:
     check: bool = check_local_rdbms.schema(db_uri=test_bluehost_uri)
 
     if not check:
@@ -56,7 +56,7 @@ def test_create_renote_dbms(remote_engine) -> list:
     models_remote.Base.metadata.create_all(remote_engine)
 
 
-def test_populate_local_tables(local_engine):
+def test_populate_local_tables(local_engine) -> None:
     populate_local_tables.parcels(TEST_PARCELS_CONSTANTS, engine=local_engine)
     COMMUNITY_TOTALS = populate_local_tables.communities(
         engine=local_engine, file_path=TEST_MANAGEMENT_CSV_PATH
@@ -67,7 +67,7 @@ def test_populate_local_tables(local_engine):
     print(COMMUNITY_TOTALS)
 
 
-def test_populate_remote_tables(local_engine, remote_engine):
+def test_populate_remote_tables(local_engine, remote_engine) -> None:
     populate_remote_tables.communities(
         community_totals=COMMUNITY_TOTALS,
         local_db=local_engine,
