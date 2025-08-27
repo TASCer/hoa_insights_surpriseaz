@@ -20,7 +20,7 @@ def get_ytd_community_avg_sale() -> DataFrame:
     return data
 
 
-def all() -> None:
+def all(local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None:
     """
     Function gets all rental parcels from local database views, last table update, and community sales
     and populates remote databases tables for web site.
@@ -28,7 +28,7 @@ def all() -> None:
     logger: Logger = logging.getLogger(__name__)
 
     try:
-        engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
+        engine: Engine = create_engine(f"mysql+pymysql://{local_db}")
         with engine.connect() as conn, conn.begin():
             q_registered_rentals: TextClause = conn.execute(
                 text("""SELECT * FROM registered_rentals;""")
@@ -57,7 +57,7 @@ def all() -> None:
 
     try:
         logger: Logger = logging.getLogger(__name__)
-        engine: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}")
+        engine: Engine = create_engine(f"mysql+pymysql://{remote_db}")
 
         with engine.connect() as conn, conn.begin():
             community_sales: DataFrame = get_ytd_community_avg_sale()
