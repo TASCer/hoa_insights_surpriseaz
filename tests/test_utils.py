@@ -17,6 +17,7 @@ TEST_RENAMED_PDF_FILENAME: str = "TEST-RENAMED-MANAGEMENT.pdf"
 TEST_ORIG_CSV_FILENAME: str = "test-surpriseaz-hoa-management.csv"
 CSV_FILENAME: str = "test-renamed-surpriseaz-hoa-management.csv"
 
+
 # DATE PARSER
 def test_date_parser() -> None:
     date = date_parser.logger_date()

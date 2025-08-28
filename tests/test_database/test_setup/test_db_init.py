@@ -1,6 +1,3 @@
-from conftest import remote_engine
-from hoa_insights_surpriseaz.database import models_local
-from hoa_insights_surpriseaz.database import models_remote
 from hoa_insights_surpriseaz.my_secrets import (
     test_debian_uri,
     test_debian_dbname,
@@ -74,4 +71,3 @@ def test_populate_remote_tables(local_engine, remote_engine) -> None:
         local_db=local_engine,
         remote_db=remote_engine,
     )
-

@@ -10,7 +10,7 @@ from hoa_insights_surpriseaz.my_secrets import (
     test_debian_uri,
     test_debian_dbname,
     test_bluehost_uri,
-    test_bluehost_dbname
+    test_bluehost_dbname,
 )
 
 from hoa_insights_surpriseaz.parse_assessor_parcels import parse
@@ -49,7 +49,8 @@ def local_engine():
 
     finally:
         print("LOCAL ENGINE DONE!")
-    
+
+
 ## Not Implemented. See TODO
 @pytest.fixture(scope="session")
 def local_session(local_engine):
@@ -57,12 +58,12 @@ def local_session(local_engine):
 
     try:
         print("YIELDING LOCAL SESS")
-    
+
         yield local_sess
 
     finally:
         print("DROPPING LOCAL SESS")
- 
+
         local_sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
 
 
@@ -76,14 +77,14 @@ def remote_engine() -> Engine:
     finally:
         print("REMOTE ENGINE DONE!")
         remote_engine.dispose()
-    
+
 
 @pytest.fixture(scope="session")
 def remote_session(remote_engine):
     remote_sess = Session(remote_engine)
     try:
         print("YIELDING REMOTE SESS")
-    
+
         yield remote_sess
 
     finally:
