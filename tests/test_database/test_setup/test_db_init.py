@@ -4,7 +4,6 @@ from hoa_insights_surpriseaz.database import models_remote
 from hoa_insights_surpriseaz.my_secrets import (
     test_debian_uri,
     test_debian_dbname,
-    test_bluehost_dbname,
     test_bluehost_uri,
 )
 from hoa_insights_surpriseaz.database import (
@@ -57,14 +56,15 @@ def test_create_renote_dbms(remote_engine) -> None:
 
 
 def test_populate_local_tables(local_engine) -> None:
+    global COMMUNITY_TOTALS
     populate_local_tables.parcels(TEST_PARCELS_CONSTANTS, engine=local_engine)
-    COMMUNITY_TOTALS = populate_local_tables.communities(
+    community_totals = populate_local_tables.communities(
         engine=local_engine, file_path=TEST_MANAGEMENT_CSV_PATH
     )
     check_local_rdbms.triggers(db_uri=test_debian_uri, db_name=test_debian_dbname)
     check_local_rdbms.views(db_uri=test_debian_uri)
 
-    print(COMMUNITY_TOTALS)
+    COMMUNITY_TOTALS = community_totals.copy()
 
 
 def test_populate_remote_tables(local_engine, remote_engine) -> None:
@@ -74,7 +74,3 @@ def test_populate_remote_tables(local_engine, remote_engine) -> None:
         remote_db=remote_engine,
     )
 
-    # populate_remote_tables.parcels(TEST_PARCELS_CONSTANTS, engine=local_engine)
-
-
-# test_populate_remote_tables(local_engine=local_engine, remote_engine=remote_engine())
