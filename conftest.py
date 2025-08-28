@@ -4,11 +4,13 @@ import os
 from pathlib import Path
 import pytest
 
-from sqlalchemy import create_engine, Engine
+from sqlalchemy import create_engine, Engine, text
 from sqlalchemy.orm import Session
 from hoa_insights_surpriseaz.my_secrets import (
     test_debian_uri,
+    test_debian_dbname,
     test_bluehost_uri,
+    test_bluehost_dbname
 )
 
 from hoa_insights_surpriseaz.parse_assessor_parcels import parse
@@ -40,35 +42,53 @@ TEST_PARCELS_CONSTANTS: Path = (
 
 @pytest.fixture(scope="session")
 def local_engine():
-    local_engine = create_engine(f"mysql+pymysql://{test_debian_uri}")
+    try:
+        local_engine = create_engine(f"mysql+pymysql://{test_debian_uri}")
+        print("LOCAL ENGINE")
+        return local_engine
 
-    return local_engine
-
-
+    finally:
+        print("LOCAL ENGINE DONE!")
+    
+## Not Implemented. See TODO
 @pytest.fixture(scope="session")
 def local_session(local_engine):
     local_sess = Session(local_engine)
 
-    yield local_sess
+    try:
+        print("YIELDING LOCAL SESS")
+    
+        yield local_sess
 
-    # local_sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
+    finally:
+        print("DROPPING LOCAL SESS")
+ 
+        local_sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
 
 
-# # ISSUE POPULATING TEST BH DB
 @pytest.fixture(scope="session")
 def remote_engine() -> Engine:
-    remote_engine = create_engine(f"mysql+pymysql://{test_bluehost_uri}")
+    try:
+        remote_engine = create_engine(f"mysql+pymysql://{test_bluehost_uri}")
+        print("REMOTE ENGINE")
+        return remote_engine
 
-    return remote_engine
-
+    finally:
+        print("REMOTE ENGINE DONE!")
+        remote_engine.dispose()
+    
 
 @pytest.fixture(scope="session")
 def remote_session(remote_engine):
     remote_sess = Session(remote_engine)
+    try:
+        print("YIELDING REMOTE SESS")
+    
+        yield remote_sess
 
-    yield remote_sess
-
-    # remote_sess.execute(text(f"DROP DATABASE {test_bluehost_dbname};"))
+    finally:
+        print("DROPPING REMOTE SESS")
+        remote_sess.execute(text(f"DROP DATABASE {test_bluehost_dbname};"))
 
 
 @pytest.fixture()

@@ -34,6 +34,7 @@ TEST_PARCELS_CONSTANTS: Path = (
     / "test_original_data"
     / "test_parcel_constants.csv"
 )
+# TODO temp (copy of populate local results) fix until I refactor initial setup
 COMMUNITY_TOTALS = []
 
 
@@ -46,7 +47,7 @@ def test_create_local_dbms(local_engine) -> None:
     models_local.Base.metadata.create_all(local_engine)
 
 
-def test_create_renote_dbms(remote_engine) -> None:
+def test_create_remote_dbms(remote_engine) -> None:
     check: bool = check_local_rdbms.schema(db_uri=test_bluehost_uri)
 
     if not check:
