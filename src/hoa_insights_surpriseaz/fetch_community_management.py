@@ -15,7 +15,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
- 
+
 from webdriver_manager.firefox import GeckoDriverManager
 
 # SPACE TYPO FROM CITY 08-25 and extra "," after contact 2nd page
@@ -52,7 +52,9 @@ def download() -> tuple[Path, Path, Path]:
         options.set_preference("browser.download.manager.closeWhenDone", True)
         options.set_preference("browser.download.manager.showAlertOnComplete", False)
         options.set_preference("browser.download.manager.useWindow", False)
-        options.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/pdf")
+        options.set_preference(
+            "browser.helperApps.neverAsk.saveToDisk", "application/pdf"
+        )
         options.set_preference("pdfjs.disabled", True)  # HEADLESS AND THIS NEEDED
         options.set_preference("browser.download.alwaysOpenPanel", False)
 
@@ -70,7 +72,6 @@ def download() -> tuple[Path, Path, Path]:
         logger.critical(f"{str(driver_err)}")
         exit()
 
-        
     firefox_browser.get(URL)
 
     try:
