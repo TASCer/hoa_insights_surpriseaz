@@ -16,7 +16,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from hoa_insights_surpriseaz import my_secrets
 
-# SPACE TYPO FROM CITY 08-25
+# TODO Monitor SPACE TYPO FROM CITY on 08-25, extra "," on page 2 of pdf after contact.
 PDF_DOWNLOADED_FILENAME: str = "HOA Contact List (PDF) .pdf"
 PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
 PDF_PATH: Path = Path.cwd() / "output" / "pdf"
