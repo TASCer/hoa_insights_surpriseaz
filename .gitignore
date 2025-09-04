@@ -18,10 +18,12 @@ wheels/
 *.log
 /__old_logs/
 /src/hoa_insights_surpriseaz/output/csv/financial/*.csv
-/src/hoa_insights_surpriseaz/output/csv/latest_changes/*.csv
-/src/hoa_insights_surpriseaz/output/pdf/*.pdf
+/src/hoa_insights_surpriseaz/output/csv/parcel_changes/*.csv
 /src/hoa_insights_surpriseaz/output/web_reports/financial/*.html
-/src/hoa_insights_surpriseaz/output/web_reports/latest_changes/*.html
+/src/hoa_insights_surpriseaz/output/web_reports/parcel_changes/*.html
+src/hoa_insights_surpriseaz/output/pdf/financial/*.pdf
+src/hoa_insights_surpriseaz/output/pdf/parcel_changes/recent_changes.pdf
+
 /misc/
 .coverage
 .gitkeep
