@@ -261,7 +261,7 @@ dependencies = [
     { name = "webdriver-manager" },
 ]
 
-[package.dev-dependencies]
+[package.optional-dependencies]
 dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
@@ -278,21 +278,18 @@ requires-dist = [
     { name = "pdfkit", specifier = ">=1.0.0" },
     { name = "pydantic", specifier = ">=2.10.5" },
     { name = "pymysql", specifier = ">=1.1.1" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3.4" },
+    { name = "pytest-cov", marker = "extra == 'dev'", specifier = ">=6.0.0" },
     { name = "python-dateutil", specifier = ">=2.9.0.post0" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.9.1" },
     { name = "selenium", specifier = ">=4.27.1" },
     { name = "sqlalchemy", specifier = ">=2.0.37" },
     { name = "sqlalchemy-utils", specifier = ">=0.41.2" },
     { name = "tabula-py", specifier = ">=2.10.0" },
+    { name = "ty", marker = "extra == 'dev'", specifier = ">=0.0.1a14" },
     { name = "webdriver-manager", specifier = ">=4.0.2" },
 ]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "pytest", specifier = ">=8.3.4" },
-    { name = "pytest-cov", specifier = ">=6.0.0" },
-    { name = "ruff", specifier = ">=0.9.1" },
-    { name = "ty", specifier = ">=0.0.1a14" },
-]
+provides-extras = ["dev"]
 
 [[package]]
 name = "idna"
