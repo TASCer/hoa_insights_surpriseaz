@@ -10,17 +10,13 @@ from sqlalchemy import Engine, TextClause, create_engine, exc, text
 LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
 
-FINANCIAL_YTD_CSV_PATH = (
-    Path.cwd() / "output" / "csv" / "financial" / "ytd_community_avg_sale_price.csv"
-)
 
-
-def get_ytd_community_avg_sale() -> DataFrame:
-    data: DataFrame = read_csv(f"{FINANCIAL_YTD_CSV_PATH}")
+def get_ytd_community_avg_sale(ytd_sales: Path) -> DataFrame:
+    data: DataFrame = read_csv(f"{ytd_sales / 'ytd_community_avg_sale_price.csv'}")
     return data
 
 
-def all(local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None:
+def all(file_path: Path, local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None:
     """
     Function gets all rental parcels from local database views, last table update, and community sales
     and populates remote databases tables for web site.
@@ -60,7 +56,7 @@ def all(local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None:
         engine: Engine = create_engine(f"mysql+pymysql://{remote_db}")
 
         with engine.connect() as conn, conn.begin():
-            community_sales: DataFrame = get_ytd_community_avg_sale()
+            community_sales: DataFrame = get_ytd_community_avg_sale(file_path)
 
             try:
                 registered_rentals.to_sql(
@@ -110,7 +106,3 @@ def all(local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None:
 
     except exc.OperationalError as e:
         logger.critical(repr(e))
-
-
-if __name__ == "__main__":
-    all()

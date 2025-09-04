@@ -9,26 +9,26 @@ from hoa_insights_surpriseaz.database import get_updated_data
 
 logger: Logger = logging.getLogger(__name__)
 
-UPDATED_PARCELS_PATH: Path = Path.cwd() / "output" / "csv" / "latest_changes"
+# UPDATED_PARCELS_PATH: Path = Path.cwd() / "output" / "csv" / "latest_changes"
 
 
-def insights() -> DataFrame:
+def insights(updated_parcels: Path, finances: Path) -> tuple[DataFrame, DataFrame]:
     """
-    Function retrieves changes to parcel data by querying historical_sales and historical_owners tables with timestamp of today.
+    Function takes in paths to parcel and finanxial change files
+    Queries historical_sales and historical_owners tables for items with a timestamp of today.
     Creates a merged dataframe of changes that outputs to csv.
-    Returns dataframe.
+    Returns dataframes.
     """
     owner_changes, sale_changes = get_updated_data.changes()
     owner_change_count: int = len(owner_changes)
     sale_change_count: int = len(sale_changes)
 
     if sale_change_count >= 1:
-        get_ytd_sales.get_average_sale_price()
+        community_avg_sale: DataFrame = get_ytd_sales.get_average_sale_price(
+            finances=finances
+        )
 
     if owner_change_count >= 1 or sale_change_count >= 1:
-        logger.info(f"NEW OWNERS: {owner_change_count}")
-        logger.info(f"NEW SALES: {sale_change_count}")
-
         owner_changes: DataFrame = DataFrame(
             owner_changes,
             columns=["APN", "COMMUNITY", "OWNER", "DEED_DATE", "DEED_TYPE"],
@@ -51,13 +51,9 @@ def insights() -> DataFrame:
         merged_changes.drop(
             merged_changes.filter(regex="_y$").columns, axis=1, inplace=True
         )
-        merged_changes.to_csv(f"{UPDATED_PARCELS_PATH / logger_date()}.csv")
+        merged_changes.to_csv(f"{updated_parcels / logger_date()}.csv")
 
-        return merged_changes
+        return merged_changes, community_avg_sale
 
     else:
-        return DataFrame()
-
-
-if __name__ == "__main__":
-    print(insights())
+        return DataFrame(), DataFrame()

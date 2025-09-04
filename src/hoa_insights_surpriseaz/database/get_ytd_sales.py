@@ -1,6 +1,5 @@
 import logging
 
-from hoa_insights_surpriseaz import create_reports
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.utils.number_formatter import format_price
 from hoa_insights_surpriseaz.utils.date_parser import year_to_date
@@ -17,15 +16,8 @@ DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
 DB_USER: str = f"{my_secrets.prod_debian_dbuser}"
 DB_PW: str = f"{my_secrets.prod_debian_dbpass}"
 
-ALL_SALES_PATH: Path = (
-    Path.cwd() / "output" / "csv" / "financial" / "all_ytd_community_sales.csv"
-)
-YTD_COMMUNITY_AVG_PATH: Path = (
-    Path.cwd() / "output" / "csv" / "financial" / "ytd_community_avg_sale_price.csv"
-)
 
-
-def get_average_sale_price() -> None:
+def get_average_sale_price(finances: Path) -> DataFrame:
     """
     Function queries owners table data for any sales date for the year.
     Creates dataframe of all YTD sales in all communities and saves to csv.
@@ -66,10 +58,10 @@ def get_average_sale_price() -> None:
     if all_sales_ytd.empty:
         logger.info("NO SALES YET THIS YEAR")
 
-        return None
+        return DataFrame()
 
     all_community_sales_ytd: DataFrame = DataFrame(all_sales_ytd)
-    all_community_sales_ytd.to_csv(f"{ALL_SALES_PATH}")
+    all_community_sales_ytd.to_csv(f"{finances / 'all_ytd_community_sales.csv'}")
 
     community_sold_count: DataFrame = all_community_sales_ytd.groupby(
         "COMMUNITY"
@@ -94,10 +86,8 @@ def get_average_sale_price() -> None:
     ].apply(format_price)
 
     ytd_community_avg_sale_price.reset_index(inplace=True)
-    ytd_community_avg_sale_price.to_csv(f"{YTD_COMMUNITY_AVG_PATH}")
+    ytd_community_avg_sale_price.to_csv(
+        f"{f'{finances / "ytd_community_avg_sale_price.csv"}'}"
+    )
 
-    create_reports.ytd_community_sales(ytd_community_avg_sale_price)
-
-
-if __name__ == "__main__":
-    print(get_average_sale_price())
+    return ytd_community_avg_sale_price

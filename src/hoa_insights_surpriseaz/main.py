@@ -13,14 +13,37 @@ from hoa_insights_surpriseaz.utils import (
     date_parser,
     delete_files,
     file_renamer,
+    file_copier,
     mailer,
 )
 from logging import Logger, Formatter
-from pandas import DataFrame
 from pathlib import Path
 
 PROJECT_ROOT: Path = Path.cwd()
 LOG_DATE: str = str(date_parser.logger_date()) + ".log"
+
+CSV_FINANCIAL: Path = Path.cwd() / "output" / "csv" / "financial"
+CSV_FINANCIAL.mkdir(parents=True, exist_ok=True)
+
+CSV_UPDATED_PARCELS: Path = Path.cwd() / "output" / "csv" / "parcel_changes"
+CSV_UPDATED_PARCELS.mkdir(parents=True, exist_ok=True)
+
+HTML_REPORT_CHANGES: Path = Path.cwd() / "output" / "web_reports" / "parcel_changes"
+HTML_REPORT_CHANGES.mkdir(parents=True, exist_ok=True)
+
+HTML_REPORT_FINANCIAL: Path = Path.cwd() / "output" / "web_reports" / "financial"
+HTML_REPORT_FINANCIAL.mkdir(parents=True, exist_ok=True)
+
+PDF_REPORT_CHANGES: Path = Path.cwd() / "output" / "pdf" / "parcel_changes"
+PDF_REPORT_CHANGES.mkdir(parents=True, exist_ok=True)
+
+PDF_REPORT_FINANCIAL: Path = Path.cwd() / "output" / "pdf" / "financial"
+PDF_REPORT_FINANCIAL.mkdir(parents=True, exist_ok=True)
+
+WEB_SERVER_REPORT_PATH_LINUX = Path("/var/www/html/hoa/reports/")
+WEB_SERVER_REPORT_PATH_WINDOWS = Path(
+    r"\\OPERATIONS\c$\inetpub\wwwroot\TASCSlocal\hoa\reports"
+)
 
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
@@ -72,7 +95,7 @@ def process_parcels() -> None:
 
     if parsed_rental_data:
         update_local_tables.rentals(parsed_rental_data)
-        update_remote_tables.all()
+        update_remote_tables.all(CSV_FINANCIAL)
     else:
         logger.warning("NO REGISTERED RENTAL PROPERTIES FOUND")
 
@@ -84,12 +107,26 @@ def main() -> bool:
     """
 
     process_parcels()
-    changes: DataFrame = process_updated_parcels.insights()
+    parcel_changes, community_sales = process_updated_parcels.insights(
+        CSV_UPDATED_PARCELS, CSV_FINANCIAL
+    )
 
-    if not changes.empty:
-        create_reports.owner_changes(changes)
+    if not parcel_changes.empty:
+        html_report_file: Path = create_reports.parcel_changes(
+            parcel_changes, HTML_REPORT_CHANGES, PDF_REPORT_CHANGES
+        )
+        if html_report_file.exists():
+            file_copier.to_webserver(to_copy=html_report_file)
 
-        return True
+        financial_report_file: Path = create_reports.ytd_community_sales(
+            community_avg_prices=community_sales,
+            html_file=HTML_REPORT_FINANCIAL,
+            pdf_file=PDF_REPORT_FINANCIAL,
+        )
+        if financial_report_file.exists():
+            file_copier.to_webserver(to_copy=financial_report_file)
+
+            return True
 
     return False
 
