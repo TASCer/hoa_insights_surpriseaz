@@ -16,7 +16,6 @@ WEB_SERVER_REPORT_PATH_WINDOWS = Path(
 
 
 def to_webserver(to_copy: Path, copy_to: Path = WEB_SERVER_REPORT_PATH_LINUX) -> None:
-    print(to_copy, type(to_copy))
     if copy_to.exists():
         if not platform.system() == "Windows":
             source = str(to_copy)

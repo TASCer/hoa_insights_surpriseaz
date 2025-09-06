@@ -380,7 +380,3 @@ def stored_procs(engine: Engine):
 
     return True
 
-
-if __name__ == "__main__":
-    # print(views())
-    print(triggers(f"{my_secrets.test_debian_uri}"))

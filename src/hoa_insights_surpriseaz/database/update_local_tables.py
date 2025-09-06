@@ -51,10 +51,6 @@ def owners(
 
     except exc.OperationalError as oe:
         logger.error(f"{oe.__cause__}: {LOCAL_DB_HOSTNAME}")
-        logger.error("*** check server or run 'database_setup.py' if initial setup ***")
-        print("Issue: CHECK TODAYS LOG or run 'database_setup.py' if initial setup")
-
-        print(f"{oe.__cause__} -- RDBMS Issue: CHECK LOG")
         exit()
 
 

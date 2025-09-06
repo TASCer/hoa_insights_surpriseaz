@@ -38,7 +38,3 @@ def changes(db_uri: str = f"{LOCAL_DB_URI}") -> tuple[list, list]:
 
     return owners_updates, sales_updates
 
-
-if __name__ == "__main__":
-    owners, sales = changes()
-    print(owners)

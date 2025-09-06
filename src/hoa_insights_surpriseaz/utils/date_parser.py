@@ -84,16 +84,6 @@ def year_to_date() -> tuple[str, str]:
 
     return ytd_start, ytd_end
 
-
-if __name__ == "__main__":
-    # print(last_saturday_of_month())
-    print(api_date(""))
-    # print(sql_timestamp())
-    # print(sql_date())
-    # print(log_date())
-    # print(f"{}")
-
-
 # KEEP in case need for another automated monthly task
 # def last_saturday_of_month() -> int:
 #     """
