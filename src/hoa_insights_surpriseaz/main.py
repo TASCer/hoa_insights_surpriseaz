@@ -102,7 +102,7 @@ def process_parcels() -> None:
         logger.warning("NO REGISTERED RENTAL PROPERTIES FOUND")
 
 
-def main() -> tuple[int]:
+def main() -> tuple[int, int]:
     """
     Function controls the application.
     Returns bool if any owner or sale changes.
