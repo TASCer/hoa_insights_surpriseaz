@@ -1,7 +1,7 @@
 from hoa_insights_surpriseaz.schemas import Owners, Rentals
 
 
-def test_parse_psuedo_api_original(parse_original_parcel_data):
+def test_parse_psuedo_api_original(parse_original_parcel_data) -> None:
     parsed_test_original_parcels, parsed_test_original_rentals = (
         parse_original_parcel_data
     )
@@ -36,4 +36,4 @@ def test_parse_psuedo_api_new(parse_new_parcel_data):
 
     assert len(parsed_test_update_rentals) == 2
 
-    # assert update_rentals[0].OWNER == "RENTAL NEW A"
+    assert parsed_test_update_rentals[0].OWNER == "RENTAL NEW A"

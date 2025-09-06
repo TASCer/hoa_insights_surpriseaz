@@ -41,55 +41,43 @@ TEST_PARCELS_CONSTANTS: Path = (
 
 
 @pytest.fixture(scope="session")
-def local_engine():
-    try:
-        local_engine = create_engine(f"mysql+pymysql://{test_debian_uri}")
-        print("LOCAL ENGINE")
-        return local_engine
+def test_create_local_engine() -> Engine:
+    test_debian_engine: Engine = create_engine(f"mysql+pymysql://{test_debian_uri}")
 
-    finally:
-        print("LOCAL ENGINE DONE!")
-
-
-## Not Implemented. See TODO
-@pytest.fixture(scope="session")
-def local_session(local_engine):
-    local_sess = Session(local_engine)
-
-    try:
-        print("YIELDING LOCAL SESS")
-
-        yield local_sess
-
-    finally:
-        print("DROPPING LOCAL SESS")
-
-        local_sess.execute(text(f"DROP DATABASE {test_debian_dbname};"))
+    return test_debian_engine
 
 
 @pytest.fixture(scope="session")
-def remote_engine() -> Engine:
+def test_create_local_session(test_create_local_engine):
+    test_debian_session = Session(test_create_local_engine)
+
     try:
-        remote_engine = create_engine(f"mysql+pymysql://{test_bluehost_uri}")
-        print("REMOTE ENGINE")
-        return remote_engine
+        yield test_debian_session
 
     finally:
-        print("REMOTE ENGINE DONE!")
-        remote_engine.dispose()
+        test_debian_session.execute(
+            text(f"DROP DATABASE IF EXISTS {test_debian_dbname};")
+        )
+        # pass
 
 
 @pytest.fixture(scope="session")
-def remote_session(remote_engine):
-    remote_sess = Session(remote_engine)
-    try:
-        print("YIELDING REMOTE SESS")
+def test_create_remote_engine() -> Engine:
+    test_bluehost_engine: Engine = create_engine(f"mysql+pymysql://{test_bluehost_uri}")
 
-        yield remote_sess
+    return test_bluehost_engine
+
+
+@pytest.fixture(scope="session")
+def test_create_remote_session(test_create_remote_engine):
+    test_bluehost_session = Session(test_create_remote_engine)
+
+    try:
+        yield test_bluehost_session
 
     finally:
-        print("DROPPING REMOTE SESS")
-        remote_sess.execute(text(f"DROP DATABASE {test_bluehost_dbname};"))
+        test_bluehost_session.execute(text(f"DROP DATABASE {test_bluehost_dbname};"))
+        # pass
 
 
 @pytest.fixture()

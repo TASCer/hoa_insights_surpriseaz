@@ -35,22 +35,20 @@ TEST_PARCELS_CONSTANTS: Path = (
 COMMUNITY_TOTALS = []
 
 
-def test_create_local_dbms(local_engine) -> None:
-    check: bool = check_local_rdbms.schema(db_uri=test_debian_uri)
+def test_create_local_dbms(test_create_local_engine) -> None:
+    check_local: bool = check_local_rdbms.schema(db_uri=test_debian_uri)
 
-    if not check:
-        print("CANNOT CONNECT CREATE TEST SCHEMA")
+    assert check_local
 
-    models_local.Base.metadata.create_all(local_engine)
+    models_local.Base.metadata.create_all(test_create_local_engine)
 
 
-def test_create_remote_dbms(remote_engine) -> None:
-    check: bool = check_local_rdbms.schema(db_uri=test_bluehost_uri)
+def test_create_remote_dbms(test_create_remote_engine) -> None:
+    check_remote: bool = check_local_rdbms.schema(db_uri=test_bluehost_uri)
 
-    if not check:
-        print("CANNOT CONNECT CREATE TEST SCHEMA")
+    assert check_remote
 
-    models_remote.Base.metadata.create_all(remote_engine)
+    models_remote.Base.metadata.create_all(test_create_remote_engine)
 
 
 def test_populate_local_tables(local_engine) -> None:

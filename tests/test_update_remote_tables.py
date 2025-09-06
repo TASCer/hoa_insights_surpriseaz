@@ -1,14 +1,18 @@
-# TODO CURRENTLY IN PROCESS TEST_PROCESS_UPDATED_PARCELS?? Need to add params
-# from hoa_insights_surpriseaz.schemas import Owners, Rentals
+from hoa_insights_surpriseaz.database import update_remote_tables
+from hoa_insights_surpriseaz.my_secrets import (
+    test_bluehost_uri,
+    test_debian_uri,
+    test_bluehost_dbname,
+)
+from pathlib import Path
 
 
-# def test_parse_api_seed(parse_owner_seed_data):
-#     parsed_test_owners, parsed_test_rentals = parse_owner_seed_data
-#     assert len(parsed_test_owners) == 15
-#     assert len(parsed_test_rentals) == 7
-#     assert type(parsed_test_owners[0]) is Owners
-#     assert type(parsed_test_rentals[0]) is Rentals
-
-
-# if __name__ == "__main__":
-#     print(test_parse_api_seed())
+def test_update_remote_tables() -> None:
+    p: Path = Path.cwd() / "src" / "rental_insights" / "output" / "csv" / "financial"
+    # assert p is type(Path())
+    assert (
+        update_remote_tables.all(
+            file_path=p, local_db=test_debian_uri, remote_db=test_bluehost_uri
+        )
+        is None
+    )
