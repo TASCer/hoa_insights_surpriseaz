@@ -37,4 +37,3 @@ def changes(db_uri: str = f"{LOCAL_DB_URI}") -> tuple[list, list]:
         owners_updates: list = [x for x in q_owners]
 
     return owners_updates, sales_updates
-

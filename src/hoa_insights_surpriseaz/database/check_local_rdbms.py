@@ -46,7 +46,6 @@ def schema(engine: Engine) -> bool:
     logger: Logger = logging.getLogger(__name__)
 
     try:
-
         if not database_exists(engine.url):
             create_database(engine.url)
 
@@ -379,4 +378,3 @@ def stored_procs(engine: Engine):
         return False
 
     return True
-

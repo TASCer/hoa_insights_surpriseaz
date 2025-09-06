@@ -132,7 +132,6 @@ def main() -> tuple[int]:
         if financial_report_file.exists():
             file_copier.to_webserver(to_copy=financial_report_file)
 
-
     return change_count, sales_count
 
 
@@ -147,11 +146,17 @@ if __name__ == "__main__":
      Sends e-mail.
     """
     if not DB_SETUP_LOGFILE.exists():
-        logger.error(f"'{DB_SETUP_LOGFILE.name}' not found in: {DB_SETUP_LOGFILE.parent}/") 
-        logger.info("To initialize database and create file, run 'uv run db-init.py' from database/setup directory.")
-        print(f"ISSUE: {DB_SETUP_LOGFILE.name} not found. See log: {LOG_DATE} for details.")
+        logger.error(
+            f"'{DB_SETUP_LOGFILE.name}' not found in: {DB_SETUP_LOGFILE.parent}/"
+        )
+        logger.info(
+            "To initialize database and create file, run 'uv run db-init.py' from database/setup directory."
+        )
+        print(
+            f"ISSUE: {DB_SETUP_LOGFILE.name} not found. See log: {LOG_DATE} for details."
+        )
 
-    else: 
+    else:
         if date_parser.first_tuesday_of_month():
             mgmt_csv: Path = start_community_management_update()
             update_community_management.update(mgmt_csv)
@@ -160,7 +165,7 @@ if __name__ == "__main__":
 
         if not parcel_changes:
             logger.info("NO SALES OR OWNER CHANGES")
-        
+
         else:
             mailer.send_mail(f"HOA INSIGHTS: {parcel_changes=}")
 

@@ -58,7 +58,9 @@ management_ids: list = [
 ]
 
 
-def community_management(db_session: Session, management_file: Path = MANAGEMENT_FILE) -> bool:
+def community_management(
+    db_session: Session, management_file: Path = MANAGEMENT_FILE
+) -> bool:
     """
     Function takes a database session and checks if management csv file exists.
     If not found, download the pdf, rename and convert to csv.
@@ -151,7 +153,9 @@ def communities(db_session: Session, file_path=MANAGEMENT_FILE) -> list:
     return community_totals
 
 
-def parcels(db_session: Session, file_path = f"{PARCELS_SEED_FILE}", engine: Engine = engine) -> bool:
+def parcels(
+    db_session: Session, file_path=f"{PARCELS_SEED_FILE}", engine: Engine = engine
+) -> bool:
     """
     Function takes in a Path to parcels seed data and a database engine.
     Populates parcels table with data from file.

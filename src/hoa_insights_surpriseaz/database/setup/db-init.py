@@ -41,20 +41,14 @@ def create_local_dbms(engine: Engine, session: Session) -> tuple[list, Session |
     if check_local_rdbms.schema(engine):
         models_local.Base.metadata.create_all(engine)
 
-        logger.info(
-            f"\tLOCAL triggers created: {check_local_rdbms.triggers(engine)}"
-        )
+        logger.info(f"\tLOCAL triggers created: {check_local_rdbms.triggers(engine)}")
         logger.info(f"\tLOCAL views created: {check_local_rdbms.views(engine)}")
         logger.info(
             f"\tLOCAL stored proc(s) created: {check_local_rdbms.stored_procs(engine)}"
         )
-        logger.info(
-            f"--- COMPLETED LOCAL DATABASE SETUP ON: {engine.url.host} ---"
-        )
+        logger.info(f"--- COMPLETED LOCAL DATABASE SETUP ON: {engine.url.host} ---")
 
-        logger.info(
-            f"*** STARTED LOCAL DATABASE POPULATION ON: {engine.url.host} ***"
-        )
+        logger.info(f"*** STARTED LOCAL DATABASE POPULATION ON: {engine.url.host} ***")
 
         logger.info(
             f"\tLOCAL parcels table populated: {populate_local_tables.parcels(session)}"
@@ -71,7 +65,6 @@ def create_local_dbms(engine: Engine, session: Session) -> tuple[list, Session |
         return None
 
 
-
 def remote_database(
     community_totals: list[str], remote_engine: Engine, local_db_session: Session
 ) -> None:
@@ -85,7 +78,9 @@ def remote_database(
     if check_remote_rdbms.schema(engine=remote_engine):
         models_remote.Base.metadata.create_all(remote_engine)
 
-        logger.info(f"--- COMPLETED REMOTE DATABASE SETUP ON: {remote_engine.url.host} ---")
+        logger.info(
+            f"--- COMPLETED REMOTE DATABASE SETUP ON: {remote_engine.url.host} ---"
+        )
         logger.info(
             f"*** STARTED REMOTE DATABASE POPULATION ON: {remote_engine.url.database} ***"
         )
