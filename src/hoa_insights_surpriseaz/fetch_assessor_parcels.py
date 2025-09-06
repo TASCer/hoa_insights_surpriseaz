@@ -44,9 +44,9 @@ def get_parcel_apns() -> list[str]:
     except exc.OperationalError as oe:
         logger.error(f"{oe.__cause__}")
         logger.warning(
-            "*** check server or run 'uv run db-init.py' from database/setup dir. ***"
+            "*** check database server and/or network connectivity.***"
         )
-        logger.info("\t\tlogfile: '__rdbms-creation__.log' will be created.")
+        logger.info("\t\t Database initialzation log file was found in database/setup directory.")
         print(
             f"** ISSUE: check log: '{date_parser.logger_date()}.log'. If initial setup, run 'uv run db-init.py' from database/setup dir. **"
         )
