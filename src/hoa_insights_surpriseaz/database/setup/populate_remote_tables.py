@@ -6,13 +6,15 @@ from sqlalchemy import text, TextClause
 from sqlalchemy.orm import Session
 from hoa_insights_surpriseaz.database import models_remote
 from hoa_insights_surpriseaz import my_secrets
-from hoa_insights_surpriseaz.schemas import Community
+# from hoa_insights_surpriseaz.schemas import Community
 
 REMOTE_DB_URI: str = f"{my_secrets.test_bluehost_uri}"
 LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 
 LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
 REMOTE_ENGINE: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
+
+REMOTE_SESSION: Session = Session(REMOTE_ENGINE)
 
 logger: Logger = logging.getLogger(__name__)
 
@@ -44,7 +46,7 @@ management_ids: list = [
 def communities(
     community_totals: list[str],
     local_db_session: Session,
-    remote_db_session: Session = REMOTE_ENGINE,
+    remote_db_session: Session = REMOTE_SESSION,
 ) -> bool:
     """
     Function takes in a list of community totals and updates remote communities and community_managers tables.

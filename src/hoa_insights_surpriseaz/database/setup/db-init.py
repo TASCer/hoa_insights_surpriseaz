@@ -1,6 +1,5 @@
 import logging
 
-from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.database import (
     check_local_rdbms,
     check_remote_rdbms,
@@ -12,7 +11,7 @@ from hoa_insights_surpriseaz.database.setup import (
     populate_remote_tables,
 )
 from logging import Logger, Formatter
-from sqlalchemy import create_engine, Engine
+from sqlalchemy import Engine
 from sqlalchemy.orm import Session
 
 root_logger: Logger = logging.getLogger()
