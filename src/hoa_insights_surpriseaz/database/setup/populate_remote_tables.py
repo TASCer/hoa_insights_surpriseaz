@@ -8,7 +8,6 @@ from hoa_insights_surpriseaz.database import models_remote
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.schemas import Community
 
-
 REMOTE_DB_URI: str = f"{my_secrets.test_bluehost_uri}"
 LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 
@@ -44,8 +43,8 @@ management_ids: list = [
 
 def communities(
     community_totals: list[str],
-    local_db: Engine = LOCAL_ENGINE,
-    remote_db: Engine = REMOTE_ENGINE,
+    local_db_session: Session,
+    remote_db_session: Session = REMOTE_ENGINE,
 ) -> bool:
     """
     Function takes in a list of community totals and updates remote communities and community_managers tables.
@@ -53,13 +52,13 @@ def communities(
     """
     ix: int = 0
     try:
-        with Session(local_db) as ls:
-            q_community_managers: TextClause = ls.execute(
+        with Session(local_db_session) as local_session:
+            q_community_managers: TextClause = local_session.execute(
                 text("SELECT * from community_managers;")
             ).fetchall()
             community_managers: list[str] = [m for m in q_community_managers]
 
-        with Session(remote_db) as rs:
+        with Session(remote_db_session) as remote_session:
             for community, parcel_total, long, lat in community_totals:
                 community_instance = models_remote.Community(
                     COMMUNITY=community,
@@ -68,8 +67,8 @@ def communities(
                     LONG=long,
                     MANAGED_ID=management_ids[ix],
                 )
-                rs.add(community_instance, _warn=False)
-                rs.commit()
+                remote_session.add(community_instance, _warn=False)
+                remote_session.commit()
                 ix += 1
 
             for item in community_managers:
@@ -83,8 +82,8 @@ def communities(
                     CONTACT_PH=ph,
                 )
 
-                rs.add(db_item, _warn=False)
-                rs.commit()
+                remote_session.add(db_item, _warn=False)
+                remote_session.commit()
 
     except (exc.OperationalError, ValueError) as err:
         logger.error(err)

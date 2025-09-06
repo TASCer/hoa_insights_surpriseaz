@@ -58,7 +58,7 @@ management_ids: list = [
 ]
 
 
-def community_management(s: Session, management_file: Path = MANAGEMENT_FILE) -> bool:
+def community_management(db_session: Session, management_file: Path = MANAGEMENT_FILE) -> bool:
     """
     Function takes a database session and checks if management csv file exists.
     If not found, download the pdf, rename and convert to csv.
@@ -81,7 +81,7 @@ def community_management(s: Session, management_file: Path = MANAGEMENT_FILE) ->
                     pdf_file=PDF_PATH / PDF_DOWNLOADED_FILENAME,
                     csv_file=MANAGEMENT_FILE,
                 )
-            community_management(s=s)
+            community_management(db_session=db_session)
 
         except FileNotFoundError as ffe:
             logger.error(ffe)
@@ -104,24 +104,24 @@ def community_management(s: Session, management_file: Path = MANAGEMENT_FILE) ->
             )
             db_item = models_local.CommunityManagement(**item.model_dump())
 
-            s.add(db_item, _warn=False)
-            s.commit()
+            db_session.add(db_item, _warn=False)
+            db_session.commit()
 
     return True
 
 
-def communities(engine: Engine = engine, file_path=MANAGEMENT_FILE) -> list:
+def communities(db_session: Session, file_path=MANAGEMENT_FILE) -> list:
     """
     Function takes a db engine and creates a table of community totals from parcel table data.
     Calls community_management function with list of community totals to populate community_managers table.
     Returns list of community totals for remote database.
     """
     ix = 0
-    with Session(engine) as s:
+    with db_session as session:
         community_instances: list = []
 
         try:
-            q_community_totals: TextClause = s.execute(
+            q_community_totals: TextClause = session.execute(
                 text(
                     f"SELECT COMMUNITY, count(COMMUNITY) as COUNT, avg(`LONG`) as `LONG`, avg(LAT) as LAT FROM {PARCELS_TABLE} group by COMMUNITY order by COMMUNITY;"
                 )
@@ -143,21 +143,21 @@ def communities(engine: Engine = engine, file_path=MANAGEMENT_FILE) -> list:
             community_instance = models_local.Community(**community_schema.model_dump())
             community_instances.append(community_instance)
             ix += 1
-            s.add(community_instance, _warn=False)
-            s.commit()
+            session.add(community_instance, _warn=False)
+            session.commit()
 
-    community_management(s, file_path)
+    community_management(session, file_path)
 
     return community_totals
 
 
-def parcels(file_path: str = f"{PARCELS_SEED_FILE}", engine: Engine = engine) -> bool:
+def parcels(db_session: Session, file_path = f"{PARCELS_SEED_FILE}", engine: Engine = engine) -> bool:
     """
     Function takes in a Path to parcels seed data and a database engine.
     Populates parcels table with data from file.
     Returns True/False depending on if successful.
     """
-    with Session(engine) as s:
+    with db_session as session:
         parcel_instances: list = []
 
         try:
@@ -173,8 +173,8 @@ def parcels(file_path: str = f"{PARCELS_SEED_FILE}", engine: Engine = engine) ->
                         **parcel_instance.model_dump()
                     )
                     parcel_instances.append(db_parcel_instance)
-                s.add_all(parcel_instances)
-                s.commit()
+                session.add_all(parcel_instances)
+                session.commit()
 
         except IOError as e:
             print(e)

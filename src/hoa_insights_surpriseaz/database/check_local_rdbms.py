@@ -14,11 +14,8 @@ from sqlalchemy_utils import database_exists, create_database
 from typing import Sequence
 from hoa_insights_surpriseaz import my_secrets
 
-LOCAL_DB_HOSTNAME: str = f"{my_secrets.prod_debian_dbhost}"
 LOCAL_DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
 LOCAL_DB_USER: str = f"{my_secrets.prod_debian_dbuser}"
-LOCAL_DB_PW: str = f"{my_secrets.prod_debian_dbpass}"
-LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 
 OWNERS_TABLE: str = "owners"
 RENTALS_TABLE: str = "rentals"
@@ -40,7 +37,7 @@ UPDATE_COMMUNITIES_SP: str = "update_communities"
 logger: Logger = logging.getLogger(__name__)
 
 
-def schema(db_uri: str = LOCAL_DB_URI) -> bool:
+def schema(engine: Engine) -> bool:
     """
     Function checks if schema/DB_NAME is present.
     Return True if it is.
@@ -49,7 +46,6 @@ def schema(db_uri: str = LOCAL_DB_URI) -> bool:
     logger: Logger = logging.getLogger(__name__)
 
     try:
-        engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
 
         if not database_exists(engine.url):
             create_database(engine.url)
@@ -61,7 +57,7 @@ def schema(db_uri: str = LOCAL_DB_URI) -> bool:
     return True
 
 
-def triggers(db_uri: str = LOCAL_DB_URI, db_name=LOCAL_DB_NAME) -> bool:
+def triggers(engine: Engine) -> bool:
     """
     Function checks if 'after_sale_owners' and 'after_sale_update triggers are present on 'owners' table.
     Returns True if both are created.
@@ -69,120 +65,73 @@ def triggers(db_uri: str = LOCAL_DB_URI, db_name=LOCAL_DB_NAME) -> bool:
     """
     logger: Logger = logging.getLogger(__name__)
 
-    try:
-        engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
-
-        _meta = MetaData()
-
-    except exc.SQLAlchemyError as e:
-        logger.critical(str(e))
-
-        return False
-
     with engine.connect() as conn, conn.begin():
-        owners_result: Sequence[Row] = conn.execute(
-            select(
-                text(
-                    f"* from INFORMATION_SCHEMA.TRIGGERS where EVENT_OBJECT_TABLE='{OWNERS_TABLE}';"
-                )
-            )
-        )
-
-        owners_triggers: list[str] = [x[1] for x in owners_result]
-
-        management_result: Sequence[Row] = conn.execute(
-            select(
-                text(
-                    f"* from INFORMATION_SCHEMA.TRIGGERS where EVENT_OBJECT_TABLE='{MANAGEMENT_TABLE}';"
-                )
-            )
-        )
-        management_trigger: list[str] = [x[1] for x in management_result]
-
-        # OWNERS TRIGGER
-        if db_name in owners_triggers:
-            return True
-
-        else:
-            try:
-                conn.execute(text("DROP TRIGGER IF EXISTS after_sale_update"))
-                trig_sales = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_sale_update`
-                                AFTER UPDATE ON `{OWNERS_TABLE}`
-                                FOR EACH ROW BEGIN
-                                IF OLD.SALE_DATE <> new.SALE_DATE THEN
-                                    INSERT IGNORE into historical_sales(apn,sale_date, sale_price, ts)
-                                    VALUES(OLD.APN,OLD.SALE_DATE, OLD.SALE_PRICE, CURRENT_TIME(6))
-                                    ON DUPLICATE KEY UPDATE SALE_DATE=OLD.SALE_DATE;
-                                END IF;
-                            END"""
-
-                conn.execute(text(trig_sales))
-                logger.info("TRIGGER: AFTER_SALE_UPDATE has been created")
-
-                trig_owner: str = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_owner_update`
-                            AFTER UPDATE ON `owners`
+        try:
+            conn.execute(text("DROP TRIGGER IF EXISTS after_sale_update"))
+            trig_sales = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_sale_update`
+                            AFTER UPDATE ON `{OWNERS_TABLE}`
                             FOR EACH ROW BEGIN
-                                IF OLD.OWNER <> new.OWNER THEN
-                                    INSERT IGNORE into historical_owners(apn,owner,deed_date,deed_type, ts)
-                                    VALUES(OLD.APN,OLD.OWNER,OLD.DEED_DATE,OLD.DEED_TYPE, current_timestamp(6))
-                                    ON DUPLICATE KEY UPDATE DEED_DATE=OLD.DEED_DATE;
-                                END IF;
-
-                                IF OLD.RENTAL = 1 and new.RENTAL = 0 THEN
-                                    delete from rentals
-                                    where OLD.APN = APN;
-
-                                END IF;
+                            IF OLD.SALE_DATE <> new.SALE_DATE THEN
+                                INSERT IGNORE into historical_sales(apn,sale_date, sale_price, ts)
+                                VALUES(OLD.APN,OLD.SALE_DATE, OLD.SALE_PRICE, CURRENT_TIME(6))
+                                ON DUPLICATE KEY UPDATE SALE_DATE=OLD.SALE_DATE;
+                            END IF;
                         END"""
 
-                conn.execute(text(trig_owner))
-                logger.info("TRIGGER: AFTER_OWNER_UPDATE has been created")
+            conn.execute(text(trig_sales))
+            logger.info("TRIGGER: AFTER_SALE_UPDATE has been created")
 
-            except exc.ProgrammingError as e:
-                logger.critical(str(e))
+            trig_owner: str = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_owner_update`
+                        AFTER UPDATE ON `owners`
+                        FOR EACH ROW BEGIN
+                            IF OLD.OWNER <> new.OWNER THEN
+                                INSERT IGNORE into historical_owners(apn,owner,deed_date,deed_type, ts)
+                                VALUES(OLD.APN,OLD.OWNER,OLD.DEED_DATE,OLD.DEED_TYPE, current_timestamp(6))
+                                ON DUPLICATE KEY UPDATE DEED_DATE=OLD.DEED_DATE;
+                            END IF;
 
-        # MANAGEMENT TRIGGER
-        if LOCAL_DB_NAME in management_trigger:
+                            IF OLD.RENTAL = 1 and new.RENTAL = 0 THEN
+                                delete from rentals
+                                where OLD.APN = APN;
+
+                            END IF;
+                    END"""
+
+            conn.execute(text(trig_owner))
+            logger.info("TRIGGER: AFTER_OWNER_UPDATE has been created")
+
+        except exc.ProgrammingError as e:
+            logger.critical(str(e))
+
+        try:
+            conn.execute(text("DROP TRIGGER IF EXISTS after_management_update"))
+            trig_management = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_management_update`
+                            AFTER UPDATE ON `community_managers`
+                            FOR EACH ROW BEGIN
+                            IF OLD.MANAGER <> new.MANAGER THEN
+                                INSERT IGNORE into historical_managers(COMMUNITY,BOARD_SITUS,BOARD_CITY,MANAGER,CONTACT_ADX,CONTACT_PH,ts)
+                                VALUES(OLD.COMMUNITY,OLD.BOARD_SITUS,OLD.BOARD_CITY,OLD.MANAGER,OLD.CONTACT_ADX,OLD.CONTACT_PH,CURRENT_TIME(6))
+                                ON DUPLICATE KEY UPDATE MANAGER=OLD.MANAGER, COMMUNITY=OLD.COMMUNITY;
+                            END IF;
+                        END"""
+
+            conn.execute(text(trig_management))
+            logger.info("TRIGGER: AFTER_MANAGEMENT_UPDATE has been created")
+
             return True
 
-        else:
-            try:
-                conn.execute(text("DROP TRIGGER IF EXISTS after_management_update"))
-                trig_management = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_management_update`
-                                AFTER UPDATE ON `community_managers`
-                                FOR EACH ROW BEGIN
-                                IF OLD.MANAGER <> new.MANAGER THEN
-                                    INSERT IGNORE into historical_managers(COMMUNITY,BOARD_SITUS,BOARD_CITY,MANAGER,CONTACT_ADX,CONTACT_PH,ts)
-                                    VALUES(OLD.COMMUNITY,OLD.BOARD_SITUS,OLD.BOARD_CITY,OLD.MANAGER,OLD.CONTACT_ADX,OLD.CONTACT_PH,CURRENT_TIME(6))
-                                    ON DUPLICATE KEY UPDATE MANAGER=OLD.MANAGER, COMMUNITY=OLD.COMMUNITY;
-                                END IF;
-                            END"""
+        except exc.ProgrammingError as e:
+            logger.critical(str(e))
 
-                conn.execute(text(trig_management))
-                logger.info("TRIGGER: AFTER_MANAGEMENT_UPDATE has been created")
-
-                return True
-
-            except exc.ProgrammingError as e:
-                logger.critical(str(e))
-
-                return False
+            return False
 
 
-def views(db_uri: str = LOCAL_DB_URI) -> bool:
+def views(engine: Engine) -> bool:
     """
     Function checks if views are present.
     Returns True if so.
     Returns False if any missing and could not be created.
     """
-    try:
-        engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
-        _meta = MetaData()
-
-    except exc.SQLAlchemyError as e:
-        logger.critical(str(e))
-        return False
-
     try:
         with engine.connect() as conn, conn.begin():
             conn.execute(
@@ -407,19 +356,10 @@ def views(db_uri: str = LOCAL_DB_URI) -> bool:
 
 
 # POC
-def stored_procs(db_uri: str = LOCAL_DB_URI):
+def stored_procs(engine: Engine):
     """
     Function [Beta] creates a mySQL Stored Procedure to update communities.
     """
-    try:
-        engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
-
-        _meta = MetaData()
-
-    except exc.SQLAlchemyError as e:
-        logger.critical(str(e))
-        return False
-
     try:
         with engine.connect() as conn, conn.begin():
             conn.execute(
