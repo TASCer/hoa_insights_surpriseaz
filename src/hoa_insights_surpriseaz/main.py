@@ -45,6 +45,8 @@ WEB_SERVER_REPORT_PATH_WINDOWS = Path(
     r"\\OPERATIONS\c$\inetpub\wwwroot\TASCSlocal\hoa\reports"
 )
 
+DB_SETUP_LOGFILE: Path = Path.cwd() / "database" / "setup" / "__database-setup__.log"
+
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
@@ -100,11 +102,12 @@ def process_parcels() -> None:
         logger.warning("NO REGISTERED RENTAL PROPERTIES FOUND")
 
 
-def main() -> bool:
+def main() -> tuple[int]:
     """
     Function controls the application.
     Returns bool if any owner or sale changes.
     """
+    logger.info("********** PARCEL PROCESSING STARTED **********")
 
     process_parcels()
     parcel_changes, community_sales = process_updated_parcels.insights(
@@ -112,12 +115,15 @@ def main() -> bool:
     )
 
     if not parcel_changes.empty:
+        change_count: int = len(parcel_changes)
         html_report_file: Path = create_reports.parcel_changes(
             parcel_changes, HTML_REPORT_CHANGES, PDF_REPORT_CHANGES
         )
         if html_report_file.exists():
             file_copier.to_webserver(to_copy=html_report_file)
 
+    if not community_sales.empty:
+        sales_count: int = len(community_sales)
         financial_report_file: Path = create_reports.ytd_community_sales(
             community_avg_prices=community_sales,
             html_file=HTML_REPORT_FINANCIAL,
@@ -126,9 +132,8 @@ def main() -> bool:
         if financial_report_file.exists():
             file_copier.to_webserver(to_copy=financial_report_file)
 
-            return True
 
-    return False
+    return change_count, sales_count
 
 
 if __name__ == "__main__":
@@ -141,16 +146,22 @@ if __name__ == "__main__":
      If parcel changes were encountered
      Sends e-mail.
     """
+    if not DB_SETUP_LOGFILE.exists():
+        logger.error(f"'{DB_SETUP_LOGFILE.name}' not found in: {DB_SETUP_LOGFILE.parent}/") 
+        logger.info("To initialize database and create file, run 'uv run db-init.py' from database/setup directory.")
+        print(f"ISSUE: {DB_SETUP_LOGFILE.name} not found. See log: {LOG_DATE} for details.")
 
-    if date_parser.first_tuesday_of_month():
-        mgmt_csv: Path = start_community_management_update()
-        update_community_management.update(mgmt_csv)
+    else: 
+        if date_parser.first_tuesday_of_month():
+            mgmt_csv: Path = start_community_management_update()
+            update_community_management.update(mgmt_csv)
 
-    changes: bool = main()
+        parcel_changes, sale_changes = main()
 
-    if not changes:
-        logger.info("NO SALES OR OWNER CHANGES")
+        if not parcel_changes:
+            logger.info("NO SALES OR OWNER CHANGES")
+        
+        else:
+            mailer.send_mail(f"HOA INSIGHTS: {parcel_changes=}")
 
-    mailer.send_mail("HOA INSIGHTS PROCESSING COMPLETE")
-
-    logger.info("********** PARCEL PROCESSING COMPLETED **********")
+        logger.info("********** PARCEL PROCESSING COMPLETED **********")
