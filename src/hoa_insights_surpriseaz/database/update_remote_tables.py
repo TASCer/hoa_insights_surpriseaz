@@ -58,7 +58,7 @@ def all(file_path: Path, local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None
         with engine.connect() as conn, conn.begin():
             community_sales: DataFrame = get_ytd_community_avg_sale(file_path)
 
-            try:
+            if len(registered_rentals) >= 1:
                 registered_rentals.to_sql(
                     name="registered_rentals",
                     con=conn,
@@ -67,6 +67,7 @@ def all(file_path: Path, local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None
                 )
                 logger.info("\tTable: 'registered_rentals' has been updated REMOTELY")
 
+            if len(classed_rentals) >= 1:
                 classed_rentals.to_sql(
                     name="classed_rentals",
                     con=conn,
@@ -75,6 +76,7 @@ def all(file_path: Path, local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None
                 )
                 logger.info("\tTable: 'classed_rentals' has been updated REMOTELY")
 
+            if len(community_sales) >= 1:
                 community_sales.to_sql(
                     name="community_sales",
                     con=conn,
@@ -83,6 +85,7 @@ def all(file_path: Path, local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None
                 )
                 logger.info("\tTable: 'community_sales' has been updated REMOTELY")
 
+            if len(community_rental_owner_types) >= 1:
                 community_rental_owner_types.to_sql(
                     name="community_rental_owner_types",
                     con=conn,
@@ -100,9 +103,6 @@ def all(file_path: Path, local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None
                     index=False,
                 )
                 logger.info("\tTable: 'last_updated' has been updated REMOTELY")
-
-            except exc.SQLAlchemyError as e:
-                logger.critical(repr(e))
 
     except exc.OperationalError as e:
         logger.critical(repr(e))
