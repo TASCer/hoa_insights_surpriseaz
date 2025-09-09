@@ -356,7 +356,7 @@ def views(engine: Engine) -> bool:
 
 
 # POC
-def stored_procs(engine: Engine):
+def stored_procs(engine: Engine) -> bool:
     """
     Function [Beta] creates a mySQL Stored Procedure to update communities.
     """
