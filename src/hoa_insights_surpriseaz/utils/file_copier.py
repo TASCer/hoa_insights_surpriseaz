@@ -16,7 +16,7 @@ WEB_SERVER_REPORT_PATH_WINDOWS = Path(
 
 
 def to_webserver(to_copy: Path, copy_to: Path = WEB_SERVER_REPORT_PATH_LINUX) -> None:
-    if copy_to.exists():
+    if copy_to.exists() and to_copy.exists():
         if not platform.system() == "Windows":
             source = str(to_copy)
             destination = str(copy_to)
@@ -34,9 +34,8 @@ def to_webserver(to_copy: Path, copy_to: Path = WEB_SERVER_REPORT_PATH_LINUX) ->
             except (IOError, FileNotFoundError) as e:
                 logger.error(e)
 
-    else:
-        # copy_to = Path("/home/todd/hoa/reports/").absolute()
-        print(copy_to, type(copy_to))
+    if not copy_to.exists() and to_copy.exists():
+        copy_to = Path.cwd()
         if not platform.system() == "Windows":
             try:
                 os.system(f"scp {to_copy} todd@debian.tascs.test:{copy_to}")
@@ -45,25 +44,12 @@ def to_webserver(to_copy: Path, copy_to: Path = WEB_SERVER_REPORT_PATH_LINUX) ->
                 logger.critical(
                     f"{to_copy} NOT sent to tascs.test web server remotely. {e}"
                 )
-        else:
+        elif platform.system() == "Windows":
             try:
-                os.system(f"scp {to_copy} todd@debian.tascs.test:{copy_to}")
+                shutil.copy(to_copy, copy_to)
 
             except (IOError, FileNotFoundError) as e:
                 logger.error(e)
 
-
-def to_folder(source: Path, destination: Path) -> None:
-    pass
-    # if not platform.system() == "Windows":
-    #     try:
-    #         os.system(f"cp {file} {WEB_SERVER_REPORT_PATH_LINUX}")
-    #         logger.info(f"{file.split('/')[-1]} sent to tascs.test web server")
-    #     except BaseException as e:
-    #         logger.critical(f"{file} NOT sent to tascs.test web server. {e}")
-    # else:
-    #     try:
-    #         shutil.copy(file, WEB_SERVER_REPORT_PATH_WINDOWS)
-
-    #     except (IOError, FileNotFoundError) as e:
-    #         logger.error(e)
+    if copy_to.exists() and not to_copy.exists():
+        logger.warning(f"{to_copy} file does not exist")
