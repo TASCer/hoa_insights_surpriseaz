@@ -19,10 +19,11 @@ DB_PW: str = f"{my_secrets.prod_debian_dbpass}"
 
 def get_average_sale_price(finances: Path) -> DataFrame:
     """
-    Function queries owners table data for any sales date for the year.
-    Creates dataframe of all YTD sales in all communities and saves to csv.
-    Also saves a csv of YTD sales price averages grouped by community.
-    Finally sends dataframe to create_reports.financials for procesing to pdf report.
+    Function takes in a Path to financial csv output.
+    Queries owners table data for all sales for the year.
+    Creates & saves to csv all YTD sales in all communities.
+    Creates & saves to csv community average sale prices.
+    Returns dataframe of community average sale price for pdf report.
     """
     logger: Logger = logging.getLogger(__name__)
     try:
