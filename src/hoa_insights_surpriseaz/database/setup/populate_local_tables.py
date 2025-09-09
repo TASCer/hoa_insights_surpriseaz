@@ -59,7 +59,7 @@ management_ids: list = [
 
 
 def community_management(
-    db_session: Session, management_file: Path = MANAGEMENT_FILE
+    db: Session, management_file: Path = MANAGEMENT_FILE
 ) -> bool:
     """
     Function takes a database session and checks if management csv file exists.
@@ -83,7 +83,7 @@ def community_management(
                     pdf_file=PDF_PATH / PDF_DOWNLOADED_FILENAME,
                     csv_file=MANAGEMENT_FILE,
                 )
-            community_management(db_session=db_session)
+            community_management(db_session=db)
 
         except FileNotFoundError as ffe:
             logger.error(ffe)
@@ -92,8 +92,7 @@ def community_management(
         logger.info(f"** {management_file.name} found. **")
         print(f"{management_file.name} found.")
         management: list = get_communities(management_file)
-        # print("MGMT", len(management))
-
+        
         for manager in management:
             _, community, situs, city, ph, email, mgr = manager
             item = CommunityManagement(
@@ -106,20 +105,20 @@ def community_management(
             )
             db_item = models_local.CommunityManagement(**item.model_dump())
 
-            db_session.add(db_item, _warn=False)
-            db_session.commit()
+            db.add(db_item, _warn=False)
+            db.commit()
 
     return True
 
 
-def communities(db_session: Session, file_path=MANAGEMENT_FILE) -> list:
+def communities(db: Session, file_path=MANAGEMENT_FILE) -> list:
     """
     Function takes a db engine and creates a table of community totals from parcel table data.
     Calls community_management function with list of community totals to populate community_managers table.
     Returns list of community totals for remote database.
     """
     ix = 0
-    with db_session as session:
+    with db as session:
         community_instances: list = []
 
         try:
@@ -154,14 +153,14 @@ def communities(db_session: Session, file_path=MANAGEMENT_FILE) -> list:
 
 
 def parcels(
-    db_session: Session, file_path=f"{PARCELS_SEED_FILE}", engine: Engine = engine
+    db: Session, file_path=f"{PARCELS_SEED_FILE}", engine: Engine = engine
 ) -> bool:
     """
     Function takes in a Path to parcels seed data and a database engine.
     Populates parcels table with data from file.
     Returns True/False depending on if successful.
     """
-    with db_session as session:
+    with db as session:
         parcel_instances: list = []
 
         try:

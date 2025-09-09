@@ -45,8 +45,8 @@ management_ids: list = [
 
 def communities(
     community_totals: list[str],
-    local_db_session: Session,
-    remote_db_session: Session = REMOTE_SESSION,
+    local_db: Session,
+    remote_db: Session = REMOTE_SESSION,
 ) -> bool:
     """
     Function takes in a list of community totals and updates remote communities and community_managers tables.
@@ -54,13 +54,13 @@ def communities(
     """
     ix: int = 0
     try:
-        with Session(local_db_session) as local_session:
+        with Session(local_db) as local_session:
             q_community_managers: TextClause = local_session.execute(
                 text("SELECT * from community_managers;")
             ).fetchall()
             community_managers: list[str] = [m for m in q_community_managers]
 
-        with Session(remote_db_session) as remote_session:
+        with Session(remote_db) as remote_session:
             for community, parcel_total, long, lat in community_totals:
                 community_instance = models_remote.Community(
                     COMMUNITY=community,
