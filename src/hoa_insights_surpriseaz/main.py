@@ -65,8 +65,8 @@ logger: Logger = logging.getLogger(__name__)
 
 def start_community_management_update() -> Path:
     """
-    Function downloads, renames, and parses HOA management pdf.
-    Deletes management pdf file to ensure latest data.
+    Function controls the downloading, renaming, and parsing HOA management pdf file.
+    Returns Path to location of management csv file.
     """
     logger.info("\tSTARTED: Monthly HOA Management Update")
     orig_pdf, new_pdf, mgmt_csv = fetch_community_management.download()
@@ -81,7 +81,7 @@ def start_community_management_update() -> Path:
     return mgmt_csv
 
 
-def process_parcels() -> None:
+def start_processing_parcels() -> None:
     """
     Function fetches parcel data via MARICOPA AZ ACCESSOR API.
     Parses fetched parcel data.
@@ -105,34 +105,31 @@ def process_parcels() -> None:
 def main() -> tuple[int, int]:
     """
     Function controls the application.
-    Returns bool if any owner or sale changes.
+    Returns int of owner or sale change count.
     """
-    logger.info("********** PARCEL PROCESSING STARTED **********")
 
-    process_parcels()
-    parcel_changes, community_sales = process_updated_parcels.insights(
+    # start_processing_parcels()
+    owner_changes, sale_changes, owner_change_count, sale_change_count = process_updated_parcels.insights(
         CSV_UPDATED_PARCELS, CSV_FINANCIAL
     )
 
-    if not parcel_changes.empty:
-        change_count: int = len(parcel_changes)
+    if not owner_changes.empty:
         html_report_file: Path = create_reports.parcel_changes(
-            parcel_changes, HTML_REPORT_CHANGES, PDF_REPORT_CHANGES
+            owner_changes, HTML_REPORT_CHANGES, PDF_REPORT_CHANGES
         )
         if html_report_file.exists():
             file_copier.to_webserver(to_copy=html_report_file)
 
-    if not community_sales.empty:
-        sales_count: int = len(community_sales)
+    if not sale_changes.empty:
         financial_report_file: Path = create_reports.ytd_community_sales(
-            community_avg_prices=community_sales,
+            community_avg_prices=sale_changes,
             html_file=HTML_REPORT_FINANCIAL,
             pdf_file=PDF_REPORT_FINANCIAL,
         )
         if financial_report_file.exists():
             file_copier.to_webserver(to_copy=financial_report_file)
 
-    return change_count, sales_count
+    return owner_change_count, sale_change_count
 
 
 if __name__ == "__main__":
@@ -146,27 +143,23 @@ if __name__ == "__main__":
      Sends e-mail.
     """
     if not DB_SETUP_LOGFILE.exists():
-        logger.error(
-            f"'{DB_SETUP_LOGFILE.name}' not found in: {DB_SETUP_LOGFILE.parent}/"
-        )
-        logger.info(
-            "To initialize database and create file, run 'uv run db-init.py' from database/setup directory."
-        )
-        print(
-            f"ISSUE: {DB_SETUP_LOGFILE.name} not found. See log: {LOG_DATE} for details."
-        )
+        logger.error(f"** '{DB_SETUP_LOGFILE}' not found. **") 
+        logger.info("To initialize database and create file, run 'uv run db-init.py' from database/setup directory.")
+        print(f"ISSUE: {DB_SETUP_LOGFILE.name} not found. See log: {LOG_DATE} for details.")
 
     else:
         if date_parser.first_tuesday_of_month():
             mgmt_csv: Path = start_community_management_update()
             update_community_management.update(mgmt_csv)
 
-        parcel_changes, sale_changes = main()
+        owner_changes, sale_changes = main()
 
-        if not parcel_changes:
+        if not owner_changes:
             logger.info("NO SALES OR OWNER CHANGES")
 
         else:
-            mailer.send_mail(f"HOA INSIGHTS: {parcel_changes=}")
+            mailer.send_mail(f"{owner_changes=}{sale_changes=}")
 
-        logger.info("********** PARCEL PROCESSING COMPLETED **********")
+        logger.info(
+            f"*** PARCEL PROCESSING COMPLETED {owner_changes=} {sale_changes=} ***"
+        )
