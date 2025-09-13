@@ -36,7 +36,7 @@ COMMUNITY_TOTALS = []
 
 
 def test_create_local_dbms(test_create_local_engine) -> None:
-    check_local: bool = check_local_rdbms.schema(db_uri=test_debian_uri)
+    check_local: bool = check_local_rdbms.schema(test_create_local_engine)
 
     assert check_local
 
@@ -44,28 +44,30 @@ def test_create_local_dbms(test_create_local_engine) -> None:
 
 
 def test_create_remote_dbms(test_create_remote_engine) -> None:
-    check_remote: bool = check_local_rdbms.schema(db_uri=test_bluehost_uri)
+    check_remote: bool = check_local_rdbms.schema(test_create_remote_engine)
 
     assert check_remote
 
     models_remote.Base.metadata.create_all(test_create_remote_engine)
 
 
-def test_populate_local_tables(local_engine) -> None:
+def test_populate_local_tables(test_create_local_session, test_create_local_engine) -> None:
     global COMMUNITY_TOTALS
-    populate_local_tables.parcels(TEST_PARCELS_CONSTANTS, engine=local_engine)
+    populate_local_tables.parcels(file=TEST_PARCELS_CONSTANTS, db=test_create_local_session)
     community_totals = populate_local_tables.communities(
-        engine=local_engine, file_path=TEST_MANAGEMENT_CSV_PATH
+        db=test_create_local_session, file_path=TEST_MANAGEMENT_CSV_PATH
     )
-    check_local_rdbms.triggers(db_uri=test_debian_uri, db_name=test_debian_dbname)
-    check_local_rdbms.views(db_uri=test_debian_uri)
 
     COMMUNITY_TOTALS = community_totals.copy()
 
+    check_local_rdbms.triggers(test_create_local_engine)
+    check_local_rdbms.views(test_create_local_engine)
 
-def test_populate_remote_tables(local_engine, remote_engine) -> None:
+
+
+def test_populate_remote_tables(test_create_remote_session, test_create_local_session) -> None:
     populate_remote_tables.communities(
         community_totals=COMMUNITY_TOTALS,
-        local_db=local_engine,
-        remote_db=remote_engine,
+        local_db=test_create_local_session,
+        remote_db=test_create_remote_session,
     )

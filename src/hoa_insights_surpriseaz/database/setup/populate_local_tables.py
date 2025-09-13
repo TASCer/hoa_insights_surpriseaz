@@ -150,9 +150,7 @@ def communities(db: Session, file_path=MANAGEMENT_FILE) -> list:
     return community_totals
 
 
-def parcels(
-    db: Session, file_path=f"{PARCELS_SEED_FILE}", engine: Engine = engine
-) -> bool:
+def parcels(db: Session, file=f"{PARCELS_SEED_FILE}") -> bool:
     """
     Function takes in a Path to parcels seed data and a database engine.
     Populates parcels table with data from file.
@@ -162,7 +160,7 @@ def parcels(
         parcel_instances: list = []
 
         try:
-            with open(file_path) as f:
+            with open(file) as f:
                 reader = csv.reader(f)
                 next(reader)
                 for parcel in reader:

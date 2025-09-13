@@ -27,7 +27,7 @@ def test_parse_psuedo_api_new(parse_new_parcel_data):
     assert len(parsed_test_update_rentals) == 2
     assert type(parsed_test_update_rentals[0]) is Rentals
 
-    updated_owners = [x for x in parsed_test_update_parcels if x.APN == "509-11-455"]
+    updated_owners = [o for o in parsed_test_update_parcels if o.APN == "509-11-455"]
 
     assert updated_owners[0].OWNER == "BUYER NEW A"
     # TODO test dt
@@ -36,4 +36,6 @@ def test_parse_psuedo_api_new(parse_new_parcel_data):
 
     assert len(parsed_test_update_rentals) == 2
 
-    assert parsed_test_update_rentals[0].OWNER == "RENTAL NEW A"
+    updated_rentals = [r for r in parsed_test_update_rentals if r.APN == "501-79-632"]
+
+    assert updated_rentals[0].OWNER == "RENTAL NEW A"

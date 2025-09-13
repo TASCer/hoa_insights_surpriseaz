@@ -15,13 +15,6 @@ from hoa_insights_surpriseaz.my_secrets import (
 
 from hoa_insights_surpriseaz.parse_assessor_parcels import parse
 
-# from hoa_insights_surpriseaz import process_updated_parcels
-# from hoa_insights_surpriseaz.database.setup import (
-#     populate_local_tables,
-#     populate_remote_tables,
-# )
-# from hoa_insights_surpriseaz import convert_management_data
-
 TEST_INITIAL_PARCELS_PATH: Path = (
     Path.cwd() / "tests" / "input" / "original_parcel_json"
 )
@@ -55,10 +48,10 @@ def test_create_local_session(test_create_local_engine):
         yield test_debian_session
 
     finally:
-        test_debian_session.execute(
-            text(f"DROP DATABASE IF EXISTS {test_debian_dbname};")
-        )
-        # pass
+        # test_debian_session.execute(
+        #     text(f"DROP DATABASE IF EXISTS {test_debian_dbname};")
+        # )
+        pass
 
 
 @pytest.fixture(scope="session")
@@ -76,8 +69,8 @@ def test_create_remote_session(test_create_remote_engine):
         yield test_bluehost_session
 
     finally:
-        test_bluehost_session.execute(text(f"DROP DATABASE {test_bluehost_dbname};"))
-        # pass
+        # test_bluehost_session.execute(text(f"DROP DATABASE {test_bluehost_dbname};"))
+        pass
 
 
 @pytest.fixture()
