@@ -30,4 +30,3 @@ def test_new_parcel_data(parse_new_parcel_data) -> list[dict]:
     assert len(update_rentals) == 2
 
     # assert update_rentals[0].OWNER == "RENTAL NEW A"
-

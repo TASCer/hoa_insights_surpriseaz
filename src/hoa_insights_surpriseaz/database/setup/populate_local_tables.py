@@ -58,9 +58,7 @@ management_ids: list = [
 ]
 
 
-def community_management(
-    db: Session, management_file: Path = MANAGEMENT_FILE
-) -> bool:
+def community_management(db: Session, management_file: Path = MANAGEMENT_FILE) -> bool:
     """
     Function takes a database session and checks if management csv file exists.
     If not found, download the pdf, rename and convert to csv.
@@ -92,7 +90,7 @@ def community_management(
         logger.info(f"** {management_file.name} found. **")
         print(f"{management_file.name} found.")
         management: list = get_communities(management_file)
-        
+
         for manager in management:
             _, community, situs, city, ph, email, mgr = manager
             item = CommunityManagement(

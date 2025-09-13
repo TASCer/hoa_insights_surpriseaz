@@ -31,7 +31,9 @@ root_logger.addHandler(fh)
 logger: Logger = logging.getLogger(__name__)
 
 
-def create_local_database(engine: Engine, session: Session) -> tuple[list, Session | None]:
+def create_local_database(
+    engine: Engine, session: Session
+) -> tuple[list, Session | None]:
     """
     Function creates a db engine and checks if schema, table, triggers, views are created.
     Returns a list of community totals for remote table population.
@@ -97,10 +99,11 @@ if __name__ == "__main__":
     REMOTE_DB_URI: str = f"{my_secrets.prod_remote_uri}"
 
     LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
-    REMOTE_ENGINE: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
+    REMOTE_ENGINE: Engine = create_engine(
+        f"mysql+pymysql://{REMOTE_DB_URI}", echo=False
+    )
 
     local_session = Session(LOCAL_ENGINE)
-
 
     community_totals, local_db = create_local_database(
         engine=LOCAL_ENGINE, session=local_session
@@ -113,5 +116,7 @@ if __name__ == "__main__":
         remote_engine=REMOTE_ENGINE,
         local_db=local_db,
     )
-    
-    logger.info(f"DATABASES: {LOCAL_ENGINE.url.database}, {REMOTE_ENGINE.url.database} INITIALIZED.")
+
+    logger.info(
+        f"DATABASES: {LOCAL_ENGINE.url.database}, {REMOTE_ENGINE.url.database} INITIALIZED."
+    )

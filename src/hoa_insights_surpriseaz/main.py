@@ -108,9 +108,9 @@ def main() -> tuple[int, int]:
     Returns int of owner or sale change count.
     """
 
-    # start_processing_parcels()
-    owner_changes, sale_changes, owner_change_count, sale_change_count = process_updated_parcels.insights(
-        CSV_UPDATED_PARCELS, CSV_FINANCIAL
+    start_processing_parcels()
+    owner_changes, sale_changes, owner_change_count, sale_change_count = (
+        process_updated_parcels.insights(CSV_UPDATED_PARCELS, CSV_FINANCIAL)
     )
 
     if not owner_changes.empty:
@@ -143,9 +143,13 @@ if __name__ == "__main__":
      Sends e-mail.
     """
     if not DB_SETUP_LOGFILE.exists():
-        logger.error(f"** '{DB_SETUP_LOGFILE}' not found. **") 
-        logger.info("To initialize database and create file, run 'uv run db-init.py' from database/setup directory.")
-        print(f"ISSUE: {DB_SETUP_LOGFILE.name} not found. See log: {LOG_DATE} for details.")
+        logger.error(f"** '{DB_SETUP_LOGFILE}' not found. **")
+        logger.info(
+            "To initialize database and create file, run 'uv run db-init.py' from database/setup directory."
+        )
+        print(
+            f"ISSUE: {DB_SETUP_LOGFILE.name} not found. See log: {LOG_DATE} for details."
+        )
 
     else:
         if date_parser.first_tuesday_of_month():

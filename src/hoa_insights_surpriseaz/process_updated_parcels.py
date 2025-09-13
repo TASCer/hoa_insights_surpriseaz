@@ -10,7 +10,9 @@ from hoa_insights_surpriseaz.database import get_updated_data
 logger: Logger = logging.getLogger(__name__)
 
 
-def insights(updated_parcels: Path, finances: Path) -> tuple[DataFrame, DataFrame, int, int]:
+def insights(
+    updated_parcels: Path, finances: Path
+) -> tuple[DataFrame, DataFrame, int, int]:
     """
     Function takes in paths to parcel and finanxial change files
     Queries historical_sales and historical_owners tables for items with a timestamp of today.
