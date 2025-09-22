@@ -81,7 +81,7 @@ def community_management(db: Session, management_file: Path = MANAGEMENT_FILE) -
                     pdf_file=PDF_PATH / PDF_DOWNLOADED_FILENAME,
                     csv_file=MANAGEMENT_FILE,
                 )
-            community_management(db_session=db)
+            community_management(db=db)
 
         except FileNotFoundError as ffe:
             logger.error(ffe)
@@ -183,4 +183,5 @@ def parcels(db: Session, file=f"{PARCELS_SEED_FILE}") -> bool:
 
 
 if __name__ == "__main__":
-    parcels()
+    pass
+    # parcels()
