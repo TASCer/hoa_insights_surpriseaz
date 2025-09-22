@@ -83,7 +83,6 @@ async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> d
             response_code = resp.status
             if response_code != 200:
                 logger.warning(f"NON 200 Code Errer {response_code}")
-
             parcel_details: dict = await resp.json()
 
             return parcel_details
