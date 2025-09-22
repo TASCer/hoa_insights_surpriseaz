@@ -88,7 +88,7 @@ def start_processing_parcels() -> None:
     Updates parcel data to local and remote databases.
     """
 
-    logger.info("********** PARCEL PROCESSING STARTED **********")
+    logger.info("*** PARCEL PROCESSING STARTED ***")
     consumed_parcel_api_data: tuple[dict] = fetch_assessor_parcels.parcels_api()
     parsed_owner_data, parsed_rental_data = parse_assessor_parcels.parse(
         consumed_parcel_api_data
@@ -164,6 +164,5 @@ if __name__ == "__main__":
         else:
             mailer.send_mail(f"{owner_changes=}{sale_changes=}")
 
-        logger.info(
-            f"*** PARCEL PROCESSING COMPLETED {owner_changes=} {sale_changes=} ***"
-        )
+        logger.info(f"*** PARCEL PROCESSING COMPLETED ***")
+        logger.info(f"{owner_changes=} {sale_changes=}")
