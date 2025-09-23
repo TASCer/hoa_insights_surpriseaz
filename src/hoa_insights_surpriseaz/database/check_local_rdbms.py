@@ -32,6 +32,7 @@ VIEW_TOP_RENTAL_OWNERS: str = "top_rental_ownership"
 VIEW_REGISTERED_RENTALS: str = "registered_rentals"
 VIEW_CLASSED_RENTALS: str = "classed_rentals"
 VIEW_RENTAL_CONTACTS: str = "rental_contacts"
+VIEW_COMMUNITY_SALES: str = "community_sales"
 
 UPDATE_COMMUNITIES_SP: str = "update_communities"
 
@@ -347,6 +348,34 @@ def views(engine: Engine) -> bool:
                 )
             )
         logger.info(f"View: {VIEW_TOP_RENTAL_OWNERS} created")
+
+    except exc.SQLAlchemyError as e:
+        logger.critical(str(e))
+        return False
+
+    try:
+        with engine.connect() as conn, conn.begin():
+            conn.execute(
+                text(
+                    f"""CREATE 
+            ALGORITHM = UNDEFINED 
+            DEFINER = `todd`@`%` 
+            SQL SECURITY DEFINER
+        VIEW `{VIEW_COMMUNITY_SALES}` AS
+            SELECT 
+                `p`.`COMMUNITY` AS `COMMUNITY`,
+                `o`.`SALE_DATE` AS `SALE_DATE`,
+                `o`.`SALE_PRICE` AS `SALE_PRICE`
+            FROM
+                (`owners` `o`
+                JOIN `parcels` `p` ON (`p`.`APN` = `o`.`APN`))
+            WHERE
+                YEAR(`o`.`SALE_DATE`) >= YEAR(CURRENT_TIMESTAMP())
+                    AND YEAR(`o`.`SALE_DATE`) < YEAR(CURRENT_TIMESTAMP()) + 1"""
+                )
+            )
+
+        logger.info(f"View: {VIEW_COMMUNITY_SALES} created")
 
     except exc.SQLAlchemyError as e:
         logger.critical(str(e))
