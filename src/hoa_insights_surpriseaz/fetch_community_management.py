@@ -36,7 +36,10 @@ DOWNLOAD_TO: Path = Path.cwd() / "output" / "pdf"
 
 def download() -> tuple[Path, Path, Path]:
     """
-    Function creates a Selenium browser to download HOA management file.
+    Function creates a Selenium browser to download HOA management file from city website.
+
+    Returns:
+        tuple[Path, Path, Path]: downloaded file, renamed downloaded file, csv file.
     """
     logger.info("\tSTARTED: MANAGEMENT PDF DOWNLOAD")
 

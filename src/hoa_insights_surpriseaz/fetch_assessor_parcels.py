@@ -27,8 +27,13 @@ API_HEADER: dict[str, str] = {my_secrets.api_header_type: my_secrets.api_header_
 
 def get_parcel_apns() -> list[str]:
     """
-    Function retrieves the APN of all parcels from database.
-    Returns tuple of APNs and db engine.
+    Function retrieves the APN of all parcels from database table parcels.
+
+    Returns:
+        list[str]: APNs
+
+    Example:
+        APN = ["509-11-444", "509-11-456"]
     """
     try:
         engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
@@ -61,9 +66,11 @@ def get_parcel_apns() -> list[str]:
 
 def parcels_api() -> tuple[dict]:
     """
-    Function gets each community parcel APN from database.
+    Function gets each community parcel APN from database table parcels.
     Fetches latest data for APN from Accessor API.
-    Returns tuple of api results as dict.
+
+    Returns:
+        tuple[dict]: API responses for APNs provided.
     """
     APNS: list[str] = get_parcel_apns()
     logger.info("Accessing Assessor API to get latest parcel data")
@@ -110,12 +117,16 @@ async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> d
         return parcel_details
 
 
-async def async_main(apns: list) -> list[dict]:
+async def async_main(apns: list[str]) -> list[dict]:
     """
-    Function takes in a list of APN's.
-    Creates API connection and retry client.
-    Iterates through list of APN's creating get_parcel_details tasks.
-    Returns a tuple of dictionary objects for each parcel processed.
+    Function asynchronously gathers API responses from Assessor site.
+
+    Args:
+        apns (list): collection of APNs used as endpoint for API
+
+    Returns:
+        list[dict]: parcel API data
+
     """
     connector: TCPConnector = TCPConnector(
         ssl=False,
