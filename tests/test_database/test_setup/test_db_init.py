@@ -1,11 +1,10 @@
-from hoa_insights_surpriseaz.my_secrets import (
-    test_debian_uri,
-    test_debian_dbname,
-    test_bluehost_uri,
-)
+# from hoa_insights_surpriseaz.my_secrets import (
+#     test_debian_uri,
+#     test_debian_dbname,
+#     test_bluehost_uri,
+# )
 from hoa_insights_surpriseaz.database import (
     check_local_rdbms,
-    check_remote_rdbms,
     models_local,
     models_remote,
 )
@@ -51,9 +50,13 @@ def test_create_remote_dbms(test_create_remote_engine) -> None:
     models_remote.Base.metadata.create_all(test_create_remote_engine)
 
 
-def test_populate_local_tables(test_create_local_session, test_create_local_engine) -> None:
+def test_populate_local_tables(
+    test_create_local_session, test_create_local_engine
+) -> None:
     global COMMUNITY_TOTALS
-    populate_local_tables.parcels(file=TEST_PARCELS_CONSTANTS, db=test_create_local_session)
+    populate_local_tables.parcels(
+        file=TEST_PARCELS_CONSTANTS, db=test_create_local_session
+    )
     community_totals = populate_local_tables.communities(
         db=test_create_local_session, file_path=TEST_MANAGEMENT_CSV_PATH
     )
@@ -64,8 +67,9 @@ def test_populate_local_tables(test_create_local_session, test_create_local_engi
     check_local_rdbms.views(test_create_local_engine)
 
 
-
-def test_populate_remote_tables(test_create_remote_session, test_create_local_session) -> None:
+def test_populate_remote_tables(
+    test_create_remote_session, test_create_local_session
+) -> None:
     populate_remote_tables.communities(
         community_totals=COMMUNITY_TOTALS,
         local_db=test_create_local_session,

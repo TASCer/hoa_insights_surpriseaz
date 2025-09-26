@@ -9,7 +9,6 @@ from hoa_insights_surpriseaz.utils import (
     number_formatter,
 )
 from pathlib import Path
-from sqlalchemy import null
 from datetime import datetime as dt
 
 TEST_ORIG_PDF_FILENAME: str = "TEST-MANAGEMENT.pdf"
