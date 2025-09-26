@@ -6,8 +6,8 @@ from hoa_insights_surpriseaz import parse_assessor_parcels
 from hoa_insights_surpriseaz import process_updated_parcels
 from hoa_insights_surpriseaz import convert_management_data
 from hoa_insights_surpriseaz.database import update_community_management
-from hoa_insights_surpriseaz.database import update_remote_tables
-from hoa_insights_surpriseaz.database import update_local_tables
+from hoa_insights_surpriseaz.database import update_remote_database
+from hoa_insights_surpriseaz.database import update_local_database
 from hoa_insights_surpriseaz import fetch_community_management
 from hoa_insights_surpriseaz.utils import (
     date_parser,
@@ -65,8 +65,10 @@ logger: Logger = logging.getLogger(__name__)
 
 def start_community_management_update() -> Path:
     """
-    Function controls the downloading, renaming, and parsing HOA management pdf file.
-    Returns Path to location of management csv file.
+    Function controls the downloading, renaming, and parsing of downloaded HOA management pdf file.
+
+    Returns:
+        Path: location of parsed HOA management csv file
     """
     logger.info("\tSTARTED: Monthly HOA Management Update")
     orig_pdf, new_pdf, mgmt_csv = fetch_community_management.download()
@@ -87,17 +89,16 @@ def start_processing_parcels() -> None:
     Parses fetched parcel data.
     Updates parcel data to local and remote databases.
     """
-
     logger.info("*** PARCEL PROCESSING STARTED ***")
     consumed_parcel_api_data: tuple[dict] = fetch_assessor_parcels.parcels_api()
     parsed_owner_data, parsed_rental_data = parse_assessor_parcels.parse(
         consumed_parcel_api_data
     )
-    update_local_tables.owners(parsed_owner_data)
+    update_local_database.owners(parsed_owner_data)
 
     if parsed_rental_data:
-        update_local_tables.rentals(parsed_rental_data)
-        update_remote_tables.all(CSV_FINANCIAL)
+        update_local_database.rentals(parsed_rental_data)
+        update_remote_database.all(CSV_FINANCIAL)
     else:
         logger.warning("NO REGISTERED RENTAL PROPERTIES FOUND")
 
@@ -105,7 +106,9 @@ def start_processing_parcels() -> None:
 def main() -> tuple[int, int]:
     """
     Function controls the application.
-    Returns int of owner or sale change count.
+
+    Returns:
+        tuple[int, int]: owner change count, sale change count.
     """
 
     start_processing_parcels()
@@ -119,6 +122,7 @@ def main() -> tuple[int, int]:
         )
         if html_report_file.exists():
             file_copier.to_webserver(to_copy=html_report_file)
+        update_remote_database.rental_tables()
 
     if not sale_changes.empty:
         financial_report_file: Path = create_reports.ytd_community_sales(
@@ -128,6 +132,7 @@ def main() -> tuple[int, int]:
         )
         if financial_report_file.exists():
             file_copier.to_webserver(to_copy=financial_report_file)
+        update_remote_database.financial_tables()
 
     return owner_change_count, sale_change_count
 
@@ -150,6 +155,7 @@ if __name__ == "__main__":
         print(
             f"ISSUE: {DB_SETUP_LOGFILE.name} not found. See log: {LOG_DATE} for details."
         )
+        exit()
 
     else:
         if date_parser.first_tuesday_of_month():
@@ -164,5 +170,5 @@ if __name__ == "__main__":
         else:
             mailer.send_mail(f"{owner_changes=}{sale_changes=}")
 
-        logger.info(f"*** PARCEL PROCESSING COMPLETED ***")
+        logger.info("*** PARCEL PROCESSING COMPLETED ***")
         logger.info(f"{owner_changes=} {sale_changes=}")
