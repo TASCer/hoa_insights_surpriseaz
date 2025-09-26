@@ -3,25 +3,50 @@ import logging
 from hoa_insights_surpriseaz.utils.date_parser import get_now
 from hoa_insights_surpriseaz import my_secrets
 from logging import Logger
-from pandas import Series, DataFrame, read_csv
-from pathlib import Path
+from pandas import Series, DataFrame
 from sqlalchemy import Engine, TextClause, create_engine, exc, text
 
 LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
 
-
-def get_ytd_community_avg_sale(ytd_sales: Path) -> DataFrame:
-    data: DataFrame = read_csv(f"{ytd_sales / 'ytd_community_avg_sale_price.csv'}")
-    return data
+logger: Logger = logging.getLogger(__name__)
 
 
-def all(file_path: Path, local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None:
+def financial_tables(local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI):
+    try:
+        engine: Engine = create_engine(f"mysql+pymysql://{local_db}")
+        with engine.connect() as conn, conn.begin():
+            q_community_sales: TextClause = conn.execute(
+                text("""SELECT * FROM community_sales;""")
+            )
+    except exc.DBAPIError as db_err:
+        logger.error(str(db_err))
+
+    ytd_sales = [s for s in q_community_sales]
+    community_sales: DataFrame = DataFrame(ytd_sales)
+
+    try:
+        engine: Engine = create_engine(f"mysql+pymysql://{remote_db}")
+        with engine.connect() as conn, conn.begin():
+            if len(community_sales) >= 1:
+                community_sales.to_sql(
+                    name="community_sales",
+                    con=conn,
+                    if_exists="replace",
+                    index=False,
+                )
+            logger.info(f"YTD SALES: {len(community_sales), type(community_sales)}")
+
+    except exc.OperationalError as e:
+        logger.critical(repr(e))
+
+
+def rental_tables(local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None:
     """
     Function gets all rental parcels from local database views, last table update, and community sales
     and populates remote databases tables for web site.
     """
-    logger: Logger = logging.getLogger(__name__)
+    # logger: Logger = logging.getLogger(__name__)
 
     try:
         engine: Engine = create_engine(f"mysql+pymysql://{local_db}")
@@ -46,18 +71,17 @@ def all(file_path: Path, local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None
     classed_rentals: DataFrame = DataFrame(classed)
 
     community_rental_owners = [o for o in q_rental_owner_types]
-    community_rental_owner_types = DataFrame(community_rental_owners)
+    community_rental_owner_types: DataFrame = DataFrame(community_rental_owners)
 
-    logger.info(f"REGISTERED RENTALS: {len(registered_rentals)}")
-    logger.info(f"CLASSED RENTALS: {len(classed_rentals)}")
+    logger.info(
+        f"REGISTERED RENTALS: {len(registered_rentals), type(registered_rentals)}"
+    )
+    logger.info(f"CLASSED RENTALS: {len(classed_rentals), type(classed_rentals)}")
 
     try:
-        logger: Logger = logging.getLogger(__name__)
         engine: Engine = create_engine(f"mysql+pymysql://{remote_db}")
 
         with engine.connect() as conn, conn.begin():
-            community_sales: DataFrame = get_ytd_community_avg_sale(file_path)
-
             if len(registered_rentals) >= 1:
                 registered_rentals.to_sql(
                     name="registered_rentals",
@@ -76,15 +100,6 @@ def all(file_path: Path, local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None
                 )
                 logger.info("\tTable: 'classed_rentals' has been updated REMOTELY")
 
-            if len(community_sales) >= 1:
-                community_sales.to_sql(
-                    name="community_sales",
-                    con=conn,
-                    if_exists="replace",
-                    index=False,
-                )
-                logger.info("\tTable: 'community_sales' has been updated REMOTELY")
-
             if len(community_rental_owner_types) >= 1:
                 community_rental_owner_types.to_sql(
                     name="community_rental_owner_types",
@@ -96,13 +111,19 @@ def all(file_path: Path, local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None
                     "\tTable: 'community_rental_owners' has been updated REMOTELY"
                 )
 
-                Series(get_now(), name="TS").to_sql(
-                    name="last_updated",
-                    con=conn,
-                    if_exists="replace",
-                    index=False,
-                )
                 logger.info("\tTable: 'last_updated' has been updated REMOTELY")
+
+            Series(get_now(), name="TS").to_sql(
+                name="last_updated",
+                con=conn,
+                if_exists="replace",
+                index=False,
+            )
 
     except exc.OperationalError as e:
         logger.critical(repr(e))
+
+
+if __name__ == "__main__":
+    financial_tables()
+    rental_tables()
