@@ -16,9 +16,17 @@ def parcel_changes(
     parcel_updates: DataFrame, html_parcel_changes: Path, pdf_parcel_changes: Path
 ) -> Path:
     """
-    Function takes in a dataframe of owner and sale changes and paths to output directories.
+    Function processes parcel changes.
     Produces and saves an html and pdf file.
     Returns tuple of filepaths.
+
+    Args:
+        parcel_updates (DataFrame): changed parcels
+        html_parcel_changes (Path): html file location
+        pdf_parcel_changes (Path): pdf file location
+
+    Returns:
+        Path: html file location
     """
 
     parcel_updates["COMMUNITY"] = parcel_updates["COMMUNITY"].apply(
@@ -52,11 +60,19 @@ def parcel_changes(
     return Path(html_parcel_changes / "recent_changes.html")
 
 
-def ytd_community_sales(community_avg_prices: DataFrame, html_file, pdf_file) -> Path:
+def ytd_community_sales(
+    community_avg_prices: DataFrame, html_file: Path, pdf_file: Path
+) -> Path:
     """
-    Function takes in a dataFrame of the average community home sales price YTD.
-    Produces and saves html report.
-    Sends html report to web server for display.
+    Function produces and saves html and pdf financial report
+
+    Args:
+        community_avg_prices (DataFrame):
+        html_file (Path): html file location
+        pdf_file (Path): pdf file location
+
+    Returns:
+        Path: community avg sale html file location
     """
     finance_caption: str = f"AVERAGE SALES PRICE (YTD) <br> PROCESSED: {logger_date()}"
 
