@@ -11,8 +11,13 @@ logger: Logger = logging.getLogger(__name__)
 
 def parse(api_data: tuple[dict]) -> tuple[list[Owners], list[Rentals]]:
     """
-    Function takes in consumed parcel data from ASSESSOR API
-    Reurns a list of parcel changes and a a list of rentals
+    Function parses consumed parcel data from ASSESSOR API.
+
+    Args:
+        api_data (tuple[dict]): latest parcel data
+
+    Returns:
+        tuple[list[Owners], list[Rentals]]:
     """
     parsed_owner_parcels: list = []
     parsed_rental_parcels: list = []

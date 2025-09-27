@@ -7,8 +7,10 @@ from dateutil.parser import parse, ParserError
 
 def logger_date() -> str:
     """
-    Function uses datetime.date.today object
-    Returns formatted str for logger's log files.
+    Function formats datetime.date.today object for logger file.
+
+    Returns:
+        str: today's date
     """
     now: date = dt.date.today()
     todays_date: str = now.strftime("%D").replace("/", "-")
@@ -18,7 +20,10 @@ def logger_date() -> str:
 
 def sql_date() -> date:
     """
-    Function returns todays date for historical mysql table timestamp (TS) col.
+    Function provides today's date used for historical table timestamp (TS) columns
+
+    Returns:
+        date: todays date
     """
     todays_date: date = dt.date.today()
 
@@ -27,8 +32,11 @@ def sql_date() -> date:
 
 def get_now() -> datetime:
     """
-    Function returns current datetime.
-    used for 'latest_update' table located on remote website.
+    Function gets datetime.now at time of invocation.
+
+    Returns:
+        datetime: used for 'latest_update' table located on remote website.
+
     """
     now: datetime = dt.datetime.now()
 
@@ -38,7 +46,10 @@ def get_now() -> datetime:
 def first_tuesday_of_month() -> bool:
     """
     Function determines if today is the FIRST TUESDAY of this month.
-    Used to update HOA management data on a monthly during a scheduled run.
+
+    Returns:
+        bool: If true, updates HOA management data.
+
     """
     current_year = dt.date.today().year
     current_month = dt.date.today().month
@@ -59,9 +70,13 @@ def first_tuesday_of_month() -> bool:
 
 def api_date(date: str) -> datetime:
     """
-    Function takes a date from API fetch result.
-    Returns formatted str for mysql date fields.
-    If date not parseable, returns "1901-01-01".
+    Function parses date field from API fetch result.
+
+    Args:
+        date (str): date from API response
+
+    Returns:
+        datetime: parsed date or "1901-01-01"
     """
     try:
         date_parsed: datetime = parse(date)
@@ -83,22 +98,3 @@ def year_to_date() -> tuple[str, str]:
     ytd_end: str = f"{now.year + 1}-01-01"
 
     return ytd_start, ytd_end
-
-
-# KEEP in case need for another automated monthly task
-# def last_saturday_of_month() -> int:
-#     """
-#     Application is scheduled to run every Tuesday and Saturday morning @ 2am.
-#     Function determines the date for the LAST SATURDAY of each month.
-#     Used to update HOA management data monthly.
-#     Returns date as int.
-#     """
-#     cur_year = dt.date.today().year
-#     cur_month = dt.date.today().month
-#     cur_month_calendar = calendar.monthcalendar(year=cur_year, month=cur_month)
-
-#     last_saturday: int = max(
-#         cur_month_calendar[-1][calendar.SATURDAY], cur_month_calendar[-2][calendar.SATURDAY]
-#     )
-
-#     return last_saturday

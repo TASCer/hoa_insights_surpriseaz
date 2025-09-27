@@ -3,8 +3,16 @@ import re
 
 def format_apn(apn: str) -> str:
     """
-    Function takes an Assessor Parcel Number (APN) value from API.
-    Returns a formatted xxx-xx-xxx str.
+    Function formats Assessor Parcel Number (APN) response from API.
+
+    Args:
+        apn (str):
+
+    Returns:
+        str:
+
+    Example:
+        "50911455" -> "509-11-455".
     """
     apn: str = re.sub(r"(\d{3})(\d{2})(\d{3})", r"\1-\2-\3", apn)
 
@@ -13,8 +21,18 @@ def format_apn(apn: str) -> str:
 
 def format_phone(num: str) -> str:
     """
-    Function takes phone number field data reponse from API
-    Returns a formatted (xxx) xxx-xxxx number, empty fields are all 9's
+    Function formats phone number field reponse from API.
+
+    Args:
+        num (str):
+
+    Returns:
+        str:
+
+    Example:
+        "1234567890" -> "(123) 456-7890"
+        "" -> "(999) 999-9999"
+
     """
     if num == "~~~~~~~~~~" or num is None:
         num: str = "9999999999"
@@ -26,8 +44,16 @@ def format_phone(num: str) -> str:
 
 def format_price(price: int) -> str:
     """
-    Returns formatted price str in $USD
-    ex: 534650 -> $534,650
+    Function formats integers.
+
+    Args:
+        price (int):
+
+    Returns:
+        str: used for reports
+
+    Example:
+        534650 -> $534,650
     """
     price = int(price)
     return "${:,}".format(price)

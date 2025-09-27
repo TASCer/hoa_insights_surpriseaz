@@ -12,7 +12,8 @@ REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
 logger: Logger = logging.getLogger(__name__)
 
 
-def financial_tables(local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI):
+def financial_tables(local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None:
+    """TBD"""
     try:
         engine: Engine = create_engine(f"mysql+pymysql://{local_db}")
         with engine.connect() as conn, conn.begin():
@@ -35,7 +36,7 @@ def financial_tables(local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI):
                     if_exists="replace",
                     index=False,
                 )
-            logger.info(f"YTD SALES: {len(community_sales), type(community_sales)}")
+            logger.info(f"YTD SALES: {len(community_sales)}")
 
     except exc.OperationalError as e:
         logger.critical(repr(e))
@@ -74,9 +75,10 @@ def rental_tables(local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None:
     community_rental_owner_types: DataFrame = DataFrame(community_rental_owners)
 
     logger.info(
-        f"REGISTERED RENTALS: {len(registered_rentals), type(registered_rentals)}"
+        f"REGISTERED RENTALS: {len(registered_rentals)}"
     )
-    logger.info(f"CLASSED RENTALS: {len(classed_rentals), type(classed_rentals)}")
+    logger.info(f"CLASSED RENTALS: {len(classed_rentals)}"
+    )
 
     try:
         engine: Engine = create_engine(f"mysql+pymysql://{remote_db}")

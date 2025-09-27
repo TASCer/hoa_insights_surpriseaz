@@ -16,6 +16,13 @@ WEB_SERVER_REPORT_PATH_WINDOWS = Path(
 
 
 def to_webserver(to_copy: Path, copy_to: Path = WEB_SERVER_REPORT_PATH_LINUX) -> None:
+    """
+    Function copies files to webserver for integration with website.
+
+    Args:
+        to_copy (Path): source
+        copy_to (Path, optional): destination. Defaults to WEB_SERVER_REPORT_PATH_LINUX.
+    """
     if copy_to.exists() and to_copy.exists():
         if not platform.system() == "Windows":
             source = str(to_copy)
