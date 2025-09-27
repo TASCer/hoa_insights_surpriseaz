@@ -9,7 +9,7 @@ from typing import Any
 LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 
 
-def changes(db_uri: str = f"{LOCAL_DB_URI}") -> tuple[list, list]:
+def changes(db_uri: str = f"{LOCAL_DB_URI}") -> tuple[list[str], list[str]]:
     """
     Function queries historical_sales and historical_owners tables with a TS(timestamp) of today.
 

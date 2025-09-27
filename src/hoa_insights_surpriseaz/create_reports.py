@@ -18,7 +18,6 @@ def parcel_changes(
     """
     Function processes parcel changes.
     Produces and saves an html and pdf file.
-    Returns tuple of filepaths.
 
     Args:
         parcel_updates (DataFrame): changed parcels
@@ -64,7 +63,7 @@ def ytd_community_sales(
     community_avg_prices: DataFrame, html_file: Path, pdf_file: Path
 ) -> Path:
     """
-    Function produces and saves html and pdf financial report
+    Function produces and saves html and pdf financial report(s).
 
     Args:
         community_avg_prices (DataFrame):
