@@ -18,8 +18,12 @@ def owners(
     latest_parsed_owners: list, db_uri: str = LOCAL_DB_URI, db_name: str = LOCAL_DB_NAME
 ) -> None:
     """
-    Function takes in latest parsed API data and rdbms info.
-    updates the owners table.
+    Function updates the local owners table.
+
+    Args:
+        latest_parsed_owners (list): Owner instances.
+        db_uri (str, optional): Defaults to LOCAL_DB_URI.
+        db_name (str, optional): Defaults to LOCAL_DB_NAME.
     """
     if latest_parsed_owners is None:
         return
@@ -60,8 +64,12 @@ def rentals(
     db_uri: str = LOCAL_DB_URI,
 ) -> None:
     """
-    Function takes in latest parsed API data with is_rental == 1.
-    updates the rentals table.
+    Function updates the local rentals table.
+
+    Args:
+        latest_parsed_rentals (list): Rentals instances.
+        db_name (str, optional): Defaults to LOCAL_DB_NAME.
+        db_uri (str, optional): Defaults to LOCAL_DB_URI.
     """
     if latest_parsed_rentals is None:
         return

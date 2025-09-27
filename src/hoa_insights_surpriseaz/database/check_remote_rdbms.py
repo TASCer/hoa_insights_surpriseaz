@@ -14,7 +14,13 @@ REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
 
 def schema(engine: Engine) -> bool:
     """
-    Function checks to see if remote schema is present, if not, create and return True
+    Function creates remote database schema.
+
+    Args:
+        engine (Engine):
+
+    Returns:
+        bool: True if successful
     """
     logger: Logger = logging.getLogger(__name__)
     try:

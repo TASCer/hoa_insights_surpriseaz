@@ -21,11 +21,14 @@ MANAGEMENT_TABLE: str = "community_managers"
 
 def get_communities(parsed_csv: Path) -> list[str]:
     """
-    Function takes in the path of the management pdf file that was downloaded and parsed to csv.
-    Reads the file and creates a row for each community and drops the header.
-    Returns list of str.
-    """
+    Function collects managed communities from file.
 
+    Args:
+        parsed_csv (Path): from monthly update.
+
+    Returns:
+        list[str]: managed communities
+    """
     try:
         with open(parsed_csv, "r") as f:
             reader = csv.reader(f)
@@ -42,6 +45,9 @@ def get_communities(parsed_csv: Path) -> list[str]:
 def update(file: Path) -> None:
     """
     Function updates the community_managers tables (local, remote) with data from the monthly pdf download.
+
+    Args:
+        file (Path): management csv
     """
     community_managers: list[str] = get_communities(file)
 

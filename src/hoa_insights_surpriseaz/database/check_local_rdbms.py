@@ -129,9 +129,13 @@ def triggers(engine: Engine) -> bool:
 
 def views(engine: Engine) -> bool:
     """
-    Function checks if views are present.
-    Returns True if so.
-    Returns False if any missing and could not be created.
+    Function creates views for local database
+
+    Args:
+        engine (Engine):
+
+    Returns:
+        bool: True if successful
     """
     try:
         with engine.connect() as conn, conn.begin():

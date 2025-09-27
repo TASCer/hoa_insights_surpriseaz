@@ -12,8 +12,16 @@ REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
 logger: Logger = logging.getLogger(__name__)
 
 
-def financial_tables(local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None:
-    """TBD"""
+def financial_tables(
+    local_db: str = LOCAL_DB_URI, remote_db: str = REMOTE_DB_URI
+) -> None:
+    """
+    Function updates remote finance tables.
+
+    Args:
+        local_db (str, optional): Defaults to LOCAL_DB_URI.
+        remote_db (str, optional): Defaults to REMOTE_DB_URI.
+    """
     try:
         engine: Engine = create_engine(f"mysql+pymysql://{local_db}")
         with engine.connect() as conn, conn.begin():
@@ -42,13 +50,14 @@ def financial_tables(local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None:
         logger.critical(repr(e))
 
 
-def rental_tables(local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None:
+def rental_tables(local_db: str = LOCAL_DB_URI, remote_db: str = REMOTE_DB_URI) -> None:
     """
-    Function gets all rental parcels from local database views, last table update, and community sales
-    and populates remote databases tables for web site.
-    """
-    # logger: Logger = logging.getLogger(__name__)
+    Function updates remote rental tables.
 
+    Args:
+        local_db (str, optional): Defaults to LOCAL_DB_URI.
+        remote_db (str, optional): Defaults to REMOTE_DB_URI.
+    """
     try:
         engine: Engine = create_engine(f"mysql+pymysql://{local_db}")
         with engine.connect() as conn, conn.begin():
@@ -74,11 +83,8 @@ def rental_tables(local_db=LOCAL_DB_URI, remote_db=REMOTE_DB_URI) -> None:
     community_rental_owners = [o for o in q_rental_owner_types]
     community_rental_owner_types: DataFrame = DataFrame(community_rental_owners)
 
-    logger.info(
-        f"REGISTERED RENTALS: {len(registered_rentals)}"
-    )
-    logger.info(f"CLASSED RENTALS: {len(classed_rentals)}"
-    )
+    logger.info(f"REGISTERED RENTALS: {len(registered_rentals)}")
+    logger.info(f"CLASSED RENTALS: {len(classed_rentals)}")
 
     try:
         engine: Engine = create_engine(f"mysql+pymysql://{remote_db}")
