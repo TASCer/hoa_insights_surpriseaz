@@ -10,9 +10,9 @@ from hoa_insights_surpriseaz import my_secrets
 
 email_reciever: list[str] = my_secrets.email_to
 email_sender: str = my_secrets.postfix_mail_from
-email_server = my_secrets.postfix_mailhost
-email_user = my_secrets.postfix_user
-email_password = my_secrets.postfix_password
+email_server: str = my_secrets.postfix_mailhost
+email_user: str = my_secrets.postfix_user
+email_password: str = my_secrets.postfix_password
 
 
 def send_mail(subject: str, attachment_path: str | None = None) -> None:
