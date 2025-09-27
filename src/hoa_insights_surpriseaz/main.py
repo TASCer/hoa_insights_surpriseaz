@@ -94,11 +94,10 @@ def start_processing_parcels() -> None:
     parsed_owner_data, parsed_rental_data = parse_assessor_parcels.parse(
         consumed_parcel_api_data
     )
-    update_local_database.owners(parsed_owner_data)
-
+    if parsed_owner_data:
+        update_local_database.owners(parsed_owner_data)
     if parsed_rental_data:
         update_local_database.rentals(parsed_rental_data)
-        update_remote_database.all(CSV_FINANCIAL)
     else:
         logger.warning("NO REGISTERED RENTAL PROPERTIES FOUND")
 
@@ -111,7 +110,7 @@ def main() -> tuple[int, int]:
         tuple[int, int]: owner change count, sale change count.
     """
 
-    start_processing_parcels()
+    # start_processing_parcels()
     owner_changes, sale_changes, owner_change_count, sale_change_count = (
         process_updated_parcels.insights(CSV_UPDATED_PARCELS, CSV_FINANCIAL)
     )
