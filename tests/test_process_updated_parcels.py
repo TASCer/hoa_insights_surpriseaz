@@ -3,7 +3,7 @@
 # from hoa_insights_surpriseaz.my_secrets import test_debian_uri, test_debian_dbname
 
 
-def test_initial_parcel_data(parse_original_parcel_data) -> list[dict]:
+def test_initial_parcel_data(parse_original_parcel_data) -> None:
     initial_parcels, initial_rentals = parse_original_parcel_data
     assert len(parse_original_parcel_data) == 2
     assert len(initial_parcels) == 5
@@ -17,7 +17,7 @@ def test_initial_parcel_data(parse_original_parcel_data) -> list[dict]:
     assert len(initial_rentals) == 2
 
 
-def test_new_parcel_data(parse_new_parcel_data) -> list[dict]:
+def test_new_parcel_data(parse_new_parcel_data) -> None:
     update_owners, update_rentals = parse_new_parcel_data
     assert len(update_owners) == 5
 
