@@ -24,9 +24,9 @@ wheels/
 src/hoa_insights_surpriseaz/output/pdf/financial/*.pdf
 src/hoa_insights_surpriseaz/output/pdf/parcel_changes/recent_changes.pdf
 
-/misc/
 .coverage
 .gitkeep
 tests/input/TEST-ORIGINAL-PDF.pdf
 tests/input/TEST-RENAMED-PDF.pdf
 tests/output/pdf/TEST-MANAGEMENT.pdf
+issues.txt
