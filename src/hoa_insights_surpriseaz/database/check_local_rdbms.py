@@ -41,10 +41,11 @@ logger: Logger = logging.getLogger(__name__)
 
 def schema(engine: Engine) -> bool:
     """
-    Function checks if schema/DB_NAME is present.
-    Return True if it is.
-    Return False and log error if not and could not be created.
-    """
+    Function creates datavase schema.
+
+    :param engine: dbe
+    :return: Trur if created
+    """    
     logger: Logger = logging.getLogger(__name__)
 
     try:
@@ -60,10 +61,11 @@ def schema(engine: Engine) -> bool:
 
 def triggers(engine: Engine) -> bool:
     """
-    Function checks if 'after_sale_owners' and 'after_sale_update triggers are present on 'owners' table.
-    Returns True if both are created.
-    Returns False if either are missing and could not be created.
-    """
+    Function creates 'after_sale_update' and 'after_owner_update triggers on 'owners' table.
+
+    :param engine: dbe
+    :return: True if created
+    """    
     logger: Logger = logging.getLogger(__name__)
 
     with engine.connect() as conn, conn.begin():
@@ -131,12 +133,9 @@ def views(engine: Engine) -> bool:
     """
     Function creates views for local database
 
-    Args:
-        engine (Engine):
-
-    Returns:
-        bool: True if successful
-    """
+    :param engine: dbe
+    :return: True if created
+    """    
     try:
         with engine.connect() as conn, conn.begin():
             conn.execute(
@@ -391,8 +390,11 @@ def views(engine: Engine) -> bool:
 # POC
 def stored_procs(engine: Engine) -> bool:
     """
-    Function [Beta] creates a mySQL Stored Procedure to update communities.
-    """
+    Function creates a mySQL Stored Procedure to update communities.
+
+    :param engine: dbe
+    :return: True if created
+    """    
     try:
         with engine.connect() as conn, conn.begin():
             conn.execute(
