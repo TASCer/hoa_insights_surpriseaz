@@ -45,7 +45,7 @@ def schema(engine: Engine) -> bool:
 
     :param engine: dbe
     :return: Trur if created
-    """    
+    """
     logger: Logger = logging.getLogger(__name__)
 
     try:
@@ -65,7 +65,7 @@ def triggers(engine: Engine) -> bool:
 
     :param engine: dbe
     :return: True if created
-    """    
+    """
     logger: Logger = logging.getLogger(__name__)
 
     with engine.connect() as conn, conn.begin():
@@ -135,7 +135,7 @@ def views(engine: Engine) -> bool:
 
     :param engine: dbe
     :return: True if created
-    """    
+    """
     try:
         with engine.connect() as conn, conn.begin():
             conn.execute(
@@ -394,7 +394,7 @@ def stored_procs(engine: Engine) -> bool:
 
     :param engine: dbe
     :return: True if created
-    """    
+    """
     try:
         with engine.connect() as conn, conn.begin():
             conn.execute(
