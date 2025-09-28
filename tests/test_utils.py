@@ -1,9 +1,10 @@
 import pytest
 
-from datetime import datetime
+from datetime import datetime, date
 
 from hoa_insights_surpriseaz.utils import (
     date_parser,
+    delete_files,
     file_renamer,
     file_copier,
     number_formatter,
@@ -16,23 +17,25 @@ TEST_RENAMED_PDF_FILENAME: str = "TEST-RENAMED-MANAGEMENT.pdf"
 TEST_ORIG_CSV_FILENAME: str = "test-surpriseaz-hoa-management.csv"
 CSV_FILENAME: str = "test-renamed-surpriseaz-hoa-management.csv"
 
+tests_path: Path = Path.cwd() / "tests" / "output" / "pdf"
+
 
 # DATE PARSER
 # @pytest.mark.skip("WORKING")
 def test_date_parser() -> None:
-    date = date_parser.logger_date()
+    date: str = date_parser.logger_date()
     assert "-" in date
 
 
 # @pytest.mark.skip("WORKING")
 def test_sql_date() -> None:
-    date = date_parser.sql_date()
+    date: date = date_parser.sql_date()
     assert date == dt.today().date()
 
 
 # @pytest.mark.skip("WORKING")
 def test_sql_timestamp() -> None:
-    date = date_parser.get_now()
+    date: datetime = date_parser.get_now()
     assert dt.isoformat(date)
 
 
@@ -48,7 +51,6 @@ def test_format_api_date() -> None:
 # @pytest.mark.skip("WORKING")
 def test_first_tuesday() -> None:
     first_tuesday = date_parser.first_tuesday_of_month()
-
     assert not first_tuesday, "Is today the 1st Tuesday of this month?"
 
 
@@ -85,9 +87,9 @@ def test_phones(ph_num, expected):
 
 
 # FILE RENAME
-@pytest.mark.skip("WIP")
+# @pytest.mark.skip("WIP")
 def test_rename_files() -> None:
-    tests_path = Path.cwd() / "tests" / "output" / "pdf"
+    tests_path: Path = Path.cwd() / "tests" / "output" / "pdf"
     # RENAME ORIG
     assert (
         file_renamer.rename(
@@ -104,19 +106,16 @@ def test_rename_files() -> None:
     )
 
 
-# TODO finish util testing
-@pytest.mark.skip("WIP")
-def test_file_copier():
-    file_copier.to_folder(
-        TEST_ORIG_CSV_FILENAME / CSV_FILENAME, Path().parent / "output"
-    )
+# @pytest.mark.skip("WIP")
+def test_file_copier() -> None:
+    assert file_copier.to_webserver(tests_path / TEST_ORIG_PDF_FILENAME, tests_path.parent.parent) == None
+
+
+# @pytest.mark.skip("WIP")
+def test_delete_files() -> None:
+    assert delete_files.delete(tests_path.parent.parent / TEST_ORIG_PDF_FILENAME)
 
 
 @pytest.mark.skip("WIP")
-def test_delete_files():
-    pass
-
-
-@pytest.mark.skip("WIP")
-def test_mailer():
+def test_mailer() -> None:
     pass
