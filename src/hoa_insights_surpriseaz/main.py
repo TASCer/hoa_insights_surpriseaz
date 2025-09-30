@@ -110,7 +110,7 @@ def main() -> tuple[int, int]:
         tuple[int, int]: owner change count, sale change count.
     """
 
-    # start_processing_parcels()
+    start_processing_parcels()
     owner_changes, sale_changes, owner_change_count, sale_change_count = (
         process_updated_parcels.insights(CSV_UPDATED_PARCELS, CSV_FINANCIAL)
     )
