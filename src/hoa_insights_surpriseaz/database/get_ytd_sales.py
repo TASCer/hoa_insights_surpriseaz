@@ -2,14 +2,15 @@ import logging
 
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.utils.number_formatter import format_price
-from hoa_insights_surpriseaz.utils.date_parser import year_to_date
+
+# from hoa_insights_surpriseaz.utils.date_parser import year_to_date
 from logging import Logger
 from pandas import DataFrame, read_sql, concat
 from pathlib import Path
 from sqlalchemy import create_engine, exc
 from sqlalchemy.engine import Engine
 
-year_start, year_end = year_to_date()
+# year_start, year_end = year_to_date()
 
 DB_HOSTNAME: str = f"{my_secrets.prod_debian_dbhost}"
 DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
@@ -43,15 +44,11 @@ def get_average_sale_price(finances: Path) -> DataFrame:
     with engine.connect() as conn, conn.begin():
         try:
             all_sales_ytd: DataFrame = read_sql(
-                f"""SELECT 
-				p.COMMUNITY,
-				o.SALE_DATE,
-				o.SALE_PRICE
-
+                """SELECT 
+                    *
 				FROM
-				owners o 
-				INNER JOIN parcels p ON p.APN = o.APN
-				where o.SALE_DATE >= '{year_start}' and o.SALE_DATE < '{year_end}';""",
+				community_sales 
+				;""",
                 con=conn,
                 parse_dates=[1],
                 coerce_float=False,
@@ -77,7 +74,7 @@ def get_average_sale_price(finances: Path) -> DataFrame:
         columns={"SALE_DATE": "#Sold"}
     )
 
-    ytd_avg_price: DataFrame = all_community_sales_ytd.groupby(["COMMUNITY"]).mean(
+    ytd_avg_price: DataFrame = all_community_sales_ytd.groupby(by=["COMMUNITY"]).mean(
         ["SALE_PRICE"]
     )
 
