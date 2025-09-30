@@ -85,16 +85,3 @@ def api_date(date: str) -> datetime:
         date_parsed: datetime = parse("1901-01-01")
 
     return date_parsed
-
-
-def year_to_date() -> tuple[str, str]:
-    """
-    Function returns str representing current year and next year and appends "-01-01" to them.
-    Used for YTD Sales table query.
-    i.e. 2024-04-01, 2025-01-01.
-    """
-    now: date = dt.datetime.now()
-    ytd_start: str = f"{now.year}-01-01"
-    ytd_end: str = f"{now.year + 1}-01-01"
-
-    return ytd_start, ytd_end
