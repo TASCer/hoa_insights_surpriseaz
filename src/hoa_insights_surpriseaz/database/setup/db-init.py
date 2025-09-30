@@ -31,9 +31,7 @@ root_logger.addHandler(fh)
 logger: Logger = logging.getLogger(__name__)
 
 
-def create_local_database(
-    engine: Engine, session: Session
-) -> tuple[list, Session | None]:
+def create_local_database(engine: Engine, session: Session) -> tuple[list, Session]:
     """
     Function creates a db engine and checks if schema, table, triggers, views are created.
     Returns a list of community totals for remote table population.
@@ -64,7 +62,7 @@ def create_local_database(
         return community_totals, session
 
     else:
-        return None
+        return [], session
 
 
 def create_remote_database(
