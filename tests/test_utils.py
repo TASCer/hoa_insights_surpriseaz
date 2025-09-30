@@ -1,6 +1,6 @@
 import pytest
 
-from datetime import datetime, date
+from datetime import datetime
 
 from hoa_insights_surpriseaz.utils import (
     date_parser,
@@ -112,7 +112,7 @@ def test_file_copier() -> None:
         file_copier.to_webserver(
             tests_path / TEST_ORIG_PDF_FILENAME, tests_path.parent.parent
         )
-        == None
+        is None
     )
 
 
