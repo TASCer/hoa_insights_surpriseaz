@@ -64,7 +64,7 @@ def get_parcel_apns() -> list[str]:
         exit()
 
 
-def parcels_api() -> tuple[dict]:
+def parcels_api() -> list[dict]:
     """
     Function gets each community parcel APN from database table parcels.
     Fetches latest data for APN from Accessor API.
@@ -74,7 +74,7 @@ def parcels_api() -> tuple[dict]:
     """
     APNS: list[str] = get_parcel_apns()
     logger.info("Accessing Assessor API to get latest parcel data")
-    consumed_parcel_data: tuple[dict] = asyncio.run(async_main(APNS))
+    consumed_parcel_data: list[dict] = asyncio.run(async_main(APNS))
     logger.info("All latest parcel data consumed from API")
 
     return consumed_parcel_data
@@ -87,7 +87,7 @@ async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> d
     """
     try:
         async with sem, client.get(url) as resp:
-            response_code = resp.status
+            response_code: int = resp.status
             if response_code != 200:
                 logger.warning(f"NON 200 Code Errer {response_code}")
             parcel_details: dict = await resp.json()
@@ -148,7 +148,7 @@ async def async_main(apns: list[str]) -> list[dict]:
                 asyncio.create_task(get_parcel_details(retry_client, sem, parcel_url))
             )
 
-        parcels: list = await asyncio.gather(*tasks, return_exceptions=False)
+        parcels: list[dict] = await asyncio.gather(*tasks, return_exceptions=False)
 
         return parcels
 
