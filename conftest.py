@@ -13,7 +13,7 @@ from hoa_insights_surpriseaz.my_secrets import (
     test_bluehost_dbname,
 )
 
-from hoa_insights_surpriseaz.parse_assessor_parcels import parse
+from hoa_insights_surpriseaz.parse_assessor_parcels import parser
 
 TEST_INITIAL_PARCELS_PATH: Path = (
     Path.cwd() / "tests" / "input" / "original_parcel_json"
@@ -103,7 +103,7 @@ def get_new_parcel_data():
 
 @pytest.fixture()
 def parse_original_parcel_data(get_original_parcel_data):
-    test_parsed_owners_original_data, test_parsed_rentals_original_data = parse(
+    test_parsed_owners_original_data, test_parsed_rentals_original_data = parser(
         get_original_parcel_data
     )
 
@@ -112,7 +112,7 @@ def parse_original_parcel_data(get_original_parcel_data):
 
 @pytest.fixture()
 def parse_new_parcel_data(get_new_parcel_data):
-    test_parsed_new_parcel_data, test_parsed_new_rentals_data = parse(
+    test_parsed_new_parcel_data, test_parsed_new_rentals_data = parser(
         get_new_parcel_data
     )
 
