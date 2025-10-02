@@ -38,7 +38,7 @@ def download() -> tuple[Path, Path, Path]:
     """
     Function creates a Selenium browser to download HOA management file from city website.
 
-    :return: downloaded file, new file, csv file 
+    :return: downloaded file, new file, csv file
     """
     logger.info("\tSTARTED: MANAGEMENT PDF DOWNLOAD")
 
