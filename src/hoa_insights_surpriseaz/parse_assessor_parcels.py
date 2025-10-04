@@ -9,7 +9,7 @@ from logging import Logger
 logger: Logger = logging.getLogger(__name__)
 
 
-def parse(api_data: tuple[dict]) -> tuple[list[Owners], list[Rentals]]:
+def parser(api_data: list[dict]) -> tuple[list[Owners], list[Rentals]]:
     """
     Function parses consumed parcel data from ASSESSOR API.
 
@@ -111,4 +111,4 @@ def parse(api_data: tuple[dict]) -> tuple[list[Owners], list[Rentals]]:
 
             parsed_rental_parcels.append(new_rental_data)
 
-    return parsed_owner_parcels, parsed_rental_parcels
+    return (parsed_owner_parcels, parsed_rental_parcels)
