@@ -63,7 +63,7 @@ root_logger.addHandler(fh)
 logger: Logger = logging.getLogger(__name__)
 
 
-def start_community_management_update() -> Path:
+def community_management_update() -> Path:
     """
     Function controls the downloading, renaming, and parsing of downloaded HOA management pdf file.
 
@@ -83,15 +83,16 @@ def start_community_management_update() -> Path:
     return mgmt_csv
 
 
-def start_processing_parcels() -> None:
+def main() -> None:
     """
-    Function fetches parcel data via MARICOPA AZ ACCESSOR API.
-    Parses fetched parcel data.
-    Updates parcel data to local and remote databases.
+    Function controls the application.
+
+    Returns:
+        tuple[int, int]: owner change count, sale change count.
     """
     logger.info("*** PARCEL PROCESSING STARTED ***")
-    consumed_parcel_api_data: tuple[dict] = fetch_assessor_parcels.parcels_api()
-    parsed_owner_data, parsed_rental_data = parse_assessor_parcels.parse(
+    consumed_parcel_api_data: list[dict] = fetch_assessor_parcels.parcels_api()
+    parsed_owner_data, parsed_rental_data = parse_assessor_parcels.parser(
         consumed_parcel_api_data
     )
     if parsed_owner_data:
@@ -101,16 +102,6 @@ def start_processing_parcels() -> None:
     else:
         logger.warning("NO REGISTERED RENTAL PROPERTIES FOUND")
 
-
-def main() -> tuple[int, int]:
-    """
-    Function controls the application.
-
-    Returns:
-        tuple[int, int]: owner change count, sale change count.
-    """
-
-    start_processing_parcels()
     owner_changes, sale_changes, owner_change_count, sale_change_count = (
         process_updated_parcels.insights(CSV_UPDATED_PARCELS, CSV_FINANCIAL)
     )
@@ -133,11 +124,20 @@ def main() -> tuple[int, int]:
             file_copier.to_webserver(to_copy=financial_report_file)
         update_remote_database.financial_tables()
 
-    return owner_change_count, sale_change_count
+    if owner_changes.empty and sale_changes.empty:
+        logger.info("NO SALES AND OWNER CHANGES")
+
+    else:
+        mailer.send_mail(f"{len(owner_changes)=} {len(sale_changes)=}")
+
+    logger.info("*** PARCEL PROCESSING COMPLETED ***")
+    logger.info(f"{len(owner_changes)=} {len(sale_changes)=}")
 
 
 if __name__ == "__main__":
     """
+    Checks:
+     If db-init.py has been ran.
     Checks:
      Is today is the first Tuesday of this month? If so update community management data.
     Runs:
@@ -156,18 +156,8 @@ if __name__ == "__main__":
         )
         exit()
 
-    else:
-        if date_parser.first_tuesday_of_month():
-            mgmt_csv: Path = start_community_management_update()
-            update_community_management.update(mgmt_csv)
+    if date_parser.first_tuesday_of_month():
+        mgmt_csv: Path = community_management_update()
+        update_community_management.update(mgmt_csv)
 
-        owner_changes, sale_changes = main()
-
-        if not owner_changes:
-            logger.info("NO SALES OR OWNER CHANGES")
-
-        else:
-            mailer.send_mail(f"{owner_changes=}{sale_changes=}")
-
-        logger.info("*** PARCEL PROCESSING COMPLETED ***")
-        logger.info(f"{owner_changes=} {sale_changes=}")
+    main()
