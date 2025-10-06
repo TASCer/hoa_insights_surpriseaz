@@ -8,4 +8,6 @@ API
    :recursive:
 
    hoa_insights_surpriseaz
-   hoa_insights_surpriseaz.database
+   :exclude-members: my_secrets.py
+
+   .. hoa_insights_surpriseaz.database
