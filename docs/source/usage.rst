@@ -14,8 +14,8 @@ To use HOA_INSIGHTS_SURPRISEAZ, first install it using uv from root directory:
 
 .. _createdb:
 
-Creating RDBMS
-----------------
+Create Database
+---------------
 
 Before running the application, we need to setup the local and remote databases.
 
@@ -25,14 +25,14 @@ This can be done by running the following from the database/setup directory:
 
    $ uv run db-init.py
 
-This creates a "__database-setup__" log file located in the database directory.
+   This creates a "__database-setup__" log file located in the database directory.
 
 .. _run:
 
 Running Application
 -------------------
 
-To run the application, run the following from the package root directory:
+To start the application, execute the following command from the package root directory:
 
 .. code-block:: console
 
