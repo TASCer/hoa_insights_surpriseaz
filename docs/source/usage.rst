@@ -12,10 +12,10 @@ To use HOA_INSIGHTS_SURPRISEAZ, first install it using uv from root directory:
 
    $ uv install .
 
-.. _create:
+.. _createdb:
 
-Creating Database
------------------
+Creating RDBMS
+----------------
 
 Before running the application, we need to setup the local and remote databases.
 

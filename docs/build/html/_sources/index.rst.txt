@@ -11,7 +11,7 @@ Add your content using ``reStructuredText`` syntax. See the
 documentation for details.
 
 Check out the :doc:`usage` section for further information, including how to
-:ref:`install <installation>` the project, :ref:`create database <create>`, and :ref:`run <run>` the application.
+:ref:`install <installation>` the project, :ref:`create <createdb>` database.
 
 .. toctree::
    :maxdepth: 2
