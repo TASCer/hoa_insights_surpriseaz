@@ -1,9 +1,7 @@
-import os
 import sys
 from pathlib import Path
 
-# sys.path.insert(0, str(Path("..", "..", "src").resolve()))
-sys.path.insert(0, os.path.abspath('../../src/hoa_insights_surpriseaz'))  # Source code dir relative to this file
+sys.path.insert(0, Path.cwd().parent.parent /"src" / "hoa_insights_surpriseaz")  # Source code dir relative to this file
 
 # Configuration file for the Sphinx documentation builder.
 #
@@ -26,7 +24,6 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.coverage",
     "sphinx.ext.napoleon",
-    # "sphinx.ext-autobuild",
     "sphinx.ext.duration",
     "sphinx.ext.autosummary"
 ]
