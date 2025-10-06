@@ -1,8 +1,10 @@
+.. _api-reference:
+
 API
 ===
 
 .. autosummary::
-   :toctree: generated
+   :toctree: _autosummary  
+   :recursive:
 
-   lumache
-    
+   hoa_insights_surpriseaz
