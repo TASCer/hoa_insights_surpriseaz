@@ -8,3 +8,4 @@ API
    :recursive:
 
    hoa_insights_surpriseaz
+   hoa_insights_surpriseaz.database

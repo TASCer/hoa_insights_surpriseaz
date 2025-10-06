@@ -12,6 +12,7 @@
 
    convert_management_data
    create_reports
+   database
    fetch_assessor_parcels
    fetch_community_management
    main
