@@ -12,17 +12,28 @@ To use HOA_INSIGHTS_SURPRISEAZ, first install it using uv from root directory:
 
    $ uv install .
 
-Creating recipes
-----------------
+.. _create:
 
-To retrieve a list of random ingredients,
-you can use the ``lumache.get_random_ingredients()`` function:
+Creating Database
+-----------------
 
-.. py:function:: lumache.get_random_ingredients(kind=None)
+Before running the application, we need to setup the local and remote databases.
 
-   Return a list of random ingredients as strings.
+This can be done by running the following from the database/setup directory:
 
-   :param kind: Optional "kind" of ingredients.
-   :type kind: list[str] or None
-   :return: The ingredients list.
-   :rtype: list[str]
+.. code-block:: console
+
+   $ uv run db-init.py
+
+This creates a "__database-setup__" log file located in the database directory.
+
+.. _run:
+
+Running Application
+-------------------
+
+To run the application, run the following from the package root directory:
+
+.. code-block:: console
+
+   $ uv run main.py
