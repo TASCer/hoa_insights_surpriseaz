@@ -67,8 +67,7 @@ def community_management_update() -> Path:
     """
     Function controls the downloading, renaming, and parsing of downloaded HOA management pdf file.
 
-    Returns:
-        Path: location of parsed HOA management csv file
+    :return: location of parsed HOA management csv file
     """
     logger.info("\tSTARTED: Monthly HOA Management Update")
     orig_pdf, new_pdf, mgmt_csv = fetch_community_management.download()
@@ -85,10 +84,7 @@ def community_management_update() -> Path:
 
 def main() -> None:
     """
-    Function controls the application.
-
-    Returns:
-        tuple[int, int]: owner change count, sale change count.
+    Function controls the application. 
     """
     logger.info("*** PARCEL PROCESSING STARTED ***")
     consumed_parcel_api_data: list[dict] = fetch_assessor_parcels.parcels_api()
@@ -137,14 +133,11 @@ def main() -> None:
 if __name__ == "__main__":
     """
     Checks:
-     If db-init.py has been ran.
+     If db-init.py has been ran by looking for log file.
     Checks:
      Is today is the first Tuesday of this month? If so update community management data.
     Runs:
      Controlling application function: main()    
-    Checks:
-     If parcel changes were encountered
-     Sends e-mail.
     """
     if not DB_SETUP_LOGFILE.exists():
         logger.error(f"** '{DB_SETUP_LOGFILE}' not found. **")

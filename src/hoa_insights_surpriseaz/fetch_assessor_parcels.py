@@ -29,8 +29,7 @@ def get_parcel_apns() -> list[str]:
     """
     Function retrieves the APN of all parcels from database table parcels.
 
-    Returns:
-        list[str]: APNs
+    :return: all APNs to be sent to the API for latest data.
 
     Example:
         APN = ["509-11-444", "509-11-456"]
@@ -66,11 +65,9 @@ def get_parcel_apns() -> list[str]:
 
 def parcels_api() -> list[dict]:
     """
-    Function gets each community parcel APN from database table parcels.
-    Fetches latest data for APN from Accessor API.
+    Function gets the latest parcel data from API.
 
-    Returns:
-        tuple[dict]: API responses for APNs provided.
+    :return: list of parcel responses from API.
     """
     APNS: list[str] = get_parcel_apns()
     logger.info("Accessing Assessor API to get latest parcel data")
@@ -82,8 +79,12 @@ def parcels_api() -> list[dict]:
 
 async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> dict:
     """
-    Function takes an async http retry client, async semaphore, and url to get latest parcel data from API endpoint.
-    Returns a dictionary object.
+    Function retrieves parcel data from the API.
+
+    :param client: retry client
+    :param sem: semaphore for limiting
+    :param url: API end point suffixed with parcel APN
+    :return: parcel data 
     """
     try:
         async with sem, client.get(url) as resp:
@@ -121,12 +122,8 @@ async def async_main(apns: list[str]) -> list[dict]:
     """
     Function asynchronously gathers API responses from Assessor site.
 
-    Args:
-        apns (list): collection of APNs used as endpoint for API
-
-    Returns:
-        list[dict]: parcel API data
-
+    :param apns: collection of APNs used as endpoint for API
+    :return: collection of parcel API response data
     """
     connector: TCPConnector = TCPConnector(
         ssl=False,
