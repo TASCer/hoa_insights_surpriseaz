@@ -56,10 +56,20 @@ def first_tuesday_of_month() -> bool:
     current_month_calendar = calendar.monthcalendar(
         year=current_year, month=current_month
     )
+
+
     first_tuesday_date: int = min(
         current_month_calendar[0][calendar.TUESDAY],
         current_month_calendar[1][calendar.TUESDAY],
     )
+
+
+    if first_tuesday_date == 0:
+        first_tuesday_date: int = max(
+            current_month_calendar[0][calendar.TUESDAY],
+            current_month_calendar[1][calendar.TUESDAY],
+        )
+     
 
     is_today_first_tuesday: bool = (
         int(logger_date().split("-")[1]) == first_tuesday_date
