@@ -19,7 +19,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
 
 # TODO SPACE TYPO FROM CITY 08-25 and extra "," after contact 2nd page
-# TODO SPACE TYPO FROM CITY FIXED 10-7 **and extra "," after contact 2nd page**
 PDF_DOWNLOADED_FILENAME: str = "HOA Contact List (PDF) .pdf"
 PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
 PDF_PATH: Path = Path.cwd() / "output" / "pdf"
