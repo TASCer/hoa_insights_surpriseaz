@@ -128,10 +128,10 @@ def main() -> None:
         logger.info("NO SALES AND OWNER CHANGES")
 
     else:
-        mailer.send_mail(f"{len(owner_changes)=} {len(sale_changes)=}")
+        mailer.send_mail(f"{owner_change_count=} {sale_change_count=}")
 
     logger.info("*** PARCEL PROCESSING COMPLETED ***")
-    logger.info(f"{len(owner_changes)=} {len(sale_changes)=}")
+    logger.info(f"{owner_change_count=} {sale_change_count=}")
 
 
 if __name__ == "__main__":
