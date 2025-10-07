@@ -30,4 +30,5 @@ def rename(old: Path, new: Path) -> bool:
             return False
 
     else:
+        logger.error("File to rename not found.")
         return False
