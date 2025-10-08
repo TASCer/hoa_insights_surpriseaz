@@ -14,15 +14,11 @@ def insights(
     updated_parcels: Path, finances: Path
 ) -> tuple[DataFrame, DataFrame, int, int]:
     """
-    Function queries historical_sales and historical_owners tables for items with a timestamp of today.
-    Creates a merged dataframe of changes that outputs to csv.
+    Function provides insights by processing changes between parcel data fetches.
 
-    Args:
-        updated_parcels (Path): directory of parcel changes
-        finances (Path): directory of finance changes
-
-    Returns:
-        tuple[DataFrame, DataFrame, int, int]: owner changes, finance changes, owner change count, sale change count
+    :param updated_parcels: directory for parcel change output
+    :param finances: directory for finance change output
+    :return: owner changes, finance changes, owner change count, sale change count
     """
     owner_changes, sale_changes = get_updated_data.changes()
     owner_change_count: int = len(owner_changes)

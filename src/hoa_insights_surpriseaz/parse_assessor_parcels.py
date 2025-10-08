@@ -13,7 +13,7 @@ def parser(api_data: list[dict]) -> tuple[list[Owners], list[Rentals]]:
     """
     Function parses consumed parcel data from ASSESSOR API.
 
-    :param api_data: latest parcel data
+    :param api_data: sequence of latest parcel data
     :return: Owners instances, Rentals instances
     """
     parsed_owner_parcels: list = []
