@@ -84,7 +84,7 @@ def community_management_update() -> Path:
 
 def main() -> None:
     """
-    Function controls the application. 
+    Function controls the application.
     """
     logger.info("*** PARCEL PROCESSING STARTED ***")
     consumed_parcel_api_data: list[dict] = fetch_assessor_parcels.parcels_api()
