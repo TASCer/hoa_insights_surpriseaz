@@ -152,5 +152,6 @@ if __name__ == "__main__":
     if date_parser.first_tuesday_of_month():
         mgmt_csv: Path = community_management_update()
         update_community_management.update(mgmt_csv)
+        logger.info("COMPLETED: Monthly HOA Management Update")
 
     main()
