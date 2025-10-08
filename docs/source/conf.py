@@ -34,7 +34,7 @@ autodoc_inherit_docstrings = True  # If no docstring, inherit from base class
 autosummary_generate = True  # Turn on sphinx.ext.autosummary
 
 templates_path = ["_templates"]
-exclude_patterns = ["_build", "_templates"]
+exclude_patterns = ["_build", "_templates", '.DS_Store', "my_secrets.rst"]
 
 
 # -- Options for HTML output -------------------------------------------------

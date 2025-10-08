@@ -83,7 +83,7 @@
 <dd class="field-odd"><p><strong>apns</strong> – collection of APNs used as endpoint for API</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>collection of parcel API response data</p>
+<dd class="field-even"><p>sequence of parcel API response data</p>
 </dd>
 </dl>
 </dd></dl>
@@ -91,14 +91,14 @@
 <dl class="py function">
 <dt class="sig sig-object py">
 <span class="sig-prename descclassname"><span class="pre">hoa_insights_surpriseaz.fetch_assessor_parcels.</span></span><span class="sig-name descname"><span class="pre">get_parcel_apns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span></dt>
-<dd><p>Function retrieves the APN of all parcels from database table parcels.</p>
+<dd><p>Function retrieves the APN of all parcels from database table: parcels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>all APNs to be sent to the API for latest data.</p>
+<dd class="field-odd"><p>sequence of all APNs.</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<p>APN = [“509-11-444”, “509-11-456”]</p>
+<p>APN = [“509-11-444”, “509-11-445”]</p>
 </dd></dl>
 
 <dl class="py function">
@@ -109,12 +109,12 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>client</strong> – retry client</p></li>
-<li><p><strong>sem</strong> – semaphore for limiting</p></li>
+<li><p><strong>sem</strong> – semaphore for tcp connection limiting</p></li>
 <li><p><strong>url</strong> – API end point suffixed with parcel APN</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>parcel data</p>
+<dd class="field-even"><p>parcel latest data</p>
 </dd>
 </dl>
 </dd></dl>
@@ -122,10 +122,10 @@
 <dl class="py function">
 <dt class="sig sig-object py">
 <span class="sig-prename descclassname"><span class="pre">hoa_insights_surpriseaz.fetch_assessor_parcels.</span></span><span class="sig-name descname"><span class="pre">parcels_api</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span></dt>
-<dd><p>Function gets the latest parcel data from API.</p>
+<dd><p>Function gets the latest parcel data from Assessor API.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list of parcel responses from API.</p>
+<dd class="field-odd"><p>sequence of all parcel responses from API.</p>
 </dd>
 </dl>
 </dd></dl>
