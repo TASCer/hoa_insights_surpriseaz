@@ -13,12 +13,14 @@ documentation for details.
 Check out the :doc:`usage` section for further information, including how to
 :ref:`install <installation>` the project, :ref:`create <createdb>` database, and :ref:`run <run>` the application.
 
-Check out the :doc:`api` section for further information on :ref:`package <api-reference>` uses.
+Check out the :doc:`summary` section for basic information on :ref:`package <summary>` modules.
 
+Check out the :doc:`details` section for detailed information on :ref:`package <details>` modules.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    usage
-   api
+   summary
+   details

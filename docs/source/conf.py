@@ -1,7 +1,9 @@
 import sys
 from pathlib import Path
 
-sys.path.insert(0, Path.cwd().parent.parent /"src" / "hoa_insights_surpriseaz")  # Source code dir relative to this file
+sys.path.insert(
+    0, Path.cwd().parent.parent / "src" / "hoa_insights_surpriseaz"
+)  # Source code dir relative to this file
 
 # Configuration file for the Sphinx documentation builder.
 #
@@ -25,14 +27,14 @@ extensions = [
     "sphinx.ext.coverage",
     "sphinx.ext.napoleon",
     "sphinx.ext.duration",
-    "sphinx.ext.autosummary"
+    "sphinx.ext.autosummary",
 ]
 
 autodoc_inherit_docstrings = True  # If no docstring, inherit from base class
 autosummary_generate = True  # Turn on sphinx.ext.autosummary
 
 templates_path = ["_templates"]
-exclude_patterns = ['_build', '_templates']
+exclude_patterns = ["_build", "_templates"]
 
 
 # -- Options for HTML output -------------------------------------------------

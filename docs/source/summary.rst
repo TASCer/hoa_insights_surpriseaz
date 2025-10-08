@@ -1,9 +1,9 @@
-.. _api-reference:
+.. _summary:
 
-API
-===
+Summary
+=======
 
-.. autosummary::
+.. autosummary:: 
    :toctree: _autosummary  
    :recursive:
 
