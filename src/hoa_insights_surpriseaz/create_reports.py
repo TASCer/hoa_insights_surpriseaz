@@ -16,18 +16,14 @@ def parcel_changes(
     parcel_updates: DataFrame, html_parcel_changes: Path, pdf_parcel_changes: Path
 ) -> Path:
     """
-    Function processes parcel changes.
-    Produces and saves an html and pdf file.
+    Function processes parcel changes for use in reporting.
 
-    Args:
-        parcel_updates (DataFrame): changed parcels
-        html_parcel_changes (Path): html file location
-        pdf_parcel_changes (Path): pdf file location
+    :param parcel_updates: changed parcels
+    :param html_parcel_changes: html file location
+    :param pdf_parcel_changes: pdf file location
 
-    Returns:
-        Path: html file location
+    :return:  html file location
     """
-
     parcel_updates["COMMUNITY"] = parcel_updates["COMMUNITY"].apply(
         lambda row: f'<a href="https://hoa.tascs.test/lpsMap.php?{row}">{row}</a>'
         if row == "LPS"
@@ -65,13 +61,10 @@ def ytd_community_sales(
     """
     Function produces and saves html and pdf financial report(s).
 
-    Args:
-        community_avg_prices (DataFrame):
-        html_file (Path): html file location
-        pdf_file (Path): pdf file location
-
-    Returns:
-        Path: community avg sale html file location
+    :param community_avg_prices: grouped dataframe
+    :param html_file: html file output location
+    :param pdf_file: pdf file output location
+    :return: community avg sale html file
     """
     finance_caption: str = f"AVERAGE SALES PRICE (YTD) <br> PROCESSED: {logger_date()}"
 

@@ -20,9 +20,10 @@ FILE_HEADER: list = [
 
 def parse_csv(file: Path) -> Path:
     """
-    Function takes in a path for a csv file and creates a dataframe.
-    Renames columns and cleans data.
-    Saves csv file to disk and returns path.
+    Function parses, format, and cleans csv file converted from pdf download.
+
+    :param file: converted management csv file
+    :return: parsed converted csv file
     """
     logger.info(f"Parsing csv file: {file.name}")
 
@@ -66,8 +67,11 @@ def parse_csv(file: Path) -> Path:
 
 def pdf_to_csv(pdf_file: Path, csv_file: Path) -> Path:
     """
-    Function converts the downloaded pdf document's table data to csv.
-    Sends the csv file to parse_csv() for formatting/parsing/saving.
+    Function converts the downloaded pdf document's table data to a csv file.
+
+    :param pdf_file: downloaded pdf file
+    :param csv_file: csv file to convert pdf file into
+    :return: converte csv_file
     """
     logger.info(f"Converting {pdf_file.name}  to {csv_file.name} ")
 
