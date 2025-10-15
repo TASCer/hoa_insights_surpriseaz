@@ -16,11 +16,8 @@ def schema(engine: Engine) -> bool:
     """
     Function creates remote database schema.
 
-    Args:
-        engine (Engine):
-
-    Returns:
-        bool: True if successful
+    :param engine: database engine
+    :return: True if created
     """
     logger: Logger = logging.getLogger(__name__)
     try:

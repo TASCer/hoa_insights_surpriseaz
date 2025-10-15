@@ -2,17 +2,12 @@ import logging
 
 from logging import Logger
 from sqlalchemy import (
-    # create_engine,
     exc,
-    # MetaData,
-    # select,
     Engine,
     text,
-    # Row,
 )
 from sqlalchemy_utils import database_exists, create_database
 
-# from typing import Sequence
 from hoa_insights_surpriseaz import my_secrets
 
 LOCAL_DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
@@ -41,10 +36,10 @@ logger: Logger = logging.getLogger(__name__)
 
 def schema(engine: Engine) -> bool:
     """
-    Function creates datavase schema.
+    Function creates local database schema.
 
-    :param engine: dbe
-    :return: Trur if created
+    :param engine: database engine
+    :return: True if created
     """
     logger: Logger = logging.getLogger(__name__)
 
@@ -63,7 +58,7 @@ def triggers(engine: Engine) -> bool:
     """
     Function creates 'after_sale_update' and 'after_owner_update triggers on 'owners' table.
 
-    :param engine: dbe
+    :param engine: database engine
     :return: True if created
     """
     logger: Logger = logging.getLogger(__name__)
@@ -71,7 +66,7 @@ def triggers(engine: Engine) -> bool:
     with engine.connect() as conn, conn.begin():
         try:
             conn.execute(text("DROP TRIGGER IF EXISTS after_sale_update"))
-            trig_sales = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_sale_update`
+            trig_sales: str = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_sale_update`
                             AFTER UPDATE ON `{OWNERS_TABLE}`
                             FOR EACH ROW BEGIN
                             IF OLD.SALE_DATE <> new.SALE_DATE THEN
@@ -108,7 +103,7 @@ def triggers(engine: Engine) -> bool:
 
         try:
             conn.execute(text("DROP TRIGGER IF EXISTS after_management_update"))
-            trig_management = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_management_update`
+            trig_management: str = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_management_update`
                             AFTER UPDATE ON `community_managers`
                             FOR EACH ROW BEGIN
                             IF OLD.MANAGER <> new.MANAGER THEN
@@ -133,7 +128,7 @@ def views(engine: Engine) -> bool:
     """
     Function creates views for local database
 
-    :param engine: dbe
+    :param engine: database engine
     :return: True if created
     """
     try:
@@ -392,7 +387,7 @@ def stored_procs(engine: Engine) -> bool:
     """
     Function creates a mySQL Stored Procedure to update communities.
 
-    :param engine: dbe
+    :param engine: database engine
     :return: True if created
     """
     try:

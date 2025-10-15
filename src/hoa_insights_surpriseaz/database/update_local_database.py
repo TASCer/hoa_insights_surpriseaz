@@ -37,12 +37,12 @@ def owners(
             delete_rentals: str = f"DELETE FROM {db_name}.{RENTALS_TABLE};"
             conn.execute(text(delete_rentals))
 
-            for lo in latest_parsed_owners:
+            for owner in latest_parsed_owners:
                 try:
                     insert_qry: str = (
                         f"INSERT INTO {db_name}.{OWNERS_TABLE} (APN, OWNER, MAIL_ADX, SALE_DATE, SALE_PRICE, DEED_DATE, DEED_TYPE, LEGAL_CODE, RENTAL)"
-                        f"VALUES('{lo.APN}', '{lo.OWNER}', '{lo.MAIL_ADX}', '{lo.SALE_DATE}', '{lo.SALE_PRICE}', '{lo.DEED_DATE}', '{lo.DEED_TYPE}', '{lo.LEGAL_CODE}', '{int(lo.RENTAL)}')"
-                        f"ON DUPLICATE KEY UPDATE OWNER='{lo.OWNER}',MAIL_ADX='{lo.MAIL_ADX}',RENTAL='{int(lo.RENTAL)}', SALE_DATE='{lo.SALE_DATE}', SALE_PRICE='{lo.SALE_PRICE}', DEED_DATE='{lo.DEED_DATE}', DEED_TYPE='{lo.DEED_TYPE}', LEGAL_CODE='{lo.LEGAL_CODE}';"
+                        f"VALUES('{owner.APN}', '{owner.OWNER}', '{owner.MAIL_ADX}', '{owner.SALE_DATE}', '{owner.SALE_PRICE}', '{owner.DEED_DATE}', '{owner.DEED_TYPE}', '{owner.LEGAL_CODE}', '{int(owner.RENTAL)}')"
+                        f"ON DUPLICATE KEY UPDATE OWNER='{owner.OWNER}',MAIL_ADX='{owner.MAIL_ADX}',RENTAL='{int(owner.RENTAL)}', SALE_DATE='{owner.SALE_DATE}', SALE_PRICE='{owner.SALE_PRICE}', DEED_DATE='{owner.DEED_DATE}', DEED_TYPE='{owner.DEED_TYPE}', LEGAL_CODE='{owner.LEGAL_CODE}';"
                     )
                     conn.execute(text(insert_qry))
 
@@ -82,12 +82,12 @@ def rentals(
         delete_rentals: str = f"DELETE FROM {db_name}.{RENTALS_TABLE};"
         conn.execute(text(delete_rentals))
 
-        for lr in latest_parsed_rentals:
+        for rental in latest_parsed_rentals:
             try:
                 insert_qry: str = (
                     f"INSERT INTO {db_name}.{RENTALS_TABLE} (APN, OWNER, OWNER_TYPE, CONTACT, CONTACT_ADX, CONTACT_PH) "
-                    f"VALUES('{lr.APN}', '{lr.OWNER}', '{lr.OWNER_TYPE}', '{lr.CONTACT}', '{lr.CONTACT_ADX}', '{lr.CONTACT_PH}')"
-                    f"ON DUPLICATE KEY UPDATE OWNER='{lr.OWNER}', OWNER_TYPE='{lr.OWNER_TYPE}', CONTACT='{lr.CONTACT}', CONTACT_ADX='{lr.CONTACT_ADX}', CONTACT_PH='{lr.CONTACT_PH}';"
+                    f"VALUES('{rental.APN}', '{rental.OWNER}', '{rental.OWNER_TYPE}', '{rental.CONTACT}', '{rental.CONTACT_ADX}', '{rental.CONTACT_PH}')"
+                    f"ON DUPLICATE KEY UPDATE OWNER='{rental.OWNER}', OWNER_TYPE='{rental.OWNER_TYPE}', CONTACT='{rental.CONTACT}', CONTACT_ADX='{rental.CONTACT_ADX}', CONTACT_PH='{rental.CONTACT_PH}';"
                 )
                 conn.execute(text(insert_qry))
 

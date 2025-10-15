@@ -3,14 +3,11 @@ import logging
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.utils.number_formatter import format_price
 
-# from hoa_insights_surpriseaz.utils.date_parser import year_to_date
 from logging import Logger
 from pandas import DataFrame, read_sql, concat
 from pathlib import Path
 from sqlalchemy import create_engine, exc
 from sqlalchemy.engine import Engine
-
-# year_start, year_end = year_to_date()
 
 DB_HOSTNAME: str = f"{my_secrets.prod_debian_dbhost}"
 DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
@@ -20,18 +17,11 @@ DB_PW: str = f"{my_secrets.prod_debian_dbpass}"
 
 def get_average_sale_price(finances: Path) -> DataFrame:
     """
-    Function determines the YTD average parcel sale price.
-    Queries owners table data for all sales for the year.
-    Creates & saves to csv all YTD sales in all communities.
-    Creates & saves to csv community average sale prices.
-    Returns dataframe of community average sale price for pdf report.
+    Function determines the YTD average parcel sale price for each community.
 
-    Args:
-        finances (Path): financial csv diretory
-
-    Returns:
-        DataFrame: ytd_avg_sale
-    """
+    :param finances: financial csv diretory
+    :return: communities avgerage sale price YTD
+    """    
     logger: Logger = logging.getLogger(__name__)
     try:
         engine: Engine = create_engine(

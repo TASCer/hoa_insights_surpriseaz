@@ -11,14 +11,11 @@ LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
 
 def changes(db_uri: str = f"{LOCAL_DB_URI}") -> tuple[list[str], list[str]]:
     """
-    Function queries historical_sales and historical_owners tables with a TS(timestamp) of today.
+    Function determines updates to parcels by querying historical_sales and historical_owners tables with a TS(timestamp) of today.
 
-    Args:
-        db_uri (str, optional): db. Defaults to f"{LOCAL_DB_URI}".
-
-    Returns:
-        tuple[list, list]: list of owner and sale changes
-    """
+    :param db_uri: database identifier, defaults to f"{LOCAL_DB_URI}"
+    :return: owner changes and sale changes
+    """    
     logger: Logger = logging.getLogger(__name__)
     engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
 

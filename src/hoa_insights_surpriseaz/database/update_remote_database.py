@@ -18,10 +18,9 @@ def financial_tables(
     """
     Function updates remote finance tables.
 
-    Args:
-        local_db (str, optional): Defaults to LOCAL_DB_URI.
-        remote_db (str, optional): Defaults to REMOTE_DB_URI.
-    """
+    :param local_db: local database identifier, defaults to LOCAL_DB_URI
+    :param remote_db: remote database identifier, defaults to REMOTE_DB_URI
+    """    
     try:
         engine: Engine = create_engine(f"mysql+pymysql://{local_db}")
         with engine.connect() as conn, conn.begin():
@@ -52,12 +51,11 @@ def financial_tables(
 
 def rental_tables(local_db: str = LOCAL_DB_URI, remote_db: str = REMOTE_DB_URI) -> None:
     """
-    Function updates remote rental tables.
+    Function updates remote rentals tables.
 
-    Args:
-        local_db (str, optional): Defaults to LOCAL_DB_URI.
-        remote_db (str, optional): Defaults to REMOTE_DB_URI.
-    """
+    :param local_db: local database identifier, defaults to LOCAL_DB_URI
+    :param remote_db: remote database identifier, defaults to REMOTE_DB_URI
+    """    
     try:
         engine: Engine = create_engine(f"mysql+pymysql://{local_db}")
         with engine.connect() as conn, conn.begin():
