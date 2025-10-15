@@ -24,7 +24,7 @@ def get_communities(parsed_csv: Path) -> list[str]:
     Function collects managed communities from file.
 
     :param parsed_csv: from monthly  connunity managemeent update.
-    :return: managed communities 
+    :return: managed communities
     """
     try:
         with open(parsed_csv, "r") as f:
@@ -44,7 +44,7 @@ def update(file: Path) -> None:
     Function updates the community_managers tables (local, remote) with data from the monthly pdf download.
 
     :param file: management csv
-    """    
+    """
     community_managers: list[str] = get_communities(file)
 
     local_engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)

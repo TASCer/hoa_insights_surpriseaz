@@ -15,7 +15,7 @@ def changes(db_uri: str = f"{LOCAL_DB_URI}") -> tuple[list[str], list[str]]:
 
     :param db_uri: database identifier, defaults to f"{LOCAL_DB_URI}"
     :return: owner changes and sale changes
-    """    
+    """
     logger: Logger = logging.getLogger(__name__)
     engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
 

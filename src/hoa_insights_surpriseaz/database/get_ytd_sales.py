@@ -21,7 +21,7 @@ def get_average_sale_price(finances: Path) -> DataFrame:
 
     :param finances: financial csv diretory
     :return: communities avgerage sale price YTD
-    """    
+    """
     logger: Logger = logging.getLogger(__name__)
     try:
         engine: Engine = create_engine(
