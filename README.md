@@ -50,7 +50,7 @@ PDF financial report functionality will need the [pdfkit Python module](https://
 
 ---
 
-#### utils folder contains
+#### misc folder contains
 
 - Linux shell script for cron job scheduling
 - Windows batch file for Scheduled Tasks scheduling
@@ -72,3 +72,7 @@ PDF financial report functionality will need the [pdfkit Python module](https://
 #### LAUNCH TODO
 
 - [ ] TASC 1 - Change directory to src/hoa_insights_surpriseaz/ and execute command "uv run main.py"
+
+#### DOCUMENTATION
+
+- Sphinx documentation can be accessed in /docs
