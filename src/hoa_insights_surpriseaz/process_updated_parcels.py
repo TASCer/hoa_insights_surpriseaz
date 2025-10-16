@@ -43,10 +43,6 @@ def insights(
             sale_changes, how="outer", on=["APN", "COMMUNITY"], suffixes=("", "_y")
         )
 
-        # TODO monitor after change 9/27
-        # TODO FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version.
-        # TODO Call result.infer_objects(copy=False) instead.
-
         merged_changes["SALE_PRICE"] = (
             merged_changes["SALE_PRICE"].fillna(0).astype(int)
         )

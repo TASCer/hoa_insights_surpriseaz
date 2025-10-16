@@ -20,7 +20,7 @@ PDF_DOWNLOADED_FILENAME: str = "HOA Contact List (PDF) .pdf"
 PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
 PDF_PATH: Path = Path.cwd().parent.parent / "output" / "pdf"
 
-LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
+LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
 MANAGEMENT_FILE: Path = (
     Path.cwd().parent.parent / "output" / "csv" / "surpriseaz-hoa-management.csv"
 )

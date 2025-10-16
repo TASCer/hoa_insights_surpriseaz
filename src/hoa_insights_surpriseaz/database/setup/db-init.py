@@ -93,8 +93,8 @@ def create_remote_database(
 
 
 if __name__ == "__main__":
-    LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
-    REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
+    LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
+    REMOTE_DB_URI: str = f"{my_secrets.prod_remote_uri}"
 
     LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
     REMOTE_ENGINE: Engine = create_engine(

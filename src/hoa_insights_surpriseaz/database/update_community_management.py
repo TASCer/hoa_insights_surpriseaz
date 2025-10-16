@@ -11,8 +11,8 @@ from pathlib import Path
 from sqlalchemy.orm import Session
 from sqlalchemy import Engine, create_engine, exc, text
 
-LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
-REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
+LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
+REMOTE_DB_URI: str = f"{my_secrets.prod_remote_uri}"
 
 logger: Logger = logging.getLogger(__name__)
 

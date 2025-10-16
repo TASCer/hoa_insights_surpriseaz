@@ -5,11 +5,11 @@ from logging import Logger
 from sqlalchemy import exc, Engine
 from sqlalchemy_utils import database_exists, create_database
 
-REMOTE_DB_HOSTNAME: str = f"{my_secrets.prod_bluehost_dbhost}"
-REMOTE_DB_NAME: str = f"{my_secrets.prod_bluehost_dbname}"
-REMOTE_DB_USER: str = f"{my_secrets.prod_bluehost_dbuser}"
-REMOTE_DB_PW: str = f"{my_secrets.prod_bluehost_dbpass}"
-REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
+REMOTE_DB_HOSTNAME: str = f"{my_secrets.prod_remote_dbhost}"
+REMOTE_DB_NAME: str = f"{my_secrets.prod_remote_dbname}"
+REMOTE_DB_USER: str = f"{my_secrets.prod_remote_dbuser}"
+REMOTE_DB_PW: str = f"{my_secrets.prod_remote_dbpass}"
+REMOTE_DB_URI: str = f"{my_secrets.prod_remote_uri}"
 
 
 def schema(engine: Engine) -> bool:

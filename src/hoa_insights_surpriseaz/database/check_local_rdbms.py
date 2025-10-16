@@ -10,8 +10,8 @@ from sqlalchemy_utils import database_exists, create_database
 
 from hoa_insights_surpriseaz import my_secrets
 
-LOCAL_DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
-LOCAL_DB_USER: str = f"{my_secrets.prod_debian_dbuser}"
+LOCAL_DB_NAME: str = f"{my_secrets.prod_local_dbname}"
+LOCAL_DB_USER: str = f"{my_secrets.prod_local_dbuser}"
 
 OWNERS_TABLE: str = "owners"
 RENTALS_TABLE: str = "rentals"

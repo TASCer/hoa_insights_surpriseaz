@@ -6,7 +6,7 @@ from logging import Logger
 from sqlalchemy import Engine, create_engine, exc, text, CursorResult
 from typing import Any
 
-LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
+LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
 
 
 def changes(db_uri: str = f"{LOCAL_DB_URI}") -> tuple[list[str], list[str]]:

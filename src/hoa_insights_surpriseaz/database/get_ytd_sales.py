@@ -9,10 +9,10 @@ from pathlib import Path
 from sqlalchemy import create_engine, exc
 from sqlalchemy.engine import Engine
 
-DB_HOSTNAME: str = f"{my_secrets.prod_debian_dbhost}"
-DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
-DB_USER: str = f"{my_secrets.prod_debian_dbuser}"
-DB_PW: str = f"{my_secrets.prod_debian_dbpass}"
+LOCAL_DB_HOSTNAME: str = f"{my_secrets.prod_local_dbhost}"
+LOCAL_DB_NAME: str = f"{my_secrets.prod_local_dbname}"
+LOCAL_DB_USER: str = f"{my_secrets.prod_local_dbuser}"
+LOCAL_DB_PW: str = f"{my_secrets.prod_local_dbpass}"
 
 
 def get_average_sale_price(finances: Path) -> DataFrame:
@@ -25,7 +25,7 @@ def get_average_sale_price(finances: Path) -> DataFrame:
     logger: Logger = logging.getLogger(__name__)
     try:
         engine: Engine = create_engine(
-            f"mysql+pymysql://{DB_USER}:{DB_PW}@{DB_HOSTNAME}/{DB_NAME}"
+            f"mysql+pymysql://{LOCAL_DB_USER}:{LOCAL_DB_PW}@{LOCAL_DB_HOSTNAME}/{LOCAL_DB_NAME}"
         )
 
     except (exc.SQLAlchemyError, exc.OperationalError, exc.ProgrammingError) as e:

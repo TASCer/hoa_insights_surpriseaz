@@ -14,8 +14,8 @@ from hoa_insights_surpriseaz import my_secrets
 
 logger: Logger = logging.getLogger(__name__)
 
-LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
-LOCAL_DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
+LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
+LOCAL_DB_NAME: str = f"{my_secrets.prod_local_dbname}"
 
 PARCELS_TABLE: str = "parcels"
 

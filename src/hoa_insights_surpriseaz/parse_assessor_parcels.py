@@ -1,3 +1,4 @@
+# TODO split into owner_data and rental_data? or owners_rentals
 import logging
 
 from datetime import datetime

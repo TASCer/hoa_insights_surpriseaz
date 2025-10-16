@@ -8,8 +8,8 @@ from hoa_insights_surpriseaz.database import models_remote
 from hoa_insights_surpriseaz import my_secrets
 # from hoa_insights_surpriseaz.schemas import Community
 
-REMOTE_DB_URI: str = f"{my_secrets.test_bluehost_uri}"
-LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
+REMOTE_DB_URI: str = f"{my_secrets.test_remote_uri}"
+LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
 
 LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
 REMOTE_ENGINE: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)

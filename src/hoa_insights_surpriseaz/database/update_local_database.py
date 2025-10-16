@@ -1,14 +1,15 @@
+# TODO REWORK INSERTS - https://stackoverflow.com/questions/6611563/sqlalchemy-on-duplicate-key-update
 import logging
 
 from hoa_insights_surpriseaz import my_secrets
 from logging import Logger
 from sqlalchemy import Engine, create_engine, exc, text
 
-LOCAL_DB_HOSTNAME: str = f"{my_secrets.prod_debian_dbhost}"
-LOCAL_DB_NAME: str = f"{my_secrets.prod_debian_dbname}"
-LOCAL_DB_USER: str = f"{my_secrets.prod_debian_dbuser}"
-LOCAL_DB_PW: str = f"{my_secrets.prod_debian_dbpass}"
-LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
+LOCAL_DB_HOSTNAME: str = f"{my_secrets.prod_local_dbhost}"
+LOCAL_DB_NAME: str = f"{my_secrets.prod_local_dbname}"
+LOCAL_DB_USER: str = f"{my_secrets.prod_local_dbuser}"
+LOCAL_DB_PW: str = f"{my_secrets.prod_local_dbpass}"
+LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
 
 OWNERS_TABLE: str = "owners"
 RENTALS_TABLE: str = "rentals"

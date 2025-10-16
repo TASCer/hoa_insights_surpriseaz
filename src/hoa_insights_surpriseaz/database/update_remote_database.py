@@ -6,8 +6,8 @@ from logging import Logger
 from pandas import Series, DataFrame
 from sqlalchemy import Engine, TextClause, create_engine, exc, text
 
-LOCAL_DB_URI: str = f"{my_secrets.prod_debian_uri}"
-REMOTE_DB_URI: str = f"{my_secrets.prod_bluehost_uri}"
+LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
+REMOTE_DB_URI: str = f"{my_secrets.prod_remote_uri}"
 
 logger: Logger = logging.getLogger(__name__)
 
