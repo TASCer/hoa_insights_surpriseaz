@@ -7,10 +7,10 @@ import pytest
 from sqlalchemy import create_engine, Engine, text
 from sqlalchemy.orm import Session
 from hoa_insights_surpriseaz.my_secrets import (
-    test_debian_uri,
-    test_debian_dbname,
-    test_bluehost_uri,
-    test_bluehost_dbname,
+    test_local_uri,
+    test_local_dbname,
+    test_remote_uri,
+    test_remote_dbname,
 )
 
 from hoa_insights_surpriseaz.parse_assessor_parcels import parser
@@ -35,7 +35,7 @@ TEST_PARCELS_CONSTANTS: Path = (
 
 @pytest.fixture(scope="session")
 def test_create_local_engine() -> Engine:
-    test_debian_engine: Engine = create_engine(f"mysql+pymysql://{test_debian_uri}")
+    test_debian_engine: Engine = create_engine(f"mysql+pymysql://{test_local_uri}")
 
     return test_debian_engine
 
@@ -49,14 +49,14 @@ def test_create_local_session(test_create_local_engine):
 
     finally:
         test_debian_session.execute(
-            text(f"DROP DATABASE IF EXISTS {test_debian_dbname};")
+            text(f"DROP DATABASE IF EXISTS {test_local_dbname};")
         )
         pass
 
 
 @pytest.fixture(scope="session")
 def test_create_remote_engine() -> Engine:
-    test_bluehost_engine: Engine = create_engine(f"mysql+pymysql://{test_bluehost_uri}")
+    test_bluehost_engine: Engine = create_engine(f"mysql+pymysql://{test_remote_uri}")
 
     return test_bluehost_engine
 
@@ -69,7 +69,7 @@ def test_create_remote_session(test_create_remote_engine):
         yield test_bluehost_session
 
     finally:
-        test_bluehost_session.execute(text(f"DROP DATABASE {test_bluehost_dbname};"))
+        test_bluehost_session.execute(text(f"DROP DATABASE {test_remote_dbname};"))
         pass
 
 
