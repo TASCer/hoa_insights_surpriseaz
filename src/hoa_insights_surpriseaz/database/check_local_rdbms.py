@@ -78,7 +78,7 @@ def triggers(engine: Engine) -> bool:
 
             conn.execute(text(trig_sales))
             logger.info("TRIGGER: AFTER_SALE_UPDATE has been created")
-
+            conn.execute(text("DROP TRIGGER IF EXISTS after_owner_update"))
             trig_owner: str = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_owner_update`
                         AFTER UPDATE ON `owners`
                         FOR EACH ROW BEGIN
@@ -409,3 +409,10 @@ def stored_procs(engine: Engine) -> bool:
         return False
 
     return True
+
+
+if __name__ == "__main__":
+    from sqlalchemy import create_engine
+    LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
+    engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
+    triggers(engine=engine)
