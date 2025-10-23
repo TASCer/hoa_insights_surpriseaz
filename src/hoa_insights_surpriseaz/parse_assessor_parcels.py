@@ -1,4 +1,3 @@
-# TODO split into owner_data and rental_data? or owners_rentals
 import logging
 
 from datetime import datetime
@@ -10,39 +9,114 @@ from logging import Logger
 logger: Logger = logging.getLogger(__name__)
 
 
-def parser(api_data: list[dict]) -> tuple[list[Owners], list[Rentals]]:
+def rental_data(api_data: list[dict]) -> list[Rentals]:
     """
-    Function parses consumed parcel data from ASSESSOR API.
+    Function parses consumed parcel owner rental data from ASSESSOR API.
+
+    :param api_data: sequence of owner rental API data
+    :return: sequence of parsed owner rental data
+    """
+    parsed_rental_data = []
+
+    for rental_data in api_data:
+        apn: str = format_apn(rental_data["TreasurersTransitionUrl"].split("=")[1])
+        rental_owner_type: str = rental_data["RentalInformation"]["OwnershipType"]
+        rental_owner_name: str = rental_data["RentalInformation"]["OwnerName"]
+        rental_owner_address: str = rental_data["RentalInformation"][
+            "OwnerAddress"
+        ].replace(",", " ")
+        rental_owner_phone: str = format_phone(
+            rental_data["RentalInformation"]["OwnerPhone"]
+        )
+
+        if isinstance(rental_owner_name, str):
+            rental_owner_name: str = rental_owner_name.replace(",", " ")
+        else:
+            rental_owner_name: str = rental_data["RentalInformation"]["OwnerName"][
+                "Name"
+            ].replace(",", " ")
+
+        if rental_data["RentalInformation"]["AgentName"]:
+            rental_contact_name: str = rental_data["RentalInformation"][
+                "AgentName"
+            ].replace(",", "")
+            rental_contact_address: str = rental_data["RentalInformation"][
+                "AgentAddress"
+            ].replace(",", "")
+            rental_contact_phone: str = format_phone(
+                rental_data["RentalInformation"]["AgentPhone"]
+            )
+
+        elif rental_data["RentalInformation"]["BusinessContactName"]:
+            rental_contact_name: str = rental_data["RentalInformation"][
+                "BusinessContactName"
+            ].replace(",", "")
+            rental_contact_address: str = rental_data["RentalInformation"][
+                "BusinessContactAddress"
+            ].replace(",", "")
+            rental_contact_phone: str = format_phone(
+                rental_data["RentalInformation"]["BusinessContactPhone"]
+            )
+        else:
+            rental_contact_name: str = rental_owner_name
+            rental_contact_address: str = rental_owner_address
+            rental_contact_phone: str = rental_owner_phone
+
+        rental_instance = Rentals(
+            APN=apn,
+            OWNER=rental_owner_name,
+            OWNER_TYPE=rental_owner_type,
+            CONTACT=rental_contact_name,
+            CONTACT_ADX=rental_contact_address,
+            CONTACT_PH=rental_contact_phone,
+        )
+
+        parsed_rental_data.append(rental_instance)
+
+    return parsed_rental_data
+
+
+def owner_data(api_data: list[dict]) -> tuple[list[Owners], list[Rentals]]:
+    """
+    Function parses consumed parcel owner data from ASSESSOR API.
 
     :param api_data: sequence of latest parcel data
     :return: Owners instances, Rentals instances
     """
-    parsed_owner_parcels: list = []
-    parsed_rental_parcels: list = []
+    parsed_owner_data: list = []
+    rentals: list = []
 
-    for parcel_data in api_data:
-        apn: str = format_apn(parcel_data["TreasurersTransitionUrl"].split("=")[1])
-        deed_date: datetime = date_parser.api_date(parcel_data["Owner"]["DeedDate"])
-        deed_type: str = parcel_data["Owner"]["DeedType"]
+    for owner_data in api_data:
+        apn: str = format_apn(owner_data["TreasurersTransitionUrl"].split("=")[1])
+        deed_date: datetime | None = date_parser.api_date(
+            owner_data["Owner"]["DeedDate"]
+        )
+        deed_type: str = owner_data["Owner"]["DeedType"]
 
         if not deed_type:
             deed_type: str = ""
 
-        mail_to: str = parcel_data["Owner"]["FullMailingAddress"].replace(",", "")
-        owner: str = parcel_data["Owner"]["Ownership"]
+        mail_to: str = owner_data["Owner"]["FullMailingAddress"].replace(",", "")
+
+        if "'" in mail_to:
+            mail_to: str = mail_to.replace("'", "''")
+
+        owner: str = owner_data["Owner"]["Ownership"]
 
         if "'" in owner:
             owner: str = owner.replace("'", "''")
 
-        is_rental: bool = bool(parcel_data["IsRental"])
-        last_legal_class: str = parcel_data["Valuations"][0]["LegalClassificationCode"]
-        sale_date: datetime = date_parser.api_date(parcel_data["Owner"]["SaleDate"])
-        sale_price: str = parcel_data["Owner"]["SalePrice"]
+        is_rental: bool = owner_data["IsRental"]
+        last_legal_class: str = owner_data["Valuations"][0]["LegalClassificationCode"]
+        sale_date: datetime | None = date_parser.api_date(
+            owner_data["Owner"]["SaleDate"]
+        )
+        sale_price: str = owner_data["Owner"]["SalePrice"]
 
         if sale_price is None:
             sale_price: int = 0
 
-        new_owner_data = Owners(
+        owners_instance = Owners(
             APN=apn,
             OWNER=owner,
             MAIL_ADX=mail_to,
@@ -53,60 +127,11 @@ def parser(api_data: list[dict]) -> tuple[list[Owners], list[Rentals]]:
             LEGAL_CODE=last_legal_class,
             RENTAL=is_rental,
         )
-        parsed_owner_parcels.append(new_owner_data)
+        parsed_owner_data.append(owners_instance)
 
         if is_rental:
-            rental_owner_type: str = parcel_data["RentalInformation"]["OwnershipType"]
-            rental_owner_name: str = parcel_data["RentalInformation"]["OwnerName"]
-            rental_owner_address: str = parcel_data["RentalInformation"][
-                "OwnerAddress"
-            ].replace(",", " ")
-            rental_owner_phone: str = format_phone(
-                parcel_data["RentalInformation"]["OwnerPhone"]
-            )
+            rentals.append(owner_data)
 
-            if isinstance(rental_owner_name, str):
-                rental_owner_name: str = rental_owner_name.replace(",", " ")
-            else:
-                rental_owner_name: str = parcel_data["RentalInformation"]["OwnerName"][
-                    "Name"
-                ].replace(",", " ")
+    parsed_rental_data: list[Rentals] = rental_data(rentals)
 
-            if parcel_data["RentalInformation"]["AgentName"]:
-                rental_contact_name: str = parcel_data["RentalInformation"][
-                    "AgentName"
-                ].replace(",", "")
-                rental_contact_address: str = parcel_data["RentalInformation"][
-                    "AgentAddress"
-                ].replace(",", "")
-                rental_contact_phone: str = format_phone(
-                    parcel_data["RentalInformation"]["AgentPhone"]
-                )
-
-            elif parcel_data["RentalInformation"]["BusinessContactName"]:
-                rental_contact_name: str = parcel_data["RentalInformation"][
-                    "BusinessContactName"
-                ].replace(",", "")
-                rental_contact_address: str = parcel_data["RentalInformation"][
-                    "BusinessContactAddress"
-                ].replace(",", "")
-                rental_contact_phone: str = format_phone(
-                    parcel_data["RentalInformation"]["BusinessContactPhone"]
-                )
-            else:
-                rental_contact_name: str = rental_owner_name
-                rental_contact_address: str = rental_owner_address
-                rental_contact_phone: str = rental_owner_phone
-
-            new_rental_data = Rentals(
-                APN=apn,
-                OWNER=rental_owner_name,
-                OWNER_TYPE=rental_owner_type,
-                CONTACT=rental_contact_name,
-                CONTACT_ADX=rental_contact_address,
-                CONTACT_PH=rental_contact_phone,
-            )
-
-            parsed_rental_parcels.append(new_rental_data)
-
-    return (parsed_owner_parcels, parsed_rental_parcels)
+    return (parsed_owner_data, parsed_rental_data)
