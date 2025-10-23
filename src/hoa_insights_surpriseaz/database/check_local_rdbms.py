@@ -413,6 +413,7 @@ def stored_procs(engine: Engine) -> bool:
 
 if __name__ == "__main__":
     from sqlalchemy import create_engine
+
     LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
     engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
     triggers(engine=engine)

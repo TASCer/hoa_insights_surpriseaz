@@ -88,7 +88,7 @@ def main() -> None:
     """
     logger.info("*** PARCEL PROCESSING STARTED ***")
     consumed_parcel_api_data: list[dict] = fetch_assessor_parcels.parcels_api()
-    parsed_owner_data, parsed_rental_data = parse_assessor_parcels.parser(
+    parsed_owner_data, parsed_rental_data = parse_assessor_parcels.owner_data(
         consumed_parcel_api_data
     )
     if parsed_owner_data:
