@@ -32,13 +32,10 @@ def get_average_sale_price(finances: Path) -> DataFrame:
         logger.critical(e)
 
     with engine.connect() as conn, conn.begin():
+        q_ytd_sales = """SELECT * FROM community_sales;"""
         try:
             all_sales_ytd: DataFrame = read_sql(
-                """SELECT 
-                    *
-				FROM
-				community_sales 
-				;""",
+                q_ytd_sales,
                 con=conn,
                 parse_dates=[1],
                 coerce_float=False,

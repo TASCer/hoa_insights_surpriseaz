@@ -1,9 +1,10 @@
-# TODO REWORK INSERTS - https://stackoverflow.com/questions/6611563/sqlalchemy-on-duplicate-key-update
 import logging
 
 from hoa_insights_surpriseaz import my_secrets
 from logging import Logger
-from sqlalchemy import Engine, create_engine, exc, text
+from sqlalchemy import Engine, create_engine, exc, text, Insert
+from sqlalchemy.dialects.mysql import insert
+from hoa_insights_surpriseaz.database import models_local
 
 LOCAL_DB_HOSTNAME: str = f"{my_secrets.prod_local_dbhost}"
 LOCAL_DB_NAME: str = f"{my_secrets.prod_local_dbname}"
@@ -21,10 +22,9 @@ def owners(
     """
     Function updates the local owners table.
 
-    Args:
-        latest_parsed_owners (list): Owner instances.
-        db_uri (str, optional): Defaults to LOCAL_DB_URI.
-        db_name (str, optional): Defaults to LOCAL_DB_NAME.
+    :param latest_parsed_owners: sequence Owner instances
+    :param db_uri: database identifier, defaults to LOCAL_DB_URI
+    :param db_name: database name, defaults to LOCAL_DB_NAME
     """
     if latest_parsed_owners is None:
         return
@@ -35,17 +35,30 @@ def owners(
 
     try:
         with engine.connect() as conn, conn.begin():
-            delete_rentals: str = f"DELETE FROM {db_name}.{RENTALS_TABLE};"
-            conn.execute(text(delete_rentals))
-
             for owner in latest_parsed_owners:
                 try:
-                    insert_qry: str = (
-                        f"INSERT INTO {db_name}.{OWNERS_TABLE} (APN, OWNER, MAIL_ADX, SALE_DATE, SALE_PRICE, DEED_DATE, DEED_TYPE, LEGAL_CODE, RENTAL)"
-                        f"VALUES('{owner.APN}', '{owner.OWNER}', '{owner.MAIL_ADX}', '{owner.SALE_DATE}', '{owner.SALE_PRICE}', '{owner.DEED_DATE}', '{owner.DEED_TYPE}', '{owner.LEGAL_CODE}', '{int(owner.RENTAL)}')"
-                        f"ON DUPLICATE KEY UPDATE OWNER='{owner.OWNER}',MAIL_ADX='{owner.MAIL_ADX}',RENTAL='{int(owner.RENTAL)}', SALE_DATE='{owner.SALE_DATE}', SALE_PRICE='{owner.SALE_PRICE}', DEED_DATE='{owner.DEED_DATE}', DEED_TYPE='{owner.DEED_TYPE}', LEGAL_CODE='{owner.LEGAL_CODE}';"
+                    insert_statement: Insert = insert(models_local.Owner).values(
+                        APN=owner.APN,
+                        OWNER=owner.OWNER,
+                        MAIL_ADX=owner.MAIL_ADX,
+                        SALE_DATE=owner.SALE_DATE,
+                        SALE_PRICE=owner.SALE_PRICE,
+                        DEED_DATE=owner.DEED_DATE,
+                        DEED_TYPE=owner.DEED_TYPE,
+                        LEGAL_CODE=owner.LEGAL_CODE,
+                        RENTAL=int(owner.RENTAL),
                     )
-                    conn.execute(text(insert_qry))
+                    upsert_statement: Insert = insert_statement.on_duplicate_key_update(
+                        OWNER=owner.OWNER,
+                        MAIL_ADX=owner.MAIL_ADX,
+                        SALE_DATE=owner.SALE_DATE,
+                        SALE_PRICE=owner.SALE_PRICE,
+                        DEED_DATE=owner.DEED_DATE,
+                        DEED_TYPE=owner.DEED_TYPE,
+                        LEGAL_CODE=owner.LEGAL_CODE,
+                        RENTAL=int(owner.RENTAL),
+                    )
+                    conn.execute(upsert_statement)
 
                 except (
                     exc.SQLAlchemyError,
@@ -65,13 +78,13 @@ def rentals(
     db_uri: str = LOCAL_DB_URI,
 ) -> None:
     """
-    Function updates the local rentals table.
+    Function updates the rentals table.
 
-    Args:
-        latest_parsed_rentals (list): Rentals instances.
-        db_name (str, optional): Defaults to LOCAL_DB_NAME.
-        db_uri (str, optional): Defaults to LOCAL_DB_URI.
+    :param latest_parsed_rentals: sequence Rental instances
+    :param db_name: database name, defaults to LOCAL_DB_NAME
+    :param db_uri: dtabase identifier, defaults to LOCAL_DB_URI
     """
+
     if latest_parsed_rentals is None:
         return
 
@@ -85,12 +98,16 @@ def rentals(
 
         for rental in latest_parsed_rentals:
             try:
-                insert_qry: str = (
-                    f"INSERT INTO {db_name}.{RENTALS_TABLE} (APN, OWNER, OWNER_TYPE, CONTACT, CONTACT_ADX, CONTACT_PH) "
-                    f"VALUES('{rental.APN}', '{rental.OWNER}', '{rental.OWNER_TYPE}', '{rental.CONTACT}', '{rental.CONTACT_ADX}', '{rental.CONTACT_PH}')"
-                    f"ON DUPLICATE KEY UPDATE OWNER='{rental.OWNER}', OWNER_TYPE='{rental.OWNER_TYPE}', CONTACT='{rental.CONTACT}', CONTACT_ADX='{rental.CONTACT_ADX}', CONTACT_PH='{rental.CONTACT_PH}';"
+                insert_statement: Insert = insert(models_local.Rentals).values(
+                    APN=rental.APN,
+                    OWNER=rental.OWNER,
+                    OWNER_TYPE=rental.OWNER_TYPE,
+                    CONTACT=rental.CONTACT,
+                    CONTACT_ADX=rental.CONTACT_ADX,
+                    CONTACT_PH=rental.CONTACT_PH,
                 )
-                conn.execute(text(insert_qry))
+
+                conn.execute(insert_statement)
 
             except exc.OperationalError as e:
                 logger.error(e)

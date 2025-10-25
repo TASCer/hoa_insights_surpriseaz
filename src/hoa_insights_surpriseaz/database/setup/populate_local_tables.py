@@ -3,6 +3,12 @@ import logging
 
 from logging import Logger
 from hoa_insights_surpriseaz.schemas import CommunityManagement, Community, Parcels
+from hoa_insights_surpriseaz.database import models_local
+from hoa_insights_surpriseaz.utils.file_renamer import rename
+from hoa_insights_surpriseaz import my_secrets
+from hoa_insights_surpriseaz import convert_management_data
+from hoa_insights_surpriseaz.fetch_community_management import download
+
 from pathlib import Path
 from sqlalchemy import Engine, create_engine, exc, TextClause
 from sqlalchemy import text
@@ -10,11 +16,6 @@ from sqlalchemy.orm import Session
 from hoa_insights_surpriseaz.database.update_community_management import (
     get_communities,
 )
-from hoa_insights_surpriseaz.utils.file_renamer import rename
-from hoa_insights_surpriseaz.database import models_local
-from hoa_insights_surpriseaz import my_secrets
-from hoa_insights_surpriseaz import convert_management_data
-from hoa_insights_surpriseaz.fetch_community_management import download
 
 PDF_DOWNLOADED_FILENAME: str = "HOA Contact List (PDF) .pdf"
 PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
@@ -31,7 +32,6 @@ COMMUNITY_TABLE: str = "communitites"
 
 logger: Logger = logging.getLogger(__name__)
 
-engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
 
 management_ids: list = [
     1,
@@ -60,9 +60,13 @@ management_ids: list = [
 
 def community_management(db: Session, management_file: Path = MANAGEMENT_FILE) -> bool:
     """
-    Function takes a database session and checks if management csv file exists.
+    Function checks if the HOA management csv file exists.
     If not found, download the pdf, rename and convert to csv.
     If found, read file and update database with data.
+
+    :param db: database session
+    :param management_file: path to management file, defaults to MANAGEMENT_FILE
+    :return: True if exists or created
     """
     if not management_file:
         logger.warning(f"{management_file.name} not found.")
@@ -111,9 +115,12 @@ def community_management(db: Session, management_file: Path = MANAGEMENT_FILE) -
 
 def communities(db: Session, file_path=MANAGEMENT_FILE) -> list:
     """
-    Function takes a db engine and creates a table of community totals from parcel table data.
+    Function creates a table of community totals from the parcels table.
     Calls community_management function with list of community totals to populate community_managers table.
-    Returns list of community totals for remote database.
+
+    :param db: database session
+    :param file_path: HOA management file, defaults to MANAGEMENT_FILE
+    :return: sequence of community totals with management id
     """
     ix = 0
     with db as session:
@@ -152,9 +159,12 @@ def communities(db: Session, file_path=MANAGEMENT_FILE) -> list:
 
 def parcels(db: Session, file=f"{PARCELS_SEED_FILE}") -> bool:
     """
-    Function takes in a Path to parcels seed data and a database engine.
-    Populates parcels table with data from file.
+    Function populates the parcels table from file.
     Returns True/False depending on if successful.
+
+    :param db: _description_
+    :param file: parcels seed data, defaults to f"{PARCELS_SEED_FILE}"
+    :return: True if parcels table populated
     """
     with db as session:
         parcel_instances: list = []
@@ -183,5 +193,6 @@ def parcels(db: Session, file=f"{PARCELS_SEED_FILE}") -> bool:
 
 
 if __name__ == "__main__":
-    pass
-    # parcels()
+    engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
+    session = Session(bind=engine)  # parcels()
+    print(communities(session))

@@ -1,9 +1,22 @@
 import logging
 
+from hoa_insights_surpriseaz.database.models_local import (
+    HistoricalSales,
+    HistoricalOwners,
+    Parcel,
+)
+
+# from hoa_insights_surpriseaz.schemas import Parcels
 from hoa_insights_surpriseaz.utils.date_parser import sql_date
 from hoa_insights_surpriseaz import my_secrets
 from logging import Logger
-from sqlalchemy import Engine, create_engine, exc, text, CursorResult
+from sqlalchemy import (
+    Engine,
+    create_engine,
+    exc,
+    CursorResult,
+    select,
+)
 from typing import Any
 
 LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
@@ -22,14 +35,26 @@ def changes(db_uri: str = f"{LOCAL_DB_URI}") -> tuple[list[str], list[str]]:
     with engine.connect() as conn, conn.begin():
         try:
             q_sales: CursorResult[Any] = conn.execute(
-                text(
-                    f"SELECT hs.APN, c.COMMUNITY, hs.SALE_DATE, hs.SALE_PRICE from historical_sales hs inner join parcels c on hs.APN = c.APN where DATE(TS) = '{sql_date()}'"
+                select(
+                    HistoricalSales.APN,
+                    Parcel.COMMUNITY,
+                    HistoricalSales.SALE_DATE,
+                    HistoricalSales.SALE_PRICE,
                 )
+                .join(Parcel, onclause=HistoricalSales.APN == Parcel.APN)
+                .where(HistoricalSales.TS.like(f"{sql_date()}%"))
             )
+
             q_owners: CursorResult[Any] = conn.execute(
-                text(
-                    f"SELECT ho.APN, c.COMMUNITY, ho.OWNER, ho.DEED_DATE, ho.DEED_TYPE from historical_owners ho inner join parcels c on ho.APN = c.APN where DATE(TS) = '{sql_date()}'"
+                select(
+                    HistoricalOwners.APN,
+                    Parcel.COMMUNITY,
+                    HistoricalOwners.OWNER,
+                    HistoricalOwners.DEED_DATE,
+                    HistoricalOwners.DEED_TYPE,
                 )
+                .join(Parcel, onclause=HistoricalOwners.APN == Parcel.APN)
+                .where(HistoricalOwners.TS.like(f"{sql_date()}%"))
             )
 
         except exc.OperationalError as e:
@@ -39,3 +64,7 @@ def changes(db_uri: str = f"{LOCAL_DB_URI}") -> tuple[list[str], list[str]]:
         owners_updates: list = [x for x in q_owners]
 
     return owners_updates, sales_updates
+
+
+if __name__ == "__main__":
+    print(changes())
