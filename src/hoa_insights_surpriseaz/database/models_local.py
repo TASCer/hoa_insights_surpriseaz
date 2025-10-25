@@ -54,7 +54,7 @@ class Owner(Base):
     RENTAL: Mapped[bool] = mapped_column(Boolean, index=True)
 
     def __repr__(self) -> str:
-        return f"APN={self.APN!r}, OWNER={self.owner!r}, MAIL_ADX={self.mail_adx!r})"
+        return f"APN={self.APN!r}, OWNER={self.OWNER!r}, MAIL_ADX={self.MAIL_ADX!r})"
 
 
 class Rentals(Base):
@@ -81,7 +81,7 @@ class HistoricalSales(Base):
     TS: Mapped[datetime] = mapped_column(TIMESTAMP(6), index=True)
 
 
-class HistoricalOwmers(Base):
+class HistoricalOwners(Base):
     __tablename__ = "historical_owners"
     APN: Mapped[str] = mapped_column(
         ForeignKey("owners.APN"), primary_key=True, nullable=False
