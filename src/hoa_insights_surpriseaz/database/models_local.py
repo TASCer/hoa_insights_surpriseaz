@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from sqlalchemy import ForeignKey
 from sqlalchemy import String, INTEGER, DATE, Boolean, DOUBLE_PRECISION, TIMESTAMP
 from sqlalchemy.orm import DeclarativeBase
@@ -46,9 +46,9 @@ class Owner(Base):
     APN: Mapped[str] = mapped_column(ForeignKey("parcels.APN"), primary_key=True)
     OWNER: Mapped[str] = mapped_column(String(120))
     MAIL_ADX: Mapped[str] = mapped_column(String(120))
-    SALE_DATE: Mapped[datetime] = mapped_column(DATE)
+    SALE_DATE: Mapped[date] = mapped_column(DATE)
     SALE_PRICE: Mapped[int] = mapped_column(INTEGER)
-    DEED_DATE: Mapped[datetime] = mapped_column(DATE)
+    DEED_DATE: Mapped[date] = mapped_column(DATE)
     DEED_TYPE: Mapped[str] = mapped_column(String(3))
     LEGAL_CODE: Mapped[str] = mapped_column(String(3))
     RENTAL: Mapped[bool] = mapped_column(Boolean, index=True)
@@ -74,11 +74,11 @@ class HistoricalSales(Base):
     APN: Mapped[str] = mapped_column(
         ForeignKey("owners.APN"), primary_key=True, nullable=False
     )
-    SALE_DATE: Mapped[datetime] = mapped_column(
+    SALE_DATE: Mapped[date] = mapped_column(
         DATE, primary_key=True, default="1901-01-01", index=True
     )
     SALE_PRICE: Mapped[int] = mapped_column(INTEGER)
-    TS: Mapped[datetime] = mapped_column(TIMESTAMP(6), index=True)
+    TS: Mapped[date] = mapped_column(TIMESTAMP(6), index=True)
 
 
 class HistoricalOwners(Base):
@@ -87,9 +87,9 @@ class HistoricalOwners(Base):
         ForeignKey("owners.APN"), primary_key=True, nullable=False
     )
     OWNER: Mapped[str] = mapped_column(String(255), primary_key=True)
-    DEED_DATE: Mapped[datetime] = mapped_column(DATE, index=True)
+    DEED_DATE: Mapped[date] = mapped_column(DATE, index=True)
     DEED_TYPE: Mapped[str] = mapped_column(String(20))
-    TS: Mapped[datetime] = mapped_column(TIMESTAMP(6), index=True)
+    TS: Mapped[date] = mapped_column(TIMESTAMP(6), index=True)
 
 
 class HistoricalManagers(Base):
@@ -103,4 +103,4 @@ class HistoricalManagers(Base):
     MANAGER: Mapped[str] = mapped_column(String(100), nullable=True)
     CONTACT_ADX: Mapped[str] = mapped_column(String(120), nullable=True)
     CONTACT_PH: Mapped[str] = mapped_column(String(120), nullable=True)
-    TS: Mapped[datetime] = mapped_column(TIMESTAMP(6), index=True)
+    TS: Mapped[date] = mapped_column(TIMESTAMP(6), index=True)
