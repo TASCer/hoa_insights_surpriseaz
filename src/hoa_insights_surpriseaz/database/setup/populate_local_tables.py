@@ -1,22 +1,21 @@
 import csv
 import logging
 
-from logging import Logger
-from hoa_insights_surpriseaz.schemas import CommunityManagement, Community, Parcels
+
+from hoa_insights_surpriseaz import my_secrets
+from hoa_insights_surpriseaz import convert_management_data
 from hoa_insights_surpriseaz.database import models_local
-from pathlib import Path
-from sqlalchemy import Engine, create_engine, exc, TextClause, select, Result
-from sqlalchemy import text
-from sqlalchemy.orm import Session
-from sqlalchemy.sql import func
 from hoa_insights_surpriseaz.database.update_community_management import (
     get_communities,
 )
-from hoa_insights_surpriseaz.utils.file_renamer import rename
-from hoa_insights_surpriseaz.database import models_local
-from hoa_insights_surpriseaz import my_secrets
-from hoa_insights_surpriseaz import convert_management_data
 from hoa_insights_surpriseaz.fetch_community_management import download
+from hoa_insights_surpriseaz.schemas import CommunityManagement, Community, Parcels
+from hoa_insights_surpriseaz.utils.file_renamer import rename
+from logging import Logger
+from pathlib import Path
+from sqlalchemy import Engine, create_engine, exc, select, Result
+from sqlalchemy.orm import Session
+from sqlalchemy.sql import func
 
 PDF_DOWNLOADED_FILENAME: str = "HOA Contact List (PDF) .pdf"
 PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
