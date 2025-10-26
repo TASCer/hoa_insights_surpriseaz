@@ -1,9 +1,6 @@
 # ![TASCS LOGO](images/logo.png)
 
-
 ## HOA_INSIGHTS_SURPRISEAZ
-
-
 
 Provides information on Surprise, AZ Home Owners Association (HOA) communities by accessing and aggragating various public data sources for insights and analysis.
 
@@ -15,8 +12,8 @@ Provides information on Surprise, AZ Home Owners Association (HOA) communities b
 
 [Community Sales](https://hoa.tascs.net)
 
+### Provides insights on
 
-### Provides insights on:
 - Community Management
   - Management Company
   - Management Contact Information
@@ -33,16 +30,16 @@ Provides information on Surprise, AZ Home Owners Association (HOA) communities b
 
 ---
 
-Assessor API Documentation: https://mcassessor.maricopa.gov/file/home/MC-Assessor-API-Documentation.pdf
+Assessor API Documentation: <https://mcassessor.maricopa.gov/file/home/MC-Assessor-API-Documentation.pdf>
 
-Legiscan API Information: https://legiscan.com/legiscan
+Legiscan API Information: <https://legiscan.com/legiscan>
 
 ---
 POSSIBLE OTHER DATA SOURCES
 
-  - County Recorder's Office
-  - City Crime Stats
-  - Zillow
+- County Recorder's Office
+- City Crime Stats
+- Zillow
 
 ---
 
@@ -67,8 +64,12 @@ PDF financial report functionality will need the [pdfkit Python module](https://
 
 #### PRE INITIAL_LAUNCH TODO's
 
-- [ ] TASC 1 - Execute command: "uv run db-init.py" from database/setup directory 
-- [ ] TASC 2 - Verify database setup via ___ database-setup ___.log"
+- [ ] TASC 1 - Modify 'my_secrets.py' as needed
+
+- [ ] TASC 2 - Execute command: "uv run db-init.py" from database/setup directory
+
+- [ ] TASC 3 - Verify database setup via ___database-setup___.log
+
 #### LAUNCH TODO
 
 - [ ] TASC 1 - Change directory to src/hoa_insights_surpriseaz/ and execute command "uv run main.py"
