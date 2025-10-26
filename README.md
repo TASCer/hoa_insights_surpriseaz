@@ -62,7 +62,7 @@ PDF financial report functionality will need the [pdfkit Python module](https://
 
 ---
 
-#### PRE INITIAL_LAUNCH TODO's
+#### PRE_LAUNCH TODO's
 
 - [ ] TASC 1 - Modify 'my_secrets.py' as needed
 
