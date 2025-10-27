@@ -15,83 +15,88 @@ LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=Fal
 REMOTE_ENGINE: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
 
 REMOTE_SESSION: Session = Session(REMOTE_ENGINE)
+LOCAL_SESSION = Session(LOCAL_ENGINE)
 
 logger: Logger = logging.getLogger(__name__)
 
-management_ids: list = [
-    1,
-    4,
-    5,
-    10,
-    11,
-    13,
-    15,
-    18,
-    20,
-    19,
-    30,
-    31,
-    26,
-    36,
-    38,
-    41,
-    45,
-    64,
-    63,
-    73,
-    74,
-]
+
+def get_local_data(local_db: Session = LOCAL_SESSION):
+    community_instamces = []
+    community_manager_instances = []
+
+    try:
+        with local_db as local_session:
+            q_communities: TextClause = local_session.execute(text("SELECT * from communities;")).fetchall()
+            communities: list[str] = [c for c in q_communities]
+
+            q_community_management = local_session.execute(
+                text("SELECT * from community_managers;")).fetchall()
+            community_managers = [m for m in q_community_management]
+
+
+    except (exc.OperationalError, ValueError) as err:
+        logger.error(err)
+        return False
+
+    for community in communities:
+        community_instamce = models_remote.Community()
+        community_instamce.COMMUNITY = community[0]
+        community_instamce.COUNT = community[1]
+        community_instamce.LAT = community[2]
+        community_instamce.LONG = community[3]
+        community_instamce.MANAGED_ID = community[4]
+        
+        community_instamces.append(community_instamce)
+
+    for manager in community_managers:
+        community_manager_instance = models_remote.CommunityManagement()
+        community_manager_instance.ID = manager[0]
+        community_manager_instance.COMMUNITY = manager[1]
+        community_manager_instance.BOARD_SITUS = manager[2]
+        community_manager_instance.BOARD_CITY = manager[3]
+        community_manager_instance.MANAGER = manager[4]
+        community_manager_instance.CONTACT_ADX = manager[5]
+        community_manager_instance.CONTACT_PH = manager[6]
+
+        community_manager_instances.append(community_manager_instance)
+    
+    return community_instamces, community_manager_instances
+
+
+def community_management(community_management_items, remote_session = REMOTE_SESSION):
+    try:    
+        with remote_session:
+            for mgr in community_management_items:
+                remote_session.add(mgr, _warn=False)
+                remote_session.commit()
+
+
+    except (exc.OperationalError, ValueError) as err:
+        logger.error(err)
+        return False
 
 
 def communities(
-    community_totals: list[str],
-    local_db: Session,
     remote_db: Session = REMOTE_SESSION,
 ) -> bool:
     """
     Function takes in a list of community totals and updates remote communities and community_managers tables.
     Returns True/False depending on result.
     """
-    ix: int = 0
-    try:
-        with local_db as local_session:
-            q_community_managers: TextClause = local_session.execute(
-                text("SELECT * from community_managers;")
-            ).fetchall()
-            community_managers: list[str] = [m for m in q_community_managers]
-
+    local_community_items, local_community_managers  = get_local_data() 
+    print(len(local_community_items), len(local_community_managers))
+    
+    try:    
         with remote_db as remote_session:
-            for community, parcel_total, long, lat in community_totals:
-                community_instance = models_remote.Community(
-                    COMMUNITY=community,
-                    COUNT=parcel_total,
-                    LAT=lat,
-                    LONG=long,
-                    MANAGED_ID=management_ids[ix],
-                )
-                remote_session.add(community_instance, _warn=False)
-                remote_session.commit()
-                ix += 1
-
-            for item in community_managers:
-                _, community, situs, city, mgr, email, ph = item
-                db_item = models_remote.CommunityManagement(
-                    COMMUNITY=community,
-                    BOARD_SITUS=situs,
-                    BOARD_CITY=city,
-                    MANAGER=mgr,
-                    CONTACT_ADX=email,
-                    CONTACT_PH=ph,
-                )
-
-                remote_session.add(db_item, _warn=False)
+            for community in local_community_items:
+                remote_session.add(community, _warn=False)
                 remote_session.commit()
 
     except (exc.OperationalError, ValueError) as err:
         logger.error(err)
         return False
 
-    return True
+    return local_community_managers
 
 
 if __name__ == "__main__":

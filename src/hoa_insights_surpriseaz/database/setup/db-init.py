@@ -4,6 +4,8 @@ from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.database.setup import (
     create_local_database,
     create_remote_database,
+    populate_local_tables,
+    populate_remote_tables
 )
 from logging import Logger, Formatter
 from sqlalchemy import Engine, create_engine
@@ -26,27 +28,37 @@ logger: Logger = logging.getLogger(__name__)
 
 LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
 REMOTE_DB_URI: str = f"{my_secrets.prod_remote_uri}"
+LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
+REMOTE_ENGINE: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
 
 
-def main():
-    LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
-    REMOTE_ENGINE: Engine = create_engine(
-        f"mysql+pymysql://{REMOTE_DB_URI}", echo=False
+def main(local_engine=LOCAL_ENGINE, remote_engine=REMOTE_ENGINE):
+    local_session = Session(local_engine)
+
+    local_database_created = create_local_database.create(
+        engine=local_engine, session=local_session
     )
+    if local_database_created:
+        populate_local_tables.parcels(local_session)
+        community_instances = populate_local_tables.communities(local_session)
+        logger.info(f"\t{len(community_instances)=}")
+        logger.info(
+            f"- COMPLETED POPULATION ON: {local_engine.url.database} -"
+        )
 
-    local_session = Session(LOCAL_ENGINE)
+    remote_session = Session(remote_engine)
 
-    community_totals, local_db = create_local_database.create(
-        engine=LOCAL_ENGINE, session=local_session
-    )
+    remote_database_created = create_remote_database.create(
+        remote_engine=remote_engine)
+        
+    if remote_database_created:
+        community_managers = populate_remote_tables.communities(remote_db=remote_session)
+        populate_remote_tables.community_management(community_management_items=community_managers, remote_session=remote_session)
 
-    remote_session = Session(REMOTE_ENGINE)
-
-    create_remote_database.create(
-        community_totals=community_totals,
-        remote_engine=REMOTE_ENGINE,
-        local_db=local_session,
-    )
+            
+        logger.info(
+            f"--- COMPLETED REMOTE DATABASE POPULATION OF: {remote_engine.url.database} ---"
+        )
 
     logger.info(
         f"DATABASES: {LOCAL_ENGINE.url.database}, {REMOTE_ENGINE.url.database} INITIALIZED."

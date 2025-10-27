@@ -77,7 +77,8 @@ def triggers(engine: Engine) -> bool:
                         END"""
 
             conn.execute(text(trig_sales))
-            logger.info("TRIGGER: AFTER_SALE_UPDATE has been created")
+            logger.info("TRIGGER: AFTER_SALE_UPDATE created")
+            
             conn.execute(text("DROP TRIGGER IF EXISTS after_owner_update"))
             trig_owner: str = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_owner_update`
                         AFTER UPDATE ON `owners`
@@ -96,7 +97,7 @@ def triggers(engine: Engine) -> bool:
                     END"""
 
             conn.execute(text(trig_owner))
-            logger.info("TRIGGER: AFTER_OWNER_UPDATE has been created")
+            logger.info("TRIGGER: AFTER_OWNER_UPDATE created")
 
         except exc.ProgrammingError as e:
             logger.critical(str(e))
@@ -114,7 +115,7 @@ def triggers(engine: Engine) -> bool:
                         END"""
 
             conn.execute(text(trig_management))
-            logger.info("TRIGGER: AFTER_MANAGEMENT_UPDATE has been created")
+            logger.info("TRIGGER: AFTER_MANAGEMENT_UPDATE created")
 
             return True
 
