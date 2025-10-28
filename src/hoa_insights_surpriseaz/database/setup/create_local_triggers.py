@@ -15,10 +15,11 @@ OWNERS_TABLE: str = "owners"
 
 def all(engine: Engine) -> bool:
     """
-    Function creates a db engine and checks if schema, table, triggers, views are created.
-    Returns a list of community totals for remote table population.
-    """
+    _summary_
 
+    :param engine: _description_
+    :return: _description_
+    """    
     with engine.connect() as conn, conn.begin():
         try:
             conn.execute(text("DROP TRIGGER IF EXISTS after_sale_update"))

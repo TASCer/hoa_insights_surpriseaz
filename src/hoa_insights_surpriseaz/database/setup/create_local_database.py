@@ -16,9 +16,11 @@ logger: Logger = logging.getLogger(__name__)
 
 def create(engine: Engine) -> bool:
     """
-    Function creates a db engine and checks if schema, table, triggers, views are created.
-    Returns a list of community totals for remote table population.
-    """
+    _summary_
+
+    :param engine: _description_
+    :return: _description_
+    """    
 
     logger.info(f"CREATNG DB ON: {engine.url.host}")
     try:

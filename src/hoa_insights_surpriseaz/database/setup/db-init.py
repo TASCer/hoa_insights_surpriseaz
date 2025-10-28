@@ -37,7 +37,7 @@ LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=Fal
 REMOTE_ENGINE: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
 
 
-def local_database(local_engine=LOCAL_ENGINE):
+def local_database(local_engine=LOCAL_ENGINE) -> None:
     local_session = Session(local_engine)
 
     local_database_created: bool = create_local_database.create(engine=local_engine)
@@ -50,7 +50,7 @@ def local_database(local_engine=LOCAL_ENGINE):
         logger.info(f"COMPLETED POPULATION ON: {local_engine.url.database}")
 
 
-def remote_database(remote_engine=REMOTE_ENGINE):
+def remote_database(remote_engine=REMOTE_ENGINE) -> None:
     remote_session = Session(remote_engine)
 
     remote_database_created: bool = create_remote_database.create(

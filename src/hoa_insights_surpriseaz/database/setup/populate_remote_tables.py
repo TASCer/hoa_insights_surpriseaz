@@ -22,6 +22,12 @@ logger: Logger = logging.getLogger(__name__)
 
 
 def get_local_data(local_db: Session = LOCAL_SESSION):
+    """
+    Function retrieves local databse table data for use in populating remote database tables.
+
+    :param local_db: database session, defaults to LOCAL_SESSION
+    :return: sequence of Community and CommunityManagement instances 
+    """    
     try:
         with local_db as local_session:
             q_communities = local_session.scalars(select(Community)).all()
@@ -59,8 +65,10 @@ def community_management(community_management_items, remote_session=REMOTE_SESSI
 
 def communities(remote_db: Session = REMOTE_SESSION) -> list[CommunityManagement]:
     """
-    Function takes in a list of community totals and updates remote communities and community_managers tables.
-    Returns True/False depending on result.
+    Function populates remote database table communities.
+
+    :param remote_db: database session, defaults to REMOTE_SESSION
+    :return: sequence of community managers
     """
     local_community_items, local_community_managers = get_local_data()
     try:
