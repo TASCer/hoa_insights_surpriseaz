@@ -1,6 +1,7 @@
 import logging
 
 from hoa_insights_surpriseaz.database import check_local_database, models_local
+
 # from hoa_insights_surpriseaz.database.setup import populate_local_tables
 from logging import Logger
 from sqlalchemy import Engine
@@ -24,7 +25,7 @@ def create(engine: Engine, session: Session) -> bool:
         stored_proc: bool = check_local_database.stored_procs(engine)
         if all((triggers, views, stored_proc)):
             logger.info(f"* CREATED DB ON: {engine.url.host} *")
-            return True        
-        
+            return True
+
         else:
             return False

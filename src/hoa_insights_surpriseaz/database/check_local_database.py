@@ -78,7 +78,7 @@ def triggers(engine: Engine) -> bool:
 
             conn.execute(text(trig_sales))
             logger.info("TRIGGER: AFTER_SALE_UPDATE created")
-            
+
             conn.execute(text("DROP TRIGGER IF EXISTS after_owner_update"))
             trig_owner: str = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_owner_update`
                         AFTER UPDATE ON `owners`

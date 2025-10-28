@@ -1,11 +1,12 @@
 import logging
 
 from hoa_insights_surpriseaz import my_secrets
+from hoa_insights_surpriseaz.database.models_remote import CommunityManagement
 from hoa_insights_surpriseaz.database.setup import (
     create_local_database,
     create_remote_database,
     populate_local_tables,
-    populate_remote_tables
+    populate_remote_tables,
 )
 from logging import Logger, Formatter
 from sqlalchemy import Engine, create_engine
@@ -42,20 +43,20 @@ def main(local_engine=LOCAL_ENGINE, remote_engine=REMOTE_ENGINE):
         populate_local_tables.parcels(local_session)
         community_instances = populate_local_tables.communities(local_session)
         logger.info(f"\t{len(community_instances)=}")
-        logger.info(
-            f"- COMPLETED POPULATION ON: {local_engine.url.database} -"
-        )
+        logger.info(f"- COMPLETED POPULATION ON: {local_engine.url.database} -")
 
     remote_session = Session(remote_engine)
 
-    remote_database_created = create_remote_database.create(
-        remote_engine=remote_engine)
-        
-    if remote_database_created:
-        community_managers = populate_remote_tables.communities(remote_db=remote_session)
-        populate_remote_tables.community_management(community_management_items=community_managers, remote_session=remote_session)
+    remote_database_created = create_remote_database.create(remote_engine=remote_engine)
 
-            
+    if remote_database_created:
+        community_managers: list[CommunityManagement] = (
+            populate_remote_tables.communities(remote_db=remote_session)
+        )
+        populate_remote_tables.community_management(
+            community_management_items=community_managers, remote_session=remote_session
+        )
+
         logger.info(
             f"--- COMPLETED REMOTE DATABASE POPULATION OF: {remote_engine.url.database} ---"
         )
