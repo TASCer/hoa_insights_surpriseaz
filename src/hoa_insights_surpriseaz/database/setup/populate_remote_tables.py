@@ -21,7 +21,6 @@ LOCAL_SESSION = Session(LOCAL_ENGINE)
 logger: Logger = logging.getLogger(__name__)
 
 
-# TODO try to get results as objects to easily put in remote tables
 def get_local_data(local_db: Session = LOCAL_SESSION):
     try:
         with local_db as local_session:
@@ -64,9 +63,6 @@ def communities(remote_db: Session = REMOTE_SESSION) -> list[CommunityManagement
     Returns True/False depending on result.
     """
     local_community_items, local_community_managers = get_local_data()
-
-    print(len(local_community_items), len(local_community_managers))
-
     try:
         with remote_db as remote_session:
             for community in local_community_items:
@@ -81,7 +77,6 @@ def communities(remote_db: Session = REMOTE_SESSION) -> list[CommunityManagement
 
     except (exc.OperationalError, ValueError) as err:
         logger.error(err)
-        # return Community()
 
     return local_community_managers
 

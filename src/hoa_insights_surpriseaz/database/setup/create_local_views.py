@@ -1,6 +1,6 @@
 import logging
 
-from hoa_insights_surpriseaz.database import check_local_database, models_local
+# from hoa_insights_surpriseaz.database import models_local
 from hoa_insights_surpriseaz import my_secrets
 
 from logging import Logger

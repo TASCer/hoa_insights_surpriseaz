@@ -77,5 +77,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    print(f"{LOG_NAME} created.")
+    print(f"{'LOG_NAME'} created.")
     main()
