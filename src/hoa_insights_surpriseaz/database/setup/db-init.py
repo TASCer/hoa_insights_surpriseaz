@@ -1,13 +1,10 @@
 import logging
 
-from hoa_insights_surpriseaz.database import (
-    check_local_rdbms,
-    check_remote_rdbms,
-    models_local,
-    models_remote,
-)
 from hoa_insights_surpriseaz import my_secrets
+from hoa_insights_surpriseaz.database.models_remote import CommunityManagement
 from hoa_insights_surpriseaz.database.setup import (
+    create_local_database,
+    create_remote_database,
     populate_local_tables,
     populate_remote_tables,
 )
@@ -30,91 +27,44 @@ root_logger.addHandler(fh)
 
 logger: Logger = logging.getLogger(__name__)
 
+LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
+REMOTE_DB_URI: str = f"{my_secrets.prod_remote_uri}"
+LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
+REMOTE_ENGINE: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
 
-def create_local_database(engine: Engine, session: Session) -> tuple[list, Session]:
-    """
-    Function creates a db engine and checks if schema, table, triggers, views are created.
-    Returns a list of community totals for remote table population.
-    """
 
-    logger.info(f"*** STARTED LOCAL DATABASE SETUP ON: {engine.url.host} ***")
-    if check_local_rdbms.schema(engine):
-        models_local.Base.metadata.create_all(engine)
+def main(local_engine=LOCAL_ENGINE, remote_engine=REMOTE_ENGINE):
+    local_session = Session(local_engine)
 
-        logger.info(f"\tLOCAL triggers created: {check_local_rdbms.triggers(engine)}")
-        logger.info(f"\tLOCAL views created: {check_local_rdbms.views(engine)}")
-        logger.info(
-            f"\tLOCAL stored proc(s) created: {check_local_rdbms.stored_procs(engine)}"
+    local_database_created = create_local_database.create(
+        engine=local_engine, session=local_session
+    )
+    if local_database_created:
+        populate_local_tables.parcels(local_session)
+        community_instances = populate_local_tables.communities(local_session)
+        logger.info(f"\t{len(community_instances)=}")
+        logger.info(f"COMPLETED POPULATION ON: {local_engine.url.database}")
+
+    remote_session = Session(remote_engine)
+
+    remote_database_created = create_remote_database.create(remote_engine=remote_engine)
+
+    if remote_database_created:
+        community_managers: list[CommunityManagement] = (
+            populate_remote_tables.communities(remote_db=remote_session)
         )
-        logger.info(f"--- COMPLETED LOCAL DATABASE SETUP ON: {engine.url.host} ---")
-
-        logger.info(f"*** STARTED LOCAL DATABASE POPULATION ON: {engine.url.host} ***")
-
-        logger.info(
-            f"\tLOCAL parcels table populated: {populate_local_tables.parcels(session)}"
+        populate_remote_tables.community_management(
+            community_management_items=community_managers, remote_session=remote_session
         )
-        community_totals = populate_local_tables.communities(session)
-        logger.info(f"\tLOCAL communities table populated: {len(community_totals) > 0}")
-        logger.info(
-            f"--- COMPLETED LOCAL DATABASE POPULATION OF: {engine.url.database} ---"
-        )
-
-        return community_totals, session
-
-    else:
-        return [], session
-
-
-def create_remote_database(
-    community_totals: list[str], remote_engine: Engine, local_db: Session
-) -> None:
-    """
-    Function creates remote DBMS and populates community_managers and communities tables with seed data.
-    """
-    logger.info(f"*** STARTED REMOTE DATABASE SETUP ON: {remote_engine.url.host} ***")
-
-    remote_db = Session(remote_engine)
-
-    if check_remote_rdbms.schema(engine=remote_engine):
-        models_remote.Base.metadata.create_all(remote_engine)
 
         logger.info(
-            f"--- COMPLETED REMOTE DATABASE SETUP ON: {remote_engine.url.host} ---"
+            f"COMPLETED REMOTE DATABASE POPULATION ON: {remote_engine.url.database}"
         )
-        logger.info(
-            f"*** STARTED REMOTE DATABASE POPULATION OF: {remote_engine.url.database} ***"
-        )
-        logger.info(
-            f"\tREMOTE tables populated: {populate_remote_tables.communities(community_totals=community_totals, local_db=local_db, remote_db=remote_db)}"
-        )
-        logger.info(
-            f"--- COMPLETED REMOTE DATABASE POPULATION OF: {remote_engine.url.database} ---"
-        )
+
+    logger.info(
+        f"DATABASES: [{LOCAL_ENGINE.url.database}, {REMOTE_ENGINE.url.database}] INITIALIZED."
+    )
 
 
 if __name__ == "__main__":
-    LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
-    REMOTE_DB_URI: str = f"{my_secrets.prod_remote_uri}"
-
-    LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
-    REMOTE_ENGINE: Engine = create_engine(
-        f"mysql+pymysql://{REMOTE_DB_URI}", echo=False
-    )
-
-    local_session = Session(LOCAL_ENGINE)
-
-    community_totals, local_db = create_local_database(
-        engine=LOCAL_ENGINE, session=local_session
-    )
-
-    remote_session = Session(REMOTE_ENGINE)
-
-    create_remote_database(
-        community_totals=community_totals,
-        remote_engine=REMOTE_ENGINE,
-        local_db=local_session,
-    )
-
-    logger.info(
-        f"DATABASES: {LOCAL_ENGINE.url.database}, {REMOTE_ENGINE.url.database} INITIALIZED."
-    )
+    main()

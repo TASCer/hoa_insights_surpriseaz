@@ -153,7 +153,7 @@ def communities(db: Session, file_path=MANAGEMENT_FILE) -> list:
 
     community_management(session, file_path)
 
-    return community_totals
+    return community_instances
 
 
 def parcels(db: Session, file=f"{PARCELS_SEED_FILE}") -> bool:

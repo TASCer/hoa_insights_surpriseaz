@@ -4,8 +4,8 @@ import logging
 from hoa_insights_surpriseaz.database.models_local import CommunityManagement as DBCM
 from hoa_insights_surpriseaz.schemas import CommunityManagement as SCM
 from hoa_insights_surpriseaz import my_secrets
-from hoa_insights_surpriseaz.database.check_remote_rdbms import REMOTE_DB_NAME
-from hoa_insights_surpriseaz.database.check_local_rdbms import LOCAL_DB_NAME
+from hoa_insights_surpriseaz.database.check_remote_database import REMOTE_DB_NAME
+from hoa_insights_surpriseaz.database.check_local_database import LOCAL_DB_NAME
 from logging import Logger
 from pathlib import Path
 from sqlalchemy.orm import Session
