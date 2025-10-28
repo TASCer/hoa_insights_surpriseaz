@@ -17,7 +17,9 @@ from sqlalchemy.orm import Session
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
-fh = logging.FileHandler("__database-setup__.log")
+LOG_NAME = "__database-setup__.log"
+
+fh = logging.FileHandler(LOG_NAME)
 fh.setLevel(logging.DEBUG)
 
 formatter: Formatter = logging.Formatter(
@@ -67,4 +69,5 @@ def main(local_engine=LOCAL_ENGINE, remote_engine=REMOTE_ENGINE) -> None:
 
 
 if __name__ == "__main__":
+    print(f"{LOG_NAME} created.")
     main()
