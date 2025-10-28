@@ -39,4 +39,3 @@ def all(engine: Engine) -> bool:
         return False
 
     return True
-

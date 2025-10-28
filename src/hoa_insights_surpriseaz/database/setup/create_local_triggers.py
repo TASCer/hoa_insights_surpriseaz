@@ -79,4 +79,3 @@ def all(engine: Engine) -> bool:
             logger.critical(str(e))
 
             return False
-

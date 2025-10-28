@@ -66,7 +66,7 @@ def community_management(db: Session, management_file: Path = MANAGEMENT_FILE) -
     """
     if not management_file:
         logger.warning(f"{management_file.name} not found.")
-        print(f"{management_file.name} not found.")
+        print(f""" "{management_file.name}" not found.""")
 
         try:
             logger.info("Fetching Community Management Data")
@@ -87,8 +87,8 @@ def community_management(db: Session, management_file: Path = MANAGEMENT_FILE) -
             logger.error(ffe)
 
     else:
-        logger.info(f"** {management_file.name} found. **")
-        print(f"{management_file.name} found.")
+        logger.info(f"{management_file.name} found.")
+        print(f""" "{management_file.name}" found.""")
         management: list = get_communities(management_file)
 
         for manager in management:

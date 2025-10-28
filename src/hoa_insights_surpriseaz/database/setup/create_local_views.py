@@ -32,7 +32,6 @@ def all(engine: Engine) -> bool:
     """
 
     with engine.connect() as conn, conn.begin():
-
         try:
             with engine.connect() as conn, conn.begin():
                 conn.execute(
@@ -52,7 +51,7 @@ def all(engine: Engine) -> bool:
                     GROUP BY `parcels`.`COMMUNITY` , `rentals`.`OWNER_TYPE`
                 """)
                 )
-            logger.info(f"View: {VIEW_COMMUNITY_RENTAL_TYPES} created")
+            logger.info(f"{VIEW_COMMUNITY_RENTAL_TYPES} created")
 
         except exc.SQLAlchemyError as e:
             logger.critical(str(e))
@@ -78,7 +77,7 @@ def all(engine: Engine) -> bool:
                 """
                     )
                 )
-            logger.info(f"View: {VIEW_TOP_RENTAL_TYPES} created")
+            logger.info(f"{VIEW_TOP_RENTAL_TYPES} created")
 
         except exc.SQLAlchemyError as e:
             logger.critical(str(e))
@@ -112,7 +111,7 @@ def all(engine: Engine) -> bool:
                 """
                     )
                 )
-            logger.info(f"View: {VIEW_REGISTERED_RENTALS} created")
+            logger.info(f"{VIEW_REGISTERED_RENTALS} created")
 
         except exc.SQLAlchemyError as e:
             logger.critical(str(e))
@@ -146,7 +145,7 @@ def all(engine: Engine) -> bool:
                         """
                     )
                 )
-            logger.info(f"View: {VIEW_CLASSED_RENTALS} created")
+            logger.info(f"{VIEW_CLASSED_RENTALS} created")
 
         except exc.SQLAlchemyError as e:
             logger.critical(str(e))
@@ -172,7 +171,7 @@ def all(engine: Engine) -> bool:
                                     """
                     )
                 )
-            logger.info(f"View: {VIEW_TOP_REGISTERED_RENTAL_OWNERS} created")
+            logger.info(f"{VIEW_TOP_REGISTERED_RENTAL_OWNERS} created")
 
         except exc.SQLAlchemyError as e:
             logger.critical(str(e))
@@ -198,7 +197,7 @@ def all(engine: Engine) -> bool:
                                     """
                     )
                 )
-            logger.info(f"View: {VIEW_TOP_CLASSED_RENTAL_OWNERS} created")
+            logger.info(f"{VIEW_TOP_CLASSED_RENTAL_OWNERS} created")
 
         except exc.SQLAlchemyError as e:
             logger.critical(str(e))
@@ -223,7 +222,7 @@ def all(engine: Engine) -> bool:
                                                 """
                     )
                 )
-            logger.info(f"View: {VIEW_RENTAL_CONTACTS} created")
+            logger.info(f"{VIEW_RENTAL_CONTACTS} created")
 
         except exc.SQLAlchemyError as e:
             logger.critical(str(e))
@@ -247,7 +246,7 @@ def all(engine: Engine) -> bool:
                     ORDER BY `cls`.`c` + `reg`.`c` DESC"""
                     )
                 )
-            logger.info(f"View: {VIEW_TOP_RENTAL_OWNERS} created")
+            logger.info(f"{VIEW_TOP_RENTAL_OWNERS} created")
 
         except exc.SQLAlchemyError as e:
             logger.critical(str(e))
@@ -275,11 +274,10 @@ def all(engine: Engine) -> bool:
                     )
                 )
 
-            logger.info(f"View: {VIEW_COMMUNITY_SALES} created")
+            logger.info(f"{VIEW_COMMUNITY_SALES} created")
 
         except exc.SQLAlchemyError as e:
             logger.critical(str(e))
             return False
 
         return True
-

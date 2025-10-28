@@ -1,7 +1,11 @@
 import logging
 
 from hoa_insights_surpriseaz.database import models_local
-from hoa_insights_surpriseaz.database.setup import create_local_triggers,create_local_views,create_local_procs
+from hoa_insights_surpriseaz.database.setup import (
+    create_local_triggers,
+    create_local_views,
+    create_local_procs,
+)
 
 from logging import Logger
 from sqlalchemy import Engine, exc

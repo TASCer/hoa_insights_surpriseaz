@@ -43,16 +43,19 @@ def local_database(local_engine=LOCAL_ENGINE):
     local_database_created: bool = create_local_database.create(engine=local_engine)
     if local_database_created:
         populate_local_tables.parcels(local_session)
-        community_instances: list[Community] = populate_local_tables.communities(local_session)
+        community_instances: list[Community] = populate_local_tables.communities(
+            local_session
+        )
         logger.info(f"\t{len(community_instances)=}")
         logger.info(f"COMPLETED POPULATION ON: {local_engine.url.database}")
-
 
 
 def remote_database(remote_engine=REMOTE_ENGINE):
     remote_session = Session(remote_engine)
 
-    remote_database_created: bool = create_remote_database.create(remote_engine=remote_engine)
+    remote_database_created: bool = create_remote_database.create(
+        remote_engine=remote_engine
+    )
 
     if remote_database_created:
         community_managers: list[CommunityManagement] = (
@@ -61,6 +64,7 @@ def remote_database(remote_engine=REMOTE_ENGINE):
         populate_remote_tables.community_management(
             community_management_items=community_managers, remote_session=remote_session
         )
+        logger.info(f"\t{len(community_managers)=}")
 
         logger.info(
             f"COMPLETED REMOTE DATABASE POPULATION ON: {remote_engine.url.database}"
@@ -77,5 +81,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    print(f"{'LOG_NAME'} created.")
+    print(f""" "{LOG_NAME}" created.""")
     main()
