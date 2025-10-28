@@ -7,7 +7,7 @@ from sqlalchemy import Engine
 logger: Logger = logging.getLogger(__name__)
 
 
-def create(remote_engine: Engine) -> None:
+def create(remote_engine: Engine) -> bool:
     """
     Function creates remote database
     """
@@ -17,3 +17,5 @@ def create(remote_engine: Engine) -> None:
         models_remote.Base.metadata.create_all(remote_engine)
         logger.info(f"CREATED DB ON: {remote_engine.url.host}")
         return True
+    else:
+        return False

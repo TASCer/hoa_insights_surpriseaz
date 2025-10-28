@@ -58,9 +58,7 @@ def community_management(community_management_items, remote_session=REMOTE_SESSI
         return False
 
 
-def communities(
-    remote_db: Session = REMOTE_SESSION,
-) -> list[CommunityManagement]:
+def communities(remote_db: Session = REMOTE_SESSION) -> list[CommunityManagement]:
     """
     Function takes in a list of community totals and updates remote communities and community_managers tables.
     Returns True/False depending on result.
@@ -83,7 +81,7 @@ def communities(
 
     except (exc.OperationalError, ValueError) as err:
         logger.error(err)
-        return False
+        # return Community()
 
     return local_community_managers
 

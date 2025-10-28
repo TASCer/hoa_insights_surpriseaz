@@ -2,6 +2,8 @@ import logging
 
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.database.models_remote import CommunityManagement
+from hoa_insights_surpriseaz.database.models_local import Community
+
 from hoa_insights_surpriseaz.database.setup import (
     create_local_database,
     create_remote_database,
@@ -33,21 +35,19 @@ LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=Fal
 REMOTE_ENGINE: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
 
 
-def main(local_engine=LOCAL_ENGINE, remote_engine=REMOTE_ENGINE):
+def main(local_engine=LOCAL_ENGINE, remote_engine=REMOTE_ENGINE) -> None:
     local_session = Session(local_engine)
 
-    local_database_created = create_local_database.create(
-        engine=local_engine, session=local_session
-    )
+    local_database_created: bool = create_local_database.create(engine=local_engine)
     if local_database_created:
         populate_local_tables.parcels(local_session)
-        community_instances = populate_local_tables.communities(local_session)
+        community_instances: list[Community] = populate_local_tables.communities(local_session)
         logger.info(f"\t{len(community_instances)=}")
         logger.info(f"COMPLETED POPULATION ON: {local_engine.url.database}")
 
     remote_session = Session(remote_engine)
 
-    remote_database_created = create_remote_database.create(remote_engine=remote_engine)
+    remote_database_created: bool = create_remote_database.create(remote_engine=remote_engine)
 
     if remote_database_created:
         community_managers: list[CommunityManagement] = (

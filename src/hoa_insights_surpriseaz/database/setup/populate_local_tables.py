@@ -109,7 +109,7 @@ def community_management(db: Session, management_file: Path = MANAGEMENT_FILE) -
     return True
 
 
-def communities(db: Session, file_path=MANAGEMENT_FILE) -> list:
+def communities(db: Session, file_path=MANAGEMENT_FILE) -> list[models_local.Community]:
     """
     Function takes a db engine and creates a table of community totals from parcel table data.
     Calls community_management function with list of community totals to populate community_managers table.

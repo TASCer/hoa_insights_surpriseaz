@@ -71,7 +71,5 @@ def test_populate_remote_tables(
     test_create_remote_session, test_create_local_session
 ) -> None:
     populate_remote_tables.communities(
-        community_totals=COMMUNITY_TOTALS,
-        local_db=test_create_local_session,
         remote_db=test_create_remote_session,
     )
