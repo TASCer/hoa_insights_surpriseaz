@@ -43,7 +43,7 @@ def main(local_engine=LOCAL_ENGINE, remote_engine=REMOTE_ENGINE):
         populate_local_tables.parcels(local_session)
         community_instances = populate_local_tables.communities(local_session)
         logger.info(f"\t{len(community_instances)=}")
-        logger.info(f"- COMPLETED POPULATION ON: {local_engine.url.database} -")
+        logger.info(f"COMPLETED POPULATION ON: {local_engine.url.database}")
 
     remote_session = Session(remote_engine)
 
@@ -58,11 +58,11 @@ def main(local_engine=LOCAL_ENGINE, remote_engine=REMOTE_ENGINE):
         )
 
         logger.info(
-            f"--- COMPLETED REMOTE DATABASE POPULATION OF: {remote_engine.url.database} ---"
+            f"COMPLETED REMOTE DATABASE POPULATION ON: {remote_engine.url.database}"
         )
 
     logger.info(
-        f"DATABASES: {LOCAL_ENGINE.url.database}, {REMOTE_ENGINE.url.database} INITIALIZED."
+        f"DATABASES: [{LOCAL_ENGINE.url.database}, {REMOTE_ENGINE.url.database}] INITIALIZED."
     )
 
 

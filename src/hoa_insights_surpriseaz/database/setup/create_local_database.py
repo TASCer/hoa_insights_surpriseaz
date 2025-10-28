@@ -2,7 +2,6 @@ import logging
 
 from hoa_insights_surpriseaz.database import check_local_database, models_local
 
-# from hoa_insights_surpriseaz.database.setup import populate_local_tables
 from logging import Logger
 from sqlalchemy import Engine
 from sqlalchemy.orm import Session
