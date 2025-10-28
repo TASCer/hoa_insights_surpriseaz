@@ -37,7 +37,7 @@ LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=Fal
 REMOTE_ENGINE: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
 
 
-def main(local_engine=LOCAL_ENGINE, remote_engine=REMOTE_ENGINE) -> None:
+def local_database(local_engine=LOCAL_ENGINE):
     local_session = Session(local_engine)
 
     local_database_created: bool = create_local_database.create(engine=local_engine)
@@ -47,6 +47,9 @@ def main(local_engine=LOCAL_ENGINE, remote_engine=REMOTE_ENGINE) -> None:
         logger.info(f"\t{len(community_instances)=}")
         logger.info(f"COMPLETED POPULATION ON: {local_engine.url.database}")
 
+
+
+def remote_database(remote_engine=REMOTE_ENGINE):
     remote_session = Session(remote_engine)
 
     remote_database_created: bool = create_remote_database.create(remote_engine=remote_engine)
@@ -66,6 +69,11 @@ def main(local_engine=LOCAL_ENGINE, remote_engine=REMOTE_ENGINE) -> None:
     logger.info(
         f"DATABASES: [{LOCAL_ENGINE.url.database}, {REMOTE_ENGINE.url.database}] INITIALIZED."
     )
+
+
+def main() -> None:
+    local_database()
+    remote_database()
 
 
 if __name__ == "__main__":
