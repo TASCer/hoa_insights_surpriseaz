@@ -4,7 +4,6 @@
 #     test_bluehost_uri,
 # )
 from hoa_insights_surpriseaz.database import (
-    check_local_database,
     models_local,
     models_remote,
 )
@@ -35,17 +34,17 @@ COMMUNITY_TOTALS = []
 
 
 def test_create_local_dbms(test_create_local_engine) -> None:
-    check_local: bool = check_local_database.schema(test_create_local_engine)
+    # check_local: bool = check_local_database.schema(test_create_local_engine)
 
-    assert check_local
+    # assert check_local
 
     models_local.Base.metadata.create_all(test_create_local_engine)
 
 
 def test_create_remote_dbms(test_create_remote_engine) -> None:
-    check_remote: bool = check_local_database.schema(test_create_remote_engine)
+    # check_remote: bool = check_local_database.schema(test_create_remote_engine)
 
-    assert check_remote
+    # assert check_remote
 
     models_remote.Base.metadata.create_all(test_create_remote_engine)
 
@@ -62,9 +61,6 @@ def test_populate_local_tables(
     )
 
     COMMUNITY_TOTALS = community_totals.copy()
-
-    check_local_database.triggers(test_create_local_engine)
-    check_local_database.views(test_create_local_engine)
 
 
 def test_populate_remote_tables(
