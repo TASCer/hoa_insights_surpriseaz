@@ -21,25 +21,21 @@ tests_path: Path = Path.cwd() / "tests" / "output" / "pdf"
 
 
 # DATE PARSER
-# @pytest.mark.skip("WORKING")
 def test_date_parser() -> None:
     date: str = date_parser.logger_date()
     assert "-" in date
 
 
-# @pytest.mark.skip("WORKING")
 def test_sql_date() -> None:
     date = date_parser.sql_date()
     assert date == dt.today().date()
 
 
-# @pytest.mark.skip("WORKING")
 def test_sql_timestamp() -> None:
     date: datetime = date_parser.get_now()
     assert dt.isoformat(date)
 
 
-# @pytest.mark.skip("WORKING")
 def test_format_api_date() -> None:
     no_date: datetime = date_parser.api_date("")
     assert no_date == dt(1901, 1, 1, 0, 0)
@@ -48,14 +44,12 @@ def test_format_api_date() -> None:
     assert has_date == dt(2025, 8, 9, 0, 0)
 
 
-# @pytest.mark.skip("WORKING")
 def test_first_tuesday() -> None:
     first_tuesday = date_parser.first_tuesday_of_month()
     assert not first_tuesday, "Is today the 1st Tuesday of this month?"
 
 
 # APN NUMBER FORMATTER
-# @pytest.mark.skip("WORKING")
 @pytest.mark.parametrize(
     "apn_before, len_before, apn_after, len_after",
     [("50911455", 8, "509-11-455", 10), ("50911600", 8, "509-11-600", 10)],
@@ -71,7 +65,6 @@ def test_apn_formatter(apn_before, len_before, apn_after, len_after) -> None:
 
 
 # PHONE NUMBER FORMATTER
-# @pytest.mark.skip("WORKING")
 @pytest.mark.parametrize(
     "ph_num, expected",
     [
@@ -87,7 +80,6 @@ def test_phones(ph_num, expected):
 
 
 # FILE RENAME
-# @pytest.mark.skip("WIP")
 def test_rename_files() -> None:
     tests_path: Path = Path.cwd() / "tests" / "output" / "pdf"
     # RENAME ORIG
@@ -106,7 +98,6 @@ def test_rename_files() -> None:
     )
 
 
-# @pytest.mark.skip("WIP")
 def test_file_copier() -> None:
     assert (
         file_copier.to_webserver(
@@ -116,11 +107,10 @@ def test_file_copier() -> None:
     )
 
 
-# @pytest.mark.skip("WIP")
 def test_delete_files() -> None:
     assert delete_files.delete(tests_path.parent.parent / TEST_ORIG_PDF_FILENAME)
 
-
+# TODO MOCK THIS?
 @pytest.mark.skip("WIP")
 def test_mailer() -> None:
     pass

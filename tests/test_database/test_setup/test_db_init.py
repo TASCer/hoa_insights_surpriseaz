@@ -1,12 +1,3 @@
-# from hoa_insights_surpriseaz.my_secrets import (
-#     test_debian_uri,
-#     test_debian_dbname,
-#     test_bluehost_uri,
-# )
-# from hoa_insights_surpriseaz.database import (
-#     models_local,
-#     models_remote,
-# )
 from hoa_insights_surpriseaz.database.setup import (
     create_local_database,
     create_remote_database,
@@ -19,7 +10,6 @@ TEST_INITIAL_PARCELS_PATH: Path = (
     Path.cwd() / "tests" / "input" / "original_parcel_json"
 )
 TEST_UPDATE_PARCELS_PATH: Path = Path.cwd() / "tests" / "input" / "new_parcel_json"
-# TEST_MANAGEMENT_PDF_PATH: str = "./tests/input/HOA Contact List (PDF).pdf"
 TEST_MANAGEMENT_CSV_PATH: Path = (
     Path.cwd() / "tests" / "output" / "csv" / "surpriseaz-hoa-management.csv"
 )
@@ -48,8 +38,7 @@ def test_create_remote_dbms(test_create_remote_engine) -> None:
 
 
 def test_populate_local_tables(
-    test_create_local_session, test_create_local_engine
-) -> None:
+    test_create_local_session) -> None:
     global COMMUNITY_TOTALS
     populate_local_tables.parcels(
         file=TEST_PARCELS_CONSTANTS, db=test_create_local_session

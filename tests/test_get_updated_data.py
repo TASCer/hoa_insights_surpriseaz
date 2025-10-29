@@ -1,3 +1,4 @@
+# TODO data not there? timing? do a refresh?
 from hoa_insights_surpriseaz.database import get_updated_data
 from hoa_insights_surpriseaz.my_secrets import test_local_uri
 

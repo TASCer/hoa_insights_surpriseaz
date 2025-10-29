@@ -19,7 +19,6 @@ TEST_INITIAL_PARCELS_PATH: Path = (
     Path.cwd() / "tests" / "input" / "original_parcel_json"
 )
 TEST_UPDATE_PARCELS_PATH: Path = Path.cwd() / "tests" / "input" / "new_parcel_json"
-# TEST_MANAGEMENT_PDF_PATH: str = "./tests/input/HOA Contact List (PDF).pdf"
 TEST_MANAGEMENT_CSV_PATH: Path = (
     Path.cwd() / "tests" / "output" / "csv" / "surpriseaz-hoa-management.csv"
 )
