@@ -7,10 +7,11 @@ import platform
 from aiohttp import TCPConnector
 from aiohttp_retry import RetryClient, ExponentialRetry
 from asyncio import Semaphore, Task
-from logging import Logger
-from sqlalchemy import Engine, TextClause, create_engine, exc, text, CursorResult, Row
-from hoa_insights_surpriseaz.utils import date_parser
 from hoa_insights_surpriseaz import my_secrets
+from hoa_insights_surpriseaz.database import models_local
+
+from logging import Logger
+from sqlalchemy import Engine, Sequence, Tuple, create_engine, exc, Row, select
 
 logger: Logger = logging.getLogger(__name__)
 
@@ -37,17 +38,18 @@ def get_parcel_apns() -> list[str]:
     try:
         engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
         with engine.connect() as conn, conn.begin():
-            result: TextClause = conn.execute(
-                text(f"SELECT APN FROM {LOCAL_DB_NAME}.{PARCELS_TABLE};")
-            )
-            all_results: CursorResult = result.all()
-            APNs: list[Row] = [x[0] for x in all_results]
+            q_apns: Sequence[Row[Tuple[str]]] = conn.execute(
+                select(models_local.Parcel.APN).where(
+                    models_local.Parcel.COMMUNITY == "GREENWAYPARC3"
+                )
+            ).all()
+            APNs = [result[0] for result in q_apns]
 
         return APNs
 
-    except exc.OperationalError as oe:
-        logger.error(f"{oe.__cause__}")
-        return [""]
+    except (exc.OperationalError, exc.ProgrammingError) as err:
+        logger.error(f"{err.__cause__}")
+        return []
 
 
 def parcels_api() -> list[dict]:
@@ -57,11 +59,15 @@ def parcels_api() -> list[dict]:
     :return: sequence of all parcel responses from API.
     """
     APNS: list[str] = get_parcel_apns()
-    logger.info("Accessing Assessor API to get latest parcel data")
-    consumed_parcel_data: list[dict] = asyncio.run(async_main(APNS))
-    logger.info("All latest parcel data consumed from API")
+    if APNS:
+        logger.info("Accessing Assessor API to get latest parcel data")
+        consumed_parcel_data: list[dict] = asyncio.run(async_main(APNS))
+        logger.info("All latest parcel data consumed from API")
 
-    return consumed_parcel_data
+        return consumed_parcel_data
+    else:
+        logger.error("Cannot retriece APNs from database, exiting.")
+        exit()
 
 
 async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> dict:
