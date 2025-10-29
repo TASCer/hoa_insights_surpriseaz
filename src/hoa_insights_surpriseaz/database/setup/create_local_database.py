@@ -20,7 +20,7 @@ def create(engine: Engine) -> bool:
 
     :param engine: _description_
     :return: _description_
-    """    
+    """
 
     logger.info(f"CREATNG DB ON: {engine.url.host}")
     try:

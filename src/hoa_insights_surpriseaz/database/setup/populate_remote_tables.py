@@ -26,8 +26,8 @@ def get_local_data(local_db: Session = LOCAL_SESSION):
     Function retrieves local databse table data for use in populating remote database tables.
 
     :param local_db: database session, defaults to LOCAL_SESSION
-    :return: sequence of Community and CommunityManagement instances 
-    """    
+    :return: sequence of Community and CommunityManagement instances
+    """
     try:
         with local_db as local_session:
             q_communities = local_session.scalars(select(Community)).all()

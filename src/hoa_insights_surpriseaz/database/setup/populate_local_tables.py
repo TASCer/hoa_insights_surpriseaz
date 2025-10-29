@@ -65,7 +65,7 @@ def community_management(db: Session, management_file: Path = MANAGEMENT_FILE) -
     :param db: _description_
     :param management_file: _description_, defaults to MANAGEMENT_FILE
     :return: _description_
-    """    
+    """
     if not management_file:
         logger.warning(f"{management_file.name} not found.")
         print(f""" "{management_file.name}" not found.""")
@@ -118,7 +118,7 @@ def communities(db: Session, file_path=MANAGEMENT_FILE) -> list[models_local.Com
     :param db: _description_
     :param file_path: _description_, defaults to MANAGEMENT_FILE
     :return: _description_
-    """    
+    """
     ix = 0
     with db as session:
         community_instances: list = []
@@ -167,7 +167,7 @@ def parcels(db: Session, file=f"{PARCELS_SEED_FILE}") -> bool:
     :param db: _description_
     :param file: _description_, defaults to f"{PARCELS_SEED_FILE}"
     :return: _description_
-    """    
+    """
     with db as session:
         parcel_instances: list = []
 

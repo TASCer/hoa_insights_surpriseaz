@@ -14,7 +14,7 @@ def create(remote_engine: Engine) -> bool:
 
     :param remote_engine: _description_
     :return: _description_
-    """    
+    """
     logger.info(f"CREATING DB ON: {remote_engine.url.host}")
 
     try:

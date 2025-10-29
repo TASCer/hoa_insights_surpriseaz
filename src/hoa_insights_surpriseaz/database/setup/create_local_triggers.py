@@ -19,7 +19,7 @@ def all(engine: Engine) -> bool:
 
     :param engine: _description_
     :return: _description_
-    """    
+    """
     with engine.connect() as conn, conn.begin():
         try:
             conn.execute(text("DROP TRIGGER IF EXISTS after_sale_update"))
