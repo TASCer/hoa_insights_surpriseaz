@@ -3,11 +3,13 @@
 #     test_debian_dbname,
 #     test_bluehost_uri,
 # )
-from hoa_insights_surpriseaz.database import (
-    models_local,
-    models_remote,
-)
+# from hoa_insights_surpriseaz.database import (
+#     models_local,
+#     models_remote,
+# )
 from hoa_insights_surpriseaz.database.setup import (
+    create_local_database,
+    create_remote_database,
     populate_local_tables,
     populate_remote_tables,
 )
@@ -34,19 +36,15 @@ COMMUNITY_TOTALS = []
 
 
 def test_create_local_dbms(test_create_local_engine) -> None:
-    # check_local: bool = check_local_database.schema(test_create_local_engine)
+    check_local: bool = create_local_database.create(test_create_local_engine)
 
-    # assert check_local
-
-    models_local.Base.metadata.create_all(test_create_local_engine)
+    assert check_local
 
 
 def test_create_remote_dbms(test_create_remote_engine) -> None:
-    # check_remote: bool = check_local_database.schema(test_create_remote_engine)
+    check_remote: bool = create_remote_database.create(test_create_remote_engine)
 
-    # assert check_remote
-
-    models_remote.Base.metadata.create_all(test_create_remote_engine)
+    assert check_remote
 
 
 def test_populate_local_tables(
@@ -63,9 +61,7 @@ def test_populate_local_tables(
     COMMUNITY_TOTALS = community_totals.copy()
 
 
-def test_populate_remote_tables(
-    test_create_remote_session, test_create_local_session
-) -> None:
+def test_populate_remote_tables(test_create_remote_session) -> None:
     populate_remote_tables.communities(
         remote_db=test_create_remote_session,
     )
