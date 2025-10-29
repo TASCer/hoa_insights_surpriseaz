@@ -47,11 +47,7 @@ def get_parcel_apns() -> list[str]:
 
     except exc.OperationalError as oe:
         logger.error(f"{oe.__cause__}")
-
-    except BaseException as be:
-        logger.error(f"{be}")
-        print(be)
-        exit()
+        return [""]
 
 
 def parcels_api() -> list[dict]:
