@@ -63,6 +63,24 @@ root_logger.addHandler(fh)
 logger: Logger = logging.getLogger(__name__)
 
 
+def database_setup_check(logfile_name: Path) -> bool:
+    """
+    Function checks if db-init.py has been ran by looking for log file.
+
+    :param logfile_name: database setup log file, defaults to DB_SETUP_LOGFILE
+    """
+    if logfile_name.exists():
+        return True
+
+    else:
+        logger.error(f"** '{logfile_name.name}' not found. **")
+        logger.info(
+            "To setup database and create log file, run 'uv run db-init.py' from database/setup/"
+        )
+        print(f"""*ISSUE*: "{logfile_name.name}" not found. See log: "{LOG_DATE}" for details.""")
+        return False
+
+
 def community_management_update() -> Path:
     """
     Function controls the downloading, renaming, and parsing of downloaded HOA management pdf file.
@@ -132,26 +150,13 @@ def main() -> None:
 
 if __name__ == "__main__":
     """
-    Checks:
-     If db-init.py has been ran by looking for log file.
-    Checks:
-     Is today is the first Tuesday of this month? If so update community management data.
-    Runs:
-     Controlling application function: main()    
+    Checks if database has been setup and if today is the first Tuesday of this month runs management update.
     """
-    if not DB_SETUP_LOGFILE.exists():
-        logger.error(f"** '{DB_SETUP_LOGFILE}' not found. **")
-        logger.info(
-            "To initialize database and create file, run 'uv run db-init.py' from database/setup directory."
-        )
-        print(
-            f"ISSUE: {DB_SETUP_LOGFILE.name} not found. See log: {LOG_DATE} for details."
-        )
+    if database_setup_check(DB_SETUP_LOGFILE):
+        if date_parser.first_tuesday_of_month():
+            mgmt_csv: Path = community_management_update()
+            update_community_management.update(mgmt_csv)
+            logger.info("COMPLETED: Monthly HOA Management Update")
+        main()
+    else:
         exit()
-
-    if date_parser.first_tuesday_of_month():
-        mgmt_csv: Path = community_management_update()
-        update_community_management.update(mgmt_csv)
-        logger.info("COMPLETED: Monthly HOA Management Update")
-
-    main()
