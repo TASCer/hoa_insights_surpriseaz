@@ -15,10 +15,10 @@ OWNERS_TABLE: str = "owners"
 
 def all(engine: Engine) -> bool:
     """
-    _summary_
+    Function creates all triggers for the local database.
 
-    :param engine: _description_
-    :return: _description_
+    :param engine: database engine
+    :return: True if all triggers created
     """
     with engine.connect() as conn, conn.begin():
         try:

@@ -16,10 +16,10 @@ logger: Logger = logging.getLogger(__name__)
 
 def create(engine: Engine) -> bool:
     """
-    _summary_
+    Function creates the local database.
 
-    :param engine: _description_
-    :return: _description_
+    :param engine: database engine
+    :return: True if database created
     """
 
     logger.info(f"CREATNG DB ON: {engine.url.host}")

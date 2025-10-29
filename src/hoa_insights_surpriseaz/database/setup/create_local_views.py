@@ -27,10 +27,10 @@ RENTALS_TABLE: str = "rentals"
 
 def all(engine: Engine) -> bool:
     """
-    _summary_
+    Function creates all local database Views.
 
-    :param engine: _description_
-    :return: _description_
+    :param engine: datanase engine
+    :return: True if all views created
     """
     with engine.connect() as conn, conn.begin():
         try:

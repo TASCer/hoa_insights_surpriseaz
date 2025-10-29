@@ -60,11 +60,11 @@ management_ids: list = [
 
 def community_management(db: Session, management_file: Path = MANAGEMENT_FILE) -> bool:
     """
-    _summary_
+    Function populates the community_managers local database table.
 
-    :param db: _description_
-    :param management_file: _description_, defaults to MANAGEMENT_FILE
-    :return: _description_
+    :param db: database session
+    :param management_file: parsed management file, defaults to MANAGEMENT_FILE
+    :return: True if table populated
     """
     if not management_file:
         logger.warning(f"{management_file.name} not found.")
@@ -113,11 +113,11 @@ def community_management(db: Session, management_file: Path = MANAGEMENT_FILE) -
 
 def communities(db: Session, file_path=MANAGEMENT_FILE) -> list[models_local.Community]:
     """
-    _summary_
+    Function populates communities table,
 
-    :param db: _description_
-    :param file_path: _description_, defaults to MANAGEMENT_FILE
-    :return: _description_
+    :param db: database session
+    :param file_path: parsed management file, defaults to MANAGEMENT_FILE
+    :return: sequence Community instances
     """
     ix = 0
     with db as session:
@@ -162,11 +162,11 @@ def communities(db: Session, file_path=MANAGEMENT_FILE) -> list[models_local.Com
 
 def parcels(db: Session, file=f"{PARCELS_SEED_FILE}") -> bool:
     """
-    _summary_
+    Function populates local parcels table
 
-    :param db: _description_
-    :param file: _description_, defaults to f"{PARCELS_SEED_FILE}"
-    :return: _description_
+    :param db: database session
+    :param file: parcel constants file, defaults to f"{PARCELS_SEED_FILE}"
+    :return: True if table populated
     """
     with db as session:
         parcel_instances: list = []

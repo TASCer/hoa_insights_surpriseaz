@@ -15,7 +15,7 @@ UPDATE_COMMUNITIES: str = "update_communities"
 
 def all(engine: Engine) -> bool:
     """
-    Function creates a mySQL Stored Procedure to update communities.
+    Function creates stored procedure(s).
 
     :param engine: database engine
     :return: True if created

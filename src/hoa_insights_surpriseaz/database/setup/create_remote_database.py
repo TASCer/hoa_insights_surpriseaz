@@ -10,10 +10,10 @@ logger: Logger = logging.getLogger(__name__)
 
 def create(remote_engine: Engine) -> bool:
     """
-    _summary_
+    Function creates remote database.
 
-    :param remote_engine: _description_
-    :return: _description_
+    :param remote_engine: database engine
+    :return: True if database created
     """
     logger.info(f"CREATING DB ON: {remote_engine.url.host}")
 

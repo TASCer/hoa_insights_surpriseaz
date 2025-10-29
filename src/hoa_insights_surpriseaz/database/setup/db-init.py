@@ -38,6 +38,11 @@ REMOTE_ENGINE: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=F
 
 
 def local_database(local_engine=LOCAL_ENGINE) -> None:
+    """
+    Function checks if local database has been created and populates table(s) if so.
+
+    :param local_engine: database engine, defaults to LOCAL_ENGINE
+    """
     local_session = Session(local_engine)
 
     local_database_created: bool = create_local_database.create(engine=local_engine)
@@ -51,6 +56,11 @@ def local_database(local_engine=LOCAL_ENGINE) -> None:
 
 
 def remote_database(remote_engine=REMOTE_ENGINE) -> None:
+    """
+    Function checks if renote database has been created and populates table(s) if so.
+
+    :param local_engine: database engine, defaults to REMOTE_ENGINE
+    """
     remote_session = Session(remote_engine)
 
     remote_database_created: bool = create_remote_database.create(
