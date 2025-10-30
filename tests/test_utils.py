@@ -110,6 +110,7 @@ def test_file_copier() -> None:
 def test_delete_files() -> None:
     assert delete_files.delete(tests_path.parent.parent / TEST_ORIG_PDF_FILENAME)
 
+
 # TODO MOCK THIS?
 @pytest.mark.skip("WIP")
 def test_mailer() -> None:

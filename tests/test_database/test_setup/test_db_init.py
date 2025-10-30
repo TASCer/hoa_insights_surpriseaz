@@ -37,8 +37,7 @@ def test_create_remote_dbms(test_create_remote_engine) -> None:
     assert check_remote
 
 
-def test_populate_local_tables(
-    test_create_local_session) -> None:
+def test_populate_local_tables(test_create_local_session) -> None:
     global COMMUNITY_TOTALS
     populate_local_tables.parcels(
         file=TEST_PARCELS_CONSTANTS, db=test_create_local_session

@@ -1,5 +1,6 @@
 # THIS IS FOR PRE-REPORT PROCESSING
 
+
 def test_initial_parcel_data(parse_original_parcel_data) -> None:
     initial_parcels, initial_rentals = parse_original_parcel_data
     assert len(parse_original_parcel_data) == 2
