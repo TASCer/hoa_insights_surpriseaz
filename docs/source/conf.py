@@ -28,7 +28,22 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.duration",
     "sphinx.ext.autosummary",
+    "sphinx_readme",
+
 ]
+
+html_context = {
+   'display_github': True,
+   'github_user': 'TASCer',
+   'github_repo': 'hoa_insights_surpriseaz',
+}
+
+html_baseurl = "https://github.com/TASCer/hoa_insights_surpriseaz/"
+
+readme_src_files = "README.md"
+
+readme_docs_url_type = "html"
+
 
 autodoc_inherit_docstrings = True  # If no docstring, inherit from base class
 autosummary_generate = True  # Turn on sphinx.ext.autosummary
