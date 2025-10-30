@@ -1,4 +1,3 @@
-# https://stackoverflow.com/questions/12352455/how-to-use-sqlalchemy-to-seamlessly-access-multiple-databases
 import json
 import os
 from pathlib import Path
@@ -14,6 +13,7 @@ from hoa_insights_surpriseaz.my_secrets import (
 )
 
 from hoa_insights_surpriseaz.parse_assessor_parcels import owner_data
+from hoa_insights_surpriseaz.schemas import Owners, Rentals
 
 TEST_INITIAL_PARCELS_PATH: Path = (
     Path.cwd() / "tests" / "input" / "original_parcel_json"
@@ -101,7 +101,7 @@ def get_new_parcel_data():
 
 
 @pytest.fixture()
-def parse_original_parcel_data(get_original_parcel_data):
+def parse_original_parcel_data(get_original_parcel_data) -> tuple[list[Owners], list[Rentals]]:
     test_parsed_owners_original_data, test_parsed_rentals_original_data = owner_data(
         get_original_parcel_data
     )
@@ -110,34 +110,9 @@ def parse_original_parcel_data(get_original_parcel_data):
 
 
 @pytest.fixture()
-def parse_new_parcel_data(get_new_parcel_data):
+def parse_new_parcel_data(get_new_parcel_data) -> tuple[list[Owners], list[Rentals]]:
     test_parsed_new_parcel_data, test_parsed_new_rentals_data = owner_data(
         get_new_parcel_data
     )
 
     return test_parsed_new_parcel_data, test_parsed_new_rentals_data
-
-
-# ---------------------------------
-
-# @pytest.fixture(scope="function")
-# def parse_pdf():
-#     csvfile = f"{TEST_MANAGEMENT_CSV_PATH}"
-#     parsed = parse_management_data.parse_csv(csvfile)
-#     print(parsed)
-
-# # return type(parsed)
-
-# pdf = f"{TEST_MANAGEMENT_PDF_PATH}"
-# converted = parse_management_pdf.convert_pdf(pdf)
-
-# # return parsed
-
-
-# @pytest.fixture(scope="function")
-# def parse_pdf():
-#     pdf = f"{TEST_MANAGEMENT_PDF_PATH}"
-#     converted = parse_management_pdf.convert_pdf(pdf)
-
-
-#     return converted

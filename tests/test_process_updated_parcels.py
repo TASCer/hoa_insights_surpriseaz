@@ -1,7 +1,4 @@
 # THIS IS FOR PRE-REPORT PROCESSING
-# from hoa_insights_surpriseaz.database import update_local_tables
-# from hoa_insights_surpriseaz.my_secrets import test_debian_uri, test_debian_dbname
-
 
 def test_initial_parcel_data(parse_original_parcel_data) -> None:
     initial_parcels, initial_rentals = parse_original_parcel_data

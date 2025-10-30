@@ -20,7 +20,7 @@ def test_parse_psuedo_api_original(parse_original_parcel_data) -> None:
     assert len(parsed_test_original_rentals) == 2
 
 
-def test_parse_psuedo_api_new(parse_new_parcel_data):
+def test_parse_psuedo_api_new(parse_new_parcel_data) -> None:
     parsed_test_update_parcels, parsed_test_update_rentals = parse_new_parcel_data
     assert len(parsed_test_update_parcels) == 5
     assert type(parsed_test_update_parcels[0]) is Owners
