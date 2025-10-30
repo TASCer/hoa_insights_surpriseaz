@@ -101,7 +101,9 @@ def get_new_parcel_data():
 
 
 @pytest.fixture()
-def parse_original_parcel_data(get_original_parcel_data) -> tuple[list[Owners], list[Rentals]]:
+def parse_original_parcel_data(
+    get_original_parcel_data,
+) -> tuple[list[Owners], list[Rentals]]:
     test_parsed_owners_original_data, test_parsed_rentals_original_data = owner_data(
         get_original_parcel_data
     )
