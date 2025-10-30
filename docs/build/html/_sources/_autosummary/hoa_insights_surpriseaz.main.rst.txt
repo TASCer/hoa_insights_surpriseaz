@@ -9,5 +9,6 @@ hoa\_insights\_surpriseaz.main
    .. autosummary::
    
       community_management_update
+      database_setup_check
       main
    

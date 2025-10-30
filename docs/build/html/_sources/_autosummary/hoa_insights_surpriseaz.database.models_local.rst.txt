@@ -12,7 +12,7 @@ hoa\_insights\_surpriseaz.database.models\_local
       Community
       CommunityManagement
       HistoricalManagers
-      HistoricalOwmers
+      HistoricalOwners
       HistoricalSales
       Owner
       Parcel

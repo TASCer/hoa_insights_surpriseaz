@@ -8,5 +8,6 @@ hoa\_insights\_surpriseaz.parse\_assessor\_parcels
 
    .. autosummary::
    
-      parser
+      owner_data
+      rental_data
    

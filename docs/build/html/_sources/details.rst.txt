@@ -9,7 +9,6 @@ Details
     :show-inheritance:
     :no-index:
 
-
    
 ..    :exclude-members: my_secrets
 ..    :exclude-pattern: "my_secrets"
