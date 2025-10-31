@@ -28,21 +28,21 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.duration",
     "sphinx.ext.autosummary",
-    "sphinx_readme",
-
+    # "sphinx_readme",
 ]
 
-html_context = {
-   'display_github': True,
-   'github_user': 'TASCer',
-   'github_repo': 'hoa_insights_surpriseaz',
-}
+# TODO try to use 1 source for README
+# html_context = {
+#    'display_github': True,
+#    'github_user': 'TASCer',
+#    'github_repo': 'hoa_insights_surpriseaz',
+# }
 
-html_baseurl = "https://github.com/TASCer/hoa_insights_surpriseaz/"
+# html_baseurl = "https://github.com/TASCer/hoa_insights_surpriseaz/"
 
-readme_src_files = "README.md"
+# readme_src_files = "README.md"
 
-readme_docs_url_type = "html"
+# readme_docs_url_type = "html"
 
 
 autodoc_inherit_docstrings = True  # If no docstring, inherit from base class
