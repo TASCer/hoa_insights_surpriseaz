@@ -53,7 +53,7 @@ def community_management(community_management_items, remote_session=REMOTE_SESSI
                 add_community_manager.BOARD_CITY = manager.BOARD_CITY
                 add_community_manager.MANAGER = manager.MANAGER
                 add_community_manager.CONTACT_ADX = manager.CONTACT_ADX
-                add_community_manager.CONTACT_PH = manager.CONTACT_ADX
+                add_community_manager.CONTACT_PH = manager.CONTACT_PH
 
                 remote_session.add(add_community_manager, _warn=False)
                 remote_session.commit()
