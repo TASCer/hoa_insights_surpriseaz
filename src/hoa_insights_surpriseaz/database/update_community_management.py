@@ -1,14 +1,16 @@
 import csv
 import logging
 
-from hoa_insights_surpriseaz.database.models_local import CommunityManagement as DBCM
-from hoa_insights_surpriseaz.schemas import CommunityManagement as SCM
+from hoa_insights_surpriseaz.database.models_local import (
+    CommunityManagement as MODEL_CM,
+)
+from hoa_insights_surpriseaz.schemas import CommunityManagement as SCHEMA_CM
 from hoa_insights_surpriseaz import my_secrets
 
 from logging import Logger
 from pathlib import Path
 from sqlalchemy.orm import Session
-from sqlalchemy import Engine, create_engine, exc, text
+from sqlalchemy import Engine, create_engine, exc, update, Update
 
 LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
 REMOTE_DB_URI: str = f"{my_secrets.prod_remote_uri}"
@@ -38,73 +40,103 @@ def get_communities(parsed_csv: Path) -> list[str]:
     return communitities
 
 
-def update(file: Path) -> None:
+def update_local_table(community_managers: list) -> None:
+    """
+    Function updates the local community_managers table with data from the monthly pdf download.
+
+    :param file: management csv
+    """
+    local_engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
+    with Session(local_engine) as local_session:
+        for manager in community_managers:
+            m_id, community, situs, city, ph, email, mgr = manager
+            m_id: int = int(m_id) + 1
+
+            manager_instance = SCHEMA_CM(
+                COMMUNITY=community,
+                BOARD_SITUS=situs,
+                BOARD_CITY=city,
+                MANAGER=mgr,
+                CONTACT_ADX=email,
+                CONTACT_PH=ph,
+            )
+            db_item = MODEL_CM(**manager_instance.model_dump())
+
+            try:
+                update_statement: Update = (
+                    update(MODEL_CM)
+                    .where(MODEL_CM.ID == m_id)
+                    .values(
+                        ID=m_id,
+                        BOARD_SITUS=db_item.BOARD_SITUS,
+                        BOARD_CITY=db_item.BOARD_CITY,
+                        MANAGER=db_item.MANAGER,
+                        CONTACT_ADX=db_item.CONTACT_ADX,
+                        CONTACT_PH=db_item.CONTACT_PH,
+                    )
+                )
+
+                local_session.execute(update_statement)
+                local_session.commit()
+
+            except exc.OperationalError as e:
+                logger.error(e)
+
+
+def update_remote_table(community_managers: list) -> None:
+    remote_engine: Engine = create_engine(
+        f"mysql+pymysql://{REMOTE_DB_URI}", echo=False
+    )
+    """
+    Function updates the remote community_managers table with data from the monthly pdf download.
+
+    :param file: management csv
+    """
+    with Session(remote_engine) as remote_session:
+        for manager in community_managers:
+            m_id, community, situs, city, ph, email, mgr = manager
+            m_id: int = int(m_id) + 1
+
+            item = SCHEMA_CM(
+                COMMUNITY=community,
+                BOARD_SITUS=situs,
+                BOARD_CITY=city,
+                MANAGER=mgr,
+                CONTACT_ADX=email,
+                CONTACT_PH=ph,
+            )
+            db_item = MODEL_CM(**item.model_dump())
+
+            try:
+                update_statement: Update = (
+                    update(MODEL_CM)
+                    .where(MODEL_CM.ID == m_id)
+                    .values(
+                        ID=m_id,
+                        BOARD_SITUS=db_item.BOARD_SITUS,
+                        BOARD_CITY=db_item.BOARD_CITY,
+                        MANAGER=db_item.MANAGER,
+                        CONTACT_ADX=db_item.CONTACT_ADX,
+                        CONTACT_PH=db_item.CONTACT_PH,
+                    )
+                )
+
+                remote_session.execute(update_statement)
+                remote_session.commit()
+
+            except exc.OperationalError as e:
+                logger.error(e)
+
+
+def update_managers(managers_file: Path) -> None:
     """
     Function updates the community_managers tables (local, remote) with data from the monthly pdf download.
 
     :param file: management csv
     """
-    community_managers: list[str] = get_communities(file)
-
-    local_engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
-
-    with Session(local_engine) as ls:
-        for m in community_managers:
-            id, community, situs, city, ph, email, mgr = m
-            id: int = int(id) + 1
-
-            item = SCM(
-                COMMUNITY=community,
-                BOARD_SITUS=situs,
-                BOARD_CITY=city,
-                MANAGER=mgr,
-                CONTACT_ADX=email,
-                CONTACT_PH=ph,
-            )
-            db_item = DBCM(**item.model_dump())
-
-            try:
-                insert_qry: str = f"""UPDATE {my_secrets.prod_local_dbname}.{MANAGEMENT_TABLE} 
-                SET BOARD_SITUS='{db_item.BOARD_SITUS}', BOARD_CITY='{db_item.BOARD_CITY}', MANAGER='{db_item.MANAGER}', CONTACT_ADX='{db_item.CONTACT_ADX}', CONTACT_PH='{db_item.CONTACT_PH}'
-                WHERE ID = '{id}'
-                    ;"""
-
-                ls.execute(text(insert_qry))
-                ls.commit()
-
-            except exc.OperationalError as e:
-                logger.error(e)
-
-    remote_engine: Engine = create_engine(
-        f"mysql+pymysql://{REMOTE_DB_URI}", echo=False
-    )
-
-    with Session(remote_engine) as rs:
-        for m in community_managers:
-            id, community, situs, city, ph, email, mgr = m
-            id = int(id) + 1
-
-            item = SCM(
-                COMMUNITY=community,
-                BOARD_SITUS=situs,
-                BOARD_CITY=city,
-                MANAGER=mgr,
-                CONTACT_ADX=email,
-                CONTACT_PH=ph,
-            )
-            db_item = DBCM(**item.model_dump())
-
-            try:
-                insert_qry: str = f"""UPDATE {my_secrets.prod_remote_dbname}.{MANAGEMENT_TABLE} 
-                SET BOARD_SITUS='{db_item.BOARD_SITUS}', BOARD_CITY='{db_item.BOARD_CITY}', MANAGER='{db_item.MANAGER}', CONTACT_ADX='{db_item.CONTACT_ADX}', CONTACT_PH='{db_item.CONTACT_PH}'
-                WHERE ID = '{id}'
-                    ;"""
-
-                rs.execute(text(insert_qry))
-                rs.commit()
-
-            except exc.OperationalError as e:
-                logger.error(e)
+    community_managers: list[str] = get_communities(managers_file)
+    update_local_table(community_managers)
+    update_remote_table(community_managers)
 
 
 if __name__ == "__main__":
@@ -112,4 +144,4 @@ if __name__ == "__main__":
     CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
     PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
     PDF_PATH: Path = Path.cwd() / "output" / "pdf"
-    print(update(CSV_PATH / CSV_FILENAME))
+    update_managers(CSV_PATH / CSV_FILENAME)
