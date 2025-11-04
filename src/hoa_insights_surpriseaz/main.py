@@ -89,14 +89,12 @@ def community_management_update() -> Path:
 
     :return: location of parsed HOA management csv file
     """
-    logger.info("\tSTARTED: Monthly HOA Management Update")
     orig_pdf, new_pdf, mgmt_csv = fetch_community_management.download()
     file_renamed: bool = file_renamer.rename(old=orig_pdf, new=new_pdf)
 
     if file_renamed:
-        parsed_csv: Path = convert_management_data.pdf_to_csv(new_pdf, mgmt_csv)
-        update_community_management.update(parsed_csv)
-
+        convert_management_data.pdf_to_csv(new_pdf, mgmt_csv)
+        
         delete_files.delete()
 
     return mgmt_csv
@@ -156,9 +154,10 @@ if __name__ == "__main__":
     """
     if database_setup_check(DB_SETUP_LOGFILE):
         if date_parser.first_tuesday_of_month():
+            logger.info(">>> COMMUNITY MANAGEMENT UPDATE STARTED <<<")
             mgmt_csv: Path = community_management_update()
-            update_community_management.update(mgmt_csv)
-            logger.info("COMPLETED: Monthly HOA Management Update")
-        main()
+            update_community_management.update_managers(mgmt_csv)
+            logger.info(">>> COMMUNITY MANAGEMENT UPDATE COMPLETED <<<")
+        # main()
     else:
         exit()
