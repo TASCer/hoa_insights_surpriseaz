@@ -46,6 +46,7 @@ def update_local_table(community_managers: list) -> None:
 
     :param file: management csv
     """
+    logger.info(f"updating local table: {MANAGEMENT_TABLE}")
     local_engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
     with Session(local_engine) as local_session:
         for manager in community_managers:
@@ -82,6 +83,8 @@ def update_local_table(community_managers: list) -> None:
             except exc.OperationalError as e:
                 logger.error(e)
 
+    logger.info(f"updated local table: {MANAGEMENT_TABLE}")
+
 
 def update_remote_table(community_managers: list) -> None:
     remote_engine: Engine = create_engine(
@@ -92,6 +95,8 @@ def update_remote_table(community_managers: list) -> None:
 
     :param file: management csv
     """
+    logger.info(f"updating remote table: {MANAGEMENT_TABLE}")
+
     with Session(remote_engine) as remote_session:
         for manager in community_managers:
             m_id, community, situs, city, ph, email, mgr = manager
@@ -127,6 +132,7 @@ def update_remote_table(community_managers: list) -> None:
             except exc.OperationalError as e:
                 logger.error(e)
 
+    logger.info(f"updated remote table: {MANAGEMENT_TABLE}")
 
 def update_managers(managers_file: Path) -> None:
     """
@@ -134,9 +140,13 @@ def update_managers(managers_file: Path) -> None:
 
     :param file: management csv
     """
+    logger.info("STARTED: DATABASE TABLE UPDATES")
+
     community_managers: list[str] = get_communities(managers_file)
     update_local_table(community_managers)
     update_remote_table(community_managers)
+
+    logger.info("COMPLETED: DATABASE TABLE UPDATES")
 
 
 if __name__ == "__main__":

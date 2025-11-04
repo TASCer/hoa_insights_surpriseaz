@@ -20,7 +20,7 @@ def delete(file: Path = MANAGEMENT_PDF_PATH) -> bool:
     """
     if Path.exists(file):
         Path.unlink(file)
-        logger.info("DOWNLOADED MANAGEMENT PDF FILE DELETED")
+        logger.info(f"DOWNLOADED COMMUNITY MANAGEMENT PDF {file.name} DELETED")
 
         return True
 

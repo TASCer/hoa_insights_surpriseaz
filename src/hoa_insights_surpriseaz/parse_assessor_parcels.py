@@ -16,7 +16,7 @@ def rental_data(api_data: list[dict]) -> list[Rentals]:
     :param api_data: sequence of owner rental API data
     :return: sequence of parsed owner rental data
     """
-    parsed_rental_data: list[Rentals]= []
+    parsed_rental_data: list[Rentals] = []
 
     for rental_data in api_data:
         apn: str = format_apn(rental_data["TreasurersTransitionUrl"].split("=")[1])
