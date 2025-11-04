@@ -73,7 +73,7 @@ def pdf_to_csv(pdf_file: Path, csv_file: Path) -> Path:
     :param csv_file: csv file to convert pdf file into
     :return: converte csv_file
     """
-    logger.info(f"Converting {pdf_file.name}  to {csv_file.name} ")
+    logger.info(f"Convert: {pdf_file.name} -> {csv_file.name}")
 
     try:
         tabula.convert_into(
@@ -84,7 +84,7 @@ def pdf_to_csv(pdf_file: Path, csv_file: Path) -> Path:
         logger.error(fnf_error)
         exit()
 
-    logger.info("Converting pdf file to csv complete.")
+    logger.info(f"Convert Complete")
 
     parsed_csv: Path = parse_csv(csv_file)
 
