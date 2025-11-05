@@ -134,6 +134,7 @@ def update_remote_table(community_managers: list) -> None:
 
     logger.info(f"updated remote table: {MANAGEMENT_TABLE}")
 
+
 def update_managers(managers_file: Path) -> None:
     """
     Function updates the community_managers tables (local, remote) with data from the monthly pdf download.
