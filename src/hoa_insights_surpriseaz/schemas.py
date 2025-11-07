@@ -1,5 +1,7 @@
 from datetime import date
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
+from hoa_insights_surpriseaz.utils.number_formatter import format_apn, format_phone
+from hoa_insights_surpriseaz.utils import date_parser
 
 
 class Community(BaseModel):
@@ -23,12 +25,34 @@ class Owners(BaseModel):
     APN: str
     OWNER: str
     MAIL_ADX: str
-    SALE_DATE: date | None = None
-    SALE_PRICE: int
-    DEED_DATE: date | None = None
-    DEED_TYPE: str
+    SALE_DATE: str | None = None
+    SALE_PRICE: str | None = None
+    DEED_DATE: str | None = None
+    DEED_TYPE: str | None = None
     LEGAL_CODE: str
     RENTAL: bool
+
+    @field_validator("APN")
+    def format_apn(cls, v) -> str:
+        return format_apn(v)
+
+    @field_validator("DEED_DATE", "SALE_DATE")
+    def format_date(cls, v) -> date:
+        return date_parser.api_date(v)
+
+    @field_validator("MAIL_ADX", "OWNER")
+    def remove_comma(cls, v):
+        return v.replace(",", "")
+
+    def remove_apostrophe(cls, v):
+        return v.replace("'", "''")
+
+    @field_validator("SALE_PRICE")
+    def empty_sale_price(cls, v) -> int:
+        if v is None or v == "":
+            return int(0)
+        else:
+            return v
 
 
 class Rentals(BaseModel):
@@ -38,6 +62,21 @@ class Rentals(BaseModel):
     CONTACT: str
     CONTACT_ADX: str
     CONTACT_PH: str
+
+    @field_validator("APN")
+    def format_apn(cls, v) -> str:
+        return format_apn(v)
+
+    @field_validator("CONTACT_PH")
+    def format_phone(cls, v) -> str:
+        return format_phone(v)
+
+    @field_validator("CONTACT_ADX", "CONTACT", "OWNER")
+    def remove_comma(cls, v):  # -> Any:
+        return v.replace(",", "")
+
+    def remove_apostrophe(cls, v):
+        return v.replace("'", "''")
 
 
 class Parcels(BaseModel):
