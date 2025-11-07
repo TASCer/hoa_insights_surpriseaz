@@ -84,7 +84,7 @@ def pdf_to_csv(pdf_file: Path, csv_file: Path) -> Path:
         logger.error(fnf_error)
         exit()
 
-    logger.info(f"Convert Complete")
+    logger.info("Convert Complete")
 
     parsed_csv: Path = parse_csv(csv_file)
 
