@@ -15,6 +15,40 @@ WEB_SERVER_REPORT_PATH_WINDOWS = Path(
 )
 
 
+def linux_server(source, destination, source_check, destinantion_check) -> None:
+    """
+    Function copies files for Linux systems
+    """
+    if source_check and destinantion_check:
+        try:
+            os.system(f"cp {source} {destination}")
+            logger.info(f"{source.name} sent to tascs.test web server locally.")
+        except BaseException as e:
+            logger.critical(
+                f"{source.name} NOT sent to tascs.test web server locally. {e}"
+            )
+
+    if not destinantion_check and source_check:
+        copy_to = Path("~")
+        try:
+            os.system(f"scp {source} todd@debian.tascs.test:{copy_to}")
+            logger.info(f"{source.name} sent to tascs.test web server remotely")
+        except BaseException as e:
+            logger.critical(f"{source} NOT sent to tascs.test web server remotely. {e}")
+
+
+def windows_server(source, destination, source_check, destinantion_check) -> None:
+    """
+    Function copies files for Windows systems
+    """
+    if source_check and destinantion_check:
+        try:
+            shutil.copy(source, destination)
+
+        except (IOError, FileNotFoundError) as e:
+            logger.error(e)
+
+
 def to_webserver(to_copy: Path, copy_to: Path = WEB_SERVER_REPORT_PATH_LINUX) -> None:
     """
     Function copies files to webserver for integration with website.
@@ -23,40 +57,25 @@ def to_webserver(to_copy: Path, copy_to: Path = WEB_SERVER_REPORT_PATH_LINUX) ->
         to_copy (Path): source
         copy_to (Path, optional): destination. Defaults to WEB_SERVER_REPORT_PATH_LINUX.
     """
-    if copy_to.exists() and to_copy.exists():
-        if not platform.system() == "Windows":
-            source = str(to_copy)
-            destination = str(copy_to)
-            try:
-                os.system(f"cp {source} {destination}")
-                logger.info(f"{to_copy.name} sent to tascs.test web server locally.")
-            except BaseException as e:
-                logger.critical(
-                    f"{to_copy.name} NOT sent to tascs.test web server locally. {e}"
-                )
-        else:
-            try:
-                shutil.copy(to_copy, copy_to)
+    source_check = to_copy.exists()
+    destinantion_check = copy_to.exists()
+    system = platform.system()
 
-            except (IOError, FileNotFoundError) as e:
-                logger.error(e)
+    if not source_check:
+        logger.warning(f"SOURCE: {to_copy} file does not exist")
+        raise FileNotFoundError(f"SOURCE: {to_copy} file does not exist")
 
-    if not copy_to.exists() and to_copy.exists():
-        copy_to = Path.cwd()
-        if not platform.system() == "Windows":
-            try:
-                os.system(f"scp {to_copy} todd@debian.tascs.test:{copy_to}")
-                logger.info(f"{to_copy.name} sent to tascs.test web server remotely")
-            except BaseException as e:
-                logger.critical(
-                    f"{to_copy} NOT sent to tascs.test web server remotely. {e}"
-                )
-        elif platform.system() == "Windows":
-            try:
-                shutil.copy(to_copy, copy_to)
+    if system == "Linux":
+        linux_server(to_copy, copy_to, source_check, destinantion_check)
 
-            except (IOError, FileNotFoundError) as e:
-                logger.error(e)
+    if system == "Windows":
+        windows_server(to_copy, copy_to, source_check, destinantion_check)
 
-    if copy_to.exists() and not to_copy.exists():
-        logger.warning(f"{to_copy} file does not exist")
+
+if __name__ == "__main__":
+    to_webserver(
+        Path.cwd().parent
+        / "output"
+        / "web_reports/parcel_changes"
+        / "recent_changes.html"
+    )
