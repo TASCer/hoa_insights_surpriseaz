@@ -64,7 +64,7 @@ def parcels_api() -> list[dict]:
 
         return consumed_parcel_data
     else:
-        logger.error("Cannot retriece APNs from database, exiting.")
+        logger.error("Cannot retrieve APNs from database, exiting.")
         exit()
 
 
