@@ -47,9 +47,9 @@ class Owner(Base):
     OWNER: Mapped[str] = mapped_column(String(120))
     MAIL_ADX: Mapped[str] = mapped_column(String(120))
     SALE_DATE: Mapped[date] = mapped_column(DATE)
-    SALE_PRICE: Mapped[int] = mapped_column(INTEGER)
+    SALE_PRICE: Mapped[int] = mapped_column(INTEGER, nullable=True)
     DEED_DATE: Mapped[date] = mapped_column(DATE)
-    DEED_TYPE: Mapped[str] = mapped_column(String(3))
+    DEED_TYPE: Mapped[str] = mapped_column(String(3), nullable=True)
     LEGAL_CODE: Mapped[str] = mapped_column(String(3))
     RENTAL: Mapped[bool] = mapped_column(Boolean, index=True)
 
