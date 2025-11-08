@@ -257,7 +257,7 @@ def all(engine: Engine) -> bool:
             with engine.connect() as conn, conn.begin():
                 conn.execute(
                     text(
-                        f"""CREATE 
+                        f"""CREATE OR REPLACE
                 ALGORITHM = UNDEFINED 
                 DEFINER = `todd`@`%` 
                 SQL SECURITY DEFINER
