@@ -158,6 +158,6 @@ if __name__ == "__main__":
             mgmt_csv: Path = community_management_update()
             update_community_management.update_managers(mgmt_csv)
             logger.info(">>> COMMUNITY MANAGEMENT UPDATE COMPLETED <<<")
-        # main()
+        main()
     else:
         exit()
