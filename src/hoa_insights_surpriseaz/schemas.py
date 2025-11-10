@@ -26,33 +26,33 @@ class Owners(BaseModel):
     OWNER: str
     MAIL_ADX: str
     SALE_DATE: str | None = None
-    SALE_PRICE: str | None = None
+    SALE_PRICE: int | str | None = None
     DEED_DATE: str | None = None
     DEED_TYPE: str | None = None
     LEGAL_CODE: str
     RENTAL: bool
 
     @field_validator("APN")
-    def format_apn(cls, v) -> str:
-        return format_apn(v)
+    def format_apn(cls, value) -> str:
+        return format_apn(value)
 
     @field_validator("DEED_DATE", "SALE_DATE")
-    def format_date(cls, v) -> date:
-        return date_parser.api_date(v)
+    def format_date(cls, value) -> date:
+        return date_parser.api_date(value)
 
     @field_validator("MAIL_ADX", "OWNER")
-    def remove_comma(cls, v):
-        return v.replace(",", "")
+    def remove_comma(cls, value):
+        return value.replace(",", "")
 
-    def remove_apostrophe(cls, v):
-        return v.replace("'", "''")
+    def remove_apostrophe(cls, value):
+        return value.replace("'", "''")
 
     @field_validator("SALE_PRICE")
-    def empty_sale_price(cls, v) -> int:
-        if v is None or v == "":
-            return int(0)
-        else:
-            return v
+    def empty_sale_price(cls, value) -> None:
+        if isinstance(value, str) and value == "":
+            value = None
+
+        return value       
 
 
 class Rentals(BaseModel):
