@@ -2,11 +2,8 @@ import logging
 
 from pydantic import ValidationError
 
-# from datetime import datetime
 from hoa_insights_surpriseaz.schemas import Rentals, Owners
 
-# from hoa_insights_surpriseaz.utils.number_formatter import format_apn, format_phone
-# from hoa_insights_surpriseaz.utils import date_parser
 from logging import Logger
 
 logger: Logger = logging.getLogger(__name__)
@@ -57,7 +54,6 @@ def rental_data(api_data: list[dict]) -> list[Rentals]:
             CONTACT_ADX=rental_contact_address,
             CONTACT_PH=rental_contact_phone,
         )
-        print(f"{rental_instance=} {type(rental_instance)=}")
         parsed_rental_instances.append(rental_instance)
 
     return parsed_rental_instances
@@ -92,7 +88,6 @@ def owner_data(api_data: list[dict]) -> tuple[list[Owners], list[Rentals]]:
             print(ve)
 
         parsed_owner_instances.append(owner_instance)
-        print(f"{owner_instance=} {type(owner_instance)=}")
         if owner_instance.RENTAL:
             rentals.append(owner_data)
 
