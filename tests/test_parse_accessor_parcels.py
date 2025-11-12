@@ -32,7 +32,7 @@ def test_parse_psuedo_api_new(parse_new_parcel_data) -> None:
     assert updated_owners[0].OWNER == "BUYER NEW A"
     # TODO test dt
     # assert updated_owners[0].SALE_DATE == datetime.date(2025,1,1)
-    assert updated_owners[0].SALE_PRICE == 375000
+    assert updated_owners[0].SALE_PRICE == "375000"
 
     assert len(parsed_test_update_rentals) == 2
 
