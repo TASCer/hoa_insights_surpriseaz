@@ -7,6 +7,8 @@ import platform
 from aiohttp import TCPConnector
 from aiohttp_retry import RetryClient, ExponentialRetry
 from asyncio import Semaphore, Task
+
+from trio import open_memory_channel
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.database import models_local
 
@@ -39,7 +41,7 @@ def get_parcel_apns() -> list[str]:
         engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
         with engine.connect() as conn, conn.begin():
             q_apns: Sequence[Row[Tuple[str]]] = conn.execute(
-                select(models_local.Parcel.APN)
+                select(models_local.Parcel.APN).where(models_local.Parcel.APN == '509-11-022')
             ).all()
             APNs = [result[0] for result in q_apns]
 
@@ -83,7 +85,12 @@ async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> d
             response_code: int = resp.status
             if response_code != 200:
                 logger.warning(f"NON 200 Code Errer {response_code}")
-            parcel_details: dict = await resp.json()
+            
+            # with open("C:\Users\todd\Desktop\hoa_insights_surpriseaz\tests\input\original_parcel_json\509-11-022.json") as file:
+
+            
+            
+            parcel_details: dict = await resp.content()
 
             return parcel_details
 
