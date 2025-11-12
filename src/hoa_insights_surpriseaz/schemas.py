@@ -52,7 +52,7 @@ class Owners(BaseModel):
         if isinstance(value, str) and value == "":
             value = None
 
-        return value       
+        return value
 
 
 class Rentals(BaseModel):
