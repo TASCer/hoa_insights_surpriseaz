@@ -1,0 +1,408 @@
+{
+    "MCR": "54725",
+    "AssociatedParcels": [],
+    "MoreAssociatedParcelsExist": false,
+    "PropertyAddress": "N\/A",
+    "PropertyDescription": "LEGACY PARC PARCEL C MCR 547-25",
+    "LotSize": "8373",
+    "IsResidential": true,
+    "MapidExists": false,
+    "SectionTownshipRange": "7 3N 1W",
+    "AssessorMarket": "23",
+    "AreaNeighborhood": "006",
+    "SubdivisionName": "LEGACY PARC PARCEL C",
+    "Lot": "334",
+    "HighSchoolDistrict": "DYSART UNIFIED #89",
+    "ElementarySchoolDistrict": "DYSART UNIFIED SCHOOL DISTRICT",
+    "LocalJusidiction": "SURPRISE",
+    "PropertyType": "Residential",
+    "ParcelStatus": "A",
+    "APL_flag": "1",
+    "Owner": {
+        "OwnerID": "36DEC168-C57C-4081-B5FD-2A0102E22ECF",
+        "Ownership": "NA",
+        "InCareOf": "",
+        "ContoOwnership": "",
+        "MailingAddress1": "NA",
+        "MailingAddress2": "",
+        "MailingCity": "NA",
+        "MailingState": "NA",
+        "MailingZip": "0",
+        "MailingCountry": "NA",
+        "MostCurrentDeed": null,
+        "DeedDate": null,
+        "DeedType": null,
+        "SalePrice": "150000",
+        "SaleDate": "07\/01\/2009",
+        "FullMailingAddress": "NA",
+        "DeedTypeID": null
+    },
+    "Geo": {
+        "lat": null,
+        "long": null,
+        "address": "N\/A"
+    },
+    "Zoning": [],
+    "IsRental": false,
+    "IsPending": false,
+    "McrTransitionUrl": "https:\/\/recorder.maricopa.gov\/recording\/map-results.html?book=547&page=25",
+    "TreasurersTransitionUrl": "https:\/\/treasurer.maricopa.gov\/PropertyTaxInformation\/?Parcel=50192652",
+    "DeedTransitionUrl": "https:\/\/recorder.maricopa.gov\/recording\/document-details.html?recordingNumber=&suffix=",
+    "IsCancelled": false,
+    "NumberOfParcelsInSubdivision": 105,
+    "IsCommercial": false,
+    "Improvements": [],
+    "Valuations": [
+        {
+            "TaxYear": "2026",
+            "FullCashValue": "438200",
+            "LimitedPropertyValue": "214730      ",
+            "LegalClassificationCode": "3.1 ",
+            "LegalClassification": "PRIMARY RESIDENCE",
+            "AssessmentRatioPercentage": "0.1000",
+            "AssessedFCV": "na",
+            "AssessedLPV": "21473       ",
+            "ValuationSource": "Notice",
+            "PEPropUseDesc": "Single Family Residence",
+            "PropertyUseCode": "0141",
+            "TaxAreaCode": "891503",
+            "NoticeOfChangeIndc": "N"
+        },
+        {
+            "TaxYear": "2025",
+            "FullCashValue": "439500",
+            "LimitedPropertyValue": "204505      ",
+            "LegalClassificationCode": "3.1 ",
+            "LegalClassification": "PRIMARY RESIDENCE",
+            "AssessmentRatioPercentage": "0.1000",
+            "AssessedFCV": "na",
+            "AssessedLPV": "20450       ",
+            "ValuationSource": "Notice",
+            "PEPropUseDesc": "Single Family Residence",
+            "PropertyUseCode": "0141",
+            "TaxAreaCode": "891503",
+            "NoticeOfChangeIndc": "N"
+        },
+        {
+            "TaxYear": "2024",
+            "FullCashValue": "492800",
+            "LimitedPropertyValue": "194767      ",
+            "LegalClassificationCode": "3.1 ",
+            "LegalClassification": "PRIMARY RESIDENCE",
+            "AssessmentRatioPercentage": "0.1000",
+            "AssessedFCV": "na",
+            "AssessedLPV": "19477       ",
+            "ValuationSource": "Notice",
+            "PEPropUseDesc": "Single Family Residence",
+            "PropertyUseCode": "0141",
+            "TaxAreaCode": "891503",
+            "NoticeOfChangeIndc": "N"
+        },
+        {
+            "TaxYear": "2023",
+            "FullCashValue": "399200",
+            "LimitedPropertyValue": "185492      ",
+            "LegalClassificationCode": "3.1 ",
+            "LegalClassification": "PRIMARY RESIDENCE",
+            "AssessmentRatioPercentage": "0.1000",
+            "AssessedFCV": "na",
+            "AssessedLPV": "18549       ",
+            "ValuationSource": "Notice",
+            "PEPropUseDesc": "Single Family Residence",
+            "PropertyUseCode": "0141",
+            "TaxAreaCode": "891503",
+            "NoticeOfChangeIndc": "N"
+        },
+        {
+            "TaxYear": "2022",
+            "FullCashValue": "293800",
+            "LimitedPropertyValue": "176659      ",
+            "LegalClassificationCode": "3.1 ",
+            "LegalClassification": "PRIMARY RESIDENCE",
+            "AssessmentRatioPercentage": "0.1000",
+            "AssessedFCV": "na",
+            "AssessedLPV": "17666       ",
+            "ValuationSource": "Notice",
+            "PEPropUseDesc": "Single Family Residence",
+            "PropertyUseCode": "0141",
+            "TaxAreaCode": "891503",
+            "NoticeOfChangeIndc": "N"
+        },
+        {
+            "TaxYear": "2021",
+            "FullCashValue": "276500",
+            "LimitedPropertyValue": "168247      ",
+            "LegalClassificationCode": "3.1 ",
+            "LegalClassification": "PRIMARY RESIDENCE",
+            "AssessmentRatioPercentage": "0.1000",
+            "AssessedFCV": "na",
+            "AssessedLPV": "16825       ",
+            "ValuationSource": "Notice",
+            "PEPropUseDesc": "Single Family Residence",
+            "PropertyUseCode": "0141",
+            "TaxAreaCode": "891503",
+            "NoticeOfChangeIndc": "N"
+        }
+    ],
+    "TaxAreaCode": "891503",
+    "PropertyUseCode": "0141",
+    "PEPropUseDesc": "Single Family Residence",
+    "NumberOfParcelsInMCR": 0,
+    "NumberOfParcelsInSTR": 2164,
+    "ResidentialPropertyData": {
+        "ConstructionYear": "2005",
+        "OriginalConstructionYear": "2005",
+        "LotSize": "8373",
+        "LivableSpace": "2958",
+        "Detached_Livable_sqft": null,
+        "AssessorMarket": "23",
+        "AreaNeighborhood": "006",
+        "Pool": "568",
+        "PEImprovementQualityGrade": "Comparable",
+        "ImprovementQualityGrade": "CLASS R4",
+        "NumberOfCoveredPatios": "1",
+        "NumberOfUncoveredPatios": 0,
+        "NumberOfPatios": "1",
+        "PatioType": "Covered",
+        "ExteriorWalls": "Fw - Frame Wood",
+        "RoofType": "Ct - Concrete Tile",
+        "BathFixtures": "10",
+        "Cooling": "RF - REFRIGERATION",
+        "Heating": "Yes",
+        "NumberOfGarages": "3",
+        "NumberOfCarports": 0,
+        "ParkingDetails": {
+            "ParkingType": "Garage",
+            "ParkingCount": "1"
+        },
+        "LocationalFactors": "",
+        "OtherStructures": "",
+        "ParkingType": "Garage",
+        "CoveredParking": true,
+        "LocationalCharacteristics": "",
+        "PhysicalCondition": null
+    },
+    "SimilarParcels": [
+        {
+            "Parcel": "501-92-649",
+            "LandSize": "7519",
+            "SalesPriceDate": "$535000 \/ 7 -2025",
+            "FullCashValue": "421700",
+            "LivableSqFootage": "2699",
+            "ConstructionYear": "2005",
+            "PoolArea": "493",
+            "SitusAddress": "15934 W BANFF LN",
+            "ForeClosed": []
+        },
+        {
+            "Parcel": "501-92-687",
+            "LandSize": "6924",
+            "SalesPriceDate": "$420000 \/ 7 -2025",
+            "FullCashValue": "397000",
+            "LivableSqFootage": "2958",
+            "ConstructionYear": "2005",
+            "PoolArea": [],
+            "SitusAddress": "16014 W PORT ROYALE LN",
+            "ForeClosed": []
+        },
+        {
+            "Parcel": "501-92-681",
+            "LandSize": "6496",
+            "SalesPriceDate": "$384000 \/ 7 -2025",
+            "FullCashValue": "437000",
+            "LivableSqFootage": "3251",
+            "ConstructionYear": "2005",
+            "PoolArea": "442",
+            "SitusAddress": "15922 W PORT ROYALE LN",
+            "ForeClosed": []
+        },
+        {
+            "Parcel": "501-92-669",
+            "LandSize": "7907",
+            "SalesPriceDate": "$550000 \/ 7 -2024",
+            "FullCashValue": "435800",
+            "LivableSqFootage": "2958",
+            "ConstructionYear": "2005",
+            "PoolArea": "450",
+            "SitusAddress": "15980 W MAUNA LOA LN",
+            "ForeClosed": []
+        },
+        {
+            "Parcel": "501-92-676",
+            "LandSize": "6496",
+            "SalesPriceDate": "$440000 \/ 10-2024",
+            "FullCashValue": "400300",
+            "LivableSqFootage": "3251",
+            "ConstructionYear": "2005",
+            "PoolArea": [],
+            "SitusAddress": "15939 W PORT ROYALE LN",
+            "ForeClosed": []
+        }
+    ],
+    "Sketches": {
+        "TotalPages": 0,
+        "Pages": []
+    },
+    "MapIDs": {
+        "Parcel Maps": [
+            {
+                "FileName": "803070204",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070204\/"
+            }
+        ],
+        "Subdivision Maps": [
+            {
+                "FileName": "803070201",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070201\/"
+            },
+            {
+                "FileName": "803070204",
+                "UpdateDate": "04-APR-17",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070204\/"
+            }
+        ],
+        "MCR Maps": [
+            {
+                "FileName": "803070201",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070201\/"
+            },
+            {
+                "FileName": "803070204",
+                "UpdateDate": "04-APR-17",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070204\/"
+            }
+        ],
+        "S\/T\/R Maps": [
+            {
+                "FileName": "803070101",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070101\/"
+            },
+            {
+                "FileName": "803070102",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070102\/"
+            },
+            {
+                "FileName": "803070103",
+                "UpdateDate": "04-APR-17",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070103\/"
+            },
+            {
+                "FileName": "803070104",
+                "UpdateDate": "04-DEC-14",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070104\/"
+            },
+            {
+                "FileName": "803070201",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070201\/"
+            },
+            {
+                "FileName": "803070202",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070202\/"
+            },
+            {
+                "FileName": "803070203",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070203\/"
+            },
+            {
+                "FileName": "803070204",
+                "UpdateDate": "04-APR-17",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070204\/"
+            },
+            {
+                "FileName": "803070301",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070301\/"
+            },
+            {
+                "FileName": "803070302",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070302\/"
+            },
+            {
+                "FileName": "803070303",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070303\/"
+            },
+            {
+                "FileName": "803070304",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070304\/"
+            },
+            {
+                "FileName": "803070401",
+                "UpdateDate": "02-APR-18",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070401\/"
+            },
+            {
+                "FileName": "803070402",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070402\/"
+            },
+            {
+                "FileName": "803070403",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070403\/"
+            },
+            {
+                "FileName": "803070404",
+                "UpdateDate": "20-MAY-21",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070404\/"
+            }
+        ],
+        "Book\/Map Maps": [
+            {
+                "FileName": "803070101",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070101\/"
+            },
+            {
+                "FileName": "803070102",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070102\/"
+            },
+            {
+                "FileName": "803070201",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070201\/"
+            },
+            {
+                "FileName": "803070202",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070202\/"
+            },
+            {
+                "FileName": "803070204",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070204\/"
+            },
+            {
+                "FileName": "803070401",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070401\/"
+            },
+            {
+                "FileName": "803070402",
+                "UpdateDate": "01-DEC-08",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803070402\/"
+            },
+            {
+                "FileName": "803240204",
+                "UpdateDate": "19-APR-21",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803240204\/"
+            },
+            {
+                "FileName": "803240301",
+                "UpdateDate": "19-APR-21",
+                "Url": "https:\/\/mcassessor.maricopa.gov\/getmapid\/803240301\/"
+            }
+        ]
+    }
+}
