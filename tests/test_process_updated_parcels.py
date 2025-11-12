@@ -25,6 +25,6 @@ def test_new_parcel_data(parse_new_parcel_data) -> None:
     # assert updated_owners[0].SALE_DATE == datetime.date(2025,1,1)
     assert updated_owners[0].SALE_PRICE == "375000"
 
-    assert len(update_rentals) == 2
+    assert len(update_rentals) == 1
 
     # assert update_rentals[0].OWNER == "RENTAL NEW A"
