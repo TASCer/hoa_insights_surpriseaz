@@ -12,7 +12,7 @@ def format_apn(apn: str) -> str:
         str:
 
     Example:
-        "50911455" -> "509-11-455".
+        "50911455" -> "509-11-455"
     """
     apn: str = re.sub(r"(\d{3})(\d{2})(\d{3})", r"\1-\2-\3", apn)
 
