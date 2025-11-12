@@ -7,8 +7,6 @@ import platform
 from aiohttp import TCPConnector
 from aiohttp_retry import RetryClient, ExponentialRetry
 from asyncio import Semaphore, Task
-
-from trio import open_memory_channel
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.database import models_local
 
@@ -85,12 +83,7 @@ async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> d
             response_code: int = resp.status
             if response_code != 200:
                 logger.warning(f"NON 200 Code Errer {response_code}")
-            
-            # with open("C:\Users\todd\Desktop\hoa_insights_surpriseaz\tests\input\original_parcel_json\509-11-022.json") as file:
-
-            
-            
-            parcel_details: dict = await resp.content()
+            parcel_details: dict = await resp.json()
 
             return parcel_details
 
