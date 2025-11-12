@@ -52,7 +52,7 @@ class Owners(BaseModel):
         if isinstance(value, str) and value == "":
             value = None
 
-        return value       
+        return value
 
 
 class Rentals(BaseModel):
@@ -64,19 +64,19 @@ class Rentals(BaseModel):
     CONTACT_PH: str
 
     @field_validator("APN")
-    def format_apn(cls, v) -> str:
-        return format_apn(v)
+    def format_apn(cls, value) -> str:
+        return format_apn(value)
 
     @field_validator("CONTACT_PH")
-    def format_phone(cls, v) -> str:
-        return format_phone(v)
+    def format_phone(cls, value) -> str:
+        return format_phone(value)
 
     @field_validator("CONTACT_ADX", "CONTACT", "OWNER")
-    def remove_comma(cls, v):  # -> Any:
-        return v.replace(",", "")
+    def remove_comma(cls, value):  # -> Any:
+        return value.replace(",", "")
 
-    def remove_apostrophe(cls, v):
-        return v.replace("'", "''")
+    def remove_apostrophe(cls, value):
+        return value.replace("'", "''")
 
 
 class Parcels(BaseModel):
