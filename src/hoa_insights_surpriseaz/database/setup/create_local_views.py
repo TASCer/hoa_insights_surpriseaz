@@ -21,6 +21,7 @@ VIEW_REGISTERED_RENTALS: str = "registered_rentals"
 VIEW_CLASSED_RENTALS: str = "classed_rentals"
 VIEW_RENTAL_CONTACTS: str = "rental_contacts"
 VIEW_COMMUNITY_SALES: str = "community_sales"
+VIEW_PARCEL_OWNER_HISTORY = "parcel_historical_ownership"
 
 RENTALS_TABLE: str = "rentals"
 
@@ -281,4 +282,33 @@ def all(engine: Engine) -> bool:
             logger.critical(str(e))
             return False
 
+        # return True
+
+        try:
+            with engine.connect() as conn, conn.begin():
+                conn.execute(
+                    text(
+                        f"""CREATE OR REPLACE
+                ALGORITHM = UNDEFINED 
+                DEFINER = `todd`@`%` 
+                SQL SECURITY DEFINER
+            VIEW `{VIEW_PARCEL_OWNER_HISTORY}` AS SELECT
+                `historical_owners`.`OWNER` AS `OWNER`,
+                `historical_owners`.`DEED_DATE` AS `DEED_DATE`,
+                `historical_owners`.`DEED_TYPE` AS `DEED_TYPE`,
+                `owners`.`APN` AS `APN`,
+                `parcels`.`COMMUNITY` AS `COMMUNITY`
+                FROM `historical_owners`
+                JOIN `owners`
+                    ON `historical_owners`.`APN` = `owners`.`APN`
+                JOIN `parcels`
+                    ON `owners`.`APN` = `parcels`.`APN`;"""))
+
+        except exc.SQLAlchemyError as e:
+            logger.critical(str(e))
+            return False
+
+        logger.info(f"{VIEW_PARCEL_OWNER_HISTORY} created")
+
         return True
+
