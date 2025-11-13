@@ -39,8 +39,7 @@ def get_parcel_apns() -> list[str]:
         engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
         with engine.connect() as conn, conn.begin():
             q_apns: Sequence[Row[Tuple[str]]] = conn.execute(
-                select(models_local.Parcel.APN).where(models_local.Parcel.APN == '509-11-022')
-            ).all()
+                select(models_local.Parcel.APN)).all()
             APNs = [result[0] for result in q_apns]
 
         return APNs
