@@ -34,6 +34,6 @@ def test_parse_psuedo_api_new(parse_new_parcel_data) -> None:
     # assert updated_owners[0].SALE_DATE == datetime.date(2025,1,1)
     assert updated_owners[0].SALE_PRICE == "375000"
 
-    updated_rentals = [r for r in parsed_test_update_rentals if r.APN == "501-79-632"]
+    updated_rentals = [r for r in parsed_test_update_rentals if r.APN == "509-11-002"]
 
-    # assert updated_rentals[0].OWNER == "RENTAL NEW A"
+    assert updated_rentals[0].OWNER == "HUDSON SFR PROPERTY HOLDINGS II LLC"
