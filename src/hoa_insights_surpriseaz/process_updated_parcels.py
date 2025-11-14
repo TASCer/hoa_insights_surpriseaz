@@ -14,7 +14,7 @@ def insights(
     updated_parcels: Path, finances: Path
 ) -> tuple[DataFrame, DataFrame, int, int]:
     """
-    Function provides insights by processing changes between parcel data fetches.
+    Function provides insights by processing changes between parcel API data fetches.
 
     :param updated_parcels: directory for parcel change output
     :param finances: directory for finance change output

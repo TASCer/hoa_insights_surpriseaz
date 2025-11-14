@@ -24,8 +24,8 @@ def get_communities(parsed_csv: Path) -> list[str]:
     """
     Function collects managed communities from file.
 
-    :param parsed_csv: from monthly  connunity managemeent update.
-    :return: managed communities
+    :param parsed_csv: from monthly community management update
+    :return: list of managed communities
     """
     try:
         with open(parsed_csv, "r") as f:

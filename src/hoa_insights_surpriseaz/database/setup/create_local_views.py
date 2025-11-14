@@ -302,7 +302,9 @@ def all(engine: Engine) -> bool:
                 JOIN `owners`
                     ON `historical_owners`.`APN` = `owners`.`APN`
                 JOIN `parcels`
-                    ON `owners`.`APN` = `parcels`.`APN`;"""))
+                    ON `owners`.`APN` = `parcels`.`APN`;"""
+                    )
+                )
 
         except exc.SQLAlchemyError as e:
             logger.critical(str(e))
@@ -311,4 +313,3 @@ def all(engine: Engine) -> bool:
         logger.info(f"{VIEW_PARCEL_OWNER_HISTORY} created")
 
         return True
-

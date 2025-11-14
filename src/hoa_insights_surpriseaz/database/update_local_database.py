@@ -78,7 +78,7 @@ def rentals(
     db_uri: str = LOCAL_DB_URI,
 ) -> None:
     """
-    Function updates the rentals table.
+    Function updates the local rentals table.
 
     :param latest_parsed_rentals: sequence Rental instances
     :param db_name: database name, defaults to LOCAL_DB_NAME

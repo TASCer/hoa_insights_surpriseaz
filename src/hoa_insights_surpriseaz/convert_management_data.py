@@ -20,9 +20,9 @@ FILE_HEADER: list = [
 
 def parse_csv(file: Path) -> Path:
     """
-    Function parses, format, and cleans csv file converted from pdf download.
+    Function parses, formats, and cleans csv file converted from pdf download.
 
-    :param file: converted management csv file
+    :param file: management csv file (converted from downloaded pdf)
     :return: parsed converted csv file
     """
     logger.info(f"Parsing csv file: {file.name}")

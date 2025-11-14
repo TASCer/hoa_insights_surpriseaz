@@ -39,7 +39,8 @@ def get_parcel_apns() -> list[str]:
         engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
         with engine.connect() as conn, conn.begin():
             q_apns: Sequence[Row[Tuple[str]]] = conn.execute(
-                select(models_local.Parcel.APN)).all()
+                select(models_local.Parcel.APN)
+            ).all()
             APNs = [result[0] for result in q_apns]
 
         return APNs
@@ -63,7 +64,9 @@ def parcels_api() -> list[dict]:
 
         return consumed_parcel_data
     else:
-        logger.error("Database setup log file found, but cannot retrieve APNs from database, exiting.")
+        logger.error(
+            "Database setup log file found, but cannot retrieve APNs from database, exiting."
+        )
         exit()
 
 
