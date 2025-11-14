@@ -11,10 +11,12 @@ logger: Logger = logging.getLogger(__name__)
 
 def rental_data(api_data: list[dict]) -> list[Rentals]:
     """
-    Function parses consumed parcel owner rental data from ASSESSOR API.
+    Function parses consumed parcel owner rental data from ASSESSOR API to determine sole contact information for web.
 
-    :param api_data: sequence of owner rental API data
-    :return: sequence of parsed owner rental data
+    NOTE: Rental owner name,address,phone are always returned. Function tries agent or business contacts first.  
+
+    :param api_data: list of owner rental API data
+    :return: list of Rentals instances
     """
     parsed_rental_instances: list[Rentals] = []
 
@@ -47,7 +49,7 @@ def rental_data(api_data: list[dict]) -> list[Rentals]:
             rental_contact_phone: str = rental_owner_phone
 
         rental_instance = Rentals(
-            APN=rental_data["TreasurersTransitionUrl"].split("=")[1],
+            APN=rental_data["RentalInformation"]["ParcelNumber"],
             OWNER=rental_data["RentalInformation"]["OwnerName"],
             OWNER_TYPE=rental_data["RentalInformation"]["OwnershipType"],
             CONTACT=rental_contact_name,
@@ -63,8 +65,8 @@ def owner_data(api_data: list[dict]) -> tuple[list[Owners], list[Rentals]]:
     """
     Function parses consumed parcel owner data from ASSESSOR API.
 
-    :param api_data: sequence of latest parcel data
-    :return: Owners instances, Rentals instances
+    :param api_data: list of latest parcel data
+    :return: list of Owners instances and Rentals instances
     """
     parsed_owner_instances: list[Owners] = []
     rentals: list = []
