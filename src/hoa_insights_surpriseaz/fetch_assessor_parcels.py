@@ -28,9 +28,9 @@ API_HEADER: dict[str, str] = {my_secrets.api_header_type: my_secrets.api_header_
 
 def get_parcel_apns() -> list[str]:
     """
-    Function retrieves the APN of all parcels from database table: parcels.
+    Function retrieves the Accessor Parcel Number (APN) of all parcels from database table: parcels.
 
-    :return: sequence of all APNs.
+    :return: list of all APNs.
 
     Example:
         APN = ["509-11-444", "509-11-445"]
@@ -54,7 +54,7 @@ def parcels_api() -> list[dict]:
     """
     Function gets the latest parcel data from Assessor API.
 
-    :return: sequence of all parcel responses from API.
+    :return: list of all parcel responses from API.
     """
     APNS: list[str] = get_parcel_apns()
     if APNS:
@@ -78,7 +78,7 @@ async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> d
     :param sem: semaphore for tcp connection limiting
     :param url: API end point suffixed with parcel APN
 
-    :return: parcel latest data
+    :return: parcel API data as dict
     """
     try:
         async with sem, client.get(url) as resp:
@@ -116,8 +116,8 @@ async def async_main(apns: list[str]) -> list[dict]:
     """
     Function asynchronously gathers API responses from Assessor site.
 
-    :param apns: collection of APNs used as endpoint for API
-    :return: sequence of parcel API response data
+    :param apns: list of APNs used as endpoint for API requests
+    :return: list of parcel API response data
     """
     connector: TCPConnector = TCPConnector(
         ssl=False,

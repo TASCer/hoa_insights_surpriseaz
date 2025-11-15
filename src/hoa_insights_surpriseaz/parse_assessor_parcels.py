@@ -13,7 +13,7 @@ def rental_data(api_data: list[dict]) -> list[Rentals]:
     """
     Function parses consumed parcel owner rental data from ASSESSOR API to determine sole contact information for web.
 
-    NOTE: Rental owner name,address,phone are always returned. Function tries agent or business contacts first.
+    NOTE: Rental owner name,address,phone are always returned by API. Function tries agent or business contacts first.
 
     :param api_data: list of owner rental API data
     :return: list of Rentals instances

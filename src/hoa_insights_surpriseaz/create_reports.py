@@ -16,7 +16,7 @@ def parcel_changes(
     parcel_updates: DataFrame, html_parcel_changes: Path, pdf_parcel_changes: Path
 ) -> Path:
     """
-    Function processes parcel changes for use in reporting.
+    Function creates a parcel change report from recent parcel updates.
 
     :param parcel_updates: changed parcels
     :param html_parcel_changes: html file location
@@ -59,7 +59,7 @@ def ytd_community_sales(
     community_avg_prices: DataFrame, html_file: Path, pdf_file: Path
 ) -> Path:
     """
-    Function produces and saves html and pdf financial report(s).
+    Function creates financial report(s).
 
     :param community_avg_prices: grouped dataframe
     :param html_file: html file output location
