@@ -1,5 +1,4 @@
 import logging
-
 import tabula
 
 from logging import Logger
@@ -8,7 +7,7 @@ from pathlib import Path
 
 logger: Logger = logging.getLogger(__name__)
 
-FILE_HEADER: list = [
+NEW_FILE_HEADER: list = [
     "HOA",
     "MANAGEMENT",
     "BOARD SITUS",
@@ -32,14 +31,16 @@ def parse_csv(file: Path) -> Path:
     except FileNotFoundError as fnf_error:
         logger.error(fnf_error)
 
+    original_file_header = list(managers.columns)
+
     managers.rename(
         columns={
-            "Board Address (ACC Listed)": FILE_HEADER[2],
-            "City/Zip": FILE_HEADER[3],
-            "HOA Name": FILE_HEADER[0],
-            "Contact Email/Website": FILE_HEADER[4],
-            "Management Company": FILE_HEADER[1],
-            "Telephone": FILE_HEADER[-1],
+            original_file_header[0]: NEW_FILE_HEADER[0],
+            original_file_header[2]: NEW_FILE_HEADER[2],
+            original_file_header[3]: NEW_FILE_HEADER[3],
+            original_file_header[4]: NEW_FILE_HEADER[-1],
+            original_file_header[5]: NEW_FILE_HEADER[4],
+            original_file_header[6]: NEW_FILE_HEADER[1],
         },
         inplace=True,
     )
@@ -58,9 +59,24 @@ def parse_csv(file: Path) -> Path:
     managers["MANAGEMENT"] = managers["MANAGEMENT"].str.replace(",", "")
     managers.drop(managers.columns[[1]], axis=1, inplace=True)
 
-    logger.info("Parsing csv complete")
+    ### FIX for page 2 pdf conversion issue.contact_adx field null and phone had adx field combined ###
+    # fill missing adx with combined phone field
+    managers["CONTACT_ADX"] = managers["CONTACT_ADX"].fillna(managers["CONTACT_PH"])
+    # split combined phone field to leave phone number
+    managers["CONTACT_PH"] = managers["CONTACT_PH"].str.rsplit(pat=" ").str.get(0)
+    # find combined adx fields
+    mask_bad_address = managers["CONTACT_ADX"].str.contains("^[1-9]", na=False)
+    # remove phone number from adx field
+    fix_address = (
+        managers.loc[mask_bad_address]["CONTACT_ADX"]
+        .str.rsplit(pat=" ", n=1)
+        .str.get(1)
+    )
+    managers["CONTACT_ADX"][mask_bad_address] = fix_address
 
     managers.to_csv(file)
+
+    logger.info("Parsing csv complete")
 
     return file
 
@@ -98,3 +114,4 @@ if __name__ == "__main__":
     PDF_PATH: Path = Path.cwd() / "output" / "pdf"
 
     pdf_to_csv(pdf_file=PDF_PATH / PDF_NEW_FILENAME, csv_file=CSV_PATH / CSV_FILENAME)
+    # parse_csv(file=CSV_PATH / CSV_FILENAME)
