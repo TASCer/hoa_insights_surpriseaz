@@ -18,6 +18,8 @@ def rental_data(api_data: list[dict]) -> list[Rentals]:
     :param api_data: list of owner rental API data
     :return: list of Rentals instances
     """
+    logger.info(f"\tStarted parsing: {Rentals.__name__}")
+
     parsed_rental_instances: list[Rentals] = []
 
     for rental_data in api_data:
@@ -58,6 +60,8 @@ def rental_data(api_data: list[dict]) -> list[Rentals]:
         )
         parsed_rental_instances.append(rental_instance)
 
+    logger.info(f"\tCompleted parsing: {Rentals.__name__}")
+
     return parsed_rental_instances
 
 
@@ -68,6 +72,8 @@ def owner_data(api_data: list[dict]) -> tuple[list[Owners], list[Rentals]]:
     :param api_data: list of latest parcel data
     :return: list of Owners instances and Rentals instances
     """
+    logger.info(f"\tStarted parsing: {Owners.__name__}")
+
     parsed_owner_instances: list[Owners] = []
     rentals: list = []
 
@@ -85,14 +91,18 @@ def owner_data(api_data: list[dict]) -> tuple[list[Owners], list[Rentals]]:
                 RENTAL=owner_data["IsRental"],
             )
 
-        except ValidationError as ve:
-            logger.error(ve)
-            print(ve)
+        except (ValidationError, ValueError) as ve:
+            logger.error(ve, owner_data)
+            print(ve, owner_data)
 
         parsed_owner_instances.append(owner_instance)
         if owner_instance.RENTAL:
             rentals.append(owner_data)
 
+    logger.info(f"\tCompleted parsing: {Owners.__name__}")
+
     parsed_rental_instances: list[Rentals] = rental_data(rentals)
+
+    logger.info(f"Completed parcel data parsing")
 
     return (parsed_owner_instances, parsed_rental_instances)
