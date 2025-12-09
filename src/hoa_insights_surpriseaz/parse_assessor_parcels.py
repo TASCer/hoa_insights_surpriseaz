@@ -104,6 +104,6 @@ def owner_data(api_data: list[dict]) -> tuple[list[Owners], list[Rentals]]:
 
     parsed_rental_instances: list[Rentals] = rental_data(rentals)
 
-    logger.info(f"Completed parcel data parsing")
+    logger.info(f"Completed data parsing")
 
     return (parsed_owner_instances, parsed_rental_instances)
