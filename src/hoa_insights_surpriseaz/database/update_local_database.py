@@ -15,6 +15,8 @@ LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
 OWNERS_TABLE: str = "owners"
 RENTALS_TABLE: str = "rentals"
 
+logger: Logger = logging.getLogger(__name__)
+
 
 def owners(
     latest_parsed_owners: list, db_uri: str = LOCAL_DB_URI, db_name: str = LOCAL_DB_NAME
@@ -29,9 +31,10 @@ def owners(
     if latest_parsed_owners is None:
         return
 
-    logger: Logger = logging.getLogger(__name__)
 
     engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
+
+    logger.info(f"\tStarted updating: {OWNERS_TABLE}")
 
     try:
         with engine.connect() as conn, conn.begin():
@@ -71,6 +74,8 @@ def owners(
         logger.error(f"{oe.__cause__}: {LOCAL_DB_HOSTNAME}")
         exit()
 
+    logger.info(f"\tCompleted updating: {OWNERS_TABLE}")
+
 
 def rentals(
     latest_parsed_rentals: list,
@@ -84,11 +89,8 @@ def rentals(
     :param db_name: database name, defaults to LOCAL_DB_NAME
     :param db_uri: dtabase identifier, defaults to LOCAL_DB_URI
     """
+    logger.info(f"\tStarted updating: {RENTALS_TABLE}")
 
-    if latest_parsed_rentals is None:
-        return
-
-    logger: Logger = logging.getLogger(__name__)
 
     engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
 
@@ -111,3 +113,5 @@ def rentals(
 
             except exc.OperationalError as e:
                 logger.error(e)
+
+    logger.info(f"\tCompleted updating: {RENTALS_TABLE}")
