@@ -91,9 +91,10 @@ def owner_data(api_data: list[dict]) -> tuple[list[Owners], list[Rentals]]:
                 RENTAL=owner_data["IsRental"],
             )
 
-        except (ValidationError, ValueError) as ve:
-            logger.error(ve, owner_data)
-            print(ve, owner_data)
+        except (ValidationError, ValueError, TypeError) as err:
+            logger.error(err, owner_data)
+            print(f"*** ERROR ***: {owner_data}")
+            continue
 
         parsed_owner_instances.append(owner_instance)
         if owner_instance.RENTAL:
