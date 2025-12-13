@@ -24,12 +24,11 @@ def insights(
     owner_change_count: int = len(owner_changes)
     sale_change_count: int = len(sale_changes)
 
-    if sale_change_count >= 1:
+    if owner_change_count >= 1 or sale_change_count >= 1:
         community_avg_sale: DataFrame = get_ytd_sales.get_average_sale_price(
             finances=finances
         )
 
-    if owner_change_count >= 1 or sale_change_count >= 1:
         owner_changes: DataFrame = DataFrame(
             owner_changes,
             columns=["APN", "COMMUNITY", "OWNER", "DEED_DATE", "DEED_TYPE"],
@@ -42,9 +41,9 @@ def insights(
         merged_changes: DataFrame = owner_changes.merge(
             sale_changes, how="outer", on=["APN", "COMMUNITY"], suffixes=("", "_y")
         )
-
+# Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead.
         merged_changes["SALE_PRICE"] = (
-            merged_changes["SALE_PRICE"].fillna(0).astype(int)
+            merged_changes["SALE_PRICE"].astype(float).fillna(0)
         )
 
         merged_changes.drop(
