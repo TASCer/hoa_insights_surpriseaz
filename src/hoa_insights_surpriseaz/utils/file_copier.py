@@ -22,17 +22,15 @@ def linux_server(source, destination, source_check, destinantion_check) -> None:
     if source_check and destinantion_check:
         try:
             os.system(f"cp {source} {destination}")
-            logger.info(f"{source.name} sent to tascs.test web server locally.")
+            logger.info(f"'{source.name}' sent to 'tascs.test' web server")
         except BaseException as e:
-            logger.critical(
-                f"{source.name} NOT sent to tascs.test web server locally. {e}"
-            )
+            logger.critical(f"'{source.name}' NOT sent to 'tascs.test' web server {e}")
 
     if not destinantion_check and source_check:
         copy_to = Path("~")
         try:
             os.system(f"scp {source} todd@debian.tascs.test:{copy_to}")
-            logger.info(f"{source.name} sent to tascs.test web server remotely")
+            logger.info(f"'{source.name}' sent to tascs.test web server remotely")
         except BaseException as e:
             logger.critical(f"{source} NOT sent to tascs.test web server remotely. {e}")
 
@@ -62,8 +60,8 @@ def to_webserver(to_copy: Path, copy_to: Path = WEB_SERVER_REPORT_PATH_LINUX) ->
     system = platform.system()
 
     if not source_check:
-        logger.warning(f"SOURCE: {to_copy} file does not exist")
-        raise FileNotFoundError(f"SOURCE: {to_copy} file does not exist")
+        logger.warning(f"SOURCE: '{to_copy}' file does not exist")
+        raise FileNotFoundError(f"SOURCE: '{to_copy}' file does not exist")
 
     if system == "Linux":
         linux_server(to_copy, copy_to, source_check, destinantion_check)

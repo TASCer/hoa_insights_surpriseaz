@@ -31,10 +31,7 @@ def owners(
     if latest_parsed_owners is None:
         return
 
-
     engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
-
-    logger.info(f"\tStarted updating: {OWNERS_TABLE}")
 
     try:
         with engine.connect() as conn, conn.begin():
@@ -71,10 +68,10 @@ def owners(
                     logger.error(e)
 
     except exc.OperationalError as oe:
-        logger.error(f"{oe.__cause__}: {LOCAL_DB_HOSTNAME}")
+        logger.error(f"{oe.__cause__}: '{LOCAL_DB_HOSTNAME}'")
         exit()
 
-    logger.info(f"\tCompleted updating: {OWNERS_TABLE}")
+    logger.info(f"\tTable: '{OWNERS_TABLE}' has been updated")
 
 
 def rentals(
@@ -89,9 +86,6 @@ def rentals(
     :param db_name: database name, defaults to LOCAL_DB_NAME
     :param db_uri: dtabase identifier, defaults to LOCAL_DB_URI
     """
-    logger.info(f"\tStarted updating: {RENTALS_TABLE}")
-
-
     engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
 
     with engine.connect() as conn, conn.begin():
@@ -114,4 +108,4 @@ def rentals(
             except exc.OperationalError as e:
                 logger.error(e)
 
-    logger.info(f"\tCompleted updating: {RENTALS_TABLE}")
+    logger.info(f"\tTable: '{RENTALS_TABLE}' has been updated")

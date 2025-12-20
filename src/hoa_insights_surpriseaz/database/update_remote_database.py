@@ -95,7 +95,7 @@ def rental_tables(local_db: str = LOCAL_DB_URI, remote_db: str = REMOTE_DB_URI) 
                     if_exists="replace",
                     index=False,
                 )
-                logger.info("\tTable: 'registered_rentals' has been updated REMOTELY")
+                logger.info("\tTable: 'registered_rentals' has been updated")
 
             if len(classed_rentals) >= 1:
                 classed_rentals.to_sql(
@@ -104,7 +104,7 @@ def rental_tables(local_db: str = LOCAL_DB_URI, remote_db: str = REMOTE_DB_URI) 
                     if_exists="replace",
                     index=False,
                 )
-                logger.info("\tTable: 'classed_rentals' has been updated REMOTELY")
+                logger.info("\tTable: 'classed_rentals' has been updated")
 
             if len(community_rental_owner_types) >= 1:
                 community_rental_owner_types.to_sql(
@@ -113,11 +113,9 @@ def rental_tables(local_db: str = LOCAL_DB_URI, remote_db: str = REMOTE_DB_URI) 
                     if_exists="replace",
                     index=False,
                 )
-                logger.info(
-                    "\tTable: 'community_rental_owners' has been updated REMOTELY"
-                )
+                logger.info("\tTable: 'community_rental_owners' has been updated")
 
-                logger.info("\tTable: 'last_updated' has been updated REMOTELY")
+                logger.info("\tTable: 'last_updated' has been updated")
 
             Series(get_now(), name="TS").to_sql(
                 name="last_updated",
