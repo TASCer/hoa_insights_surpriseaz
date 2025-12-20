@@ -152,6 +152,7 @@ if __name__ == "__main__":
     """
     Checks if database has been setup.
     Checks if today is the first Tuesday of this month, if so, runs management update.
+    Launches app
     """
     if database_setup_check(DB_SETUP_LOGFILE):
         if date_parser.first_tuesday_of_month():

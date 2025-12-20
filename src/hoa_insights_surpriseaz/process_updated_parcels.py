@@ -41,7 +41,7 @@ def insights(
         merged_changes: DataFrame = owner_changes.merge(
             sale_changes, how="outer", on=["APN", "COMMUNITY"], suffixes=("", "_y")
         )
-# Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead.
+
         merged_changes["SALE_PRICE"] = (
             merged_changes["SALE_PRICE"].astype(float).fillna(0)
         )

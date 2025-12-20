@@ -76,7 +76,7 @@ def owner_data(api_data: list[dict]) -> tuple[list[Owners], list[Rentals]]:
 
     parsed_owner_instances: list[Owners] = []
     rentals: list = []
-# TODO started seeing single NoneType owner_data late Nov. 2025.
+
     for owner_data in api_data:
         try:
             owner_instance = Owners(
@@ -104,6 +104,6 @@ def owner_data(api_data: list[dict]) -> tuple[list[Owners], list[Rentals]]:
 
     parsed_rental_instances: list[Rentals] = rental_data(rentals)
 
-    logger.info(f"Completed data parsing")
+    logger.info("Completed parcel data parsing")
 
     return (parsed_owner_instances, parsed_rental_instances)
