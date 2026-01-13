@@ -27,12 +27,11 @@ def format_phone(num: str) -> str:
         num (str):
 
     Returns:
-        str:
+        formatted str:
 
     Example:
         "1234567890" -> "(123) 456-7890"
         "" -> "(999) 999-9999"
-
     """
     if num == "~~~~~~~~~~" or num is None:
         num: str = "9999999999"
@@ -44,23 +43,16 @@ def format_phone(num: str) -> str:
 
 def format_price(price: int) -> str:
     """
-    Function formats integers.
+    Function formats integer sales prices for reports.
 
     Args:
         price (int):
 
     Returns:
-        str: used for reports
+        str: formatted str
 
     Example:
         534650 -> $534,650
     """
     price = int(price)
     return "${:,}".format(price)
-
-
-if __name__ == "__main__":
-    print(format_apn("50911455"))
-    print(format_phone("6023153315"))
-    print(format_price(50911455))
-    print(format_phone("~~~~~~~~~~"))
