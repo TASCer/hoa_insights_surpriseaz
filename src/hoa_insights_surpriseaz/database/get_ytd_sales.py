@@ -2,7 +2,6 @@ import logging
 
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.utils.number_formatter import format_price
-
 from logging import Logger
 from pandas import DataFrame, read_sql, concat
 from pathlib import Path
