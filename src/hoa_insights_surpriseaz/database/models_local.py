@@ -1,6 +1,7 @@
 from datetime import date
 from sqlalchemy import ForeignKey
-from sqlalchemy import String, INTEGER, DATE, Boolean, DOUBLE_PRECISION, TIMESTAMP
+from sqlalchemy import String, INTEGER, DATE, Boolean, DOUBLE_PRECISION
+from sqlalchemy.dialects.mysql import TIMESTAMP
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
@@ -78,7 +79,7 @@ class HistoricalSales(Base):
         DATE, primary_key=True, default="1901-01-01", index=True
     )
     SALE_PRICE: Mapped[int] = mapped_column(INTEGER)
-    TS: Mapped[date] = mapped_column(TIMESTAMP(6), index=True)
+    TS: Mapped[date] = mapped_column(TIMESTAMP(fsp=6), index=True)
 
 
 class HistoricalOwners(Base):
@@ -89,7 +90,7 @@ class HistoricalOwners(Base):
     OWNER: Mapped[str] = mapped_column(String(255), primary_key=True)
     DEED_DATE: Mapped[date] = mapped_column(DATE, index=True)
     DEED_TYPE: Mapped[str] = mapped_column(String(20))
-    TS: Mapped[date] = mapped_column(TIMESTAMP(6), index=True)
+    TS: Mapped[date] = mapped_column(TIMESTAMP(fsp=6), index=True)
 
 
 class HistoricalManagers(Base):
@@ -103,4 +104,4 @@ class HistoricalManagers(Base):
     MANAGER: Mapped[str] = mapped_column(String(100), nullable=True)
     CONTACT_ADX: Mapped[str] = mapped_column(String(120), nullable=True)
     CONTACT_PH: Mapped[str] = mapped_column(String(120), nullable=True)
-    TS: Mapped[date] = mapped_column(TIMESTAMP(6), index=True)
+    TS: Mapped[date] = mapped_column(TIMESTAMP(fsp=6), index=True)
