@@ -1,3 +1,4 @@
+import datetime
 from hoa_insights_surpriseaz.schemas import Owners, Rentals
 
 
@@ -7,7 +8,7 @@ def test_parse_psuedo_api_original(parse_original_parcel_data) -> None:
     )
     assert len(parsed_test_original_parcels) == 5
     assert len(parsed_test_original_rentals) == 2
-    assert type(parsed_test_original_parcels[0]) is Owners
+    assert all(type(parsed_test_original_parcels)) is Owners
     assert type(parsed_test_original_rentals[0]) is Rentals
     original_owner_check = [
         x for x in parsed_test_original_parcels if x.APN == "509-11-455"
@@ -28,12 +29,11 @@ def test_parse_psuedo_api_new(parse_new_parcel_data) -> None:
     assert type(parsed_test_update_rentals[0]) is Rentals
 
     updated_owners = [o for o in parsed_test_update_parcels if o.APN == "509-11-455"]
-
+    print(updated_owners)
     assert updated_owners[0].OWNER == "BUYER NEW A"
-    # TODO test dt
-    # assert updated_owners[0].SALE_DATE == datetime.date(2025,1,1)
+    assert updated_owners[0].SALE_DATE == datetime.datetime(2025, 1, 1, 0, 0)
     assert updated_owners[0].SALE_PRICE == "375000"
 
-    updated_rentals = [r for r in parsed_test_update_rentals if r.APN == "509-11-002"]
+    updated_rentals = [r for r in parsed_test_update_rentals if r.APN == "509-11-022"]
 
     assert updated_rentals[0].OWNER == "HUDSON SFR PROPERTY HOLDINGS II LLC"
