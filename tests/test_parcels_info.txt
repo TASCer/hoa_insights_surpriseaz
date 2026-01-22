@@ -1,0 +1,20 @@
+501-92-652
+    owner = Redacted Owner (NA) -> Unredacted Owner 
+    deed date and deed type = NULL -> deed date="10\/12\/2025", deed type = WD
+    sale price, sale date changed
+
+501-92-824
+    sale date, sale price = NULL -> new values 
+
+509-11-022
+    Rental
+    No sale or deed data -> new values
+
+509-11-455
+    all data -> new data
+    
+
+509-11-600
+    Rental -> Non-Rental
+    all data -> sale data - NULL, deed type = WD
+    
