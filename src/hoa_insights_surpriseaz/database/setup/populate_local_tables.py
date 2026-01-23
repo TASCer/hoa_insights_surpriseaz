@@ -6,14 +6,14 @@ from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz import convert_management_data
 from hoa_insights_surpriseaz.database import models_local
 from hoa_insights_surpriseaz.database.update_community_management import (
-    get_communities,
+    get_managed_communities,
 )
 from hoa_insights_surpriseaz.fetch_community_management import download
 from hoa_insights_surpriseaz.schemas import CommunityManagement, Community, Parcels
 from hoa_insights_surpriseaz.utils.file_renamer import rename
 from logging import Logger
 from pathlib import Path
-from sqlalchemy import Engine, create_engine, exc, select, Result
+from sqlalchemy import exc, select, Result
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 
@@ -22,9 +22,7 @@ PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
 PDF_PATH: Path = Path.cwd().parent.parent / "output" / "pdf"
 
 LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
-MANAGEMENT_FILE: Path = (
-    Path.cwd().parent.parent / "output" / "csv" / "surpriseaz-hoa-management.csv"
-)
+MANAGEMENT_FILE: Path = Path.cwd() / "seed_data" / "surpriseaz-hoa-management.csv"
 PARCELS_SEED_FILE: Path = Path.cwd() / "seed_data" / "parcel_constants.csv"
 
 PARCELS_TABLE: str = "parcels"
@@ -58,7 +56,7 @@ management_ids: list = [
 ]
 
 
-def community_management(db: Session, management_file: Path = MANAGEMENT_FILE) -> bool:
+def community_management(db: Session) -> bool:
     """
     Function populates the community_managers local database table.
 
@@ -66,9 +64,9 @@ def community_management(db: Session, management_file: Path = MANAGEMENT_FILE) -
     :param management_file: parsed management file, defaults to MANAGEMENT_FILE
     :return: True if table populated
     """
-    if not management_file:
-        logger.warning(f"{management_file.name} not found.")
-        print(f""" "{management_file.name}" not found.""")
+    if not MANAGEMENT_FILE:
+        logger.warning(f"{MANAGEMENT_FILE.name} not found.")
+        print(f""" "{MANAGEMENT_FILE.name}" not found.""")
 
         try:
             logger.info("Fetching Community Management Data")
@@ -89,11 +87,10 @@ def community_management(db: Session, management_file: Path = MANAGEMENT_FILE) -
             logger.error(ffe)
 
     else:
-        logger.info(f"{management_file.name} found.")
-        print(f""" "{management_file.name}" found.""")
-        management: list = get_communities(management_file)
-
-        for manager in management:
+        logger.info(f"{MANAGEMENT_FILE.name} found.")
+        print(f""" "{MANAGEMENT_FILE.name}" found in {MANAGEMENT_FILE.parent.resolve()}.""")
+        area_hoa_managers: list = get_managed_communities(MANAGEMENT_FILE)
+        for manager in area_hoa_managers:
             _, community, situs, city, ph, email, mgr = manager
             item = CommunityManagement(
                 COMMUNITY=community,
@@ -104,14 +101,15 @@ def community_management(db: Session, management_file: Path = MANAGEMENT_FILE) -
                 CONTACT_PH=ph,
             )
             db_item = models_local.CommunityManagement(**item.model_dump())
-
             db.add(db_item, _warn=False)
             db.commit()
+
+    logger.info(f"{len((area_hoa_managers))=}")
 
     return True
 
 
-def communities(db: Session, file_path=MANAGEMENT_FILE) -> list[models_local.Community]:
+def communities(db: Session) -> list[models_local.Community]:
     """
     Function populates communities table,
 
@@ -155,8 +153,6 @@ def communities(db: Session, file_path=MANAGEMENT_FILE) -> list[models_local.Com
             session.add(community_instance, _warn=False)
             session.commit()
 
-    community_management(session, file_path)
-
     return community_instances
 
 
@@ -192,9 +188,3 @@ def parcels(db: Session, file=f"{PARCELS_SEED_FILE}") -> bool:
             return False
 
     return True
-
-
-if __name__ == "__main__":
-    engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
-    session = Session(bind=engine)  # parcels()
-    print(communities(session))
