@@ -1,5 +1,6 @@
 import csv
 import logging
+from typing import Any
 
 from hoa_insights_surpriseaz.database.models_local import (
     CommunityManagement as MODEL_CM,
@@ -20,22 +21,22 @@ logger: Logger = logging.getLogger(__name__)
 MANAGEMENT_TABLE: str = "community_managers"
 
 
-def get_communities(parsed_csv: Path) -> list[str]:
+def get_managed_communities(parsed_csv: Path) -> list[str]:
     """
     Function collects managed communities from file.
 
     :param parsed_csv: from monthly community management update
     :return: list of managed communities
     """
+
     try:
         with open(parsed_csv, "r") as f:
             reader = csv.reader(f)
-            communitities: list[str] = [c for c in reader]
+            communitities: list[str | Any] = [c for c in reader]
             communitities.pop(0)
-
     except FileNotFoundError as ffe:
         communitities = []
-        logger.addFilter(f"{ffe}")
+        logger.error(f"{ffe}")
 
     return communitities
 
@@ -143,7 +144,7 @@ def update_managers(managers_file: Path) -> None:
     """
     logger.info("STARTED: DATABASE TABLE UPDATES")
 
-    community_managers: list[str] = get_communities(managers_file)
+    community_managers: list[str] = get_managed_communities(managers_file)
     update_local_table(community_managers)
     update_remote_table(community_managers)
 
