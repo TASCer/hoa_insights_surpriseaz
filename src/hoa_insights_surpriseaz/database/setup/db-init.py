@@ -2,7 +2,6 @@ import logging
 
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.database.models_remote import CommunityManagement
-from hoa_insights_surpriseaz.database.models_local import Community
 
 from hoa_insights_surpriseaz.database.setup import (
     create_local_database,
@@ -47,11 +46,9 @@ def local_database(local_engine=LOCAL_ENGINE) -> None:
 
     local_database_created: bool = create_local_database.create(engine=local_engine)
     if local_database_created:
-        populate_local_tables.parcels(local_session)
-        community_instances: list[Community] = populate_local_tables.communities(
-            local_session
-        )
-        logger.info(f"\t{len(community_instances)=}")
+        populate_local_tables.parcels(db=local_session)
+        populate_local_tables.communities(db=local_session)
+        populate_local_tables.community_management(db=local_session)
         logger.info(f"COMPLETED POPULATION ON: {local_engine.url.database}")
 
 
@@ -72,16 +69,15 @@ def remote_database(remote_engine=REMOTE_ENGINE) -> None:
             populate_remote_tables.communities(remote_db=remote_session)
         )
         populate_remote_tables.community_management(
-            community_management_items=community_managers, remote_session=remote_session
+            area_hoa_managers=community_managers, remote_session=remote_session
         )
-        logger.info(f"\t{len(community_managers)=}")
 
         logger.info(
             f"COMPLETED REMOTE DATABASE POPULATION ON: {remote_engine.url.database}"
         )
 
     logger.info(
-        f"DATABASES: [{LOCAL_ENGINE.url.database}, {REMOTE_ENGINE.url.database}] INITIALIZED."
+        f"DATABASES: ['{LOCAL_ENGINE.url.database}', '{REMOTE_ENGINE.url.database}'] INITIALIZED."
     )
 
 
