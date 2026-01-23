@@ -1,5 +1,6 @@
 from datetime import datetime
-from sqlalchemy import String, INTEGER, DOUBLE_PRECISION, TIMESTAMP
+from sqlalchemy import String, INTEGER, DOUBLE_PRECISION
+from sqlalchemy.dialects.mysql import TIMESTAMP
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
