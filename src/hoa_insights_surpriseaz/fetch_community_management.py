@@ -23,7 +23,9 @@ PDF_DOWNLOADED_FILENAME: str = "HOA Contact List (PDF) .pdf"
 PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
 PDF_PATH: Path = Path.cwd() / "output" / "pdf"
 
-CSV_PATH: Path = Path.cwd() / "output" / "csv"
+CSV_PATH: Path = (
+    Path.cwd().parent / "hoa_insights_surpriseaz" / "database" / "setup" / "seed_data"
+)
 CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
 
 logger: Logger = logging.getLogger(__name__)
