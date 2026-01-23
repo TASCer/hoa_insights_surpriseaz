@@ -22,7 +22,7 @@ def create(engine: Engine) -> bool:
     :return: True if database created
     """
 
-    logger.info(f"CREATNG DB ON: {engine.url.host}")
+    logger.info(f"CREATNG DB ON: '{engine.url.host}'")
     try:
         if not database_exists(engine.url):
             create_database(engine.url)
@@ -36,7 +36,7 @@ def create(engine: Engine) -> bool:
     views: bool = create_local_views.all(engine)
     stored_proc: bool = create_local_procs.all(engine)
     if all((triggers, views, stored_proc)):
-        logger.info(f"CREATED DB ON: {engine.url.host}")
+        logger.info(f"CREATED DB ON: '{engine.url.host}'")
         return True
 
     else:

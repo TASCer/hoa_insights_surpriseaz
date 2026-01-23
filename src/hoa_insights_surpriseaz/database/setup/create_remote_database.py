@@ -15,7 +15,7 @@ def create(remote_engine: Engine) -> bool:
     :param remote_engine: database engine
     :return: True if database created
     """
-    logger.info(f"CREATING DB ON: {remote_engine.url.host}")
+    logger.info(f"CREATING DB ON:'{remote_engine.url.host}'")
 
     try:
         if not database_exists(remote_engine.url):
@@ -27,6 +27,6 @@ def create(remote_engine: Engine) -> bool:
         return False
 
     models_remote.Base.metadata.create_all(remote_engine)
-    logger.info(f"CREATED DB ON: {remote_engine.url.host}")
+    logger.info(f"CREATED DB ON: '{remote_engine.url.host}'")
 
     return True
