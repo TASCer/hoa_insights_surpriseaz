@@ -31,9 +31,9 @@
         "MailingCountry": "USA",
         "MostCurrentDeed": "20120824925",
         "DeedDate": "09\/12\/2012",
-        "DeedType": "JC",
-        "SalePrice": "155000",
-        "SaleDate": "09\/01\/2012",
+        "DeedType": "WD",
+        "SalePrice": null,
+        "SaleDate": null,
         "Redacted": false,
         "FullMailingAddress": "16883 W SOFT WIND DR, SURPRISE, AZ 85387",
         "DeedTypeID": null

@@ -31,7 +31,7 @@
         "MailingCountry": "unknown",
         "MostCurrentDeed": null,
         "DeedDate": "10\/12\/2025",
-        "DeedType": null,
+        "DeedType": "WD",
         "SalePrice": "555555",
         "SaleDate": "10\/01\/2025",
         "FullMailingAddress": "full situs",
