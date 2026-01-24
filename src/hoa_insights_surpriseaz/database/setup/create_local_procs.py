@@ -32,7 +32,7 @@ def all(engine: Engine) -> bool:
 
                 END""")
             )
-        logger.info(f"StoredProc: {UPDATE_COMMUNITIES} created")
+        logger.info(f"'{UPDATE_COMMUNITIES}' created")
 
     except exc.SQLAlchemyError as e:
         logger.critical(str(e))

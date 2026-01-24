@@ -72,6 +72,7 @@ def parse_csv(file: Path) -> Path:
         .str.rsplit(pat=" ", n=1)
         .str.get(1)
     )
+    # TODO https://pandas.pydata.org/pandas-docs/stable/user_guide/copy_on_write.html#chained-assignment
     managers["CONTACT_ADX"][mask_bad_address] = fix_address
 
     managers.to_csv(file)
@@ -90,7 +91,6 @@ def pdf_to_csv(pdf_file: Path, csv_file: Path) -> Path:
     :return: converte csv_file
     """
     logger.info(f"Convert: {pdf_file.name} -> {csv_file.name}")
-
     try:
         tabula.convert_into(
             str(pdf_file), str(csv_file), output_format="csv", pages="all"

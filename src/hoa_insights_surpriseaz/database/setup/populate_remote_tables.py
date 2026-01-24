@@ -1,13 +1,14 @@
 import logging
 
 from logging import Logger
-from sqlalchemy import create_engine, Engine, exc, select
+from sqlalchemy import create_engine, Engine, exc, select, Sequence
 from sqlalchemy.orm import Session
 from hoa_insights_surpriseaz.database.models_remote import (
     Community,
     CommunityManagement,
 )
 from hoa_insights_surpriseaz import my_secrets
+from typing import Literal
 
 REMOTE_DB_URI: str = f"{my_secrets.test_remote_uri}"
 LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
@@ -21,19 +22,23 @@ LOCAL_SESSION = Session(LOCAL_ENGINE)
 logger: Logger = logging.getLogger(__name__)
 
 
-def get_local_data(local_db: Session = LOCAL_SESSION):
+def get_local_data(
+    local_db: Session = LOCAL_SESSION,
+) -> tuple[Sequence[Community], Sequence[CommunityManagement]] | Literal[False]:
     """
-    Function retrieves local databse table data for use in populating remote database tables.
+    Function retrieves local database table data for use in populating remote database tables.
 
     :param local_db: database session, defaults to LOCAL_SESSION
     :return: sequence of Community and CommunityManagement instances
     """
     try:
         with local_db as local_session:
-            q_communities = local_session.scalars(select(Community)).all()
-            q_community_management = local_session.scalars(
-                select(CommunityManagement)
+            q_communities: Sequence[Community] = local_session.scalars(
+                select(Community)
             ).all()
+            q_community_management: Sequence[CommunityManagement] = (
+                local_session.scalars(select(CommunityManagement)).all()
+            )
 
     except (exc.OperationalError, ValueError) as err:
         logger.error(err)
@@ -42,10 +47,12 @@ def get_local_data(local_db: Session = LOCAL_SESSION):
     return q_communities, q_community_management
 
 
-def community_management(community_management_items, remote_session=REMOTE_SESSION):
+def community_management(
+    area_hoa_managers, remote_session=REMOTE_SESSION
+) -> Literal[False] | None:
     try:
         with remote_session:
-            for manager in community_management_items:
+            for manager in area_hoa_managers:
                 add_community_manager = CommunityManagement()
                 add_community_manager.ID = manager.ID
                 add_community_manager.COMMUNITY = manager.COMMUNITY
@@ -61,6 +68,8 @@ def community_management(community_management_items, remote_session=REMOTE_SESSI
     except (exc.OperationalError, ValueError) as err:
         logger.error(err)
         return False
+
+    logger.info(f"{len((area_hoa_managers))=}")
 
 
 def communities(remote_db: Session = REMOTE_SESSION) -> list[CommunityManagement]:
@@ -87,8 +96,3 @@ def communities(remote_db: Session = REMOTE_SESSION) -> list[CommunityManagement
         logger.error(err)
 
     return local_community_managers
-
-
-if __name__ == "__main__":
-    pass
-    # communities(needed)
