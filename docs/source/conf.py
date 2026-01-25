@@ -1,10 +1,11 @@
 import sys
 from pathlib import Path
+from typing import LiteralString
 
+# source code dir relative to this file
 sys.path.insert(
     0, Path.cwd().parent.parent / "src" / "hoa_insights_surpriseaz"
-)  # Source code dir relative to this file
-
+)  
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
@@ -14,15 +15,15 @@ sys.path.insert(
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "HOA_INSIGHTS_SURPRISEAZ"
-copyright = "2025, TASCS"
-author = "TASCS"
 release = "1.0.0"
+author = "TASCS LLC"
+copyright: LiteralString = f'%Y, {author}, rev. {release}'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 
-extensions = [
+extensions: list[str] = [
     "sphinx.ext.autodoc",
     "sphinx.ext.coverage",
     "sphinx.ext.napoleon",
