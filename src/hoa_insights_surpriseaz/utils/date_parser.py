@@ -7,13 +7,15 @@ from dateutil.parser import parse, ParserError
 
 def logger_date() -> str:
     """
-    Function formats datetime.date.today object for logger file.
+    Function retieves today datetime date object and formats for logger file.
 
     Returns:
         str: today's date
+    
+    Example:
+        datetime.date(2025, 1, 25) -> '01-25-26' 
     """
-    now: date = dt.date.today()
-    todays_date: str = now.strftime("%D").replace("/", "-")
+    todays_date: str = get_now().strftime("%D").replace("/", "-")
 
     return todays_date
 
