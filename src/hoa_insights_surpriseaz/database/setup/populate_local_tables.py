@@ -104,7 +104,7 @@ def community_management(db: Session) -> bool:
             db.add(db_item, _warn=False)
             db.commit()
 
-    logger.info(f"{len((area_hoa_managers))=}")
+    logger.info(f"\t{len((area_hoa_managers))=}")
 
     return True
 

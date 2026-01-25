@@ -69,7 +69,7 @@ def community_management(
         logger.error(err)
         return False
 
-    logger.info(f"{len((area_hoa_managers))=}")
+    logger.info(f"\t{len((area_hoa_managers))=}")
 
 
 def communities(remote_db: Session = REMOTE_SESSION) -> list[CommunityManagement]:

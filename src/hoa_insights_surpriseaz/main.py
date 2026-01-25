@@ -75,7 +75,7 @@ def database_setup_check(logfile_name: Path) -> bool:
     else:
         logger.error(f"** '{logfile_name.name}' not found. **")
         logger.info(
-            "To setup database and create log file, run 'uv run db-init.py' from database/setup/"
+            "To setup database and create log file, run 'db-init.py' from 'database/setup'/"
         )
         print(
             f"""*ISSUE*: "{logfile_name.name}" not found. See log: "{LOG_DATE}" for details."""

@@ -1,5 +1,6 @@
 import logging
 
+
 from hoa_insights_surpriseaz import my_secrets
 from hoa_insights_surpriseaz.database.models_remote import CommunityManagement
 
@@ -16,13 +17,13 @@ from sqlalchemy.orm import Session
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
-LOG_NAME = "__database-setup__.log"
+DB_INIT_LOG_NAME = "__database-setup__.log"
 
-fh = logging.FileHandler(LOG_NAME)
+fh = logging.FileHandler(DB_INIT_LOG_NAME)
 fh.setLevel(logging.DEBUG)
 
 formatter: Formatter = logging.Formatter(
-    "%(asctime)s - %(name)s - %(lineno)d - %(levelname)s - %(message)s"
+    "%(asctime)s - %(module)s - %(lineno)d - %(message)s"
 )
 fh.setFormatter(formatter)
 
@@ -46,10 +47,11 @@ def local_database(local_engine=LOCAL_ENGINE) -> None:
 
     local_database_created: bool = create_local_database.create(engine=local_engine)
     if local_database_created:
+        logger.info(f"STARTED 'LOCAL' DATABASE POPULATION ON: '{local_engine.url.database}'")
         populate_local_tables.parcels(db=local_session)
         populate_local_tables.communities(db=local_session)
         populate_local_tables.community_management(db=local_session)
-        logger.info(f"COMPLETED POPULATION ON: {local_engine.url.database}")
+        logger.info(f"COMPLETED 'LOCAL' DATABASE POPULATION ON: '{local_engine.url.database}'")
 
 
 def remote_database(remote_engine=REMOTE_ENGINE) -> None:
@@ -65,6 +67,8 @@ def remote_database(remote_engine=REMOTE_ENGINE) -> None:
     )
 
     if remote_database_created:
+        logger.info(f"STARTED 'REMOTE' DATABASE POPULATION ON: '{remote_engine.url.database}'")
+
         community_managers: list[CommunityManagement] = (
             populate_remote_tables.communities(remote_db=remote_session)
         )
@@ -73,7 +77,7 @@ def remote_database(remote_engine=REMOTE_ENGINE) -> None:
         )
 
         logger.info(
-            f"COMPLETED REMOTE DATABASE POPULATION ON: {remote_engine.url.database}"
+            f"COMPLETED 'REMOTE' DATABASE POPULATION ON: '{remote_engine.url.database}'"
         )
 
     logger.info(
@@ -81,11 +85,11 @@ def remote_database(remote_engine=REMOTE_ENGINE) -> None:
     )
 
 
-def main() -> None:
+def initialize() -> None:
     local_database()
     remote_database()
 
 
 if __name__ == "__main__":
-    print(f""" "{LOG_NAME}" created.""")
-    main()
+    print(f""" "{DB_INIT_LOG_NAME}" created.""")
+    initialize()

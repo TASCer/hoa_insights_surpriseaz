@@ -34,7 +34,7 @@ def all(engine: Engine) -> bool:
                         END"""
 
             conn.execute(text(trig_sales))
-            logger.info("'AFTER_SALE_UPDATE' created")
+            logger.info("\t\t'AFTER_SALE_UPDATE' created")
 
             conn.execute(text("DROP TRIGGER IF EXISTS after_owner_update"))
             trig_owner: str = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_owner_update`
@@ -54,7 +54,7 @@ def all(engine: Engine) -> bool:
                     END"""
 
             conn.execute(text(trig_owner))
-            logger.info("'AFTER_OWNER_UPDATE' created")
+            logger.info("\t\t'AFTER_OWNER_UPDATE' created")
 
         except exc.ProgrammingError as e:
             logger.critical(str(e))
@@ -72,7 +72,7 @@ def all(engine: Engine) -> bool:
                         END"""
 
             conn.execute(text(trig_management))
-            logger.info("'AFTER_MANAGEMENT_UPDATE' created")
+            logger.info("\t\t'AFTER_MANAGEMENT_UPDATE' created")
 
             return True
 
