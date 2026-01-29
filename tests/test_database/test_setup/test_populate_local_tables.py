@@ -32,12 +32,11 @@ COMMUNITY_TOTALS = []
 def test_populate_local_tables(test_create_local_session) -> None:
     parcel_totals = populate_local_tables.parcels(
         db=test_create_local_session, file=PARCELS_CONSTANTS
-)
+    )
 
     assert parcel_totals
 
-    community_totals = populate_local_tables.communities(
-        db=test_create_local_session)
+    community_totals = populate_local_tables.communities(db=test_create_local_session)
 
     assert len(community_totals) == 21
 
