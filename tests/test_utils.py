@@ -94,6 +94,7 @@ def test_rename_files() -> None:
 def test_file_copier() -> None:
     assert (
         file_copier.to_webserver(tests_path / TEST_ORIG_PDF_FILENAME, tests_path.parent)
+        is None
     )
 
 
