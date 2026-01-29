@@ -3,9 +3,7 @@ from pathlib import Path
 from typing import LiteralString
 
 # source code dir relative to this file
-sys.path.insert(
-    0, Path.cwd().parent.parent / "src" / "hoa_insights_surpriseaz"
-)  
+sys.path.insert(0, Path.cwd().parent.parent / "src" / "hoa_insights_surpriseaz")
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
@@ -17,7 +15,7 @@ sys.path.insert(
 project = "HOA_INSIGHTS_SURPRISEAZ"
 release = "1.0.0"
 author = "TASCS LLC"
-copyright: LiteralString = f'%Y, {author}, rev. {release}'
+copyright: LiteralString = f"%Y, {author}, rev. {release}"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

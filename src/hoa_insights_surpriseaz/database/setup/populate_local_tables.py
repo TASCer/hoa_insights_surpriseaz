@@ -88,7 +88,9 @@ def community_management(db: Session) -> bool:
 
     else:
         logger.info(f"{MANAGEMENT_FILE.name} found.")
-        print(f""" "{MANAGEMENT_FILE.name}" found in {MANAGEMENT_FILE.parent.resolve()}.""")
+        print(
+            f""" "{MANAGEMENT_FILE.name}" found in {MANAGEMENT_FILE.parent.resolve()}."""
+        )
         area_hoa_managers: list = get_managed_communities(MANAGEMENT_FILE)
         for manager in area_hoa_managers:
             _, community, situs, city, ph, email, mgr = manager

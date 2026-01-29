@@ -11,9 +11,9 @@ def logger_date() -> str:
 
     Returns:
         str: today's date
-    
+
     Example:
-        datetime.date(2025, 1, 25) -> '01-25-26' 
+        datetime.date(2025, 1, 25) -> '01-25-26'
     """
     todays_date: str = get_now().strftime("%D").replace("/", "-")
 

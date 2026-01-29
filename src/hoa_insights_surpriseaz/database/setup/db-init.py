@@ -47,11 +47,15 @@ def local_database(local_engine=LOCAL_ENGINE) -> None:
 
     local_database_created: bool = create_local_database.create(engine=local_engine)
     if local_database_created:
-        logger.info(f"STARTED 'LOCAL' DATABASE POPULATION ON: '{local_engine.url.database}'")
+        logger.info(
+            f"STARTED 'LOCAL' DATABASE POPULATION ON: '{local_engine.url.database}'"
+        )
         populate_local_tables.parcels(db=local_session)
         populate_local_tables.communities(db=local_session)
         populate_local_tables.community_management(db=local_session)
-        logger.info(f"COMPLETED 'LOCAL' DATABASE POPULATION ON: '{local_engine.url.database}'")
+        logger.info(
+            f"COMPLETED 'LOCAL' DATABASE POPULATION ON: '{local_engine.url.database}'"
+        )
 
 
 def remote_database(remote_engine=REMOTE_ENGINE) -> None:
@@ -67,7 +71,9 @@ def remote_database(remote_engine=REMOTE_ENGINE) -> None:
     )
 
     if remote_database_created:
-        logger.info(f"STARTED 'REMOTE' DATABASE POPULATION ON: '{remote_engine.url.database}'")
+        logger.info(
+            f"STARTED 'REMOTE' DATABASE POPULATION ON: '{remote_engine.url.database}'"
+        )
 
         community_managers: list[CommunityManagement] = (
             populate_remote_tables.communities(remote_db=remote_session)

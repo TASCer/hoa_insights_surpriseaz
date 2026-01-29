@@ -19,6 +19,7 @@ from pathlib import Path
 # TODO temp (copy of populate local results) fix until I refactor initial setup
 COMMUNITY_TOTALS = []
 
+
 def test_populate_remote_tables(test_create_remote_session) -> None:
     populate_remote_tables.communities(
         remote_db=test_create_remote_session,
