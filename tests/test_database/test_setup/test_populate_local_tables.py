@@ -29,18 +29,6 @@ PARCELS_CONSTANTS: Path = (
 COMMUNITY_TOTALS = []
 
 
-# def test_create_local_dbms(test_create_local_engine) -> None:
-#     check_local: bool = create_local_database.create(test_create_local_engine)
-
-#     assert check_local
-
-
-# def test_create_remote_dbms(test_create_remote_engine) -> None:
-#     check_remote: bool = create_remote_database.create(test_create_remote_engine)
-
-#     assert check_remote
-
-
 def test_populate_local_tables(test_create_local_session) -> None:
     parcel_totals = populate_local_tables.parcels(
         db=test_create_local_session, file=PARCELS_CONSTANTS
@@ -51,10 +39,7 @@ def test_populate_local_tables(test_create_local_session) -> None:
     community_totals = populate_local_tables.communities(
         db=test_create_local_session)
 
+    assert len(community_totals) == 21
+
     # COMMUNITY_TOTALS = community_totals.copy()
     assert len(community_totals) > 0
-
-# def test_populate_remote_tables(test_create_remote_session) -> None:
-#     populate_remote_tables.communities(
-#         remote_db=test_create_remote_session,
-#     )

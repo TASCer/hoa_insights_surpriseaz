@@ -6,10 +6,15 @@ def test_parse_psuedo_api_original(parse_original_parcel_data) -> None:
     parsed_test_original_parcels, parsed_test_original_rentals = (
         parse_original_parcel_data
     )
+
     assert len(parsed_test_original_parcels) == 5
+    parsed_owner_types = [type(p) is Owners for p in parsed_test_original_parcels] 
+    assert all(parsed_owner_types)
+
     assert len(parsed_test_original_rentals) == 2
-    assert all(type(parsed_test_original_parcels)) is Owners
-    assert type(parsed_test_original_rentals[0]) is Rentals
+    parsed_rental_types = [type(r) is Rentals for r in parsed_test_original_rentals]
+    assert all(parsed_rental_types)
+
     original_owner_check = [
         x for x in parsed_test_original_parcels if x.APN == "509-11-455"
     ]
@@ -17,8 +22,6 @@ def test_parse_psuedo_api_original(parse_original_parcel_data) -> None:
     assert original_owner_check[0].LEGAL_CODE == "3.1 "
     assert original_owner_check[0].DEED_TYPE == "WD"
     assert original_owner_check[0].RENTAL is False
-
-    assert len(parsed_test_original_rentals) == 2
 
 
 def test_parse_psuedo_api_new(parse_new_parcel_data) -> None:
