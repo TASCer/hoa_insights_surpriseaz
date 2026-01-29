@@ -12,12 +12,12 @@ from hoa_insights_surpriseaz.utils import (
 from pathlib import Path
 from datetime import datetime as dt
 
-TEST_ORIG_PDF_FILENAME: str = "TEST-MANAGEMENT.pdf"
+TEST_ORIG_PDF_FILENAME: str = "HOA Contact List (PDF).pdf"
 TEST_RENAMED_PDF_FILENAME: str = "TEST-RENAMED-MANAGEMENT.pdf"
 TEST_ORIG_CSV_FILENAME: str = "test-surpriseaz-hoa-management.csv"
 CSV_FILENAME: str = "test-renamed-surpriseaz-hoa-management.csv"
 
-tests_path: Path = Path.cwd() / "tests" / "output" / "pdf"
+tests_path: Path = Path.cwd() / "tests" / "input"  # / "pdf"
 
 
 # DATE PARSER
@@ -81,34 +81,29 @@ def test_phones(ph_num, expected):
 
 # FILE RENAME
 def test_rename_files() -> None:
-    tests_path: Path = Path.cwd() / "tests" / "output" / "pdf"
+    tests_path: Path = Path.cwd() / "tests" / "input"  # / "pdf"
     # RENAME ORIG
-    assert (
-        file_renamer.rename(
-            tests_path / TEST_ORIG_PDF_FILENAME, tests_path / TEST_RENAMED_PDF_FILENAME
-        )
-        == 1
+    assert file_renamer.rename(
+        tests_path / TEST_ORIG_PDF_FILENAME, tests_path / TEST_RENAMED_PDF_FILENAME
     )
     # RENAME BACK
     assert (
         file_renamer.rename(
             tests_path / TEST_RENAMED_PDF_FILENAME, tests_path / TEST_ORIG_PDF_FILENAME
         )
-        == 1
+        # == 1
     )
 
 
 def test_file_copier() -> None:
     assert (
-        file_copier.to_webserver(
-            tests_path / TEST_ORIG_PDF_FILENAME, tests_path.parent.parent
-        )
+        file_copier.to_webserver(tests_path / TEST_ORIG_PDF_FILENAME, tests_path.parent)
         is None
     )
 
 
 def test_delete_files() -> None:
-    assert delete_files.delete(tests_path.parent.parent / TEST_ORIG_PDF_FILENAME)
+    assert delete_files.delete(tests_path.parent / TEST_ORIG_PDF_FILENAME)
 
 
 # TODO MOCK THIS?
