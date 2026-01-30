@@ -35,11 +35,11 @@ def linux_server(source, destination, source_check, destination_check) -> None:
             logger.critical(f"{source} NOT sent to tascs.test web server remotely. {e}")
 
 
-def windows_server(source, destination, source_check, destinantion_check) -> None:
+def windows_server(source, destination, source_check, destination_check) -> None:
     """
     Function copies files for Windows systems
     """
-    if source_check and destinantion_check:
+    if source_check and destination_check:
         try:
             shutil.copy(source, destination)
 
@@ -56,7 +56,7 @@ def to_webserver(to_copy: Path, copy_to: Path = WEB_SERVER_REPORT_PATH_LINUX) ->
         copy_to (Path, optional): destination. Defaults to WEB_SERVER_REPORT_PATH_LINUX.
     """
     source_check = to_copy.exists()
-    destinantion_check = copy_to.exists()
+    destination_check = copy_to.exists()
     system = platform.system()
 
     if not source_check:
@@ -64,10 +64,10 @@ def to_webserver(to_copy: Path, copy_to: Path = WEB_SERVER_REPORT_PATH_LINUX) ->
         raise FileNotFoundError(f"SOURCE: '{to_copy}' file does not exist")
 
     if system == "Linux":
-        linux_server(to_copy, copy_to, source_check, destinantion_check)
+        linux_server(to_copy, copy_to, source_check, destination_check)
 
     if system == "Windows":
-        windows_server(to_copy, copy_to, source_check, destinantion_check)
+        windows_server(to_copy, copy_to, source_check, destination_check)
 
 
 if __name__ == "__main__":
