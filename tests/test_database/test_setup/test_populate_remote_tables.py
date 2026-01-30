@@ -1,7 +1,7 @@
 from hoa_insights_surpriseaz.database.setup import (
-    create_local_database,
-    create_remote_database,
-    populate_local_tables,
+    # create_local_database,
+    # create_remote_database,
+    # populate_local_tables,
     populate_remote_tables,
 )
 from pathlib import Path
