@@ -32,7 +32,6 @@ def test_parse_psuedo_api_new(parse_new_parcel_data) -> None:
     assert type(parsed_test_update_rentals[0]) is Rentals
 
     updated_owners = [o for o in parsed_test_update_parcels if o.APN == "509-11-455"]
-    print(updated_owners)
     assert updated_owners[0].OWNER == "BUYER NEW A"
     assert updated_owners[0].SALE_DATE == datetime.datetime(2025, 1, 1, 0, 0)
     assert updated_owners[0].SALE_PRICE == "375000"
