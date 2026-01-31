@@ -39,9 +39,9 @@ def test_create_local_session(test_create_local_engine):
         yield test_debian_session
 
     finally:
-        # test_debian_session.execute(
-        #     text(f"DROP DATABASE IF EXISTS {test_local_dbname};")
-        # )
+        test_debian_session.execute(
+            text(f"DROP DATABASE IF EXISTS {test_local_dbname};")
+        )
         pass
 
 
@@ -60,7 +60,7 @@ def test_create_remote_session(test_create_remote_engine):
         yield test_bluehost_session
 
     finally:
-        # test_bluehost_session.execute(text(f"DROP DATABASE {test_remote_dbname};"))
+        test_bluehost_session.execute(text(f"DROP DATABASE {test_remote_dbname};"))
         pass
 
 

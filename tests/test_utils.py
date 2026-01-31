@@ -87,19 +87,21 @@ def test_rename_files() -> None:
     )
     # RENAME BACK
     assert file_renamer.rename(
-        tests_path / TEST_RENAMED_PDF_FILENAME, tests_path / TEST_ORIG_PDF_FILENAME    
+        tests_path / TEST_RENAMED_PDF_FILENAME, tests_path / TEST_ORIG_PDF_FILENAME
     )
 
 
 def test_file_copier() -> None:
     assert (
-        file_copier.to_webserver(tests_path / TEST_ORIG_PDF_FILENAME, tests_path.parent)
+        file_copier.to_webserver(
+            to_copy=tests_path / TEST_ORIG_PDF_FILENAME, copy_to=tests_path.parent
+        )
         is None
     )
 
 
 def test_delete_files() -> None:
-    assert delete_files.delete(tests_path.parent / TEST_ORIG_PDF_FILENAME)
+    assert delete_files.delete(tests_path / TEST_ORIG_PDF_FILENAME)
 
 
 # TODO MOCK THIS?

@@ -8,7 +8,9 @@ def test_parse_psuedo_api_original(parse_original_parcel_data) -> None:
     )
 
     assert len(parsed_test_original_parcels) == 5
-    parsed_owner_types: list[bool] = [type(p) is Owners for p in parsed_test_original_parcels]
+    parsed_owner_types: list[bool] = [
+        type(p) is Owners for p in parsed_test_original_parcels
+    ]
     assert all(parsed_owner_types)
 
     assert len(parsed_test_original_rentals) == 2
