@@ -32,13 +32,13 @@ def get_local_data(
     :return: sequence of Community and CommunityManagement instances
     """
     try:
-        with local_db as local_session:
-            q_communities: Sequence[Community] = local_session.scalars(
+        with local_db:
+            q_communities: Sequence[Community] = local_db.scalars(
                 select(Community)
             ).all()
-            q_community_management: Sequence[CommunityManagement] = (
-                local_session.scalars(select(CommunityManagement)).all()
-            )
+            q_community_management: Sequence[CommunityManagement] = local_db.scalars(
+                select(CommunityManagement)
+            ).all()
 
     except (exc.OperationalError, ValueError) as err:
         logger.error(err)
@@ -48,10 +48,11 @@ def get_local_data(
 
 
 def community_management(
-    area_hoa_managers, remote_session=REMOTE_SESSION
-) -> Literal[False] | None:
+    remote_db=REMOTE_SESSION, local_db=LOCAL_SESSION
+) -> bool:
+    _, area_hoa_managers = get_local_data(local_db)
     try:
-        with remote_session:
+        with remote_db:
             for manager in area_hoa_managers:
                 add_community_manager = CommunityManagement()
                 add_community_manager.ID = manager.ID
@@ -62,8 +63,8 @@ def community_management(
                 add_community_manager.CONTACT_ADX = manager.CONTACT_ADX
                 add_community_manager.CONTACT_PH = manager.CONTACT_PH
 
-                remote_session.add(add_community_manager, _warn=False)
-                remote_session.commit()
+                remote_db.add(add_community_manager, _warn=False)
+                remote_db.commit()
 
     except (exc.OperationalError, ValueError) as err:
         logger.error(err)
@@ -71,8 +72,10 @@ def community_management(
 
     logger.info(f"\t{len((area_hoa_managers))=}")
 
+    return True
 
-def communities(remote_db: Session = REMOTE_SESSION) -> list[CommunityManagement]:
+
+def communities(remote_db: Session = REMOTE_SESSION) -> bool:
     """
     Function populates remote database table communities.
 
@@ -91,8 +94,7 @@ def communities(remote_db: Session = REMOTE_SESSION) -> list[CommunityManagement
                 add_community.MANAGED_ID = community.MANAGED_ID
                 remote_session.add(add_community, _warn=True)
                 remote_session.commit()
-
+        return True
     except (exc.OperationalError, ValueError) as err:
         logger.error(err)
-
-    return local_community_managers
+        return False
