@@ -22,8 +22,6 @@ PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
 PDF_PATH: Path = Path.cwd().parent.parent / "output" / "pdf"
 
 LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
-MANAGEMENT_FILE: Path = Path.cwd() / "seed_data" / "surpriseaz-hoa-management.csv"
-PARCELS_SEED_FILE: Path = Path.cwd() / "seed_data" / "parcel_constants.csv"
 
 PARCELS_TABLE: str = "parcels"
 COMMUNITY_TABLE: str = "communitites"
@@ -56,7 +54,7 @@ management_ids: list = [
 ]
 
 
-def community_management(db: Session) -> bool:
+def community_management(db: Session, management_file) -> bool:
     """
     Function populates the community_managers local database table.
 
@@ -64,9 +62,9 @@ def community_management(db: Session) -> bool:
     :param management_file: parsed management file, defaults to MANAGEMENT_FILE
     :return: True if table populated
     """
-    if not MANAGEMENT_FILE:
-        logger.warning(f"{MANAGEMENT_FILE.name} not found.")
-        print(f""" "{MANAGEMENT_FILE.name}" not found.""")
+    if not management_file:
+        logger.warning(f"{management_file.name} not found.")
+        print(f""" "{management_file.name}" not found.""")
 
         try:
             logger.info("Fetching Community Management Data")
@@ -79,7 +77,7 @@ def community_management(db: Session) -> bool:
             if file_renamed:
                 convert_management_data.pdf_to_csv(
                     pdf_file=PDF_PATH / PDF_DOWNLOADED_FILENAME,
-                    csv_file=MANAGEMENT_FILE,
+                    csv_file=management_file,
                 )
             community_management(db=db)
 
@@ -87,11 +85,11 @@ def community_management(db: Session) -> bool:
             logger.error(ffe)
 
     else:
-        logger.info(f"{MANAGEMENT_FILE.name} found.")
+        logger.info(f"{management_file.name} found.")
         print(
-            f""" "{MANAGEMENT_FILE.name}" found in {MANAGEMENT_FILE.parent.resolve()}."""
+            f""" "{management_file.name}" found in {management_file.parent.resolve()}."""
         )
-        area_hoa_managers: list = get_managed_communities(MANAGEMENT_FILE)
+        area_hoa_managers: list = get_managed_communities(management_file)
         for manager in area_hoa_managers:
             _, community, situs, city, ph, email, mgr = manager
             item = CommunityManagement(
@@ -111,7 +109,7 @@ def community_management(db: Session) -> bool:
     return True
 
 
-def communities(db: Session) -> list[models_local.Community]:
+def communities(db: Session) -> bool:
     """
     Function populates communities table,
 
@@ -140,6 +138,7 @@ def communities(db: Session) -> list[models_local.Community]:
         except exc.SQLAlchemyError as sa_err:
             logger.error(sa_err)
             print(sa_err)
+            return False
 
         for community, parcel_total, long, lat in community_totals:
             community_schema = Community(
@@ -155,10 +154,10 @@ def communities(db: Session) -> list[models_local.Community]:
             session.add(community_instance, _warn=False)
             session.commit()
 
-    return community_instances
+    return True
 
 
-def parcels(db: Session, file=f"{PARCELS_SEED_FILE}") -> bool:
+def parcels(db: Session, parcel_file) -> bool:
     """
     Function populates local parcels table
 
@@ -170,7 +169,7 @@ def parcels(db: Session, file=f"{PARCELS_SEED_FILE}") -> bool:
         parcel_instances: list = []
 
         try:
-            with open(file) as f:
+            with open(parcel_file) as f:
                 reader = csv.reader(f)
                 next(reader)
                 for parcel in reader:
