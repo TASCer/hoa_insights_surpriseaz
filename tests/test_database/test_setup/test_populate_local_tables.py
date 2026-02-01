@@ -1,8 +1,8 @@
 from hoa_insights_surpriseaz.database.setup import (
-
     populate_local_tables,
 )
 from pathlib import Path
+
 PARCELS_CONSTANTS: Path = (
     Path.cwd()
     / "src"

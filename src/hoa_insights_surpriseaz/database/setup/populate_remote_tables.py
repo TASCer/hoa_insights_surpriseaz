@@ -47,9 +47,7 @@ def get_local_data(
     return q_communities, q_community_management
 
 
-def community_management(
-    remote_db=REMOTE_SESSION, local_db=LOCAL_SESSION
-) -> bool:
+def community_management(remote_db=REMOTE_SESSION, local_db=LOCAL_SESSION) -> bool:
     _, area_hoa_managers = get_local_data(local_db)
     try:
         with remote_db:
