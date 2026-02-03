@@ -54,9 +54,9 @@ def to_webserver(to_copy: Path, webserver: Enum) -> None:
     destination_check = webserver.value.exists()
     client_system = platform.system()
 
-    if not source_check:
-        logger.warning(f"SOURCE: '{to_copy}' file does not exist")
-        raise FileNotFoundError(f"SOURCE: '{to_copy}' file does not exist")
+    if not source_check or not destination_check:
+        logger.warning(f"SOURCE FILE: '{to_copy}' or DEST LOCATION: {webserver.value} do not exist")
+        raise FileNotFoundError(f"File or location do not exist")
 
     if client_system == "Linux":
         linux_server(to_copy, webserver.value, source_check, destination_check)
@@ -68,12 +68,11 @@ def to_webserver(to_copy: Path, webserver: Enum) -> None:
 if __name__ == "__main__":
     from hoa_insights_surpriseaz.main import WEB_SERVER
 
-    webserver = WEB_SERVER
     to_webserver(
         to_copy=Path.cwd().parent
         / "output"
         / "web_reports"
         / "parcel_changes"
         / "recent_changes.html",
-        webserver=webserver,
+        webserver=WEB_SERVER,
     )
