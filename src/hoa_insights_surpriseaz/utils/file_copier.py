@@ -1,18 +1,13 @@
+from enum import Enum
 import platform
 import logging
 import os
 import shutil
 
-
 from logging import Logger
 from pathlib import Path
 
 logger: Logger = logging.getLogger(__name__)
-
-WEB_SERVER_REPORT_PATH_LINUX = Path("/var/www/html/hoa/reports/")
-WEB_SERVER_REPORT_PATH_WINDOWS = Path(
-    r"\\OPERATIONS\c$\inetpub\wwwroot\TASCSlocal\hoa\reports"
-)
 
 
 def linux_server(source, destination, source_check, destination_check) -> None:
@@ -35,45 +30,50 @@ def linux_server(source, destination, source_check, destination_check) -> None:
             logger.critical(f"{source} NOT sent to tascs.test web server remotely. {e}")
 
 
-def windows_server(source, destination, source_check, destination_check) -> None:
+def windows_server(source, destination) -> None:
     """
     Function copies files for Windows systems
     """
-    if source_check and destination_check:
-        try:
-            shutil.copy(source, destination)
 
-        except (IOError, FileNotFoundError) as e:
-            logger.error(e)
+    try:
+        shutil.copy(source, destination)
+
+    except (IOError, FileNotFoundError) as e:
+        logger.error(e)
 
 
-def to_webserver(to_copy: Path, copy_to: Path = WEB_SERVER_REPORT_PATH_LINUX) -> None:
+def to_webserver(to_copy: Path, webserver: Enum) -> None:
     """
-    Function copies files to webserver for integration with website.
+    Function copies files to webserver 'reports' directory based on server OS.
 
     Args:
         to_copy (Path): source
         copy_to (Path, optional): destination. Defaults to WEB_SERVER_REPORT_PATH_LINUX.
     """
     source_check = to_copy.exists()
-    destination_check = copy_to.exists()
-    system = platform.system()
+    destination_check = webserver.value.exists()
+    client_system = platform.system()
 
     if not source_check:
         logger.warning(f"SOURCE: '{to_copy}' file does not exist")
         raise FileNotFoundError(f"SOURCE: '{to_copy}' file does not exist")
 
-    if system == "Linux":
-        linux_server(to_copy, copy_to, source_check, destination_check)
+    if client_system == "Linux":
+        linux_server(to_copy, webserver.value, source_check, destination_check)
 
-    if system == "Windows":
-        windows_server(to_copy, copy_to, source_check, destination_check)
+    if client_system == "Windows" and all([source_check, destination_check]):
+        windows_server(to_copy, webserver.value)
 
 
 if __name__ == "__main__":
+    from hoa_insights_surpriseaz.main import WEB_SERVER
+
+    webserver = WEB_SERVER
     to_webserver(
-        Path.cwd().parent
+        to_copy=Path.cwd().parent
         / "output"
-        / "web_reports/parcel_changes"
-        / "recent_changes.html"
+        / "web_reports"
+        / "parcel_changes"
+        / "recent_changes.html",
+        webserver=webserver,
     )

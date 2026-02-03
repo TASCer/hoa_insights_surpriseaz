@@ -1,5 +1,6 @@
 import logging
 
+from enum import Enum
 from hoa_insights_surpriseaz import fetch_assessor_parcels
 from hoa_insights_surpriseaz import create_reports
 from hoa_insights_surpriseaz import parse_assessor_parcels
@@ -40,10 +41,6 @@ PDF_REPORT_CHANGES.mkdir(parents=True, exist_ok=True)
 PDF_REPORT_FINANCIAL: Path = Path.cwd() / "output" / "pdf" / "financial"
 PDF_REPORT_FINANCIAL.mkdir(parents=True, exist_ok=True)
 
-WEB_SERVER_REPORT_PATH_LINUX = Path("/var/www/html/hoa/reports/")
-WEB_SERVER_REPORT_PATH_WINDOWS = Path(
-    r"\\OPERATIONS\c$\inetpub\wwwroot\TASCSlocal\hoa\reports"
-)
 
 DB_SETUP_LOGFILE: Path = Path.cwd() / "database" / "setup" / "__database-setup__.log"
 
@@ -61,6 +58,16 @@ fh.setFormatter(formatter)
 root_logger.addHandler(fh)
 
 logger: Logger = logging.getLogger(__name__)
+
+
+class WebServer(Enum):
+    """An enumeration of constant web server paths."""
+
+    LINUX = Path("/var/www/html/hoa/reports/")
+    WINDOWS = Path(r"\\OPERATIONS\c$\inetpub\wwwroot\TASCSlocal\hoa\reports")
+
+
+WEB_SERVER: Path = WebServer.WINDOWS
 
 
 def database_setup_check(logfile_name: Path) -> bool:
@@ -125,7 +132,7 @@ def main() -> None:
             owner_changes, HTML_REPORT_CHANGES, PDF_REPORT_CHANGES
         )
         if html_report_file.exists():
-            file_copier.to_webserver(to_copy=html_report_file)
+            file_copier.to_webserver(to_copy=html_report_file, webserver=WEB_SERVER)
         update_remote_database.rental_tables()
 
     if not sale_changes.empty:
@@ -135,7 +142,9 @@ def main() -> None:
             pdf_file=PDF_REPORT_FINANCIAL,
         )
         if financial_report_file.exists():
-            file_copier.to_webserver(to_copy=financial_report_file)
+            file_copier.to_webserver(
+                to_copy=financial_report_file, webserver=WEB_SERVER
+            )
         update_remote_database.financial_tables()
 
     if owner_changes.empty and sale_changes.empty:
