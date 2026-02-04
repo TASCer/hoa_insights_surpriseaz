@@ -92,9 +92,11 @@ def test_rename_files() -> None:
 
 
 def test_file_copier() -> None:
+    from src.hoa_insights_surpriseaz.main import WebServer
+
     assert (
         file_copier.to_webserver(
-            to_copy=tests_path / TEST_ORIG_PDF_FILENAME, copy_to=tests_path.parent
+            to_copy=tests_path / TEST_ORIG_PDF_FILENAME, webserver=WebServer.LINUX.value
         )
         is None
     )
