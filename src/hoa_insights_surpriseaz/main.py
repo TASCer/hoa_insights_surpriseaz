@@ -67,7 +67,7 @@ class WebServer(Enum):
     WINDOWS = Path(r"\\OPERATIONS\c$\inetpub\wwwroot\TASCSlocal\hoa\reports")
 
 
-WEB_SERVER: Path = WebServer.LINUX
+WEB_SERVER = WebServer.LINUX
 
 
 def database_setup_check(logfile_name: Path) -> bool:
