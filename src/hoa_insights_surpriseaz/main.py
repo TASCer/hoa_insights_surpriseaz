@@ -64,7 +64,7 @@ class WebServer(Enum):
     """An enumeration of constant web server paths."""
 
     LINUX = Path("/var/www/html/hoa/reports/")
-    WINDOWS = Path(r"\\OPERATIONS\c$\inetpub\wwwroot\TASCSlocal\hoa\reports")
+    WINDOWS = Path(r"C:\inetpub\wwwroot\TASCSlocal\hoa\reports")
 
 
 WEB_SERVER = WebServer.LINUX
@@ -82,7 +82,10 @@ def database_setup_check(logfile_name: Path) -> bool:
     else:
         logger.error(f"** '{logfile_name.name}' not found. **")
         logger.info(
-            "To setup database and create log file, run 'db-init.py' from 'database/setup'/"
+            "To setup database and create log file, run 'db-init.py' from 'database/setup/'"
+        )
+        logger.info(
+            "If repo cloned and/or database has been setup, verify settings and create a '__database-setup__.log' file in 'database/setup'"
         )
         print(
             f"""*ISSUE*: "{logfile_name.name}" not found. See log: "{LOG_DATE}" for details."""
@@ -169,6 +172,7 @@ if __name__ == "__main__":
             mgmt_csv: Path = community_management_update()
             update_community_management.update_managers(mgmt_csv)
             logger.info(">>> COMMUNITY MANAGEMENT UPDATE COMPLETED <<<")
+        logger.info(f"{WEB_SERVER.name=}")
         main()
     else:
         exit()
