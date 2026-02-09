@@ -3,43 +3,56 @@ import platform
 import logging
 import os
 import shutil
+import socket
 
+from hoa_insights_surpriseaz import my_secrets
 from logging import Logger
 from pathlib import Path
 
 logger: Logger = logging.getLogger(__name__)
 
 
-def linux_server(source, destination, source_check, destination_check) -> None:
+def linux_server(source, destination, secure_copy_needed, webserver_fqdn) -> None:
     """
     Function copies files for Linux systems
     """
-    if source_check and destination_check:
+    if not secure_copy_needed:
         try:
             os.system(f"cp {source} {destination}")
-            logger.info(f"'{source.name}' sent to 'tascs.test' web server")
+            logger.info(f"'{source.name}' sent to '{webserver_fqdn}' web server")
         except BaseException as e:
-            logger.critical(f"'{source.name}' NOT sent to 'tascs.test' web server {e}")
+            logger.critical(
+                f"'{source.name}' NOT sent to '{webserver_fqdn}' web server {e}"
+            )
 
-    if not destination_check and source_check:
-        copy_to = Path("~")
+    else:
         try:
-            os.system(f"scp {source} todd@debian.tascs.test:{copy_to}")
-            logger.info(f"'{source.name}' sent to tascs.test web server remotely")
+            os.system(f"scp {source} todd@{webserver_fqdn}:{destination}")
+            logger.info(
+                f"'{source.name}' sent to '{webserver_fqdn}' web server securely"
+            )
         except BaseException as e:
-            logger.critical(f"{source} NOT sent to tascs.test web server remotely. {e}")
+            logger.critical(
+                f"{source} NOT sent to {webserver_fqdn} web server securely. {e}"
+            )
 
 
-def windows_server(source, destination) -> None:
+def windows_server(source, destination, secure_copy_needed, webserver_fqdn) -> None:
     """
     Function copies files for Windows systems
     """
+    if not secure_copy_needed:
+        try:
+            shutil.copy(source, destination)
 
-    try:
-        shutil.copy(source, destination)
+        except (IOError, FileNotFoundError) as e:
+            logger.error(e)
 
-    except (IOError, FileNotFoundError) as e:
-        logger.error(e)
+    else:
+        try:
+            os.system(f"scp {source} todd@'{webserver_fqdn}':{destination}")
+        except Exception as e:
+            print(e)
 
 
 def to_webserver(to_copy: Path, webserver: Enum) -> None:
@@ -50,29 +63,41 @@ def to_webserver(to_copy: Path, webserver: Enum) -> None:
         to_copy (Path): source
         copy_to (Path, optional): destination. Defaults to WEB_SERVER_REPORT_PATH_LINUX.
     """
-    source_check = to_copy.exists()
-    destination_check = webserver.value.exists()
     client_system = platform.system()
+    client_fqdn: str = socket.getfqdn()
 
-    if not source_check or not destination_check:
-        logger.warning(f"SOURCE FILE: '{to_copy}' or DEST LOCATION: {webserver.value} do not exist")
-        raise FileNotFoundError(f"File or location do not exist")
+    webserver_system = webserver.name
+    webserver_fqdn: str = my_secrets.prod_local_dbhost
 
-    if client_system == "Linux":
-        linux_server(to_copy, webserver.value, source_check, destination_check)
+    secure_copy_needed: bool = webserver_fqdn != client_fqdn
 
-    if client_system == "Windows" and all([source_check, destination_check]):
-        windows_server(to_copy, webserver.value)
+    if webserver.name == "LINUX":
+        linux_server(
+            source=to_copy,
+            destination=webserver.value,
+            secure_copy_needed=secure_copy_needed,
+            webserver_fqdn=webserver_fqdn,
+        )
+
+    if webserver.name == "WINDOWS":
+        windows_server(
+            source=to_copy,
+            destination=webserver.value,
+            secure_copy_needed=secure_copy_needed,
+            webserver_fqdn=webserver_fqdn,
+        )
 
 
 if __name__ == "__main__":
-    from hoa_insights_surpriseaz.main import WEB_SERVER
+    from hoa_insights_surpriseaz.main import WebServer
 
+    webserver = WebServer.LINUX
+    print(webserver, webserver.name, webserver.value)
     to_webserver(
         to_copy=Path.cwd().parent
         / "output"
         / "web_reports"
         / "parcel_changes"
         / "recent_changes.html",
-        webserver=WEB_SERVER,
+        webserver=webserver,
     )
