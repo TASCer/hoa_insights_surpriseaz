@@ -25,9 +25,11 @@ def parcel_changes(
     :return:  html file location
     """
     parcel_updates["COMMUNITY"] = parcel_updates["COMMUNITY"].apply(
-        lambda row: f'<a href="https://hoa.tascs.test/lpsMap.php?{row}">{row}</a>'
-        if row == "LPS"
-        else f'<a href="https://hoa.tascs.test/areaMap.php?{row}">{row}</a>'
+        lambda row: (
+            f'<a href="https://hoa.tascs.test/lpsMap.php?{row}">{row}</a>'
+            if row == "LPS"
+            else f'<a href="https://hoa.tascs.test/areaMap.php?{row}">{row}</a>'
+        )
     )
 
     parcel_updates["SALE_PRICE"] = (
