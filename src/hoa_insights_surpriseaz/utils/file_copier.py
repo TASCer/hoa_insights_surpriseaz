@@ -50,9 +50,10 @@ def windows_server(source, destination, secure_copy_needed, webserver_fqdn) -> N
 
     else:
         try:
-            os.system(f"scp {source} todd@'{webserver_fqdn}':{destination}")
+            os.system(f"scp {source} todd@{webserver_fqdn}:{destination}")
         except Exception as e:
             print(e)
+            exit()
 
 
 def to_webserver(to_copy: Path, webserver: Enum) -> None:
