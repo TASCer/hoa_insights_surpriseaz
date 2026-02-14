@@ -3,7 +3,7 @@ import logging
 
 
 from hoa_insights_surpriseaz import my_secrets
-from hoa_insights_surpriseaz import convert_management_data
+from hoa_insights_surpriseaz import convert_community_management
 from hoa_insights_surpriseaz.database import models_local
 from hoa_insights_surpriseaz.database.update_community_management import (
     get_managed_communities,
@@ -75,7 +75,7 @@ def community_management(db: Session, management_file) -> bool:
                 old=PDF_PATH / PDF_DOWNLOADED_FILENAME, new=PDF_PATH / PDF_NEW_FILENAME
             )
             if file_renamed:
-                convert_management_data.pdf_to_csv(
+                convert_community_management.pdf_to_csv(
                     pdf_file=PDF_PATH / PDF_DOWNLOADED_FILENAME,
                     csv_file=management_file,
                 )
