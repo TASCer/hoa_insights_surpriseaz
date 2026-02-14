@@ -5,7 +5,7 @@ from hoa_insights_surpriseaz import fetch_assessor_parcels
 from hoa_insights_surpriseaz import create_reports
 from hoa_insights_surpriseaz import parse_assessor_parcels
 from hoa_insights_surpriseaz import process_updated_parcels
-from hoa_insights_surpriseaz import convert_management_data
+from hoa_insights_surpriseaz import convert_community_management
 from hoa_insights_surpriseaz.database import update_community_management
 from hoa_insights_surpriseaz.database import update_remote_database
 from hoa_insights_surpriseaz.database import update_local_database
@@ -103,7 +103,7 @@ def community_management_update() -> Path:
     file_renamed: bool = file_renamer.rename(old=orig_pdf, new=new_pdf)
 
     if file_renamed:
-        convert_management_data.pdf_to_csv(new_pdf, mgmt_csv)
+        convert_community_management.pdf_to_csv(new_pdf, mgmt_csv)
 
         delete_files.delete()
 
