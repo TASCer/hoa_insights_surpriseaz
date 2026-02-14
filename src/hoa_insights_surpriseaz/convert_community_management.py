@@ -32,7 +32,7 @@ def parse_csv(file: Path) -> Path:
         logger.error(fnf_error)
 
     original_file_header = list(managers.columns)
-    original_file_header = [h.replace('"', '') for h in original_file_header]
+    # original_file_header = [h.replace('"', "") for h in original_file_header]
 
     managers.rename(
         columns={
@@ -60,7 +60,7 @@ def parse_csv(file: Path) -> Path:
     managers["MANAGEMENT"] = managers["MANAGEMENT"].str.replace(",", "")
     managers.drop(managers.columns[[1]], axis=1, inplace=True)
 
-# TODO Monitor if comes back up
+    # TODO Monitor if comes back up
     ### FIX for page 2 pdf conversion issue.contact_adx field null and phone had adx field combined ###
     # fill missing adx with combined phone field
     # managers["CONTACT_ADX"] = managers["CONTACT_ADX"].fillna(managers["CONTACT_PH"])
@@ -110,7 +110,7 @@ def pdf_to_csv(pdf_file: Path, csv_file: Path) -> Path:
 
 
 if __name__ == "__main__":
-    CSV_PATH: Path = Path.cwd() / "database" / "setup"/ "seed_data"
+    CSV_PATH: Path = Path.cwd() / "database" / "setup" / "seed_data"
     CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
     PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
     PDF_PATH: Path = Path.cwd().parent.parent / "tests" / "input"
