@@ -32,7 +32,6 @@ def parse_csv(file: Path) -> Path:
         logger.error(fnf_error)
 
     original_file_header = list(managers.columns)
-    # original_file_header = [h.replace('"', "") for h in original_file_header]
 
     managers.rename(
         columns={
