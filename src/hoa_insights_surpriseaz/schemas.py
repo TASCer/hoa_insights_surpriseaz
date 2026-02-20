@@ -72,7 +72,7 @@ class Rentals(BaseModel):
         return format_phone(value)
 
     @field_validator("CONTACT_ADX", "CONTACT", "OWNER")
-    def remove_comma(cls, value):  # -> Any:
+    def remove_comma(cls, value):
         return value.replace(",", "")
 
     def remove_apostrophe(cls, value):
@@ -85,3 +85,11 @@ class Parcels(BaseModel):
     SITUS: str
     LAT: str
     LONG: str
+
+
+# class Webservers(BaseModel):
+#     PLATFORM: str
+#     PATH: str
+#     SITUS: str
+#     LAT: str
+#     LONG: str
