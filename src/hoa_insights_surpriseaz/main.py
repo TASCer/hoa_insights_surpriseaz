@@ -23,24 +23,14 @@ from pathlib import Path
 PROJECT_ROOT: Path = Path.cwd()
 LOG_DATE: str = str(date_parser.logger_date()) + ".log"
 
-CSV_FINANCIAL: Path = Path.cwd() / "output" / "csv" / "financial"
-CSV_FINANCIAL.mkdir(parents=True, exist_ok=True)
+CSV_FINANCIAL: Path = (PROJECT_ROOT / "output" / "csv" / "financial").mkdir(parents=True, exist_ok=True)
+CSV_UPDATED_PARCELS: Path = (PROJECT_ROOT / "output" / "csv" / "parcel_changes").mkdir(parents=True, exist_ok=True)
 
-CSV_UPDATED_PARCELS: Path = Path.cwd() / "output" / "csv" / "parcel_changes"
-CSV_UPDATED_PARCELS.mkdir(parents=True, exist_ok=True)
+HTML_REPORT_CHANGES: Path = (PROJECT_ROOT / "output" / "web_reports" / "parcel_changes").mkdir(parents=True, exist_ok=True)
+HTML_REPORT_FINANCIAL: Path = (PROJECT_ROOT / "output" / "web_reports" / "financial").mkdir(parents=True, exist_ok=True)
 
-HTML_REPORT_CHANGES: Path = Path.cwd() / "output" / "web_reports" / "parcel_changes"
-HTML_REPORT_CHANGES.mkdir(parents=True, exist_ok=True)
-
-HTML_REPORT_FINANCIAL: Path = Path.cwd() / "output" / "web_reports" / "financial"
-HTML_REPORT_FINANCIAL.mkdir(parents=True, exist_ok=True)
-
-PDF_REPORT_CHANGES: Path = Path.cwd() / "output" / "pdf" / "parcel_changes"
-PDF_REPORT_CHANGES.mkdir(parents=True, exist_ok=True)
-
-PDF_REPORT_FINANCIAL: Path = Path.cwd() / "output" / "pdf" / "financial"
-PDF_REPORT_FINANCIAL.mkdir(parents=True, exist_ok=True)
-
+PDF_REPORT_CHANGES: Path = (PROJECT_ROOT / "output" / "pdf" / "parcel_changes").mkdir(parents=True, exist_ok=True)
+PDF_REPORT_FINANCIAL: Path = (PROJECT_ROOT / "output" / "pdf" / "financial").mkdir(parents=True, exist_ok=True)
 
 DB_SETUP_LOGFILE: Path = Path.cwd() / "database" / "setup" / "__database-setup__.log"
 
