@@ -20,20 +20,29 @@ from hoa_insights_surpriseaz.utils import (
 from logging import Logger, Formatter
 from pathlib import Path
 
-PROJECT_ROOT: Path = Path.cwd()
 LOG_DATE: str = str(date_parser.logger_date()) + ".log"
 
-CSV_FINANCIAL: Path = (PROJECT_ROOT / "output" / "csv" / "financial").mkdir(parents=True, exist_ok=True)
-CSV_UPDATED_PARCELS: Path = (PROJECT_ROOT / "output" / "csv" / "parcel_changes").mkdir(parents=True, exist_ok=True)
+# PATHS
+PROJECT_ROOT: Path = Path.cwd()
 
-HTML_REPORT_CHANGES: Path = (PROJECT_ROOT / "output" / "web_reports" / "parcel_changes").mkdir(parents=True, exist_ok=True)
-HTML_REPORT_FINANCIAL: Path = (PROJECT_ROOT / "output" / "web_reports" / "financial").mkdir(parents=True, exist_ok=True)
+CSV_FINANCIAL: Path = PROJECT_ROOT / "output" / "csv" / "financial"
+CSV_FINANCIAL.mkdir(parents=True, exist_ok=True)
+CSV_UPDATED_PARCELS: Path = PROJECT_ROOT / "output" / "csv" / "parcel_changes"
+CSV_UPDATED_PARCELS.mkdir(parents=True, exist_ok=True)
 
-PDF_REPORT_CHANGES: Path = (PROJECT_ROOT / "output" / "pdf" / "parcel_changes").mkdir(parents=True, exist_ok=True)
-PDF_REPORT_FINANCIAL: Path = (PROJECT_ROOT / "output" / "pdf" / "financial").mkdir(parents=True, exist_ok=True)
+HTML_REPORT_CHANGES: Path = PROJECT_ROOT / "output" / "web_reports" / "parcel_changes"
+HTML_REPORT_CHANGES.mkdir(parents=True, exist_ok=True)
+HTML_REPORT_FINANCIAL: Path = PROJECT_ROOT / "output" / "web_reports" / "financial"
+HTML_REPORT_FINANCIAL.mkdir(parents=True, exist_ok=True)
+
+PDF_REPORT_CHANGES: Path = PROJECT_ROOT / "output" / "pdf" / "parcel_changes"
+PDF_REPORT_CHANGES.mkdir(parents=True, exist_ok=True)
+PDF_REPORT_FINANCIAL: Path = PROJECT_ROOT / "output" / "pdf" / "financial"
+PDF_REPORT_FINANCIAL.mkdir(parents=True, exist_ok=True)
 
 DB_SETUP_LOGFILE: Path = Path.cwd() / "database" / "setup" / "__database-setup__.log"
 
+# LOGGING
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
@@ -117,7 +126,9 @@ def main() -> None:
         logger.warning("NO REGISTERED RENTAL PROPERTIES FOUND")
 
     owner_changes, sale_changes, owner_change_count, sale_change_count = (
-        process_updated_parcels.insights(CSV_UPDATED_PARCELS, CSV_FINANCIAL)
+        process_updated_parcels.insights(
+            updated_parcels=CSV_UPDATED_PARCELS, finances=CSV_FINANCIAL
+        )
     )
 
     if not owner_changes.empty:
