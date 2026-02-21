@@ -64,6 +64,7 @@ class WebServer(Enum):
 
     LINUX = Path("/var/www/html/hoa/reports/")
     WINDOWS = Path(r"C:\inetpub\wwwroot\TASCSlocal\hoa\reports")
+    TESTING = Path(PROJECT_ROOT / "tests")
 
 
 WEB_SERVER = WebServer.LINUX

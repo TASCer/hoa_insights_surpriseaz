@@ -88,6 +88,14 @@ def to_webserver(to_copy: Path, webserver: Enum) -> None:
             webserver_fqdn=webserver_fqdn,
         )
 
+    if webserver.name == "TESTING":
+        windows_server(
+            source=to_copy,
+            destination=webserver.value,
+            secure_copy_needed=False,
+            webserver_fqdn=webserver_fqdn,
+        )
+
 
 if __name__ == "__main__":
     from hoa_insights_surpriseaz.main import WebServer

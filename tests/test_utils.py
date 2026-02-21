@@ -1,7 +1,7 @@
 import pytest
 
 from datetime import datetime
-
+from hoa_insights_surpriseaz.main import WebServer
 from hoa_insights_surpriseaz.utils import (
     date_parser,
     delete_files,
@@ -12,7 +12,7 @@ from hoa_insights_surpriseaz.utils import (
 from pathlib import Path
 from datetime import datetime as dt
 
-TEST_ORIG_PDF_FILENAME: str = "HOA Contact List (PDF).pdf"
+TEST_ORIG_PDF_FILENAME: str = "MANAGEMENT.pdf"
 TEST_RENAMED_PDF_FILENAME: str = "TEST-RENAMED-MANAGEMENT.pdf"
 TEST_ORIG_CSV_FILENAME: str = "test-surpriseaz-hoa-management.csv"
 CSV_FILENAME: str = "test-renamed-surpriseaz-hoa-management.csv"
@@ -45,7 +45,7 @@ def test_format_api_date() -> None:
 
 
 def test_first_tuesday() -> None:
-    first_tuesday = date_parser.first_tuesday_of_month()
+    first_tuesday: bool = date_parser.first_tuesday_of_month()
     assert not first_tuesday, "Is today the 1st Tuesday of this month?"
 
 
@@ -92,11 +92,9 @@ def test_rename_files() -> None:
 
 
 def test_file_copier() -> None:
-    from src.hoa_insights_surpriseaz.main import WebServer
-
     assert (
         file_copier.to_webserver(
-            to_copy=tests_path / TEST_ORIG_PDF_FILENAME, webserver=WebServer.LINUX.value
+            to_copy=tests_path / TEST_ORIG_PDF_FILENAME, webserver=WebServer.TESTING
         )
         is None
     )
