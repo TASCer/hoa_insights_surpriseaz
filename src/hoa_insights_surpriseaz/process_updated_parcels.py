@@ -5,7 +5,7 @@ from logging import Logger
 from pandas import DataFrame
 from pathlib import Path
 from hoa_insights_surpriseaz.utils.date_parser import logger_date
-from hoa_insights_surpriseaz.database import get_updated_data
+from hoa_insights_surpriseaz.database import get_updated_parcels
 
 logger: Logger = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ def insights(
     :param finances: directory for finance change output
     :return: owner changes, finance changes, owner change count, sale change count
     """
-    owner_changes, sale_changes = get_updated_data.changes()
+    owner_changes, sale_changes = get_updated_parcels.changes()
     owner_change_count: int = len(owner_changes)
     sale_change_count: int = len(sale_changes)
 
