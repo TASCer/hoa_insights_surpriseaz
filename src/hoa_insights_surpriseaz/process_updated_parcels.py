@@ -9,6 +9,9 @@ from hoa_insights_surpriseaz.database import get_updated_parcels
 
 logger: Logger = logging.getLogger(__name__)
 
+OWNERS_REPORT_COLUMNS: list[str] = ["APN", "COMMUNITY", "OWNER", "DEED_DATE", "DEED_TYPE"]
+SALES_REPORT_COLUMNS: list[str] = ["APN", "COMMUNITY", "SALE_DATE", "SALE_PRICE"]
+
 
 def insights(
     updated_parcels: Path, finances: Path
@@ -31,11 +34,11 @@ def insights(
 
         owner_changes: DataFrame = DataFrame(
             owner_changes,
-            columns=["APN", "COMMUNITY", "OWNER", "DEED_DATE", "DEED_TYPE"],
+            columns=OWNERS_REPORT_COLUMNS,
         ).set_index(["APN"])
 
         sale_changes: DataFrame = DataFrame(
-            sale_changes, columns=["APN", "COMMUNITY", "SALE_DATE", "SALE_PRICE"]
+            sale_changes, columns=SALES_REPORT_COLUMNS
         ).set_index("APN")
 
         merged_changes: DataFrame = owner_changes.merge(
