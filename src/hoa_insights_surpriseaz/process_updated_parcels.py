@@ -9,7 +9,13 @@ from hoa_insights_surpriseaz.database import get_updated_parcels
 
 logger: Logger = logging.getLogger(__name__)
 
-OWNERS_REPORT_COLUMNS: list[str] = ["APN", "COMMUNITY", "OWNER", "DEED_DATE", "DEED_TYPE"]
+OWNERS_REPORT_COLUMNS: list[str] = [
+    "APN",
+    "COMMUNITY",
+    "OWNER",
+    "DEED_DATE",
+    "DEED_TYPE",
+]
 SALES_REPORT_COLUMNS: list[str] = ["APN", "COMMUNITY", "SALE_DATE", "SALE_PRICE"]
 
 
