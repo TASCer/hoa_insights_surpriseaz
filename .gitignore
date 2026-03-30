@@ -30,3 +30,4 @@ tests/input/TEST-ORIGINAL-PDF.pdf
 tests/input/TEST-RENAMED-PDF.pdf
 tests/output/pdf/TEST-MANAGEMENT.pdf
 issues.txt
+my_test.py
