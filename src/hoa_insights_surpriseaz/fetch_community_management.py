@@ -2,9 +2,9 @@ import os
 import logging
 import time
 
+from dotenv import load_dotenv
 from logging import Logger
 from pathlib import Path
-from hoa_insights_surpriseaz import my_secrets
 
 from selenium import webdriver
 from selenium.common.exceptions import ElementNotSelectableException
@@ -15,8 +15,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-
 from webdriver_manager.firefox import GeckoDriverManager
+
+load_dotenv()
 
 # TODO SPACE TYPO FROM CITY 08-25 and extra "," after contact 2nd page
 PDF_DOWNLOADED_FILENAME: str = "HOA Contact List (PDF) .pdf"
@@ -30,7 +31,7 @@ CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
 
 logger: Logger = logging.getLogger(__name__)
 
-URL: str = my_secrets.hoa_management_pdf_url
+URL: str = os.environ["HOA_MANAGEMENT_URL"]
 XPATH = "/html/body/div[4]/div/div[2]/div[2]/div[3]/div/div/div[1]/div/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/div/div/div[2]/div/ul/li/a"
 
 DOWNLOAD_TO: Path = Path.cwd() / "output" / "pdf"

@@ -3,17 +3,13 @@ import os
 from pathlib import Path
 import pytest
 
+from dotenv import load_dotenv
 from sqlalchemy import create_engine, Engine, text
 from sqlalchemy.orm import Session
-from hoa_insights_surpriseaz.my_secrets import (
-    test_local_uri,
-    test_local_dbname,
-    test_remote_uri,
-    test_remote_dbname,
-)
-
 from hoa_insights_surpriseaz.parse_assessor_parcels import owner_data
 from hoa_insights_surpriseaz.schemas import Owners, Rentals
+
+load_dotenv()
 
 TEST_INITIAL_PARCELS_PATH: Path = (
     Path.cwd() / "tests" / "input" / "original_parcel_json"
@@ -26,7 +22,9 @@ TEST_MANAGEMENT_CSV_PATH: Path = (
 
 @pytest.fixture(scope="session")
 def test_create_local_engine() -> Engine:
-    test_debian_engine: Engine = create_engine(f"mysql+pymysql://{test_local_uri}")
+    test_debian_engine: Engine = create_engine(
+        f"mysql+pymysql://{os.environ['TEST_LOCAL_DB_URI']}"
+    )
 
     return test_debian_engine
 
@@ -40,14 +38,16 @@ def test_create_local_session(test_create_local_engine):
 
     finally:
         test_debian_session.execute(
-            text(f"DROP DATABASE IF EXISTS {test_local_dbname};")
+            text(f"DROP DATABASE IF EXISTS {os.environ['TEST_LOCAL_DB_URI']};")
         )
         pass
 
 
 @pytest.fixture(scope="session")
 def test_create_remote_engine() -> Engine:
-    test_bluehost_engine: Engine = create_engine(f"mysql+pymysql://{test_remote_uri}")
+    test_bluehost_engine: Engine = create_engine(
+        f"mysql+pymysql://{os.environ['TEST_REMOTE_DB_URI']}"
+    )
 
     return test_bluehost_engine
 
@@ -60,7 +60,9 @@ def test_create_remote_session(test_create_remote_engine):
         yield test_bluehost_session
 
     finally:
-        test_bluehost_session.execute(text(f"DROP DATABASE {test_remote_dbname};"))
+        test_bluehost_session.execute(
+            text(f"DROP DATABASE {os.environ['TEST_REMOTE_DB_URI']};")
+        )
         pass
 
 

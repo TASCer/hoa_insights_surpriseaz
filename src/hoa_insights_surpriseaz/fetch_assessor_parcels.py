@@ -2,28 +2,30 @@ import aiohttp
 import asyncio
 import json
 import logging
+import os
 import platform
 
 from aiohttp import TCPConnector
 from aiohttp_retry import RetryClient, ExponentialRetry
 from asyncio import Semaphore, Task
-from hoa_insights_surpriseaz import my_secrets
+from dotenv import load_dotenv
 from hoa_insights_surpriseaz.database import models_local
-
 from logging import Logger
 from sqlalchemy import Engine, Sequence, Tuple, create_engine, exc, Row, select
 
+load_dotenv()
+
 logger: Logger = logging.getLogger(__name__)
 
-LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
-LOCAL_DB_NAME: str = f"{my_secrets.prod_local_dbname}"
+LOCAL_DB_URI: str = f"{os.environ['PROD_LOCAL_DB_URI']}"
+LOCAL_DB_NAME: str = f"{os.environ['PROD_LOCAL_DB_NAME']}"
 
 PARCELS_TABLE: str = "parcels"
 
 if platform.system() == "Windows":
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
-API_HEADER: dict[str, str] = {my_secrets.api_header_type: my_secrets.api_header_creds}
+API_HEADER: dict[str, str] = {os.environ["API_HEADER_TYPE"]: os.environ["API_KEY"]}
 
 
 def get_parcel_apns() -> list[str]:

@@ -1,8 +1,8 @@
 import csv
+import os
 import logging
 
-
-from hoa_insights_surpriseaz import my_secrets
+from dotenv import load_dotenv
 from hoa_insights_surpriseaz import convert_community_management
 from hoa_insights_surpriseaz.database import models_local
 from hoa_insights_surpriseaz.database.update_community_management import (
@@ -17,11 +17,14 @@ from sqlalchemy import exc, select, Result
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 
+load_dotenv()
+
+
 PDF_DOWNLOADED_FILENAME: str = "HOA Contact List (PDF) .pdf"
 PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
 PDF_PATH: Path = Path.cwd().parent.parent / "output" / "pdf"
 
-LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
+LOCAL_DB_URI: str = f"{os.environ['PROD_LOCAL_DB_URI']}"
 
 PARCELS_TABLE: str = "parcels"
 COMMUNITY_TABLE: str = "communitites"
@@ -54,7 +57,7 @@ management_ids: list = [
 ]
 
 
-def community_management(db: Session, management_file) -> bool:
+def community_management(db: Session, management_file: Path) -> bool:
     """
     Function populates the community_managers local database table.
 
@@ -79,7 +82,7 @@ def community_management(db: Session, management_file) -> bool:
                     pdf_file=PDF_PATH / PDF_DOWNLOADED_FILENAME,
                     csv_file=management_file,
                 )
-            community_management(db=db)
+            community_management(db=db, management_file=management_file)
 
         except FileNotFoundError as ffe:
             logger.error(ffe)

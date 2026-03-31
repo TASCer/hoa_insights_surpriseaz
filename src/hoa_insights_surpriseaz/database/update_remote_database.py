@@ -1,13 +1,16 @@
+import os
 import logging
 
+from dotenv import load_dotenv
 from hoa_insights_surpriseaz.utils.date_parser import get_now
-from hoa_insights_surpriseaz import my_secrets
 from logging import Logger
 from pandas import Series, DataFrame
 from sqlalchemy import Engine, TextClause, create_engine, exc, text
 
-LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
-REMOTE_DB_URI: str = f"{my_secrets.prod_remote_uri}"
+load_dotenv()
+
+LOCAL_DB_URI: str = f"{os.environ['PROD_LOCAL_DB_URI']}"
+REMOTE_DB_URI: str = f"{os.environ['PROD_REMOTE_DB_URI']}"
 
 logger: Logger = logging.getLogger(__name__)
 

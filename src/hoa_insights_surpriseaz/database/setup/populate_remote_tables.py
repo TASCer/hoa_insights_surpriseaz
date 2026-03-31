@@ -1,5 +1,7 @@
+import os
 import logging
 
+from dotenv import load_dotenv
 from logging import Logger
 from sqlalchemy import create_engine, Engine, exc, select, Sequence
 from sqlalchemy.orm import Session
@@ -7,11 +9,12 @@ from hoa_insights_surpriseaz.database.models_remote import (
     Community,
     CommunityManagement,
 )
-from hoa_insights_surpriseaz import my_secrets
 from typing import Literal
 
-REMOTE_DB_URI: str = f"{my_secrets.test_remote_uri}"
-LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
+load_dotenv()
+
+LOCAL_DB_URI: str = f"{os.environ['PROD_LOCAL_DB_URI']}"
+REMOTE_DB_URI: str = f"{os.environ['PROD_REMOTE_DB_URI']}"
 
 LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
 REMOTE_ENGINE: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)

@@ -1,20 +1,22 @@
 import csv
+import os
 import logging
 from typing import Any
 
+from dotenv import load_dotenv
 from hoa_insights_surpriseaz.database.models_local import (
     CommunityManagement as MODEL_CM,
 )
 from hoa_insights_surpriseaz.schemas import CommunityManagement as SCHEMA_CM
-from hoa_insights_surpriseaz import my_secrets
-
 from logging import Logger
 from pathlib import Path
 from sqlalchemy.orm import Session
 from sqlalchemy import Engine, create_engine, exc, update, Update
 
-LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
-REMOTE_DB_URI: str = f"{my_secrets.prod_remote_uri}"
+load_dotenv()
+
+LOCAL_DB_URI: str = f"{os.environ['PROD_LOCAL_DB_URI']}"
+REMOTE_DB_URI: str = f"{os.environ['PROD_REMOTE_DB_URI']}"
 
 logger: Logger = logging.getLogger(__name__)
 

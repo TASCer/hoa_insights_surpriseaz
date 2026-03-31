@@ -1,18 +1,25 @@
+import json
+import os
 import logging
 import smtplib
 
+from dotenv import load_dotenv
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from logging import Logger
-from hoa_insights_surpriseaz import my_secrets
 
-email_reciever: list[str] = my_secrets.email_to
-email_sender: str = my_secrets.postfix_mail_from
-email_server: str = my_secrets.postfix_mailhost
-email_user: str = my_secrets.postfix_user
-email_password: str = my_secrets.postfix_password
+load_dotenv()
+
+print(json.loads(os.environ["EMAIL_RECIPIENTS"]))
+
+
+email_reciever: list[str] = json.loads(os.environ["EMAIL_RECIPIENTS"])
+email_sender: str = os.environ["EMAIL_FROM"]
+email_server: str = os.environ["EMAIL_HOST"]
+email_user: str = os.environ["EMAIL_USER"]
+email_password: str = os.environ["EMAIL_PASSWORD"]
 
 
 def send_mail(subject: str, attachment_path: str | None = None) -> None:

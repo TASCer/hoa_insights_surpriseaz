@@ -1,14 +1,16 @@
 import logging
+import os
 
-from hoa_insights_surpriseaz import my_secrets
-
+from dotenv import load_dotenv
 from logging import Logger
 from sqlalchemy import Engine, text, exc
 
 logger: Logger = logging.getLogger(__name__)
 
-LOCAL_DB_NAME: str = f"{my_secrets.prod_local_dbname}"
-LOCAL_DB_USER: str = f"{my_secrets.prod_local_dbuser}"
+load_dotenv()
+
+LOCAL_DB_NAME: str = f"{os.environ['PROD_LOCAL_DB_NAME']}"
+LOCAL_DB_USER: str = f"{os.environ['PROD_LOCAL_DB_USER']}"
 
 UPDATE_COMMUNITIES: str = "update_communities"
 
