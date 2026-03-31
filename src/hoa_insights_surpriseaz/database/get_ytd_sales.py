@@ -1,6 +1,7 @@
+import os
 import logging
 
-from hoa_insights_surpriseaz import my_secrets
+from dotenv import load_dotenv
 from hoa_insights_surpriseaz.utils.number_formatter import format_price
 from logging import Logger
 from pandas import DataFrame, read_sql, concat
@@ -8,10 +9,12 @@ from pathlib import Path
 from sqlalchemy import create_engine, exc
 from sqlalchemy.engine import Engine
 
-LOCAL_DB_HOSTNAME: str = f"{my_secrets.prod_local_dbhost}"
-LOCAL_DB_NAME: str = f"{my_secrets.prod_local_dbname}"
-LOCAL_DB_USER: str = f"{my_secrets.prod_local_dbuser}"
-LOCAL_DB_PW: str = f"{my_secrets.prod_local_dbpass}"
+load_dotenv()
+
+LOCAL_DB_HOSTNAME: str = f"{os.environ['PROD_LOCAL_DB_HOST']}"
+LOCAL_DB_NAME: str = f"{os.environ['PROD_LOCAL_DB_NAME']}"
+LOCAL_DB_USER: str = f"{os.environ['PROD_LOCAL_DB_USER']}"
+LOCAL_DB_PW: str = f"{os.environ['PROD_LOCAL_DB_PASSWORD']}"
 
 
 def get_average_sale_price(finances: Path) -> DataFrame:

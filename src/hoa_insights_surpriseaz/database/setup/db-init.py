@@ -1,7 +1,7 @@
+import os
 import logging
 
-from hoa_insights_surpriseaz import my_secrets
-
+from dotenv import load_dotenv
 from hoa_insights_surpriseaz.database.setup import (
     create_local_database,
     create_remote_database,
@@ -12,6 +12,8 @@ from logging import Logger, Formatter
 from pathlib import Path
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session
+
+load_dotenv()
 
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
@@ -33,8 +35,8 @@ root_logger.addHandler(fh)
 
 logger: Logger = logging.getLogger(__name__)
 
-LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
-REMOTE_DB_URI: str = f"{my_secrets.prod_remote_uri}"
+LOCAL_DB_URI: str = f"{os.environ['PROD_LOCAL_URI']}"
+REMOTE_DB_URI: str = f"{os.environ['PROD_REMOTE_URI']}"
 LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
 REMOTE_ENGINE: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
 

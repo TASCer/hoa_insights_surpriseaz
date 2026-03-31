@@ -5,9 +5,11 @@ import os
 import shutil
 import socket
 
-from hoa_insights_surpriseaz import my_secrets
+from dotenv import load_dotenv
 from logging import Logger
 from pathlib import Path
+
+load_dotenv()
 
 logger: Logger = logging.getLogger(__name__)
 
@@ -68,7 +70,7 @@ def to_webserver(to_copy: Path, webserver: Enum) -> None:
     client_fqdn: str = socket.getfqdn()
 
     webserver_system = webserver.name
-    webserver_fqdn: str = my_secrets.prod_local_dbhost
+    webserver_fqdn: str = os.environ["PROD_LOCAL_DB_HOST"]
 
     secure_copy_needed: bool = webserver_fqdn != client_fqdn
 

@@ -1,14 +1,13 @@
+import os
 import logging
 
+from dotenv import load_dotenv
 from hoa_insights_surpriseaz.database.models_local import (
     HistoricalSales,
     HistoricalOwners,
     Parcel,
 )
-
-# from hoa_insights_surpriseaz.schemas import Parcels
 from hoa_insights_surpriseaz.utils.date_parser import sql_date
-from hoa_insights_surpriseaz import my_secrets
 from logging import Logger
 from sqlalchemy import (
     Engine,
@@ -19,7 +18,9 @@ from sqlalchemy import (
 )
 from typing import Any
 
-LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
+load_dotenv()
+
+LOCAL_DB_URI: str = f"{os.environ['PROD_LOCAL_DB_URI']}"
 
 
 def changes(db_uri: str = f"{LOCAL_DB_URI}") -> tuple[list[str], list[str]]:

@@ -1,16 +1,19 @@
+import os
 import logging
 
-from hoa_insights_surpriseaz import my_secrets
+from dotenv import load_dotenv
 from logging import Logger
 from sqlalchemy import Engine, create_engine, exc, text, Insert
 from sqlalchemy.dialects.mysql import insert
 from hoa_insights_surpriseaz.database import models_local
 
-LOCAL_DB_HOSTNAME: str = f"{my_secrets.prod_local_dbhost}"
-LOCAL_DB_NAME: str = f"{my_secrets.prod_local_dbname}"
-LOCAL_DB_USER: str = f"{my_secrets.prod_local_dbuser}"
-LOCAL_DB_PW: str = f"{my_secrets.prod_local_dbpass}"
-LOCAL_DB_URI: str = f"{my_secrets.prod_local_uri}"
+load_dotenv()
+
+LOCAL_DB_HOSTNAME: str = f"{os.environ['PROD_LOCAL_DB_HOST']}"
+LOCAL_DB_NAME: str = f"{os.environ['PROD_LOCAL_DB_NAME']}"
+LOCAL_DB_USER: str = f"{os.environ['PROD_LOCAL_DB_USER']}"
+LOCAL_DB_PW: str = f"{os.environ['PROD_LOCAL_DB_PASSWORD']}"
+LOCAL_DB_URI: str = f"{os.environ['PROD_LOCAL_DB_URI']}"
 
 OWNERS_TABLE: str = "owners"
 RENTALS_TABLE: str = "rentals"
