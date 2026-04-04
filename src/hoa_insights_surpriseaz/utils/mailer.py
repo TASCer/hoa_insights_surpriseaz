@@ -12,9 +12,6 @@ from logging import Logger
 
 load_dotenv()
 
-print(json.loads(os.environ["EMAIL_RECIPIENTS"]))
-
-
 email_reciever: list[str] = json.loads(os.environ["EMAIL_RECIPIENTS"])
 email_sender: str = os.environ["EMAIL_FROM"]
 email_server: str = os.environ["EMAIL_HOST"]
