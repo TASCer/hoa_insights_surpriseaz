@@ -51,7 +51,7 @@ PDF financial report functionality will need the [pdfkit Python module](https://
 
 - Linux shell script for cron job scheduling
 - Windows batch file for Scheduled Tasks scheduling
-- A template of 'my_secrets.py' secrets file named 'my_secrets_template.py' 
+- A template of the required .env file:'sample-env'  
 
 #### src/utils folder contains
 
@@ -64,11 +64,11 @@ PDF financial report functionality will need the [pdfkit Python module](https://
 
 #### PRE_LAUNCH TODO's
 
-- [ ] TASC 1 - Modify 'my_secrets_template.py' as needed and save as 'my_secrets.py' in package root.
+- [ ] TASC 1 - Modify 'sample-env' as needed and save as '.env' in project root.
 
 - [ ] TASC 2 - Execute command: "uv run db-init.py" from database/setup directory
 
-- [ ] TASC 3 - Verify database setup via ___database-setup___.log
+- [ ] TASC 3 - Verify database setup via:  '\_\__database-setup\___.log'
 
 #### LAUNCH TODO
 
