@@ -103,7 +103,11 @@ def send_mail(subject: str, attachment_path: str | None = None) -> None:
 
     except smtplib.SMTPException as smtp_err:
         logger.error(f"\tCheck Email Server {smtp_err}")
-        print(f"Check Email Server {smtp_err}")
+        print(f"FAIL SEND - Check Email Server {smtp_err}")
+
+    except ConnectionRefusedError as conn_err:
+        logger.error(f"\tCheck Email Server {conn_err}")
+        print(f"FAIL SEND - Check Network / Email Server {conn_err}")
 
     # #################################### SSL TESTING
     # context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)   # ssl.create_default_context
