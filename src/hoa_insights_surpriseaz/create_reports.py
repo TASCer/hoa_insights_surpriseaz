@@ -1,5 +1,5 @@
+# pdfkit alternative python
 import logging
-import pdfkit as pdf
 
 from hoa_insights_surpriseaz import styles
 from hoa_insights_surpriseaz.utils.number_formatter import format_price
@@ -8,8 +8,11 @@ from logging import Logger
 from pandas import DataFrame
 from pandas.io.formats.style import Styler
 from pathlib import Path
+from weasyprint import HTML
 
-logger: Logger = logging.getLogger(__name__)
+
+logging.getLogger("fontTools").setLevel(logging.WARNING)
+logging.getLogger("weasyprint").setLevel(logging.WARNING)
 
 
 def parcel_changes(
@@ -48,10 +51,9 @@ def parcel_changes(
     ).set_caption(parcel_updates_caption)
 
     parcel_updates_style.to_html(f"{html_parcel_changes / 'recent_changes.html'}")
-
-    pdf.from_file(
-        input=f"{html_parcel_changes / 'recent_changes.html'}",
-        output_path=pdf_parcel_changes / "recent_changes.pdf",
+    # issue with page layout
+    HTML(filename=f"{html_parcel_changes / 'recent_changes.html'}").write_pdf(
+        pdf_parcel_changes / "recent_changes.pdf"
     )
 
     return Path(html_parcel_changes / "recent_changes.html")
@@ -78,9 +80,8 @@ def ytd_community_sales(
 
     finance_style.to_html(f"{html_file / 'community_ytd_sales_avg.html'}")
 
-    pdf.from_file(
-        input=f"{html_file / 'community_ytd_sales_avg.html'}",
-        output_path=pdf_file / "community_ytd_sales_avg.pdf",
+    HTML(filename=f"{html_file}/community_ytd_sales_avg.html").write_pdf(
+        pdf_file / "community_ytd_sales_avg.pdf"
     )
 
     return Path(html_file / "community_ytd_sales_avg.html")
