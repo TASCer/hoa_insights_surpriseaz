@@ -6,8 +6,8 @@
     "configurations": [ 
 
         {
-            "name": "Python: main",
-            "type": "python",
+            "name": "Py: main",
+            "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}/src/hoa_insights_surpriseaz/",
             "program": "main.py",
@@ -16,8 +16,8 @@
         },
         
         {
-            "name": "Python: db setup",
-            "type": "python",
+            "name": "Py: db setup",
+            "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}/src/hoa_insights_surpriseaz/database/setup",
             "program": "db-init.py",
@@ -26,8 +26,8 @@
         },
     
         {
-            "name": "Python: update remote base",
-            "type": "python",
+            "name": "Py: update remote base",
+            "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}/src/hoa_insights_surpriseaz/database",
             "program": "update_remote_tables.py",
@@ -36,8 +36,8 @@
         }, 
 
         {
-            "name": "Python: get pdf",
-            "type": "python",
+            "name": "Py: get pdf",
+            "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}/src/hoa_insights_surpriseaz/",
             "program": "fetch_community_management.py",
@@ -46,8 +46,8 @@
         },
 
         {
-            "name": "Python: update managers",
-            "type": "python",
+            "name": "Py: update managers",
+            "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}/src/hoa_insights_surpriseaz/database",
             "program": "update_community_management.py",
@@ -56,8 +56,8 @@
         },
     
         {
-            "name": "Python: cur file",
-            "type": "python",
+            "name": "Py: cur file",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
@@ -67,7 +67,7 @@
     
         {
             "name": "Pytest",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "module": "pytest",
             "args": "-v", 
