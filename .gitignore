@@ -8,13 +8,13 @@ wheels/
 *.pytest_cache/
 /src/hoa_insights_surpriseaz/.ruff_cache/
 .ruff_cache
-
 # Virtual environments
 .venv
-
+# Environment
+.env
 # Folders / Files
 *.log
-/__old_logs/
+/_old_logs/
 /src/hoa_insights_surpriseaz/output/csv/financial/*.csv
 /src/hoa_insights_surpriseaz/output/csv/parcel_changes/*.csv
 /src/hoa_insights_surpriseaz/output/csv/parcel_changes/*/*.csv
@@ -29,4 +29,3 @@ tests/input/TEST-RENAMED-PDF.pdf
 tests/output/pdf/TEST-MANAGEMENT.pdf
 issues.txt
 my_test.py
-.env
