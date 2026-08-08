@@ -14,7 +14,9 @@ load_dotenv()
 logger: Logger = logging.getLogger(__name__)
 
 
-def linux_server(source, destination, secure_copy_needed, webserver_fqdn) -> None:
+def linux_server(
+    source, destination, secure_copy_needed, webserver_fqdn, client_system
+) -> None:
     """
     Function copies files for Linux systems
     """
@@ -39,7 +41,9 @@ def linux_server(source, destination, secure_copy_needed, webserver_fqdn) -> Non
             )
 
 
-def windows_server(source, destination, secure_copy_needed, webserver_fqdn) -> None:
+def windows_server(
+    source, destination, secure_copy_needed, webserver_fqdn, client_system
+) -> None:
     """
     Function copies files for Windows systems
     """
@@ -70,7 +74,6 @@ def to_webserver(to_copy: Path, webserver: Enum) -> None:
     client_system = platform.system()
     client_fqdn: str = socket.getfqdn()
 
-    webserver_system = webserver.name
     webserver_fqdn: str = os.environ["DEVELOPMENT"]
 
     secure_copy_needed: bool = webserver_fqdn != client_fqdn
@@ -81,6 +84,7 @@ def to_webserver(to_copy: Path, webserver: Enum) -> None:
             destination=webserver.value,
             secure_copy_needed=secure_copy_needed,
             webserver_fqdn=webserver_fqdn,
+            client_system=client_system,
         )
 
     if webserver.name == "WINDOWS":
@@ -89,6 +93,7 @@ def to_webserver(to_copy: Path, webserver: Enum) -> None:
             destination=webserver.value,
             secure_copy_needed=secure_copy_needed,
             webserver_fqdn=webserver_fqdn,
+            client_system=client_system,
         )
 
     if webserver.name == "TESTING":
@@ -97,6 +102,7 @@ def to_webserver(to_copy: Path, webserver: Enum) -> None:
             destination=webserver.value,
             secure_copy_needed=False,
             webserver_fqdn=webserver_fqdn,
+            client_system=client_system,
         )
 
 
