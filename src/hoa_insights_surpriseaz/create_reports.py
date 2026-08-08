@@ -10,10 +10,7 @@ from pandas.io.formats.style import Styler
 from pathlib import Path
 from weasyprint import HTML
 
-
-logging.getLogger("fontTools").setLevel(logging.WARNING)
-logging.getLogger("weasyprint").setLevel(logging.WARNING)
-
+logger: Logger = logging.getLogger(__name__)
 
 def parcel_changes(
     parcel_updates: DataFrame, html_parcel_changes: Path, pdf_parcel_changes: Path
@@ -27,6 +24,11 @@ def parcel_changes(
 
     :return:  html file location
     """
+    logger.info("creating parcel change report....")
+    logging.getLogger("fontTools").setLevel(logging.WARNING)
+    logging.getLogger("weasyprint").setLevel(logging.WARNING)
+
+
     parcel_updates["COMMUNITY"] = parcel_updates["COMMUNITY"].apply(
         lambda row: (
             f'<a href="https://hoa.tascs.test/lpsMap.php?{row}">{row}</a>'
@@ -70,6 +72,10 @@ def ytd_community_sales(
     :param pdf_file: pdf file output location
     :return: community avg sale html file
     """
+
+    logger.info("creating community sales report....")
+
+
     finance_caption: str = f"AVERAGE SALES PRICE (YTD) <br> PROCESSED: {logger_date()}"
 
     finance_style: Styler = (
