@@ -66,11 +66,12 @@ def to_webserver(to_copy: Path, webserver: Enum) -> None:
         to_copy (Path): source
         copy_to (Path, optional): destination. Defaults to WEB_SERVER_REPORT_PATH_LINUX.
     """
+
     client_system = platform.system()
     client_fqdn: str = socket.getfqdn()
 
     webserver_system = webserver.name
-    webserver_fqdn: str = os.environ["PROD_LOCAL_DB_HOST"]
+    webserver_fqdn: str = os.environ["DEVELOPMENT"]
 
     secure_copy_needed: bool = webserver_fqdn != client_fqdn
 
