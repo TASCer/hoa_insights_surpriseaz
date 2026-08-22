@@ -12,6 +12,7 @@ from weasyprint import HTML
 
 logger: Logger = logging.getLogger(__name__)
 
+
 def parcel_changes(
     parcel_updates: DataFrame, html_parcel_changes: Path, pdf_parcel_changes: Path
 ) -> Path:
@@ -27,7 +28,6 @@ def parcel_changes(
     logger.info("creating parcel change report....")
     logging.getLogger("fontTools").setLevel(logging.WARNING)
     logging.getLogger("weasyprint").setLevel(logging.WARNING)
-
 
     parcel_updates["COMMUNITY"] = parcel_updates["COMMUNITY"].apply(
         lambda row: (
@@ -74,7 +74,6 @@ def ytd_community_sales(
     """
 
     logger.info("creating community sales report....")
-
 
     finance_caption: str = f"AVERAGE SALES PRICE (YTD) <br> PROCESSED: {logger_date()}"
 
