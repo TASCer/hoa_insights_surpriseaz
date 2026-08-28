@@ -71,12 +71,12 @@ def send_mail(subject: str, attachment_path: str | None = None) -> None:
         msg.attach(part_basic)
 
     # WORKS WITH NO AUTH ON 25
-    # with smtplib.SMTP(my_secrets.postfix_mailhost, 25) as server:
-    #     try:
-    #         server.sendmail(email_sender, email_reciever, msg.as_string())
+    with smtplib.SMTP(email_server, 25) as server:
+        try:
+            server.sendmail(email_sender, email_reciever, msg.as_string())
 
-    #     except smtplib.SMTPException as e:
-    #         logger.exception(str(e))
+        except smtplib.SMTPException as e:
+            logger.exception(str(e))
 
     # TODO USE SASL WITH RELAYS
     # TESTING W/SASL AUTH. IF AUTH FAILS STILL SENDS smtp_sasl_auth_enable = yes
@@ -87,27 +87,27 @@ def send_mail(subject: str, attachment_path: str | None = None) -> None:
     # smtp_sasl_auth_enable is still ENABLED, ignoring msgs
     # KEEP AN EYE ON SEEMS FINE AFTER change to sasl_passwd file (added [] to mail host)
 
-    try:
-        with smtplib.SMTP(
-            email_server, 587, local_hostname="debian.tascs.test"
-        ) as server:
-            server.ehlo()
-            server.starttls()
-            try:
-                server.login(email_user, email_password)
-            except smtplib.SMTPAuthenticationError as login_err:
-                logger.error(f"\t{login_err}")
+    # try:
+    #     with smtplib.SMTP(
+    #         email_server, 587, local_hostname="debian.tascs.test"
+    #     ) as server:
+    #         server.ehlo()
+    #         server.starttls()
+    #         try:
+    #             server.login(email_user, email_password)
+    #         except smtplib.SMTPAuthenticationError as login_err:
+    #             logger.error(f"\t{login_err}")
 
-            server.sendmail(email_sender, email_reciever, msg.as_string())
-            logger.info("\temail sent")
+    #         server.sendmail(email_sender, email_reciever, msg.as_string())
+    #         logger.info("\temail sent")
 
-    except smtplib.SMTPException as smtp_err:
-        logger.error(f"\tCheck Email Server {smtp_err}")
-        print(f"FAIL SEND - Check Email Server {smtp_err}")
+    # except smtplib.SMTPException as smtp_err:
+    #     logger.error(f"\tCheck Email Server {smtp_err}")
+    #     print(f"FAIL SEND - Check Email Server {smtp_err}")
 
-    except ConnectionRefusedError as conn_err:
-        logger.error(f"\tCheck Email Server {conn_err}")
-        print(f"FAIL SEND - Check Network / Email Server {conn_err}")
+    # except ConnectionRefusedError as conn_err:
+    #     logger.error(f"\tCheck Email Server {conn_err}")
+    #     print(f"FAIL SEND - Check Network / Email Server {conn_err}")
 
     # #################################### SSL TESTING
     # context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)   # ssl.create_default_context
@@ -151,4 +151,7 @@ def send_mail(subject: str, attachment_path: str | None = None) -> None:
 #
 # send_mail("hello, NON TLS test to rpi4 on port 25. Shows no date!?")
 if __name__ == "__main__":
-    send_mail("testing w/Attachment", "../output/csv/surpriseaz-hoa-management.csv")
+    send_mail(
+        "testing w/Attachment",
+        "/home/todd/python_projects/hoa_insights_surpriseaz/08-18-26.log",
+    )
