@@ -83,11 +83,10 @@ def download() -> tuple[Path, Path, Path]:
         pdf_link = WebDriverWait(firefox_browser, 30).until(
             EC.presence_of_element_located((By.XPATH, XPATH))
         )
-# Retry in case DOM rerefreshes *per intrnet)
+        # Retry in case DOM rerefreshes *per intrnet)
         pdf_link = WebDriverWait(firefox_browser, 30).until(
             EC.presence_of_element_located((By.XPATH, XPATH))
         )
-
 
         pdf_link.click()
         firefox_browser.implicitly_wait(20)
