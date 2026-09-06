@@ -3,7 +3,7 @@ import asyncio
 import json
 import logging
 import os
-import platform
+
 
 from aiohttp import TCPConnector
 from aiohttp_retry import RetryClient, ExponentialRetry
@@ -22,8 +22,6 @@ LOCAL_DB_NAME: str = f"{os.environ['PROD_LOCAL_DB_NAME']}"
 
 PARCELS_TABLE: str = "parcels"
 
-if platform.system() == "Windows":
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 API_HEADER: dict[str, str] = {os.environ["API_HEADER_TYPE"]: os.environ["API_KEY"]}
 
