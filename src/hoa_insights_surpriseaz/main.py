@@ -133,22 +133,24 @@ def main() -> None:
     )
 
     if not owner_changes.empty:
-        html_report_file: Path = create_reports.parcel_changes(
+        html_owner_report_file: Path = create_reports.parcel_changes(
             owner_changes, HTML_REPORT_CHANGES, PDF_REPORT_CHANGES
         )
-        if html_report_file.exists():
-            file_copier.to_webserver(to_copy=html_report_file, webserver=WEB_SERVER)
+        if html_owner_report_file.exists():
+            file_copier.to_webserver(
+                to_copy=html_owner_report_file, webserver=WEB_SERVER
+            )
         update_remote_database.rental_tables()
 
     if not sale_changes.empty:
-        financial_report_file: Path = create_reports.ytd_community_sales(
+        html_financial_report_file: Path = create_reports.ytd_community_sales(
             community_avg_prices=sale_changes,
             html_file=HTML_REPORT_FINANCIAL,
             pdf_file=PDF_REPORT_FINANCIAL,
         )
-        if financial_report_file.exists():
+        if html_financial_report_file.exists():
             file_copier.to_webserver(
-                to_copy=financial_report_file, webserver=WEB_SERVER
+                to_copy=html_financial_report_file, webserver=WEB_SERVER
             )
         update_remote_database.financial_tables()
 

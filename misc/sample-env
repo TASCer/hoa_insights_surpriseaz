@@ -36,3 +36,7 @@ API_KEY=your api key
 API_USER_AGENT=
 ## URLs
 HOA_MANAGEMENT_URL=https://surpriseaz.gov/462/HOA-Community-Contacts
+## WEBSERVERS
+WEBSERVER_USER=user
+DEVELOPMENT=fqdn
+PRODUCTION=fqdn
