@@ -1,11 +1,11 @@
 import logging
-
-from hoa_insights_surpriseaz.database import get_ytd_sales
 from logging import Logger
-from pandas import DataFrame
 from pathlib import Path
+
+from pandas import DataFrame
+
+from hoa_insights_surpriseaz.database import get_updated_parcels, get_ytd_sales
 from hoa_insights_surpriseaz.utils.date_parser import logger_date
-from hoa_insights_surpriseaz.database import get_updated_parcels
 
 logger: Logger = logging.getLogger(__name__)
 

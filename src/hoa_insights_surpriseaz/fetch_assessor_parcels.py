@@ -1,17 +1,17 @@
-import aiohttp
 import asyncio
 import json
 import logging
 import os
-
-
-from aiohttp import TCPConnector
-from aiohttp_retry import RetryClient, ExponentialRetry
 from asyncio import Semaphore, Task
-from dotenv import load_dotenv
-from hoa_insights_surpriseaz.database import models_local
 from logging import Logger
-from sqlalchemy import Engine, Sequence, Tuple, create_engine, exc, Row, select
+
+import aiohttp
+from aiohttp import TCPConnector
+from aiohttp_retry import ExponentialRetry, RetryClient
+from dotenv import load_dotenv
+from sqlalchemy import Engine, Row, Sequence, Tuple, create_engine, exc, select
+
+from hoa_insights_surpriseaz.database import models_local
 
 load_dotenv()
 

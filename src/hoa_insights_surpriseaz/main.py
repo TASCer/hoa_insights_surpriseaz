@@ -1,24 +1,28 @@
 import logging
-
 from enum import Enum
-from hoa_insights_surpriseaz import fetch_assessor_parcels
-from hoa_insights_surpriseaz import create_reports
-from hoa_insights_surpriseaz import parse_assessor_parcels
-from hoa_insights_surpriseaz import process_updated_parcels
-from hoa_insights_surpriseaz import convert_community_management
-from hoa_insights_surpriseaz.database import update_community_management
-from hoa_insights_surpriseaz.database import update_remote_database
-from hoa_insights_surpriseaz.database import update_local_database
-from hoa_insights_surpriseaz import fetch_community_management
+from logging import Formatter, Logger
+from pathlib import Path
+
+from hoa_insights_surpriseaz import (
+    convert_community_management,
+    create_reports,
+    fetch_assessor_parcels,
+    fetch_community_management,
+    parse_assessor_parcels,
+    process_updated_parcels,
+)
+from hoa_insights_surpriseaz.database import (
+    update_community_management,
+    update_local_database,
+    update_remote_database,
+)
 from hoa_insights_surpriseaz.utils import (
     date_parser,
     delete_files,
-    file_renamer,
     file_copier,
+    file_renamer,
     mailer,
 )
-from logging import Logger, Formatter
-from pathlib import Path
 
 LOG_DATE: str = str(date_parser.logger_date()) + ".log"
 

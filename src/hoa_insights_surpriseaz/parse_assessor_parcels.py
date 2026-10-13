@@ -1,8 +1,9 @@
 import logging
+from logging import Logger
 
 from pydantic import ValidationError
-from hoa_insights_surpriseaz.schemas import Rentals, Owners
-from logging import Logger
+
+from hoa_insights_surpriseaz.schemas import Owners, Rentals
 
 logger: Logger = logging.getLogger(__name__)
 

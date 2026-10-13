@@ -1,8 +1,8 @@
 import calendar
 import datetime as dt
-
 from datetime import date, datetime
-from dateutil.parser import parse, ParserError
+
+from dateutil.parser import ParserError, parse
 
 
 def logger_date() -> str:

@@ -1,16 +1,16 @@
-import os
 import logging
+import os
 import time
-
-from dotenv import load_dotenv
 from logging import Logger
 from pathlib import Path
 
+from dotenv import load_dotenv
 from selenium import webdriver
-from selenium.common.exceptions import ElementNotSelectableException
-from selenium.common.exceptions import TimeoutException
-from selenium.common.exceptions import WebDriverException
-
+from selenium.common.exceptions import (
+    ElementNotSelectableException,
+    TimeoutException,
+    WebDriverException,
+)
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.support import expected_conditions as EC

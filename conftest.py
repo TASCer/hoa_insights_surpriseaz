@@ -1,11 +1,12 @@
 import json
 import os
 from pathlib import Path
-import pytest
 
+import pytest
 from dotenv import load_dotenv
-from sqlalchemy import create_engine, Engine, text
+from sqlalchemy import Engine, create_engine, text
 from sqlalchemy.orm import Session
+
 from hoa_insights_surpriseaz.parse_assessor_parcels import owner_data
 from hoa_insights_surpriseaz.schemas import Owners, Rentals
 

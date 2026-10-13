@@ -1,9 +1,9 @@
 import logging
-import tabula
-
 from logging import Logger
-from pandas import DataFrame, read_csv
 from pathlib import Path
+
+import tabula
+from pandas import DataFrame, read_csv
 
 logger: Logger = logging.getLogger(__name__)
 

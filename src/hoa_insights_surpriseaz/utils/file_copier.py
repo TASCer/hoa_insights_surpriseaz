@@ -4,6 +4,8 @@ import logging
 import os
 import shutil
 import socket
+import subprocess
+import sys
 
 from dotenv import load_dotenv
 from logging import Logger
@@ -15,60 +17,98 @@ logger: Logger = logging.getLogger(__name__)
 
 
 def linux_server(
-    source, destination, secure_copy_needed, webserver_fqdn, client_system
+    source: Path,
+    destination: Path,
+    secure_copy_needed: bool,
+    webserver_fqdn: str,
+    client_system: str,
 ) -> None:
     """
-    Function copies files for Linux systems
+    Function copies files to Linux systems
+
+    :param source: path of file to copy
+    :param destination: path of copy to location
+    :param secure_copy_needed: True if webserver remote
+    :param webserver_fqdn: webserver full dns name
+    :param client_system: client OS
     """
     if not secure_copy_needed:
         try:
-            os.system(f"cp {source} {destination}")
-            logger.info(f"'{source.name}' sent to '{webserver_fqdn}' web server")
-        except BaseException as e:
+            result = subprocess.run(["cp", f"{source}", f"{destination}"])
+            if result.returncode == 0:
+                logger.info(f"'{source.name}' sent to '{webserver_fqdn}' web server")
+        except FileNotFoundError as e:
             logger.critical(
                 f"'{source.name}' NOT sent to '{webserver_fqdn}' web server {e}"
             )
 
     else:
         try:
-            os.system(f"scp {source} todd@{webserver_fqdn}:{destination}")
-            logger.info(
-                f"'{source.name}' sent to '{webserver_fqdn}' web server securely"
+            result = subprocess.run(
+                [
+                    "scp",
+                    f"{source}",
+                    f"{os.environ['WEBSERVER_USER']}@{webserver_fqdn}:{destination}",
+                ]
             )
-        except BaseException as e:
+            if result.returncode == 0:
+                logger.info(
+                    f"'{source.name}' sent to '{webserver_fqdn}' web server securely"
+                )
+        except FileNotFoundError as e:
             logger.critical(
-                f"{source} NOT sent to {webserver_fqdn} web server securely. {e}"
+                f"{source.name} NOT sent to {webserver_fqdn} web server securely. {e}"
             )
 
 
 def windows_server(
-    source, destination, secure_copy_needed, webserver_fqdn, client_system
+    source: Path,
+    destination: Path,
+    secure_copy_needed: bool,
+    webserver_fqdn: str,
+    client_system: str,
 ) -> None:
     """
-    Function copies files for Windows systems
+    Function copies files to Windows systems
+
+    :param source: path of file to copy
+    :param destination: path of copy to location
+    :param secure_copy_needed: True if webserver remote
+    :param webserver_fqdn: webserver full dns name
+    :param client_system: client OS
     """
     if not secure_copy_needed:
         try:
             shutil.copy(source, destination)
+            logger.info(f"'{source.name}' sent to '{webserver_fqdn}' web server")
 
         except (IOError, FileNotFoundError) as e:
             logger.error(e)
 
     else:
         try:
-            os.system(f"scp {source} todd@{webserver_fqdn}:{destination}")
+            result = subprocess.run(
+                [
+                    "scp",
+                    f"{source}",
+                    f"{os.environ['WEBSERVER_USER']}@{webserver_fqdn}:{destination}",
+                ]
+            )
+            if result.returncode == 0:
+                logger.info(f"'{source.name}' sent to '{webserver_fqdn}' web server")
+
         except Exception as e:
             print(e)
-            exit()
+            sys.exit()
 
 
 def to_webserver(to_copy: Path, webserver: Enum) -> None:
     """
-    Function copies files to webserver 'reports' directory based on server OS.
+    Function sets up file copy to webserver 'reports' directory based on server OS.
 
     Args:
         to_copy (Path): source
-        copy_to (Path, optional): destination. Defaults to WEB_SERVER_REPORT_PATH_LINUX.
+        webserver: configured webserver destination
     """
 
     client_system = platform.system()
@@ -115,7 +155,7 @@ if __name__ == "__main__":
         to_copy=Path.cwd().parent
         / "output"
         / "web_reports"
-        / "parcel_changes"
-        / "recent_changes.html",
+        / "financial"
+        / "community_ytd_sales_avg.html",
         webserver=webserver,
     )

@@ -1,14 +1,15 @@
 # pdfkit alternative python
 import logging
-
-from hoa_insights_surpriseaz import styles
-from hoa_insights_surpriseaz.utils.number_formatter import format_price
-from hoa_insights_surpriseaz.utils.date_parser import logger_date
 from logging import Logger
+from pathlib import Path
+
 from pandas import DataFrame
 from pandas.io.formats.style import Styler
-from pathlib import Path
 from weasyprint import HTML
+
+from hoa_insights_surpriseaz import styles
+from hoa_insights_surpriseaz.utils.date_parser import logger_date
+from hoa_insights_surpriseaz.utils.number_formatter import format_price
 
 logger: Logger = logging.getLogger(__name__)
 
