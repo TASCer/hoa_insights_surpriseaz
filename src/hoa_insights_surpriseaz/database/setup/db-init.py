@@ -1,17 +1,18 @@
-import os
 import logging
+import os
+from logging import Formatter, Logger
+from pathlib import Path
 
 from dotenv import load_dotenv
+from sqlalchemy import Engine, create_engine
+from sqlalchemy.orm import Session
+
 from hoa_insights_surpriseaz.database.setup import (
     create_local_database,
     create_remote_database,
     populate_local_tables,
     populate_remote_tables,
 )
-from logging import Logger, Formatter
-from pathlib import Path
-from sqlalchemy import Engine, create_engine
-from sqlalchemy.orm import Session
 
 load_dotenv()
 

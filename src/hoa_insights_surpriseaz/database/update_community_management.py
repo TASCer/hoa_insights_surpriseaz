@@ -1,17 +1,18 @@
 import csv
-import os
 import logging
+import os
+from logging import Logger
+from pathlib import Path
 from typing import Any
 
 from dotenv import load_dotenv
+from sqlalchemy import Engine, Update, create_engine, exc, update
+from sqlalchemy.orm import Session
+
 from hoa_insights_surpriseaz.database.models_local import (
     CommunityManagement as MODEL_CM,
 )
 from hoa_insights_surpriseaz.schemas import CommunityManagement as SCHEMA_CM
-from logging import Logger
-from pathlib import Path
-from sqlalchemy.orm import Session
-from sqlalchemy import Engine, create_engine, exc, update, Update
 
 load_dotenv()
 

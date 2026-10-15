@@ -1,6 +1,8 @@
 # TODO data not there? timing? do a refresh?
 import os
+
 from dotenv import load_dotenv
+
 from hoa_insights_surpriseaz.database import get_updated_parcels
 
 load_dotenv()

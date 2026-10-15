@@ -1,15 +1,15 @@
 import logging
+from logging import Logger
+
+from sqlalchemy import Engine, exc
+from sqlalchemy_utils import create_database, database_exists
 
 from hoa_insights_surpriseaz.database import models_local
 from hoa_insights_surpriseaz.database.setup import (
+    create_local_procs,
     create_local_triggers,
     create_local_views,
-    create_local_procs,
 )
-
-from logging import Logger
-from sqlalchemy import Engine, exc
-from sqlalchemy_utils import database_exists, create_database
 
 logger: Logger = logging.getLogger(__name__)
 

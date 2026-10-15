@@ -1,7 +1,9 @@
 from datetime import date
+
 from pydantic import BaseModel, field_validator
-from hoa_insights_surpriseaz.utils.number_formatter import format_apn, format_phone
+
 from hoa_insights_surpriseaz.utils import date_parser
+from hoa_insights_surpriseaz.utils.number_formatter import format_apn, format_phone
 
 
 class Community(BaseModel):

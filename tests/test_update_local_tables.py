@@ -1,5 +1,7 @@
 import os
+
 from dotenv import load_dotenv
+
 from hoa_insights_surpriseaz.database import update_local_database
 
 load_dotenv()

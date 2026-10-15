@@ -1,4 +1,5 @@
 import datetime
+
 from hoa_insights_surpriseaz.schemas import Owners, Rentals
 
 

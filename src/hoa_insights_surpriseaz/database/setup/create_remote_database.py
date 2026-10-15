@@ -1,9 +1,10 @@
 import logging
+from logging import Logger
+
+from sqlalchemy import Engine, exc
+from sqlalchemy_utils import create_database, database_exists
 
 from hoa_insights_surpriseaz.database import models_remote
-from logging import Logger
-from sqlalchemy import Engine, exc
-from sqlalchemy_utils import database_exists, create_database
 
 logger: Logger = logging.getLogger(__name__)
 

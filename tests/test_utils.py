@@ -1,16 +1,17 @@
+from datetime import datetime
+from datetime import datetime as dt
+from pathlib import Path
+
 import pytest
 
-from datetime import datetime
 from hoa_insights_surpriseaz.main import WebServer
 from hoa_insights_surpriseaz.utils import (
     date_parser,
     delete_files,
-    file_renamer,
     file_copier,
+    file_renamer,
     number_formatter,
 )
-from pathlib import Path
-from datetime import datetime as dt
 
 TEST_ORIG_PDF_FILENAME: str = "MANAGEMENT.pdf"
 TEST_RENAMED_PDF_FILENAME: str = "TEST-RENAMED-MANAGEMENT.pdf"
@@ -59,7 +60,6 @@ def test_apn_formatter(apn_before, len_before, apn_after, len_after) -> None:
     assert len_before == 8
     apn_after: str = number_formatter.format_apn(apn_before)
     assert len_after == 10
-    assert apn_after == apn_after
     assert "-" in apn_after
     assert apn_after.isdigit() is False
 

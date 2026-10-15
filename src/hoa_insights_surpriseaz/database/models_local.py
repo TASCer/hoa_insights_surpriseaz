@@ -1,10 +1,8 @@
 from datetime import date
-from sqlalchemy import ForeignKey
-from sqlalchemy import String, INTEGER, DATE, Boolean, DOUBLE_PRECISION
+
+from sqlalchemy import DATE, DOUBLE_PRECISION, INTEGER, Boolean, ForeignKey, String
 from sqlalchemy.dialects.mysql import TIMESTAMP
-from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
 class Base(DeclarativeBase):

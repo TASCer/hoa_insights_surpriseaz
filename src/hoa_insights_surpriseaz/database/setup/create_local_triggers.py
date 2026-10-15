@@ -1,9 +1,9 @@
-import os
 import logging
+import os
+from logging import Logger
 
 from dotenv import load_dotenv
-from logging import Logger
-from sqlalchemy import Engine, text, exc
+from sqlalchemy import Engine, exc, text
 
 logger: Logger = logging.getLogger(__name__)
 
