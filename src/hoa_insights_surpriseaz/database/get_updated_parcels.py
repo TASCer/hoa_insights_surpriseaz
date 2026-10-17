@@ -1,22 +1,24 @@
-import os
 import logging
+import os
+import sys
+from logging import Logger
+from typing import Any
 
 from dotenv import load_dotenv
-from hoa_insights_surpriseaz.database.models_local import (
-    HistoricalSales,
-    HistoricalOwners,
-    Parcel,
-)
-from hoa_insights_surpriseaz.utils.date_parser import sql_date
-from logging import Logger
 from sqlalchemy import (
+    CursorResult,
     Engine,
     create_engine,
     exc,
-    CursorResult,
     select,
 )
-from typing import Any
+
+from hoa_insights_surpriseaz.database.models_local import (
+    HistoricalOwners,
+    HistoricalSales,
+    Parcel,
+)
+from hoa_insights_surpriseaz.utils.date_parser import sql_date
 
 load_dotenv()
 
@@ -60,7 +62,8 @@ def changes(db_uri: str = f"{LOCAL_DB_URI}") -> tuple[list[str], list[str]]:
 
         except exc.OperationalError as e:
             logger.critical(str(e))
-            exit()
+            sys.exit()
+
         sales_updates: list = [x for x in q_sales]
         owners_updates: list = [x for x in q_owners]
 

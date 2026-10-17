@@ -1,15 +1,15 @@
-from enum import Enum
-import platform
 import logging
 import os
+import platform
 import shutil
 import socket
 import subprocess
 import sys
-
-from dotenv import load_dotenv
+from enum import Enum
 from logging import Logger
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -34,7 +34,7 @@ def linux_server(
     """
     if not secure_copy_needed:
         try:
-            result = subprocess.run(["cp", f"{source}", f"{destination}"])
+            result = subprocess.run(["cp", f"{source}", f"{destination}"], check=True)
             if result.returncode == 0:
                 logger.info(f"'{source.name}' sent to '{webserver_fqdn}' web server")
         except FileNotFoundError as e:
@@ -49,7 +49,8 @@ def linux_server(
                     "scp",
                     f"{source}",
                     f"{os.environ['WEBSERVER_USER']}@{webserver_fqdn}:{destination}",
-                ]
+                ],
+                check=True,
             )
             if result.returncode == 0:
                 logger.info(
@@ -82,7 +83,7 @@ def windows_server(
             shutil.copy(source, destination)
             logger.info(f"'{source.name}' sent to '{webserver_fqdn}' web server")
 
-        except (IOError, FileNotFoundError) as e:
+        except (OSError, FileNotFoundError) as e:
             logger.error(e)
 
     else:
@@ -92,12 +93,13 @@ def windows_server(
                     "scp",
                     f"{source}",
                     f"{os.environ['WEBSERVER_USER']}@{webserver_fqdn}:{destination}",
-                ]
+                ],
+                check=True,
             )
             if result.returncode == 0:
                 logger.info(f"'{source.name}' sent to '{webserver_fqdn}' web server")
 
-        except Exception as e:
+        except (OSError, FileNotFoundError) as e:
             print(e)
             sys.exit()
 

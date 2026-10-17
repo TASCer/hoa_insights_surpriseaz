@@ -1,21 +1,22 @@
 import csv
-import os
 import logging
+import os
+from logging import Logger
+from pathlib import Path
 
 from dotenv import load_dotenv
+from sqlalchemy import Result, exc, select
+from sqlalchemy.orm import Session
+from sqlalchemy.sql import func
+
 from hoa_insights_surpriseaz import convert_community_management
 from hoa_insights_surpriseaz.database import models_local
 from hoa_insights_surpriseaz.database.update_community_management import (
     get_managed_communities,
 )
 from hoa_insights_surpriseaz.fetch_community_management import download
-from hoa_insights_surpriseaz.schemas import CommunityManagement, Community, Parcels
+from hoa_insights_surpriseaz.schemas import Community, CommunityManagement, Parcels
 from hoa_insights_surpriseaz.utils.file_renamer import rename
-from logging import Logger
-from pathlib import Path
-from sqlalchemy import exc, select, Result
-from sqlalchemy.orm import Session
-from sqlalchemy.sql import func
 
 load_dotenv()
 
@@ -107,7 +108,7 @@ def community_management(db: Session, management_file: Path) -> bool:
             db.add(db_item, _warn=False)
             db.commit()
 
-    logger.info(f"\t{len((area_hoa_managers))=}")
+    logger.info(f"\t{len(area_hoa_managers)=}")
 
     return True
 
@@ -187,7 +188,7 @@ def parcels(db: Session, parcel_file) -> bool:
                 session.add_all(parcel_instances)
                 session.commit()
 
-        except IOError as e:
+        except OSError as e:
             print(e)
             return False
 

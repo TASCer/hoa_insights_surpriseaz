@@ -1,15 +1,16 @@
-import os
 import logging
+import os
+from _collections_abc import Sequence
+from logging import Logger
 
 from dotenv import load_dotenv
-from logging import Logger
-from sqlalchemy import create_engine, Engine, exc, select, Sequence
+from sqlalchemy import Engine, create_engine, exc, select
 from sqlalchemy.orm import Session
+
 from hoa_insights_surpriseaz.database.models_remote import (
     Community,
     CommunityManagement,
 )
-from typing import Literal
 
 load_dotenv()
 
@@ -27,7 +28,7 @@ logger: Logger = logging.getLogger(__name__)
 
 def get_local_data(
     local_db: Session = LOCAL_SESSION,
-) -> tuple[Sequence[Community], Sequence[CommunityManagement]] | Literal[False]:
+) -> tuple[Sequence[Community], Sequence[CommunityManagement]]:
     """
     Function retrieves local database table data for use in populating remote database tables.
 
@@ -45,7 +46,7 @@ def get_local_data(
 
     except (exc.OperationalError, ValueError) as err:
         logger.error(err)
-        return False
+        # return False
 
     return q_communities, q_community_management
 
@@ -71,7 +72,7 @@ def community_management(remote_db=REMOTE_SESSION, local_db=LOCAL_SESSION) -> bo
         logger.error(err)
         return False
 
-    logger.info(f"\t{len((area_hoa_managers))=}")
+    logger.info(f"\t{len(area_hoa_managers)=}")
 
     return True
 
