@@ -1,15 +1,17 @@
 import asyncio
-import json
 import logging
 import os
+import sys
+from _collections_abc import Sequence
 from asyncio import Semaphore, Task
 from logging import Logger
+from typing import Any
 
 import aiohttp
 from aiohttp import TCPConnector
 from aiohttp_retry import ExponentialRetry, RetryClient
 from dotenv import load_dotenv
-from sqlalchemy import Engine, Row, Sequence, Tuple, create_engine, exc, select
+from sqlalchemy import Engine, Row, create_engine, exc, select
 
 from hoa_insights_surpriseaz.database import models_local
 
@@ -38,10 +40,10 @@ def get_parcel_apns() -> list[str]:
     try:
         engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
         with engine.connect() as conn, conn.begin():
-            q_apns: Sequence[Row[Tuple[str]]] = conn.execute(
-                select(models_local.Parcel.APN)
+            q_apns: Sequence[Row] = conn.execute(
+                statement=select(models_local.Parcel.APN)
             ).all()
-            APNs = [result[0] for result in q_apns]
+            APNs: list[str] = [result[0] for result in q_apns]
 
         return APNs
 
@@ -50,7 +52,7 @@ def get_parcel_apns() -> list[str]:
         return []
 
 
-def parcels_api() -> list[dict]:
+def parcels_api() -> Sequence[dict]:
     """
     Function gets the latest parcel data from Assessor API.
 
@@ -59,7 +61,7 @@ def parcels_api() -> list[dict]:
     APNS: list[str] = get_parcel_apns()
     if APNS:
         logger.info("Accessing Assessor API to get latest parcel data")
-        consumed_parcel_data: list[dict] = asyncio.run(async_main(APNS))
+        consumed_parcel_data: Sequence[object] = asyncio.run(async_main(APNS))
         logger.info("All latest parcel data consumed from API")
 
         return consumed_parcel_data
@@ -67,7 +69,7 @@ def parcels_api() -> list[dict]:
         logger.error(
             "Database setup log file found, but cannot retrieve APNs from database, exiting."
         )
-        exit()
+        sys.exit()
 
 
 async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> dict:
@@ -82,29 +84,16 @@ async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> d
     """
     try:
         async with sem, client.get(url) as resp:
-            response_code: int = resp.status
-            if response_code != 200:
-                logger.warning(f"NON 200 Code Errer {response_code}")
             parcel_details: dict = await resp.json()
 
             return parcel_details
 
-    except aiohttp.ClientOSError as os:
-        logger.error(f"{os} - {url}")
-
-        return exit()
-
-    except (
-        json.JSONDecodeError,
-        aiohttp.ContentTypeError,
-        aiohttp.ClientResponseError,
-        TypeError,
-        aiohttp.ClientPayloadError,
-    ) as e:
+    except aiohttp.ClientResponseError as e:
         print("sleeping")
-        await asyncio.sleep(4)
-        print("ERROR", e)
+        await asyncio.sleep(5)
         logger.error(e)
+        print("AWAKE", e)
+
         async with sem, client.get(url) as resp:
             parcel_details: dict = await resp.json()
             logger.warning(f"{url} was retried")
@@ -112,7 +101,7 @@ async def get_parcel_details(client: RetryClient, sem: Semaphore, url: str) -> d
         return parcel_details
 
 
-async def async_main(apns: list[str]) -> list[dict]:
+async def async_main(apns: list[str]) -> list[dict[Any, Any]]:
     """
     Function asynchronously gathers API responses from Assessor site.
 
@@ -124,22 +113,25 @@ async def async_main(apns: list[str]) -> list[dict]:
         limit=0,
         limit_per_host=20,
         enable_cleanup_closed=False,
+        ttl_dns_cache=600,
     )
     async with RetryClient(
         headers=API_HEADER,
         connector=connector,
         raise_for_status=True,
-        retry_options=ExponentialRetry(attempts=3),
+        retry_options=ExponentialRetry(statuses={429}, attempts=5),
     ) as retry_client:
         sem: Semaphore = asyncio.Semaphore(2)
-        tasks: list[Task[object]] = []
+        tasks: list[Task[dict[Any, Any]]] = []
         for apn in apns:
             parcel_url: str = f"https://mcassessor.maricopa.gov/parcel/{apn}"
             tasks.append(
                 asyncio.create_task(get_parcel_details(retry_client, sem, parcel_url))
             )
 
-        parcels: list[dict] = await asyncio.gather(*tasks, return_exceptions=False)
+        parcels: list[dict[Any, Any]] = await asyncio.gather(
+            *tasks, return_exceptions=False
+        )
 
         return parcels
 

@@ -1,4 +1,6 @@
 import logging
+import sys
+from _collections_abc import Sequence
 from enum import Enum
 from logging import Formatter, Logger
 from pathlib import Path
@@ -119,7 +121,7 @@ def main() -> None:
     Function controls the application.
     """
     logger.info("*** PARCEL PROCESSING STARTED ***")
-    consumed_parcel_api_data: list[dict] = fetch_assessor_parcels.parcels_api()
+    consumed_parcel_api_data: Sequence[dict] = fetch_assessor_parcels.parcels_api()
     parsed_owner_data, parsed_rental_data = parse_assessor_parcels.owner_data(
         consumed_parcel_api_data
     )
@@ -183,4 +185,4 @@ if __name__ == "__main__":
         logger.info(f"{WEB_SERVER.name=}")
         main()
     else:
-        exit()
+        sys.exit()
