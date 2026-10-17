@@ -1,13 +1,15 @@
-import os
 import logging
+import os
+import sys
+from logging import Logger
+from pathlib import Path
 
 from dotenv import load_dotenv
-from hoa_insights_surpriseaz.utils.number_formatter import format_price
-from logging import Logger
-from pandas import DataFrame, read_sql, concat
-from pathlib import Path
+from pandas import DataFrame, concat, read_sql
 from sqlalchemy import create_engine, exc
 from sqlalchemy.engine import Engine
+
+from hoa_insights_surpriseaz.utils.number_formatter import format_price
 
 load_dotenv()
 
@@ -46,7 +48,7 @@ def get_average_sale_price(finances: Path) -> DataFrame:
 
         except KeyError as e:
             logger.critical(str(e))
-            exit()
+            sys.exit()
 
     if all_sales_ytd.empty:
         logger.info("NO SALES YET THIS YEAR")

@@ -55,4 +55,4 @@ def format_price(price: int) -> str:
         534650 -> $534,650
     """
     price = int(price)
-    return "${:,}".format(price)
+    return f"${price:,}"

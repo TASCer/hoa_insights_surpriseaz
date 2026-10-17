@@ -75,8 +75,8 @@ def send_mail(subject: str, attachment_path: str | None = None) -> None:
         try:
             server.sendmail(email_sender, email_reciever, msg.as_string())
 
-        except smtplib.SMTPException as e:
-            logger.exception(str(e))
+        except smtplib.SMTPException:
+            logger.exception("email not sent")
 
     # TODO USE SASL WITH RELAYS
     # TESTING W/SASL AUTH. IF AUTH FAILS STILL SENDS smtp_sasl_auth_enable = yes
