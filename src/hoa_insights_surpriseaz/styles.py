@@ -1,3 +1,4 @@
+# ruff: noqa: C408
 def parcel_updates() -> list[dict]:
     web_styles_changes = [
         dict(
