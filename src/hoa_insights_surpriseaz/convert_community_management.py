@@ -1,4 +1,5 @@
 import logging
+import sys
 from logging import Logger
 from pathlib import Path
 
@@ -99,7 +100,7 @@ def pdf_to_csv(pdf_file: Path, csv_file: Path) -> Path:
 
     except FileNotFoundError as fnf_error:
         logger.error(fnf_error)
-        exit()
+        sys.exit()
 
     logger.info("Convert Complete")
 

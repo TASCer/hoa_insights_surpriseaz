@@ -1,5 +1,6 @@
 import logging
 import os
+import sys
 import time
 from logging import Logger
 from pathlib import Path
@@ -69,13 +70,13 @@ def download() -> tuple[Path, Path, Path]:
 
         logger.info(f"\tFIREFOX browser service created w/options: {options.arguments}")
 
-    except FileNotFoundError as file_err:
-        logger.exception(file_err)
-        exit()
+    except FileNotFoundError:
+        logger.exception("file not found")
+        sys.exit()
 
     except WebDriverException as driver_err:
-        logger.critical(f"{str(driver_err)}")
-        exit()
+        logger.critical(f"{driver_err!s}")
+        sys.exit()
 
     firefox_browser.get(URL)
 

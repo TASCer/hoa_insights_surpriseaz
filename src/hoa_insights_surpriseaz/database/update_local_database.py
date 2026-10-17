@@ -1,10 +1,12 @@
-import os
 import logging
+import os
+import sys
+from logging import Logger
 
 from dotenv import load_dotenv
-from logging import Logger
-from sqlalchemy import Engine, create_engine, exc, text, Insert
+from sqlalchemy import Engine, Insert, create_engine, exc, text
 from sqlalchemy.dialects.mysql import insert
+
 from hoa_insights_surpriseaz.database import models_local
 
 load_dotenv()
@@ -72,7 +74,7 @@ def owners(
 
     except exc.OperationalError as oe:
         logger.error(f"{oe.__cause__}: '{LOCAL_DB_HOSTNAME}'")
-        exit()
+        sys.exit()
 
     logger.info(f"\tTable: '{OWNERS_TABLE}' has been updated")
 
