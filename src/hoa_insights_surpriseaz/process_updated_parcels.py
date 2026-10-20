@@ -29,22 +29,26 @@ def insights(
     :param finances: directory for finance change output
     :return: owner changes, finance changes, owner change count, sale change count
     """
-    owner_changes, sale_changes = get_updated_parcels.changes()
-    owner_change_count: int = len(owner_changes)
-    sale_change_count: int = len(sale_changes)
+    old_owners, new_owners, old_sales, new_sales = get_updated_parcels.changes()
+    old_owners_change_count: int = len(old_owners)
+    old_sales_change_count: int = len(old_sales)
+    new_sales_change_count = len(new_sales)
+    new_owners_change_count = len(new_owners)
 
-    if owner_change_count >= 1 or sale_change_count >= 1:
+
+
+    if old_owners_change_count >= 1 or old_sales_change_count >= 1:
         community_avg_sale: DataFrame = get_ytd_sales.get_average_sale_price(
             finances=finances
         )
 
         owner_changes: DataFrame = DataFrame(
-            owner_changes,
+            old_owners,
             columns=OWNERS_REPORT_COLUMNS,
         ).set_index(["APN"])
 
         sale_changes: DataFrame = DataFrame(
-            sale_changes, columns=SALES_REPORT_COLUMNS
+            old_sales, columns=SALES_REPORT_COLUMNS
         ).set_index("APN")
 
         merged_changes: DataFrame = owner_changes.merge(
@@ -58,9 +62,14 @@ def insights(
         merged_changes.drop(
             merged_changes.filter(regex="_y$").columns, axis=1, inplace=True
         )
-        merged_changes.to_csv(f"{updated_parcels / logger_date()}.csv")
+        merged_changes.to_csv(path_or_buf=f"{updated_parcels / logger_date()}.csv")
 
-        return merged_changes, community_avg_sale, owner_change_count, sale_change_count
+        return (
+            merged_changes,
+            community_avg_sale,
+            old_owners_change_count,
+            old_sales_change_count,
+        )
 
     else:
         return DataFrame(), DataFrame(), 0, 0
