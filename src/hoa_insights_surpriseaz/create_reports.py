@@ -8,7 +8,7 @@ from pandas.io.formats.style import Styler
 from weasyprint import HTML
 
 from hoa_insights_surpriseaz import styles
-from hoa_insights_surpriseaz.utils.date_parser import logger_date
+from hoa_insights_surpriseaz.utils.date_parser import get_now
 from hoa_insights_surpriseaz.utils.number_formatter import format_price
 
 logger: Logger = logging.getLogger(__name__)
@@ -46,15 +46,14 @@ def parcel_changes(
     parcel_updates.sort_values("COMMUNITY", inplace=True, ignore_index=False)
 
     parcel_updates_caption: str = (
-        f"RECENT PARCEL CHANGES <br> Processed: {logger_date()}"
+        f"RECENT PARCEL CHANGES <br> Processed: {get_now()}"
     )
 
     parcel_updates_style: Styler = parcel_updates.style.set_table_styles(
-        styles.parcel_updates()
+        table_styles=styles.parcel_updates()
     ).set_caption(parcel_updates_caption)
 
     parcel_updates_style.to_html(f"{html_parcel_changes / 'recent_changes.html'}")
-    # issue with page layout
     HTML(filename=f"{html_parcel_changes / 'recent_changes.html'}").write_pdf(
         pdf_parcel_changes / "recent_changes.pdf"
     )
@@ -76,7 +75,7 @@ def ytd_community_sales(
 
     logger.info("creating community sales report....")
 
-    finance_caption: str = f"AVERAGE SALES PRICE (YTD) <br> PROCESSED: {logger_date()}"
+    finance_caption: str = f"AVERAGE SALES PRICE (YTD) <br> PROCESSED: {get_now()}"
 
     finance_style: Styler = (
         community_avg_prices.style.set_table_styles(styles.finance_updates())

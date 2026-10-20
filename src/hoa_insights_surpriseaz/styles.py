@@ -30,7 +30,7 @@ def parcel_updates() -> list[dict]:
         ),
         dict(
             selector="caption",
-            props=[("caption-side", "top"), ("font-size", "12px"), ("color", "blue")],
+            props=[("caption-side", "top"), ("font-size", "14px"), ("color", "black")],
         ),
     ]
 
@@ -65,7 +65,7 @@ def finance_updates() -> list[dict]:
         ),
         dict(
             selector="caption",
-            props=[("caption-side", "top"), ("font-size", "20px"), ("color", "blue")],
+            props=[("caption-side", "top"), ("font-size", "14px"), ("color", "black")],
         ),
     ]
 
