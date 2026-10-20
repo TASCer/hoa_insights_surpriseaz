@@ -11,14 +11,14 @@ def parcel_updates() -> list[dict]:
                 ("color", "blue"),
                 ("border", "1px solid #eee"),
                 ("padding", "1px 2px"),
-                ("font-size", "8px"),
+                ("font-size", "16px"),
             ],
         ),
         # dict(
         #     selector="td:nth-child(-n + 2)",
         #     props=[("color", "orange"), ("font-size", "21px")],
         # ),
-        dict(selector="tr", props=[("color", "red"), ("font-size", "8px")]),
+        dict(selector="tr", props=[("color", "red"), ("font-size", "14px")]),
         dict(
             selector=" ",
             props=[
@@ -30,7 +30,7 @@ def parcel_updates() -> list[dict]:
         ),
         dict(
             selector="caption",
-            props=[("caption-side", "top"), ("font-size", "11px"), ("color", "blue")],
+            props=[("caption-side", "top"), ("font-size", "12px"), ("color", "blue")],
         ),
     ]
 
