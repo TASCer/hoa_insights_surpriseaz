@@ -68,6 +68,7 @@ def changes(
             q_new_sales: CursorResult[Any] = conn.execute(
                 statement=select(
                     Owner.APN,
+                    Parcel.COMMUNITY,
                     Owner.SALE_DATE,
                     Owner.SALE_PRICE,
                 )
@@ -94,7 +95,7 @@ def changes(
             logger.exception("db issue")
             sys.exit()
 
-    return old_owners, new_owners, old_sales, new_sales
+    return new_owners, old_owners, new_sales, old_sales
 
 
 if __name__ == "__main__":
