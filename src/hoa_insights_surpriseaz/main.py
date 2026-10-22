@@ -56,7 +56,7 @@ fh = logging.FileHandler(PROJECT_ROOT.parent.parent / LOG_DATE)
 fh.setLevel(logging.DEBUG)
 
 formatter: Formatter = logging.Formatter(
-    "%(asctime)s - %(filename)s - %(lineno)d - %(levelname)s - %(message)s"
+    fmt="%(asctime)s - %(filename)s - %(lineno)d - %(levelname)s - %(message)s"
 )
 fh.setFormatter(formatter)
 

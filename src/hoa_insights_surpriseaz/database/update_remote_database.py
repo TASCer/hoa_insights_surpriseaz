@@ -4,7 +4,7 @@ from logging import Logger
 
 from dotenv import load_dotenv
 from pandas import DataFrame, Series
-from sqlalchemy import CursorResult, Engine, TextClause, create_engine, exc, text
+from sqlalchemy import CursorResult, Engine, create_engine, exc, text
 
 from hoa_insights_surpriseaz.utils.date_parser import get_now
 
@@ -64,13 +64,13 @@ def rental_tables(local_db: str = LOCAL_DB_URI, remote_db: str = REMOTE_DB_URI) 
         engine: Engine = create_engine(f"mysql+pymysql://{local_db}")
         with engine.connect() as conn, conn.begin():
             q_registered_rentals: CursorResult = conn.execute(
-                text("""SELECT * FROM registered_rentals;""")
+                statement=text(text="""SELECT * FROM registered_rentals;""")
             )
             q_classed_rentals: CursorResult = conn.execute(
-                text("""SELECT * FROM classed_rentals;""")
+                statement=text(text="""SELECT * FROM classed_rentals;""")
             )
             q_rental_owner_types: CursorResult = conn.execute(
-                text("""SELECT * FROM community_rental_owner_types;""")
+                statement=text(text="""SELECT * FROM community_rental_owner_types;""")
             )
 
     except exc.DBAPIError as db_err:
