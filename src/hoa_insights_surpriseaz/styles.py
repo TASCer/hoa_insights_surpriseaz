@@ -5,26 +5,36 @@ def parcel_updates() -> list[dict]:
             selector="page",
             props=[("size", "A3"), ("margin", "2cm")],
         ),
-        dict(
-            selector="th",
-            props=[
-                ("color", "blue"),
-                ("border", "1px solid #eee"),
-                ("padding", "1px 2px"),
-                ("font-size", "16px"),
-            ],
-        ),
         # dict(
-        #     selector="td:nth-child(-n + 2)",
-        #     props=[("color", "orange"), ("font-size", "21px")],
+        #     selector="th:nth-child(2n+3)",  
+        #     props=[
+        #         ("color", "red"),
+        #         ("border", "1px solid #eee"),
+        #         ("padding", "1px 2px"),
+        #         ("font-size", "16px"),
+        #     ],
         # ),
-        dict(selector="tr", props=[("color", "red"), ("font-size", "14px")]),
+        # dict(
+        #     selector="th:nth-child(n+3)",   #even
+        #     props=[
+        #         ("color", "green"),
+        #         ("border", "1px solid #eee"),
+        #         ("padding", "1px 2px"),
+        #         ("font-size", "16px"),
+        #     ],
+        # ),
+        
+        dict(
+            selector="td:nth-child(2n+3)",
+            props=[("color", "green"), ("font-size", "14px")],
+        ),
+        dict(selector="td:nth-child(2n+2)", props=[("color", "red"), ("font-size", "14px")]),
         dict(
             selector=" ",
             props=[
                 ("font-family", "Arial"),
                 ("text-align", "center"),
-                ("margin", "3px auto"),
+                ("margin", "2px auto"),
                 ("border", "1px solid black"),
             ],
         ),
@@ -45,7 +55,7 @@ def finance_updates() -> list[dict]:
                 ("color", "black"),
                 ("border", "1px solid #eee"),
                 ("padding", "6px 7px"),
-                ("background", "grey"),
+                ("background", "#90ee90"),
                 ("font-size", "18px"),
             ],
         ),

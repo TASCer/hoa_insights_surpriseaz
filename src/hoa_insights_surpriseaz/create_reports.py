@@ -38,16 +38,22 @@ def parcel_changes(
         )
     )
 
-    parcel_updates["SALE_PRICE"] = (
-        parcel_updates["SALE_PRICE"].fillna(0).astype(int).apply(format_price)
+    parcel_updates["SALE_PRICE-"] = (
+        parcel_updates["SALE_PRICE-"].fillna(0).astype(int).apply(format_price)
     )
-    parcel_updates["SALE_DATE"] = parcel_updates["SALE_DATE"].fillna("")
+    parcel_updates["SALE_PRICE_+"] = (
+        parcel_updates["SALE_PRICE+"].fillna(0).astype(int).apply(format_price)
+    )
 
+    parcel_updates["SALE_DATE-"] = parcel_updates["SALE_DATE-"].fillna("")
+    parcel_updates["SALE_DATE+"] = parcel_updates["SALE_DATE+"].fillna("")
+
+    parcel_updates = parcel_updates.set_index(
+        ["COMMUNITY"], append=True, verify_integrity=True
+    )
     parcel_updates.sort_values("COMMUNITY", inplace=True, ignore_index=False)
 
-    parcel_updates_caption: str = (
-        f"RECENT PARCEL CHANGES <br> Processed: {get_now()}"
-    )
+    parcel_updates_caption: str = f"RECENT PARCEL CHANGES <br> Processed: {get_now()}"
 
     parcel_updates_style: Styler = parcel_updates.style.set_table_styles(
         table_styles=styles.parcel_updates()
