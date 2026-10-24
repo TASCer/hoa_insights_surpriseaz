@@ -71,10 +71,14 @@ def insights(
     )
 
     parcel_changes_df = owners_merged_df.merge(
-        sales_merged_df, how="outer", on=["APN", "COMMUNITY"], suffixes=("-", "+"), sort=True
+        sales_merged_df,
+        how="outer",
+        on=["APN", "COMMUNITY"],
+        suffixes=("-", "+"),
+        sort=True,
     ).sort_index(axis=1, ascending=True)
-    parcel_changes_df.to_csv(path_or_buf=f"{updated_parcels / logger_date()}.csv")
 
+    parcel_changes_df.to_csv(path_or_buf=f"{updated_parcels / logger_date()}.csv")
 
     return (
         parcel_changes_df,
@@ -82,8 +86,6 @@ def insights(
         old_owners_change_count,
         old_sales_change_count,
     )
-
-
 
     # owner_changes: DataFrame = DataFrame(
     #     owners_merged,

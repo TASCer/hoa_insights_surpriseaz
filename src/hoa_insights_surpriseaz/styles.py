@@ -6,7 +6,7 @@ def parcel_updates() -> list[dict]:
             props=[("size", "A3"), ("margin", "2cm")],
         ),
         # dict(
-        #     selector="th:nth-child(2n+3)",  
+        #     selector="th:nth-child(2n+3)",
         #     props=[
         #         ("color", "red"),
         #         ("border", "1px solid #eee"),
@@ -23,12 +23,14 @@ def parcel_updates() -> list[dict]:
         #         ("font-size", "16px"),
         #     ],
         # ),
-        
         dict(
             selector="td:nth-child(2n+3)",
             props=[("color", "green"), ("font-size", "14px")],
         ),
-        dict(selector="td:nth-child(2n+2)", props=[("color", "red"), ("font-size", "14px")]),
+        dict(
+            selector="td:nth-child(2n+2)",
+            props=[("color", "red"), ("font-size", "14px")],
+        ),
         dict(
             selector=" ",
             props=[
@@ -36,11 +38,13 @@ def parcel_updates() -> list[dict]:
                 ("text-align", "center"),
                 ("margin", "2px auto"),
                 ("border", "1px solid black"),
+                ("font-size", "14px"),
+                ("color", "#655f5f"),
             ],
         ),
         dict(
             selector="caption",
-            props=[("caption-side", "top"), ("font-size", "14px"), ("color", "black")],
+            props=[("caption-side", "top"), ("font-size", "15px"), ("color", "black")],
         ),
     ]
 
