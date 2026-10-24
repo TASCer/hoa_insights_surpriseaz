@@ -41,7 +41,7 @@ def parcel_changes(
     parcel_updates["SALE_PRICE-"] = (
         parcel_updates["SALE_PRICE-"].fillna(0).astype(int).apply(format_price)
     )
-    parcel_updates["SALE_PRICE_+"] = (
+    parcel_updates["SALE_PRICE+"] = (
         parcel_updates["SALE_PRICE+"].fillna(0).astype(int).apply(format_price)
     )
 
@@ -52,6 +52,13 @@ def parcel_changes(
         ["COMMUNITY"], append=True, verify_integrity=True
     )
     parcel_updates.sort_values("COMMUNITY", inplace=True, ignore_index=False)
+
+    # reorder columns
+    owner_cols_to_move = ["OWNER+", "OWNER-"]
+    parcel_updates = parcel_updates[
+        owner_cols_to_move
+        + [col for col in parcel_updates if col not in owner_cols_to_move]
+    ]
 
     parcel_updates_caption: str = f"RECENT PARCEL CHANGES <br> Processed: {get_now()}"
 
