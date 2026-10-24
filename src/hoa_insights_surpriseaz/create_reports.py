@@ -37,6 +37,8 @@ def parcel_changes(
             else f'<a href="https://hoa.tascs.test/areaMap.php?{row}">{row}</a>'
         )
     )
+    # NEED TO USE Int64 to resolve float NaNs?
+    # parcel_updates.fillna("", inplace=True)
 
     parcel_updates["SALE_PRICE-"] = (
         parcel_updates["SALE_PRICE-"].fillna(0).astype(int).apply(format_price)
@@ -45,9 +47,17 @@ def parcel_changes(
         parcel_updates["SALE_PRICE+"].fillna(0).astype(int).apply(format_price)
     )
 
+    # fill NaNs w/""
     parcel_updates["SALE_DATE-"] = parcel_updates["SALE_DATE-"].fillna("")
     parcel_updates["SALE_DATE+"] = parcel_updates["SALE_DATE+"].fillna("")
+    parcel_updates["DEED_DATE-"] = parcel_updates["DEED_DATE-"].fillna("")
+    parcel_updates["DEED_DATE+"] = parcel_updates["DEED_DATE+"].fillna("")
+    parcel_updates["OWNER-"] = parcel_updates["OWNER-"].fillna("")
+    parcel_updates["OWNER+"] = parcel_updates["OWNER+"].fillna("")
+    parcel_updates["DEED_TYPE-"] = parcel_updates["DEED_TYPE-"].fillna("")
+    parcel_updates["DEED_TYPE+"] = parcel_updates["DEED_TYPE+"].fillna("")
 
+    # add COMMUNITY to index
     parcel_updates = parcel_updates.set_index(
         ["COMMUNITY"], append=True, verify_integrity=True
     )
