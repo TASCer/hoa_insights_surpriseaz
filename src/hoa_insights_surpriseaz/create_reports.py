@@ -61,6 +61,7 @@ def parcel_changes(
     parcel_updates = parcel_updates.set_index(
         ["COMMUNITY"], append=True, verify_integrity=True
     )
+
     parcel_updates.sort_values("COMMUNITY", inplace=True, ignore_index=False)
 
     # reorder columns

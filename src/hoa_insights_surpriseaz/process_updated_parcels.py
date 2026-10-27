@@ -48,8 +48,10 @@ def insights(
     new_owners, old_owners, new_sales, old_sales = get_updated_parcels.changes()
     old_owners_change_count: int = len(old_owners)
     new_owners_change_count = len(new_owners)
+    print(f"{new_owners_change_count=} - {old_owners_change_count=}")
     old_sales_change_count: int = len(old_sales)
     new_sales_change_count = len(new_sales)
+    print(f"{new_sales_change_count=} - {old_sales_change_count=}")
 
     if old_owners_change_count >= 1 or old_sales_change_count >= 1:
         community_avg_sale: DataFrame = get_ytd_sales.get_average_sale_price(
@@ -87,39 +89,41 @@ def insights(
         old_sales_change_count,
     )
 
-    # owner_changes: DataFrame = DataFrame(
-    #     owners_merged,
-    #     columns=PARCEL_CHANGE_REPORT_COLUMNS,
-    # ).set_index(["APN"])
-    # print(parcel_changes)
 
-    # PROD
-    # if old_owners_change_count >= 1 or old_sales_change_count >= 1:
-    #     community_avg_sale: DataFrame = get_ytd_sales.get_average_sale_price(
-    #         finances=finances
-    #     )
+# PREVIOUSLY I JUST FOCUSED ON OLD OWNERS AND SALES. NOW REPORT SHOWS WHAT CHANGED WHILE KEEPING DB SAME,
+# owner_changes: DataFrame = DataFrame(
+#     owners_merged,
+#     columns=PARCEL_CHANGE_REPORT_COLUMNS,
+# ).set_index(["APN"])
+# print(parcel_changes)
 
-    #     owner_changes: DataFrame = DataFrame(
-    #         old_owners,
-    #         columns=OWNERS_REPORT_COLUMNS,
-    #     ).set_index(["APN"])
+# PROD
+# if old_owners_change_count >= 1 or old_sales_change_count >= 1:
+#     community_avg_sale: DataFrame = get_ytd_sales.get_average_sale_price(
+#         finances=finances
+#     )
 
-    #     sale_changes: DataFrame = DataFrame(
-    #         old_sales, columns=SALES_REPORT_COLUMNS
-    #     ).set_index("APN")
+#     owner_changes: DataFrame = DataFrame(
+#         old_owners,
+#         columns=OWNERS_REPORT_COLUMNS,
+#     ).set_index(["APN"])
 
-    #     merged_changes: DataFrame = owner_changes.merge(
-    #         sale_changes, how="outer", on=["APN", "COMMUNITY"], suffixes=("", "_y")
-    #     )
+#     sale_changes: DataFrame = DataFrame(
+#         old_sales, columns=SALES_REPORT_COLUMNS
+#     ).set_index("APN")
 
-    #     merged_changes["SALE_PRICE"] = (
-    #         merged_changes["SALE_PRICE"].astype(float).fillna(0)
-    #     )
+#     merged_changes: DataFrame = owner_changes.merge(
+#         sale_changes, how="outer", on=["APN", "COMMUNITY"], suffixes=("", "_y")
+#     )
 
-    #     merged_changes.drop(
-    #         merged_changes.filter(regex="_y$").columns, axis=1, inplace=True
-    #     )
-    #     merged_changes.to_csv(path_or_buf=f"{updated_parcels / logger_date()}.csv")
+#     merged_changes["SALE_PRICE"] = (
+#         merged_changes["SALE_PRICE"].astype(float).fillna(0)
+#     )
+
+#     merged_changes.drop(
+#         merged_changes.filter(regex="_y$").columns, axis=1, inplace=True
+#     )
+#     merged_changes.to_csv(path_or_buf=f"{updated_parcels / logger_date()}.csv")
 
 
 # else:
