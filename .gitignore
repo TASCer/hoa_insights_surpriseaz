@@ -4,9 +4,7 @@ __pycache__/
 dist/
 wheels/
 *.egg-info
-/tests/.ruff_cache/
 *.pytest_cache/
-/src/hoa_insights_surpriseaz/.ruff_cache/
 .ruff_cache
 # Virtual environments
 .venv
@@ -22,6 +20,9 @@ wheels/
 /src/hoa_insights_surpriseaz/output/web_reports/parcel_changes/*.html
 src/hoa_insights_surpriseaz/output/pdf/financial/*.pdf
 src/hoa_insights_surpriseaz/output/pdf/parcel_changes/recent_changes.pdf
+# /src/hoa_insights_surpriseaz/.ruff_cache/
+# /tests/.ruff_cache/
+
 .coverage
 .gitkeep
 tests/input/TEST-ORIGINAL-PDF.pdf
