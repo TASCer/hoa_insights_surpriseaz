@@ -40,3 +40,5 @@ HOA_MANAGEMENT_URL=https://surpriseaz.gov/462/HOA-Community-Contacts
 WEBSERVER_USER=user
 DEVELOPMENT=fqdn
 PRODUCTION=fqdn
+## PROJECT ROOT
+PROJECT_ROOT=/path/to/folder/containing/main.py
