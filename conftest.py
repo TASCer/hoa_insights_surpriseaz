@@ -62,7 +62,7 @@ def test_create_remote_session(test_create_remote_engine):
 
     finally:
         test_bluehost_session.execute(
-            text(f"DROP DATABASE {os.environ['TEST_REMOTE_DB_URI']};")
+            statement=text(f"DROP DATABASE {os.environ['TEST_REMOTE_DB_URI']};")
         )
         pass
 

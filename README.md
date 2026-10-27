@@ -38,7 +38,7 @@ Legiscan API Information: <https://legiscan.com/legiscan>
 POSSIBLE OTHER DATA SOURCES
 
 - County Recorder's Office
-- City Crime Stats
+- City / County Crime Stats
 - Zillow
 
 ---

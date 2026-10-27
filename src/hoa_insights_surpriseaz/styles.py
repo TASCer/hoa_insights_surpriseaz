@@ -1,50 +1,59 @@
 # ruff: noqa: C408
 def parcel_updates() -> list[dict]:
     web_styles_changes = [
+        # dict(
+        #     selector="page",
+        #     props=[("size", "A3"), ("margin", "2cm")],
+        # ),
         dict(
-            selector="page",
-            props=[("size", "A3"), ("margin", "2cm")],
+            selector="th:nth-child(2n+3)",
+            props=[
+                ("color", "green"),
+                ("border", "1px solid #eee"),
+                ("padding", "1px 2px"),
+                ("font-size", "8px"),
+            ],
         ),
-        # dict(
-        #     selector="th:nth-child(2n+3)",
-        #     props=[
-        #         ("color", "red"),
-        #         ("border", "1px solid #eee"),
-        #         ("padding", "1px 2px"),
-        #         ("font-size", "16px"),
-        #     ],
-        # ),
-        # dict(
-        #     selector="th:nth-child(n+3)",   #even
-        #     props=[
-        #         ("color", "green"),
-        #         ("border", "1px solid #eee"),
-        #         ("padding", "1px 2px"),
-        #         ("font-size", "16px"),
-        #     ],
-        # ),
+        dict(
+            selector="th:nth-child(2n+2)",  # even
+            props=[
+                ("color", "red"),
+                ("border", "1px solid #eee"),
+                ("padding", "1px 2px"),
+                ("font-size", "8px"),
+            ],
+        ),
+        dict(
+            selector="th:nth-child(2)",  # even
+            props=[
+                ("color", "grey"),
+                ("border", "1px solid #eee"),
+                ("padding", "1px 2px"),
+                ("font-size", "8px"),
+            ],
+        ),
         dict(
             selector="td:nth-child(2n+3)",
-            props=[("color", "green"), ("font-size", "14px")],
+            props=[("color", "green"), ("font-size", "8px")],
         ),
         dict(
             selector="td:nth-child(2n+2)",
-            props=[("color", "red"), ("font-size", "14px")],
+            props=[("color", "red"), ("font-size", "8px")],
         ),
         dict(
             selector=" ",
             props=[
                 ("font-family", "Arial"),
                 ("text-align", "center"),
-                ("margin", "2px auto"),
+                ("margin", "auto"),
                 ("border", "1px solid black"),
-                ("font-size", "14px"),
-                ("color", "#655f5f"),
+                ("font-size", "8px"),
+                ("color", "#5a5151"),
             ],
         ),
         dict(
             selector="caption",
-            props=[("caption-side", "top"), ("font-size", "15px"), ("color", "black")],
+            props=[("caption-side", "top"), ("font-size", "9px"), ("color", "black")],
         ),
     ]
 
