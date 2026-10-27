@@ -13,11 +13,11 @@ wheels/
 # Folders / Files
 *.log
 /_old_logs/
-/src/hoa_insights_surpriseaz/output/csv/financial/*.csv
-/src/hoa_insights_surpriseaz/output/csv/parcel_changes/*.csv
-/src/hoa_insights_surpriseaz/output/csv/parcel_changes/*/*.csv
-/src/hoa_insights_surpriseaz/output/web_reports/financial/*.html
-/src/hoa_insights_surpriseaz/output/web_reports/parcel_changes/*.html
+src/hoa_insights_surpriseaz/output/csv/parcel_changes/*.csv
+src/hoa_insights_surpriseaz/output/csv/parcel_changes/*/*.csv
+src/hoa_insights_surpriseaz/output/web_reports/financial/*.html
+src/hoa_insights_surpriseaz/output/web_reports/parcel_changes/*.html
+src/hoa_insights_surpriseaz/output/csv/financial/*.csv
 src/hoa_insights_surpriseaz/output/pdf/financial/*.pdf
 src/hoa_insights_surpriseaz/output/pdf/parcel_changes/recent_changes.pdf
 # /src/hoa_insights_surpriseaz/.ruff_cache/
