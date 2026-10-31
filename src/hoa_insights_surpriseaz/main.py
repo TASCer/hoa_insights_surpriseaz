@@ -1,9 +1,12 @@
 import logging
+import os
 import sys
 from _collections_abc import Sequence
 from enum import Enum
 from logging import Formatter, Logger
 from pathlib import Path
+
+from dotenv import load_dotenv
 
 from hoa_insights_surpriseaz import (
     convert_community_management,
@@ -26,11 +29,12 @@ from hoa_insights_surpriseaz.utils import (
     mailer,
 )
 
+load_dotenv()
+
 LOG_DATE: str = str(date_parser.logger_date()) + ".log"
 
 # PATHS
-PROJECT_ROOT: Path = Path.cwd()
-
+PROJECT_ROOT: Path = Path(f"{os.environ['PROJECT_ROOT']}")
 CSV_FINANCIAL: Path = PROJECT_ROOT / "output" / "csv" / "financial"
 CSV_FINANCIAL.mkdir(parents=True, exist_ok=True)
 CSV_UPDATED_PARCELS: Path = PROJECT_ROOT / "output" / "csv" / "parcel_changes"

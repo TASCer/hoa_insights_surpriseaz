@@ -41,7 +41,7 @@ def test_create_local_session(test_create_local_engine):
         test_debian_session.execute(
             text(f"DROP DATABASE IF EXISTS {os.environ['TEST_LOCAL_DB_URI']};")
         )
-        pass
+        # pass
 
 
 @pytest.fixture(scope="session")
@@ -64,7 +64,7 @@ def test_create_remote_session(test_create_remote_engine):
         test_bluehost_session.execute(
             statement=text(f"DROP DATABASE {os.environ['TEST_REMOTE_DB_URI']};")
         )
-        pass
+        # pass
 
 
 @pytest.fixture()
