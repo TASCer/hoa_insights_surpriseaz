@@ -60,9 +60,9 @@ def parcels_api() -> Sequence[dict]:
     """
     APNS: list[str] = get_parcel_apns()
     if APNS:
-        logger.info("Accessing Assessor API to get latest parcel data")
+        logger.info("Fetching parcel data from Assessor API.... ")
         consumed_parcel_data: Sequence[object] = asyncio.run(async_main(APNS))
-        logger.info("All latest parcel data consumed from API")
+        logger.info("Fetched parcel data from Assessor API")
 
         return consumed_parcel_data
     else:

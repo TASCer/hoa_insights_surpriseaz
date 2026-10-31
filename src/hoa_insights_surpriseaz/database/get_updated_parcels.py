@@ -38,6 +38,7 @@ def changes(
     logger: Logger = logging.getLogger(__name__)
     engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
 
+    logger.info("\t\tgetting updated parcels....")
     with engine.connect() as conn, conn.begin():
         try:
             q_old_sales: CursorResult[Any] = conn.execute(

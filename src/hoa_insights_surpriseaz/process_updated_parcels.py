@@ -45,6 +45,7 @@ def insights(
     :param finances: directory for finance change output
     :return: owner changes, finance changes, owner change count, sale change count
     """
+    logger.info("Started: Processing Updated Parcels")
     new_owners, old_owners, new_sales, old_sales = get_updated_parcels.changes()
     old_owners_change_count: int = len(old_owners)
     new_owners_change_count = len(new_owners)

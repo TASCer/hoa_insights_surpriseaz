@@ -26,7 +26,7 @@ def parcel_changes(
 
     :return:  html file location
     """
-    logger.info("creating parcel change report....")
+    logger.info("\t\tcreating parcel change report....")
     logging.getLogger("fontTools").setLevel(logging.WARNING)
     logging.getLogger("weasyprint").setLevel(logging.WARNING)
 
