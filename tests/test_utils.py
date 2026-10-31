@@ -1,5 +1,4 @@
-from datetime import datetime
-from datetime import datetime as dt
+import datetime as dt
 from pathlib import Path
 
 import pytest
@@ -29,20 +28,20 @@ def test_date_parser() -> None:
 
 def test_sql_date() -> None:
     date = date_parser.sql_date()
-    assert date == dt.today().date()
+    assert date == dt.datetime.now().astimezone()
 
 
 def test_sql_timestamp() -> None:
-    date: datetime = date_parser.get_now()
-    assert dt.isoformat(date)
+    date: dt.date = date_parser.get_now()
+    assert dt.datetime.isoformat(date)
 
 
 def test_format_api_date() -> None:
-    no_date: datetime = date_parser.api_date("")
-    assert no_date == dt(1901, 1, 1, 0, 0)
+    no_date: dt.date = date_parser.api_date("")
+    assert no_date == dt.date(1901, 1, 1)
 
-    has_date: datetime = date_parser.api_date("2025-08-09")
-    assert has_date == dt(2025, 8, 9, 0, 0)
+    has_date: dt.date = date_parser.api_date("2025-08-09")
+    assert has_date == dt.date(2025, 8, 9)
 
 
 def test_first_tuesday() -> None:
