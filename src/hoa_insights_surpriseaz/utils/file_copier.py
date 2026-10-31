@@ -11,6 +11,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+from hoa_insights_surpriseaz.utils import ssh_agent_check
+
 load_dotenv()
 
 logger: Logger = logging.getLogger(__name__)
@@ -43,23 +45,27 @@ def linux_server(
             )
 
     else:
-        try:
-            result = subprocess.run(
-                [
-                    "scp",
-                    f"{source}",
-                    f"{os.environ['WEBSERVER_USER']}@{webserver_fqdn}:{destination}",
-                ],
-                check=True,
-            )
-            if result.returncode == 0:
-                logger.info(
-                    f"'{source.name}' sent to '{webserver_fqdn}' web server securely"
+        if not ssh_agent_check.is_ssh_agent_running_env():
+            logger.error("FILES CANNOT BE SENT.")
+
+        else:
+            try:
+                result = subprocess.run(
+                    [
+                        "scp",
+                        f"{source}",
+                        f"{os.environ['WEBSERVER_USER']}@{webserver_fqdn}:{destination}",
+                    ],
+                    check=True,
                 )
-        except FileNotFoundError as e:
-            logger.critical(
-                f"{source.name} NOT sent to {webserver_fqdn} web server securely. {e}"
-            )
+                if result.returncode == 0:
+                    logger.info(
+                        f"'{source.name}' sent to '{webserver_fqdn}' web server securely"
+                    )
+            except FileNotFoundError as e:
+                logger.critical(
+                    f"{source.name} NOT sent to {webserver_fqdn} web server securely. {e}"
+                )
 
 
 def windows_server(
