@@ -1,4 +1,4 @@
-from datetime import date
+import datetime as dt
 
 from sqlalchemy import DATE, DOUBLE_PRECISION, INTEGER, Boolean, ForeignKey, String
 from sqlalchemy.dialects.mysql import TIMESTAMP
@@ -45,9 +45,9 @@ class Owner(Base):
     APN: Mapped[str] = mapped_column(ForeignKey("parcels.APN"), primary_key=True)
     OWNER: Mapped[str] = mapped_column(String(120))
     MAIL_ADX: Mapped[str] = mapped_column(String(120))
-    SALE_DATE: Mapped[date] = mapped_column(DATE)
+    SALE_DATE: Mapped[dt.date] = mapped_column(DATE)
     SALE_PRICE: Mapped[int] = mapped_column(INTEGER, nullable=True)
-    DEED_DATE: Mapped[date] = mapped_column(DATE)
+    DEED_DATE: Mapped[dt.date] = mapped_column(DATE)
     DEED_TYPE: Mapped[str] = mapped_column(String(3), nullable=True)
     LEGAL_CODE: Mapped[str] = mapped_column(String(3))
     RENTAL: Mapped[bool] = mapped_column(Boolean, index=True)
@@ -73,11 +73,11 @@ class HistoricalSales(Base):
     APN: Mapped[str] = mapped_column(
         ForeignKey("owners.APN"), primary_key=True, nullable=False
     )
-    SALE_DATE: Mapped[date] = mapped_column(
+    SALE_DATE: Mapped[dt.date] = mapped_column(
         DATE, primary_key=True, default="1901-01-01", index=True
     )
     SALE_PRICE: Mapped[int] = mapped_column(INTEGER)
-    TS: Mapped[date] = mapped_column(TIMESTAMP(fsp=6), index=True)
+    TS: Mapped[dt.datetime] = mapped_column(TIMESTAMP(fsp=6), index=True)
 
 
 class HistoricalOwners(Base):
@@ -86,9 +86,9 @@ class HistoricalOwners(Base):
         ForeignKey("owners.APN"), primary_key=True, nullable=False
     )
     OWNER: Mapped[str] = mapped_column(String(255), primary_key=True)
-    DEED_DATE: Mapped[date] = mapped_column(DATE, index=True)
+    DEED_DATE: Mapped[dt.date] = mapped_column(DATE, index=True)
     DEED_TYPE: Mapped[str] = mapped_column(String(20))
-    TS: Mapped[date] = mapped_column(TIMESTAMP(fsp=6), index=True)
+    TS: Mapped[dt.datetime] = mapped_column(TIMESTAMP(fsp=6), index=True)
 
 
 class HistoricalManagers(Base):
@@ -102,4 +102,4 @@ class HistoricalManagers(Base):
     MANAGER: Mapped[str] = mapped_column(String(100), nullable=True)
     CONTACT_ADX: Mapped[str] = mapped_column(String(120), nullable=True)
     CONTACT_PH: Mapped[str] = mapped_column(String(120), nullable=True)
-    TS: Mapped[date] = mapped_column(TIMESTAMP(fsp=6), index=True)
+    TS: Mapped[dt.datetime] = mapped_column(TIMESTAMP(fsp=6), index=True)
