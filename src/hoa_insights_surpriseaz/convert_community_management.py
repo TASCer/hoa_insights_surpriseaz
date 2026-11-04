@@ -8,6 +8,8 @@ from pandas import DataFrame, read_csv
 
 logger: Logger = logging.getLogger(__name__)
 
+
+ORIGINAL_PDF_COLUMN_COUNT = 7
 NEW_FILE_HEADER: list = [
     "HOA",
     "MANAGEMENT",
@@ -20,7 +22,7 @@ NEW_FILE_HEADER: list = [
 
 def parse_csv(file: Path) -> Path:
     """
-    Function parses, formats, and cleans csv file converted from pdf download.
+    Function parses, formats, and cleans file.
 
     :param file: management csv file (converted from downloaded pdf)
     :return: parsed converted csv file
@@ -34,17 +36,48 @@ def parse_csv(file: Path) -> Path:
 
     original_file_header = list(managers.columns)
 
-    managers.rename(
-        columns={
-            original_file_header[0]: NEW_FILE_HEADER[0],
-            original_file_header[2]: NEW_FILE_HEADER[2],
-            original_file_header[3]: NEW_FILE_HEADER[3],
-            original_file_header[4]: NEW_FILE_HEADER[-1],
-            original_file_header[5]: NEW_FILE_HEADER[4],
-            original_file_header[6]: NEW_FILE_HEADER[1],
-        },
-        inplace=True,
-    )
+    if len(original_file_header) < ORIGINAL_PDF_COLUMN_COUNT:
+        logger.warning("file does not have original number of columns")
+        logger.warning(
+            f"expected: {ORIGINAL_PDF_COLUMN_COUNT} converted: {len(managers.columns)}"
+        )
+        logger.warning("ASSUMING last 2 columns were inadverently merged")
+
+        managers["MANAGEMENT"] = managers["Contact Email/Website Management Company"]
+        managers.rename(
+            columns={"Contact Email/Website Management Company": "CONTACT_ADX"}
+        )
+
+        managers.rename(
+            columns={
+                original_file_header[0]: NEW_FILE_HEADER[0],
+                original_file_header[2]: NEW_FILE_HEADER[2],
+                original_file_header[3]: NEW_FILE_HEADER[3],
+                original_file_header[4]: NEW_FILE_HEADER[-1],
+                original_file_header[5]: NEW_FILE_HEADER[4],
+            },
+            inplace=True,
+        )
+        # split the inadvertently merged coluimns
+        managers["CONTACT_ADX"] = managers["CONTACT_ADX"].apply(
+            lambda x: x.split(" ", 1)[0]
+        )
+        managers["MANAGEMENT"] = managers["MANAGEMENT"].apply(
+            lambda x: x.split(" ", 1)[1] if len(x.split()) > 1 else x
+        )
+
+    else:
+        managers.rename(
+            columns={
+                original_file_header[0]: NEW_FILE_HEADER[0],
+                original_file_header[2]: NEW_FILE_HEADER[2],
+                original_file_header[3]: NEW_FILE_HEADER[3],
+                original_file_header[4]: NEW_FILE_HEADER[-1],
+                original_file_header[5]: NEW_FILE_HEADER[4],
+                original_file_header[6]: NEW_FILE_HEADER[1],
+            },
+            inplace=True,
+        )
 
     # CLEANING HOA COMMUNITY NAMES
     managers["HOA"] = managers["HOA"].str.replace(" Homeowners Association", "")
@@ -59,23 +92,6 @@ def parse_csv(file: Path) -> Path:
     # CLEANING HOA MANAGEMENT COMPANY NAMES
     managers["MANAGEMENT"] = managers["MANAGEMENT"].str.replace(",", "")
     managers.drop(managers.columns[[1]], axis=1, inplace=True)
-
-    # TODO Monitor if comes back up
-    ### FIX for page 2 pdf conversion issue.contact_adx field null and phone had adx field combined ###
-    # fill missing adx with combined phone field
-    # managers["CONTACT_ADX"] = managers["CONTACT_ADX"].fillna(managers["CONTACT_PH"])
-    # split combined phone field to leave phone number
-    # managers["CONTACT_PH"] = managers["CONTACT_PH"].str.rsplit(pat=" ").str.get(0)
-    # find combined adx fields
-    # mask_bad_address = managers["CONTACT_ADX"].str.contains("^[1-9]", na=False)
-    # remove phone number from adx field
-    # fix_address = (
-    #     managers.loc[mask_bad_address]["CONTACT_ADX"]
-    #     .str.rsplit(pat=" ", n=1)
-    #     .str.get(1)
-    # )
-    # TODO https://pandas.pydata.org/pandas-docs/stable/user_guide/copy_on_write.html#chained-assignment
-    # managers["CONTACT_ADX"][mask_bad_address] = fix_address
 
     managers.to_csv(file)
 
@@ -92,7 +108,7 @@ def pdf_to_csv(pdf_file: Path, csv_file: Path) -> Path:
     :param csv_file: csv file to convert pdf file into
     :return: converted csv_file
     """
-    logger.info(f"Convert: {pdf_file.name} -> {csv_file.name}")
+    logger.info(f"Converting: {pdf_file.name} -> {csv_file.name}")
     try:
         tabula.convert_into(
             str(pdf_file), str(csv_file), output_format="csv", pages="all"
@@ -102,7 +118,7 @@ def pdf_to_csv(pdf_file: Path, csv_file: Path) -> Path:
         logger.error(fnf_error)
         sys.exit()
 
-    logger.info("Convert Complete")
+    logger.info("Conversion Complete")
 
     parsed_csv: Path = parse_csv(csv_file)
 
