@@ -2,7 +2,7 @@
 
 ## HOA_INSIGHTS_SURPRISEAZ
 
-Provides information on Surprise, AZ Home Owners Association (HOA) communities by accessing and aggragating various public data sources for insights and analysis.
+Provides information on Surprise, AZ Homeowners Association (HOA) communities by accessing and aggregating various public data sources for insights and analysis.
 
 ### See It
 
@@ -43,7 +43,9 @@ POSSIBLE OTHER DATA SOURCES
 
 ---
 
-PDF financial report functionality will need the [pdfkit Python module](https://pypi.org/project/pdfkit/) and [wkhtmltopdf](https://wkhtmltopdf.org/)
+~~PDF financial report functionality previously needed [pdfkit Python module](https://pypi.org/project/pdfkit/) and [wkhtmltopdf](https://wkhtmltopdf.org/) (mothballed)~~
+
+PDF financial report functionality now uses [weasyprint](https://pypi.org/project/weasyprint/)
 
 ---
 
@@ -55,10 +57,7 @@ PDF financial report functionality will need the [pdfkit Python module](https://
 
 #### src/utils folder contains
 
-- LINUX gecko driver (geckodriver) for monthly management pdf download via Firefox
-- WINDOWS gecko driver (geckodriver) for monthly management pdf download via Firefox
-- various parsers/formaters
-- file deletes/renames
+- various parsers/formaters/helpers
 
 ---
 
