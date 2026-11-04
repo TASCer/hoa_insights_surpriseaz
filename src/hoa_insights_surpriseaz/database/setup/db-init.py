@@ -16,23 +16,23 @@ from hoa_insights_surpriseaz.database.setup import (
 
 load_dotenv()
 
-root_logger: Logger = logging.getLogger()
-root_logger.setLevel(logging.INFO)
+db_root_logger: Logger = logging.getLogger()
+db_root_logger.setLevel(logging.INFO)
 
 DB_INIT_LOG_NAME = "__database-setup__.log"
 MANAGEMENT_SEED_FILE: Path = Path.cwd() / "seed_data" / "surpriseaz-hoa-management.csv"
 PARCELS_SEED_FILE: Path = Path.cwd() / "seed_data" / "parcel_constants.csv"
 
 
-fh = logging.FileHandler(DB_INIT_LOG_NAME)
-fh.setLevel(logging.DEBUG)
+fh_db_init = logging.FileHandler(DB_INIT_LOG_NAME)
+fh_db_init.setLevel(logging.DEBUG)
 
 formatter: Formatter = logging.Formatter(
     "%(asctime)s - %(module)s - %(lineno)d - %(message)s"
 )
-fh.setFormatter(formatter)
+fh_db_init.setFormatter(formatter)
 
-root_logger.addHandler(fh)
+db_root_logger.addHandler(fh_db_init)
 
 logger: Logger = logging.getLogger(__name__)
 
