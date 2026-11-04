@@ -54,17 +54,13 @@ DB_SETUP_LOGFILE: Path = Path.cwd() / "database" / "setup" / "__database-setup__
 # LOGGING
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
-
 fh = logging.FileHandler(PROJECT_ROOT.parent.parent / LOG_DATE)
 fh.setLevel(logging.DEBUG)
-
 formatter: Formatter = logging.Formatter(
     fmt="%(asctime)s - %(filename)s - %(lineno)d - %(levelname)s - %(message)s"
 )
 fh.setFormatter(formatter)
-
 root_logger.addHandler(fh)
-
 logger: Logger = logging.getLogger(__name__)
 
 

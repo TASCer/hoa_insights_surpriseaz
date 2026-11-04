@@ -21,10 +21,10 @@ def parcel_changes(
     Function creates a parcel change report from recent parcel updates.
 
     :param parcel_updates: changed parcels
-    :param html_parcel_changes: html file location
-    :param pdf_parcel_changes: pdf file location
+    :param html_parcel_changes: HTML file location
+    :param pdf_parcel_changes: PDF file location
 
-    :return:  html file location
+    :return:  HTML file location
     """
     logger.info("\t\tcreating parcel change report....")
     logging.getLogger("fontTools").setLevel(logging.WARNING)
@@ -37,7 +37,7 @@ def parcel_changes(
             else f'<a href="https://hoa.tascs.test/areaMap.php?{row}">{row}</a>'
         )
     )
-    # NEED TO USE Int64 to resolve float NaNs?
+    # NEED TO USE Int64 to resolve float NaN?
     # parcel_updates.fillna("", inplace=True)
 
     parcel_updates["SALE_PRICE-"] = (
@@ -47,7 +47,7 @@ def parcel_changes(
         parcel_updates["SALE_PRICE+"].fillna(0).astype(int).apply(format_price)
     )
 
-    # fill NaNs w/""
+    # fill NaN w/""
     parcel_updates["SALE_DATE-"] = parcel_updates["SALE_DATE-"].fillna("")
     parcel_updates["SALE_DATE+"] = parcel_updates["SALE_DATE+"].fillna("")
     parcel_updates["DEED_DATE-"] = parcel_updates["DEED_DATE-"].fillna("")
@@ -92,9 +92,9 @@ def ytd_community_sales(
     Function creates financial report(s).
 
     :param community_avg_prices: grouped dataframe
-    :param html_file: html file output location
-    :param pdf_file: pdf file output location
-    :return: community avg sale html file
+    :param html_file: HTML file output location
+    :param pdf_file: PDF file output location
+    :return: community avg sale HTML file
     """
 
     logger.info("creating community sales report....")

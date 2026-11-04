@@ -16,30 +16,39 @@ from hoa_insights_surpriseaz.database.setup import (
 
 load_dotenv()
 
-db_root_logger: Logger = logging.getLogger()
-db_root_logger.setLevel(logging.INFO)
+root_logger: Logger = logging.getLogger()
+root_logger.setLevel(logging.INFO)
 
 DB_INIT_LOG_NAME = "__database-setup__.log"
 MANAGEMENT_SEED_FILE: Path = Path.cwd() / "seed_data" / "surpriseaz-hoa-management.csv"
 PARCELS_SEED_FILE: Path = Path.cwd() / "seed_data" / "parcel_constants.csv"
 
 
-fh_db_init = logging.FileHandler(DB_INIT_LOG_NAME)
-fh_db_init.setLevel(logging.DEBUG)
+fh = logging.FileHandler(DB_INIT_LOG_NAME)
+fh.setLevel(logging.DEBUG)
 
 formatter: Formatter = logging.Formatter(
     "%(asctime)s - %(module)s - %(lineno)d - %(message)s"
 )
-fh_db_init.setFormatter(formatter)
+fh.setFormatter(formatter)
 
-db_root_logger.addHandler(fh_db_init)
+root_logger.addHandler(fh)
 
 logger: Logger = logging.getLogger(__name__)
 
-LOCAL_DB_URI: str = f"{os.environ['PROD_LOCAL_URI']}"
-REMOTE_DB_URI: str = f"{os.environ['PROD_REMOTE_URI']}"
-LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}", echo=False)
-REMOTE_ENGINE: Engine = create_engine(f"mysql+pymysql://{REMOTE_DB_URI}", echo=False)
+try:
+    PROD_LOCAL_DB_URI: str = f"{os.environ['PROD_LOCAL_DB_URI']}"
+    PROD_REMOTE_DB_URI: str = f"{os.environ['PROD_REMOTE_DB_URI']}"
+
+except ValueError:
+    PROD_LOCAL_DB_URI = f"{os.environ['PROD_LOCAL_DB_USER']}:{os.environ['PROD_LOCAL_DB_USER_PASSWORD']}@{os.environ['PROD_LOCAL_DB_HOST']}/{os.environ['PROD_LOCAL_DB_NAME']}"
+    PROD_REMOTE_DB_URI = f"{os.environ['PROD_REMOTE_DB_USER']}:{os.environ['PROD_REMOTE_DB_USER_PASSWORD']}@{os.environ['PROD_REMOTE_DB_HOST']}/{os.environ['PROD_REMOTE_DB_NAME']}"
+
+
+LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{PROD_LOCAL_DB_URI}", echo=False)
+REMOTE_ENGINE: Engine = create_engine(
+    f"mysql+pymysql://{PROD_REMOTE_DB_URI}", echo=False
+)
 
 
 def local_database(
@@ -51,13 +60,15 @@ def local_database(
     Function checks if local database has been created and populates table(s) if so.
 
     :param local_engine: database engine, defaults to LOCAL_ENGINE
+    :param management_file: file of HOA managers
+    :param parcel_file: parcel seed data file
     """
     local_session = Session(local_engine)
 
     local_database_created: bool = create_local_database.create(engine=local_engine)
     if local_database_created:
         logger.info(
-            f"STARTED 'LOCAL' DATABASE POPULATION ON: '{local_engine.url.database}'"
+            f"seeding '{local_engine.url.database}' tables"
         )
         populate_local_tables.parcels(db=local_session, parcel_file=parcel_file)
         populate_local_tables.communities(db=local_session)
@@ -65,15 +76,16 @@ def local_database(
             db=local_session, management_file=management_file
         )
         logger.info(
-            f"COMPLETED 'LOCAL' DATABASE POPULATION ON: '{local_engine.url.database}'"
+            f"seeding complete"
         )
 
 
 def remote_database(remote_db=REMOTE_ENGINE, local_db=LOCAL_ENGINE) -> None:
     """
-    Function checks if renote database has been created and populates table(s) if so.
+    Function checks if remote database has been created and populates table(s) if so.
 
-    :param local_engine: database engine, defaults to REMOTE_ENGINE
+    :param remote_db: database engine, defaults to REMOTE_ENGINE
+    :param local_db: database engine, defaults to LOCAL_ENGINE
     """
     remote_session = Session(remote_db)
     local_session = Session(local_db)
@@ -83,7 +95,7 @@ def remote_database(remote_db=REMOTE_ENGINE, local_db=LOCAL_ENGINE) -> None:
 
     if remote_database_created:
         logger.info(
-            f"STARTED 'REMOTE' DATABASE POPULATION ON: '{remote_db.url.database}'"
+            f"seeding '{remote_db.url.database}' tables"
         )
 
         populate_remote_tables.communities(remote_db=remote_session)
@@ -93,12 +105,8 @@ def remote_database(remote_db=REMOTE_ENGINE, local_db=LOCAL_ENGINE) -> None:
         )
 
         logger.info(
-            f"COMPLETED 'REMOTE' DATABASE POPULATION ON: '{remote_db.url.database}'"
+            f"seeding complete"
         )
-
-    logger.info(
-        f"DATABASES: ['{LOCAL_ENGINE.url.database}', '{REMOTE_ENGINE.url.database}'] INITIALIZED."
-    )
 
 
 def initialize() -> None:

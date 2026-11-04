@@ -24,8 +24,8 @@ def parse_csv(file: Path) -> Path:
     """
     Function parses, formats, and cleans file.
 
-    :param file: management csv file (converted from downloaded pdf)
-    :return: parsed converted csv file
+    :param file: management csv file (converted from downloaded PDF)
+    :return: parsed converted CSV file
     """
     logger.info(f"Parsing csv file: {file.name}")
 
@@ -41,7 +41,7 @@ def parse_csv(file: Path) -> Path:
         logger.warning(
             f"expected: {ORIGINAL_PDF_COLUMN_COUNT} converted: {len(managers.columns)}"
         )
-        logger.warning("ASSUMING last 2 columns were inadverently merged")
+        logger.warning("ASSUMING last 2 columns were inadvertently merged")
 
         managers["MANAGEMENT"] = managers["Contact Email/Website Management Company"]
         managers.rename(
@@ -58,7 +58,7 @@ def parse_csv(file: Path) -> Path:
             },
             inplace=True,
         )
-        # split the inadvertently merged coluimns
+        # split the inadvertently merged columns
         managers["CONTACT_ADX"] = managers["CONTACT_ADX"].apply(
             lambda x: x.split(" ", 1)[0]
         )
@@ -102,10 +102,10 @@ def parse_csv(file: Path) -> Path:
 
 def pdf_to_csv(pdf_file: Path, csv_file: Path) -> Path:
     """
-    Function converts the downloaded pdf document's table data to a csv file.
+    Function converts the downloaded PDF document's table data to a csv file.
 
-    :param pdf_file: downloaded pdf file
-    :param csv_file: csv file to convert pdf file into
+    :param pdf_file: downloaded PDF file
+    :param csv_file: csv file from PDF conversion
     :return: converted csv_file
     """
     logger.info(f"Converting: {pdf_file.name} -> {csv_file.name}")

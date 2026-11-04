@@ -31,7 +31,7 @@ def all(engine: Engine) -> bool:
     """
     Function creates all local database Views.
 
-    :param engine: datanase engine
+    :param engine: database engine
     :return: True if all views created
     """
     with engine.connect() as conn, conn.begin():

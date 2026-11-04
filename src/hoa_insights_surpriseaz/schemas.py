@@ -15,6 +15,10 @@ class Community(BaseModel):
 
 
 class CommunityManagement(BaseModel):
+    """
+    Class represents a HOA Community Manager
+    """
+
     COMMUNITY: str
     BOARD_SITUS: str
     BOARD_CITY: str
@@ -24,6 +28,10 @@ class CommunityManagement(BaseModel):
 
 
 class Owners(BaseModel):
+    """
+    Class represents a HOA Assessor Parcel
+    """
+
     APN: str
     OWNER: str
     MAIL_ADX: str
@@ -58,6 +66,10 @@ class Owners(BaseModel):
 
 
 class Rentals(BaseModel):
+    """
+    Class represents a HOA rental
+    """
+
     APN: str
     OWNER: str
     OWNER_TYPE: str
@@ -82,16 +94,12 @@ class Rentals(BaseModel):
 
 
 class Parcels(BaseModel):
+    """
+    Class represents a HOA Community parcel
+    """
+
     APN: str
     COMMUNITY: str
     SITUS: str
     LAT: str
     LONG: str
-
-
-# class Webservers(BaseModel):
-#     PLATFORM: str
-#     PATH: str
-#     SITUS: str
-#     LAT: str
-#     LONG: str
