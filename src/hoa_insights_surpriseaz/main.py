@@ -25,7 +25,6 @@ from hoa_insights_surpriseaz.utils import (
     date_parser,
     delete_files,
     file_copier,
-    file_renamer,
     mailer,
 )
 
@@ -109,15 +108,26 @@ def community_management_update() -> Path:
 
     :return: location of parsed HOA management csv file
     """
-    orig_pdf, new_pdf, mgmt_csv = fetch_community_management.download()
-    file_renamed: bool = file_renamer.rename(old=orig_pdf, new=new_pdf)
+    fetch_community_management.download()
 
-    if file_renamed:
-        convert_community_management.pdf_to_csv(new_pdf, mgmt_csv)
+    convert_community_management.pdf_to_csv(
+        PDF_REPORT_CHANGES.parent / "HOA Contact List.pdf",
+        PROJECT_ROOT
+        / "database"
+        / "setup"
+        / "seed_data"
+        / "surpriseaz-hoa-management.csv",
+    )
 
-        delete_files.delete()
+    delete_files.delete(PDF_REPORT_CHANGES.parent / "HOA Contact List.pdf")
 
-    return mgmt_csv
+    return (
+        PROJECT_ROOT
+        / "database"
+        / "setup"
+        / "seed_data"
+        / "surpriseaz-hoa-management.csv"
+    )
 
 
 def main() -> None:
@@ -125,6 +135,8 @@ def main() -> None:
     Function controls the application.
     """
     logger.info("*** PARCEL PROCESSING STARTED ***")
+    logger.info(f"\tWEB SERVER OS: {WEB_SERVER.name}")
+
     consumed_parcel_api_data: Sequence[dict] = fetch_assessor_parcels.parcels_api()
     parsed_owner_data, parsed_rental_data = parse_assessor_parcels.owner_data(
         consumed_parcel_api_data
@@ -182,11 +194,10 @@ if __name__ == "__main__":
     """
     if database_setup_check(DB_SETUP_LOGFILE):
         if date_parser.first_tuesday_of_month():
-            logger.info(">>> COMMUNITY MANAGEMENT UPDATE STARTED <<<")
-            mgmt_csv: Path = community_management_update()
-            update_community_management.update_managers(mgmt_csv)
-            logger.info(">>> COMMUNITY MANAGEMENT UPDATE COMPLETED <<<")
-        logger.info(f"{WEB_SERVER.name=}")
+            logger.info("COMMUNITY MANAGEMENT UPDATE STARTED")
+            parsed_management_csv: Path = community_management_update()
+            update_community_management.update_managers(parsed_management_csv)
+            logger.info("COMMUNITY MANAGEMENT UPDATED")
         main()
     else:
         sys.exit()
