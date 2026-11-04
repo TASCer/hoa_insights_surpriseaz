@@ -123,13 +123,3 @@ def pdf_to_csv(pdf_file: Path, csv_file: Path) -> Path:
     parsed_csv: Path = parse_csv(csv_file)
 
     return parsed_csv
-
-
-if __name__ == "__main__":
-    CSV_PATH: Path = Path.cwd() / "database" / "setup" / "seed_data"
-    CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
-    PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
-    PDF_PATH: Path = Path.cwd().parent.parent / "tests" / "input"
-
-    pdf_to_csv(pdf_file=PDF_PATH / PDF_NEW_FILENAME, csv_file=CSV_PATH / CSV_FILENAME)
-    # parse_csv(file=CSV_PATH / CSV_FILENAME)

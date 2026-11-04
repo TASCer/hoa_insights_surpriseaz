@@ -4,30 +4,24 @@ from pathlib import Path
 
 logger: Logger = logging.getLogger(__name__)
 
-MANAGEMENT_PDF_PATH = Path.cwd() / "output" / "pdf" / "MANAGEMENT.pdf"
 
-
-def delete(file: Path = MANAGEMENT_PDF_PATH) -> bool:
+def delete(file: Path) -> bool:
     """
-    Function deletes a file given.
+    Function deletes a file with given path.
 
     Args:
-        file (Path, optional): file to delete. Defaults to MANAGEMENT_PDF_PATH.
+        file (Path, optional): file to delete.
 
     Returns:
         bool: True if successful
     """
     if Path.exists(file):
         Path.unlink(file)
-        logger.info(f"DOWNLOADED COMMUNITY MANAGEMENT PDF {file.name} DELETED")
+        logger.info(f"{file.name} DELETED")
 
         return True
 
     else:
-        logger.warning(f"** FILE: {file} NOT FOUND **")
+        logger.warning(f"** FILE DELETION FAILED: {file} NOT FOUND **")
 
         return False
-
-
-if __name__ == "__main__":
-    delete()

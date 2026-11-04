@@ -22,7 +22,6 @@ load_dotenv()
 
 # TODO SPACE TYPO FROM CITY 08-25 and extra "," after contact 2nd page
 PDF_DOWNLOADED_FILENAME: str = "HOA Contact List (PDF) .pdf"
-PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
 PDF_PATH: Path = Path.cwd() / "output" / "pdf"
 
 CSV_PATH: Path = (
@@ -38,7 +37,7 @@ XPATH = "/html/body/div[4]/div/div[2]/div[2]/div[3]/div/div/div[1]/div/div[2]/di
 DOWNLOAD_TO: Path = Path.cwd() / "output" / "pdf"
 
 
-def download() -> tuple[Path, Path, Path]:
+def download() -> None:
     """
     Function creates a Selenium browser/driver to download HOA management file from city website.
 
@@ -103,12 +102,6 @@ def download() -> tuple[Path, Path, Path]:
     logger.info("\tCOMPLETED: MANAGEMENT PDF DOWNLOAD")
 
     firefox_browser.quit()
-
-    return (
-        PDF_PATH / PDF_DOWNLOADED_FILENAME,
-        PDF_PATH / PDF_NEW_FILENAME,
-        CSV_PATH / CSV_FILENAME,
-    )
 
 
 if __name__ == "__main__":

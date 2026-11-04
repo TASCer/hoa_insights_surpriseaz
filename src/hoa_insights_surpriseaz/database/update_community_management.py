@@ -152,11 +152,3 @@ def update_managers(managers_file: Path) -> None:
     update_remote_table(community_managers)
 
     logger.info("COMPLETED: DATABASE TABLE UPDATES")
-
-
-if __name__ == "__main__":
-    CSV_PATH: Path = Path.cwd().parent / "output" / "csv"
-    CSV_FILENAME: str = "surpriseaz-hoa-management.csv"
-    PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
-    PDF_PATH: Path = Path.cwd() / "output" / "pdf"
-    update_managers(CSV_PATH / CSV_FILENAME)
