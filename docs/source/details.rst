@@ -10,5 +10,3 @@ Details
     :no-index:
 
    
-..    :exclude-members: my_secrets
-..    :exclude-pattern: "my_secrets"

@@ -12,3 +12,9 @@ hoa\_insights\_surpriseaz.main
       database_setup_check
       main
    
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      WebServer
+   

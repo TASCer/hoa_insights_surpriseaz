@@ -16,3 +16,4 @@ hoa\_insights\_surpriseaz.utils
    file_renamer
    mailer
    number_formatter
+   ssh_agent_check

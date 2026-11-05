@@ -8,14 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>hoa_insights_surpriseaz.utils.file_copier &mdash; HOA_INSIGHTS_SURPRISEAZ 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=8d563738"></script>
-      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -47,13 +47,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../summary.html">Summary</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="hoa_insights_surpriseaz.html">hoa_insights_surpriseaz</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="hoa_insights_surpriseaz.convert_management_data.html">hoa_insights_surpriseaz.convert_management_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hoa_insights_surpriseaz.convert_community_management.html">hoa_insights_surpriseaz.convert_community_management</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hoa_insights_surpriseaz.create_reports.html">hoa_insights_surpriseaz.create_reports</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hoa_insights_surpriseaz.database.html">hoa_insights_surpriseaz.database</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hoa_insights_surpriseaz.fetch_assessor_parcels.html">hoa_insights_surpriseaz.fetch_assessor_parcels</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hoa_insights_surpriseaz.fetch_community_management.html">hoa_insights_surpriseaz.fetch_community_management</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hoa_insights_surpriseaz.main.html">hoa_insights_surpriseaz.main</a></li>
-<li class="toctree-l3"><a class="reference internal" href="hoa_insights_surpriseaz.my_secrets.html">hoa_insights_surpriseaz.my_secrets</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hoa_insights_surpriseaz.parse_assessor_parcels.html">hoa_insights_surpriseaz.parse_assessor_parcels</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hoa_insights_surpriseaz.process_updated_parcels.html">hoa_insights_surpriseaz.process_updated_parcels</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hoa_insights_surpriseaz.schemas.html">hoa_insights_surpriseaz.schemas</a></li>
@@ -65,6 +64,7 @@
 <li class="toctree-l4"><a class="reference internal" href="hoa_insights_surpriseaz.utils.file_renamer.html">hoa_insights_surpriseaz.utils.file_renamer</a></li>
 <li class="toctree-l4"><a class="reference internal" href="hoa_insights_surpriseaz.utils.mailer.html">hoa_insights_surpriseaz.utils.mailer</a></li>
 <li class="toctree-l4"><a class="reference internal" href="hoa_insights_surpriseaz.utils.number_formatter.html">hoa_insights_surpriseaz.utils.number_formatter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="hoa_insights_surpriseaz.utils.ssh_agent_check.html">hoa_insights_surpriseaz.utils.ssh_agent_check</a></li>
 </ul>
 </li>
 </ul>
@@ -107,13 +107,13 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">linux_server</span></code>(source, destination, ...)</p></td>
-<td><p>Function copies files for Linux systems</p></td>
+<td><p>Function copies files to Linux systems</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_webserver</span></code>(to_copy[, copy_to])</p></td>
-<td><p>Function copies files to webserver for integration with website.</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_webserver</span></code>(to_copy, webserver)</p></td>
+<td><p>Function sets up file copy to webserver 'reports' directory based on server OS.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">windows_server</span></code>(source, destination, ...)</p></td>
-<td><p>Function copies files for Windows systems</p></td>
+<td><p>Function copies files to Windows systems</p></td>
 </tr>
 </tbody>
 </table>

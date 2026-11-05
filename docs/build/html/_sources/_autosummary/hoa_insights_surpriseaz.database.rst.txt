@@ -10,7 +10,7 @@ hoa\_insights\_surpriseaz.database
    :toctree:
    :recursive:
 
-   get_updated_data
+   get_updated_parcels
    get_ytd_sales
    models_local
    models_remote
