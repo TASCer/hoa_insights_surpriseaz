@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import LiteralString
 
 # source code dir relative to this file
-sys.path.insert(0, Path.cwd().parent.parent / "src" / "hoa_insights_surpriseaz")
+sys.path.insert(0, f"{Path.cwd().parent.parent!s}/src/hoa_insights_surpriseaz")
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
