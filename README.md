@@ -75,4 +75,4 @@ PDF financial report functionality now uses [weasyprint](https://pypi.org/projec
 
 #### DOCUMENTATION
 
-- Sphinx documentation can be accessed in /docs
+- Documentation provided via Sphinx can be accessed at docs/source/_build/index.html

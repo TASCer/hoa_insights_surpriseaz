@@ -16,7 +16,6 @@ from hoa_insights_surpriseaz.database.update_community_management import (
 )
 from hoa_insights_surpriseaz.fetch_community_management import download
 from hoa_insights_surpriseaz.schemas import Community, CommunityManagement, Parcels
-from hoa_insights_surpriseaz.utils.file_renamer import rename
 
 load_dotenv()
 
@@ -28,7 +27,7 @@ PDF_PATH: Path = Path.cwd().parent.parent / "output" / "pdf"
 LOCAL_DB_URI: str = f"{os.environ['PROD_LOCAL_DB_URI']}"
 
 PARCELS_TABLE: str = "parcels"
-COMMUNITY_TABLE: str = "communitites"
+COMMUNITY_TABLE: str = "communities"
 
 logger: Logger = logging.getLogger(__name__)
 
@@ -75,14 +74,10 @@ def community_management(db: Session, management_file: Path) -> bool:
             print("Fetching Community Management Data")
 
             download()
-            file_renamed: bool = rename(
-                old=PDF_PATH / PDF_DOWNLOADED_FILENAME, new=PDF_PATH / PDF_NEW_FILENAME
+            convert_community_management.pdf_to_csv(
+                pdf_file=PDF_PATH / PDF_DOWNLOADED_FILENAME,
+                csv_file=management_file,
             )
-            if file_renamed:
-                convert_community_management.pdf_to_csv(
-                    pdf_file=PDF_PATH / PDF_DOWNLOADED_FILENAME,
-                    csv_file=management_file,
-                )
             community_management(db=db, management_file=management_file)
 
         except FileNotFoundError as ffe:
@@ -118,7 +113,7 @@ def communities(db: Session) -> bool:
     Function populates communities table,
 
     :param db: database session
-    :param file_path: parsed management file, defaults to MANAGEMENT_FILE
+    # :param file_path: parsed management file, defaults to MANAGEMENT_FILE
     :return: sequence Community instances
     """
     ix = 0
@@ -166,7 +161,7 @@ def parcels(db: Session, parcel_file) -> bool:
     Function populates local parcels table
 
     :param db: database session
-    :param file: parcel constants file, defaults to f"{PARCELS_SEED_FILE}"
+    :param parcel_file: parcel constants file, defaults to f"{PARCELS_SEED_FILE}"
     :return: True if table populated
     """
     with db as session:
