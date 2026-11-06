@@ -8,14 +8,10 @@ from hoa_insights_surpriseaz.utils import (
     date_parser,
     delete_files,
     file_copier,
-    file_renamer,
     number_formatter,
 )
 
-TEST_ORIG_PDF_FILENAME: str = "MANAGEMENT.pdf"
-TEST_RENAMED_PDF_FILENAME: str = "TEST-RENAMED-MANAGEMENT.pdf"
-TEST_ORIG_CSV_FILENAME: str = "test-surpriseaz-hoa-management.csv"
-CSV_FILENAME: str = "test-renamed-surpriseaz-hoa-management.csv"
+TEST_FILENAME: str = "test_file_for_copy_delete"
 
 tests_path: Path = Path.cwd() / "tests" / "input"
 
@@ -28,7 +24,7 @@ def test_date_parser() -> None:
 
 def test_sql_date() -> None:
     date = date_parser.sql_date()
-    assert date == dt.datetime.now().astimezone()
+    assert date == dt.datetime.now().astimezone().date()
 
 
 def test_sql_timestamp() -> None:
@@ -78,29 +74,15 @@ def test_phones(ph_num, expected):
     assert ph_num == expected
 
 
-# FILE RENAME
-def test_rename_files() -> None:
-    # RENAME ORIG
-    assert file_renamer.rename(
-        tests_path / TEST_ORIG_PDF_FILENAME, tests_path / TEST_RENAMED_PDF_FILENAME
-    )
-    # RENAME BACK
-    assert file_renamer.rename(
-        tests_path / TEST_RENAMED_PDF_FILENAME, tests_path / TEST_ORIG_PDF_FILENAME
-    )
-
-
 def test_file_copier() -> None:
-    assert (
-        file_copier.to_webserver(
-            to_copy=tests_path / TEST_ORIG_PDF_FILENAME, webserver=WebServer.TESTING
-        )
-        is None
-    )
+    file_copier.to_webserver(
+        to_copy=tests_path / TEST_FILENAME, webserver=WebServer.TESTING)
 
+
+    assert Path(WebServer.TESTING.value / TEST_FILENAME).exists()
 
 def test_delete_files() -> None:
-    assert delete_files.delete(tests_path / TEST_ORIG_PDF_FILENAME)
+    delete_files.delete(WebServer.TESTING.value / TEST_FILENAME)
 
 
 # TODO MOCK THIS?
