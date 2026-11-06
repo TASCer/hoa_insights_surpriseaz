@@ -39,7 +39,7 @@ def test_create_local_session(test_create_local_engine):
 
     finally:
         test_debian_session.execute(
-            text(f"DROP DATABASE IF EXISTS {os.environ['TEST_LOCAL_DB_URI']};")
+            text(f"DROP DATABASE IF EXISTS {os.environ['TEST_LOCAL_DB_NAME']};")
         )
         # pass
 
@@ -62,7 +62,7 @@ def test_create_remote_session(test_create_remote_engine):
 
     finally:
         test_bluehost_session.execute(
-            statement=text(f"DROP DATABASE {os.environ['TEST_REMOTE_DB_URI']};")
+            statement=text(f"DROP DATABASE {os.environ['TEST_REMOTE_DB_NAME']};")
         )
         # pass
 
