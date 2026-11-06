@@ -7,7 +7,7 @@ from dateutil.parser import ParserError, parse
 
 def logger_date() -> str:
     """
-    Function retieves today datetime date object and formats for logger file.
+    Function retrieves today datetime date object and formats for logger file.
 
     Returns:
         str: today's date
