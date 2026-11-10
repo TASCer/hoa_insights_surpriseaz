@@ -65,8 +65,8 @@ def get_average_sale_price(finances: Path) -> DataFrame:
         columns={"SALE_DATE": "#Sold"}
     )
 
-    ytd_avg_price: DataFrame = all_community_sales_ytd.groupby(by=["COMMUNITY"]).mean(
-        ["SALE_PRICE"]
+    ytd_avg_price: DataFrame = all_community_sales_ytd.groupby(by="COMMUNITY").agg(
+        {"SALE_DATE": "count", "SALE_PRICE": "mean"}
     )
 
     ytd_avg_price: DataFrame = ytd_avg_price.rename(columns={"SALE_PRICE": "Avg_Price"})
