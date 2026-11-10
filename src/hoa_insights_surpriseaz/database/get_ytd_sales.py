@@ -5,7 +5,7 @@ from logging import Logger
 from pathlib import Path
 
 from dotenv import load_dotenv
-from pandas import DataFrame, concat, read_sql
+from pandas import DataFrame, read_sql
 from sqlalchemy import create_engine, exc
 from sqlalchemy.engine import Engine
 
@@ -58,23 +58,13 @@ def get_average_sale_price(finances: Path) -> DataFrame:
     all_community_sales_ytd: DataFrame = DataFrame(all_sales_ytd)
     all_community_sales_ytd.to_csv(f"{finances / 'all_ytd_community_sales.csv'}")
 
-    community_sold_count: DataFrame = all_community_sales_ytd.groupby(
-        "COMMUNITY"
-    ).count()
-    community_sold_count: DataFrame = community_sold_count.rename(
-        columns={"SALE_DATE": "#Sold"}
-    )
+    ytd_community_avg_sale_price: DataFrame = all_community_sales_ytd.groupby(
+        by="COMMUNITY"
+    ).agg({"SALE_DATE": "count", "SALE_PRICE": "mean"})
 
-    ytd_avg_price: DataFrame = all_community_sales_ytd.groupby(by="COMMUNITY").agg(
-        {"SALE_DATE": "count", "SALE_PRICE": "mean"}
+    ytd_community_avg_sale_price: DataFrame = ytd_community_avg_sale_price.rename(
+        columns={"SALE_PRICE": "Avg_Price", "SALE_DATE": "#SOLD"}
     )
-
-    ytd_avg_price: DataFrame = ytd_avg_price.rename(columns={"SALE_PRICE": "Avg_Price"})
-
-    ytd_community_avg_sale_price: DataFrame = concat(
-        [community_sold_count, ytd_avg_price], axis=1
-    )
-    del ytd_community_avg_sale_price["SALE_PRICE"]
 
     ytd_community_avg_sale_price["Avg_Price"] = ytd_community_avg_sale_price[
         "Avg_Price"
