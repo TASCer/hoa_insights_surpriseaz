@@ -98,7 +98,7 @@ def remote_database(remote_db=REMOTE_ENGINE, local_db=LOCAL_ENGINE) -> None:
             remote_db=remote_session, local_db=local_session
         )
 
-        logger.info(f"seeding complete")
+        logger.info("seeding complete")
 
 
 def initialize() -> None:
