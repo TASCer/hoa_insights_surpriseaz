@@ -77,7 +77,7 @@ WEB_SERVER = WebServer.LINUX
 
 def database_setup_check(logfile_name: Path) -> bool:
     """
-    Function checks if db-init.py has been ran by looking for log file.
+    Function checks if db-init.py has been run by looking for log file.
 
     :param logfile_name: database setup log file, defaults to DB_SETUP_LOGFILE
     """
@@ -100,7 +100,7 @@ def database_setup_check(logfile_name: Path) -> bool:
 
 def community_management_update() -> Path:
     """
-    Function controls the downloading, renaming, and parsing of downloaded HOA management pdf file.
+    Function controls the downloading, renaming, and parsing of downloaded HOA management PDF file.
 
     :return: location of parsed HOA management csv file
     """

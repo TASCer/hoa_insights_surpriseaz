@@ -23,8 +23,8 @@ def get_average_sale_price(finances: Path) -> DataFrame:
     """
     Function determines the YTD average parcel sale price for each community.
 
-    :param finances: financial csv diretory
-    :return: communities avgerage sale price YTD
+    :param finances: financial csv directory
+    :return: communities average sale price YTD
     """
     logger: Logger = logging.getLogger(__name__)
     try:
