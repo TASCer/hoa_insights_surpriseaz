@@ -37,14 +37,19 @@ def parcel_changes(
             else f'<a href="https://hoa.tascs.test/areaMap.php?{row}">{row}</a>'
         )
     )
-    # NEED TO USE Int64 to resolve float NaN?
-    # parcel_updates.fillna("", inplace=True)
 
     parcel_updates["SALE_PRICE-"] = (
-        parcel_updates["SALE_PRICE-"].fillna(0).astype(int).apply(format_price)
+        parcel_updates["SALE_PRICE-"]
+        .infer_objects(copy=False)
+        .fillna(0)
+        .apply(format_price)
     )
+
     parcel_updates["SALE_PRICE+"] = (
-        parcel_updates["SALE_PRICE+"].fillna(0).astype(int).apply(format_price)
+        parcel_updates["SALE_PRICE+"]
+        .infer_objects(copy=False)
+        .fillna(0)
+        .apply(format_price)
     )
 
     # fill NaN w/""
@@ -102,7 +107,7 @@ def ytd_community_sales(
     finance_caption: str = f"AVERAGE SALES PRICE (YTD) <br> PROCESSED: {get_now()}"
 
     finance_style: Styler = (
-        community_avg_prices.style.set_table_styles(styles.finance_updates())
+        community_avg_prices.style.set_table_styles(styles.finance_updates())  # ty: ignore[invalid-argument-type]
         .set_caption(finance_caption)
         .hide(axis="index")
     )
