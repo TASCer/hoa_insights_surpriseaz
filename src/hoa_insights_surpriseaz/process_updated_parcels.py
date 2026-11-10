@@ -9,31 +9,6 @@ from hoa_insights_surpriseaz.utils.date_parser import logger_date
 
 logger: Logger = logging.getLogger(__name__)
 
-OWNERS_REPORT_COLUMNS: list[str] = [
-    "APN",
-    "COMMUNITY",
-    "OWNER",
-    "DEED_DATE",
-    "DEED_TYPE",
-]
-SALES_REPORT_COLUMNS: list[str] = ["APN", "COMMUNITY", "SALE_DATE", "SALE_PRICE"]
-
-PARCEL_CHANGE_REPORT_COLUMNS: list[str] = [
-    "APN",
-    "COMMUNTY",
-    "OWNER_new",
-    "old_owner",
-    # "new_sale_date",
-    # "old_sale_date",
-    # "new_sale_price",
-    # "old_sale_price",
-    "new_deed_date",
-    "old_deed_date",
-    "new_deed_deed_type",
-    "old_deed_deed_type",
-    # "legal_code",
-]
-
 
 def insights(
     updated_parcels: Path, finances: Path
@@ -61,7 +36,6 @@ def insights(
     else:
         return DataFrame(), DataFrame(), 0, 0
 
-    # TESTING
     old_owners_df = DataFrame(old_owners).set_index("APN")
     new_owners_df = DataFrame(new_owners).set_index("APN")
     owners_merged_df = old_owners_df.merge(
@@ -89,43 +63,3 @@ def insights(
         old_owners_change_count,
         old_sales_change_count,
     )
-
-
-# PREVIOUSLY I JUST FOCUSED ON OLD OWNERS AND SALES. NOW REPORT SHOWS WHAT CHANGED WHILE KEEPING DB SAME,
-# owner_changes: DataFrame = DataFrame(
-#     owners_merged,
-#     columns=PARCEL_CHANGE_REPORT_COLUMNS,
-# ).set_index(["APN"])
-# print(parcel_changes)
-
-# PROD
-# if old_owners_change_count >= 1 or old_sales_change_count >= 1:
-#     community_avg_sale: DataFrame = get_ytd_sales.get_average_sale_price(
-#         finances=finances
-#     )
-
-#     owner_changes: DataFrame = DataFrame(
-#         old_owners,
-#         columns=OWNERS_REPORT_COLUMNS,
-#     ).set_index(["APN"])
-
-#     sale_changes: DataFrame = DataFrame(
-#         old_sales, columns=SALES_REPORT_COLUMNS
-#     ).set_index("APN")
-
-#     merged_changes: DataFrame = owner_changes.merge(
-#         sale_changes, how="outer", on=["APN", "COMMUNITY"], suffixes=("", "_y")
-#     )
-
-#     merged_changes["SALE_PRICE"] = (
-#         merged_changes["SALE_PRICE"].astype(float).fillna(0)
-#     )
-
-#     merged_changes.drop(
-#         merged_changes.filter(regex="_y$").columns, axis=1, inplace=True
-#     )
-#     merged_changes.to_csv(path_or_buf=f"{updated_parcels / logger_date()}.csv")
-
-
-# else:
-#     return DataFrame(), DataFrame(), 0, 0

@@ -29,9 +29,7 @@ def rental_data(api_data: Sequence[dict]) -> list[Rentals]:
 
         if rental["RentalInformation"]["AgentName"]:
             rental_contact_name: str = rental["RentalInformation"]["AgentName"]
-            rental_contact_address: str = rental["RentalInformation"][
-                "AgentAddress"
-            ]
+            rental_contact_address: str = rental["RentalInformation"]["AgentAddress"]
             rental_contact_phone: str = rental["RentalInformation"]["AgentPhone"]
 
         elif rental["RentalInformation"]["BusinessContactName"]:

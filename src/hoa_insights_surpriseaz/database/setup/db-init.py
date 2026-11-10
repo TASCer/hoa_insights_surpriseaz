@@ -67,17 +67,13 @@ def local_database(
 
     local_database_created: bool = create_local_database.create(engine=local_engine)
     if local_database_created:
-        logger.info(
-            f"seeding '{local_engine.url.database}' tables"
-        )
+        logger.info(f"seeding '{local_engine.url.database}' tables")
         populate_local_tables.parcels(db=local_session, parcel_file=parcel_file)
         populate_local_tables.communities(db=local_session)
         populate_local_tables.community_management(
             db=local_session, management_file=management_file
         )
-        logger.info(
-            f"seeding complete"
-        )
+        logger.info(f"seeding complete")
 
 
 def remote_database(remote_db=REMOTE_ENGINE, local_db=LOCAL_ENGINE) -> None:
@@ -94,9 +90,7 @@ def remote_database(remote_db=REMOTE_ENGINE, local_db=LOCAL_ENGINE) -> None:
     )
 
     if remote_database_created:
-        logger.info(
-            f"seeding '{remote_db.url.database}' tables"
-        )
+        logger.info(f"seeding '{remote_db.url.database}' tables")
 
         populate_remote_tables.communities(remote_db=remote_session)
 
@@ -104,9 +98,7 @@ def remote_database(remote_db=REMOTE_ENGINE, local_db=LOCAL_ENGINE) -> None:
             remote_db=remote_session, local_db=local_session
         )
 
-        logger.info(
-            f"seeding complete"
-        )
+        logger.info(f"seeding complete")
 
 
 def initialize() -> None:
