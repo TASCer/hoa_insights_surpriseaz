@@ -22,27 +22,27 @@ def rental_data(api_data: Sequence[dict]) -> list[Rentals]:
 
     parsed_rental_instances: list[Rentals] = []
 
-    for rental_data in api_data:
-        rental_owner_name: str = rental_data["RentalInformation"]["OwnerName"]
-        rental_owner_address: str = rental_data["RentalInformation"]["OwnerAddress"]
-        rental_owner_phone: str = rental_data["RentalInformation"]["OwnerPhone"]
+    for rental in api_data:
+        rental_owner_name: str = rental["RentalInformation"]["OwnerName"]
+        rental_owner_address: str = rental["RentalInformation"]["OwnerAddress"]
+        rental_owner_phone: str = rental["RentalInformation"]["OwnerPhone"]
 
-        if rental_data["RentalInformation"]["AgentName"]:
-            rental_contact_name: str = rental_data["RentalInformation"]["AgentName"]
-            rental_contact_address: str = rental_data["RentalInformation"][
+        if rental["RentalInformation"]["AgentName"]:
+            rental_contact_name: str = rental["RentalInformation"]["AgentName"]
+            rental_contact_address: str = rental["RentalInformation"][
                 "AgentAddress"
             ]
-            rental_contact_phone: str = rental_data["RentalInformation"]["AgentPhone"]
+            rental_contact_phone: str = rental["RentalInformation"]["AgentPhone"]
 
-        elif rental_data["RentalInformation"]["BusinessContactName"]:
-            rental_contact_name: str = rental_data["RentalInformation"][
+        elif rental["RentalInformation"]["BusinessContactName"]:
+            rental_contact_name: str = rental["RentalInformation"][
                 "BusinessContactName"
             ]
-            rental_contact_address: str = rental_data["RentalInformation"][
+            rental_contact_address: str = rental["RentalInformation"][
                 "BusinessContactAddress"
             ]
 
-            rental_contact_phone: str = rental_data["RentalInformation"][
+            rental_contact_phone: str = rental["RentalInformation"][
                 "BusinessContactPhone"
             ]
         else:
@@ -51,9 +51,9 @@ def rental_data(api_data: Sequence[dict]) -> list[Rentals]:
             rental_contact_phone: str = rental_owner_phone
 
         rental_instance = Rentals(
-            APN=rental_data["RentalInformation"]["ParcelNumber"],
-            OWNER=rental_data["RentalInformation"]["OwnerName"],
-            OWNER_TYPE=rental_data["RentalInformation"]["OwnershipType"],
+            APN=rental["RentalInformation"]["ParcelNumber"],
+            OWNER=rental["RentalInformation"]["OwnerName"],
+            OWNER_TYPE=rental["RentalInformation"]["OwnershipType"],
             CONTACT=rental_contact_name,
             CONTACT_ADX=rental_contact_address,
             CONTACT_PH=rental_contact_phone,
@@ -77,31 +77,31 @@ def owner_data(api_data: Sequence[dict]) -> tuple[list[Owners], list[Rentals]]:
     parsed_owner_instances: list[Owners] = []
     rentals: list = []
 
-    for owner_data in api_data:
+    for owner in api_data:
         try:
             owner_instance = Owners(
-                APN=owner_data["TreasurersTransitionUrl"].split("=")[1],
-                OWNER=owner_data["Owner"]["Ownership"],
-                MAIL_ADX=owner_data["Owner"]["FullMailingAddress"],
-                SALE_DATE=owner_data["Owner"]["SaleDate"],
-                SALE_PRICE=owner_data["Owner"]["SalePrice"],
-                DEED_DATE=owner_data["Owner"]["DeedDate"],
-                DEED_TYPE=owner_data["Owner"]["DeedType"],
-                LEGAL_CODE=owner_data["Valuations"][0]["LegalClassificationCode"],
-                RENTAL=owner_data["IsRental"],
+                APN=owner["TreasurersTransitionUrl"].split("=")[1],
+                OWNER=owner["Owner"]["Ownership"],
+                MAIL_ADX=owner["Owner"]["FullMailingAddress"],
+                SALE_DATE=owner["Owner"]["SaleDate"],
+                SALE_PRICE=owner["Owner"]["SalePrice"],
+                DEED_DATE=owner["Owner"]["DeedDate"],
+                DEED_TYPE=owner["Owner"]["DeedType"],
+                LEGAL_CODE=owner["Valuations"][0]["LegalClassificationCode"],
+                RENTAL=owner["IsRental"],
             )
 
         except (ValidationError, ValueError, TypeError) as err:
-            logger.error(err, owner_data)
-            print(f"*** ERROR ***: {owner_data}")
+            logger.error(err, owner)
+            print(f"*** ERROR ***: {owner}")
             continue
 
         parsed_owner_instances.append(owner_instance)
         if owner_instance.RENTAL:
-            rentals.append(owner_data)
+            rentals.append(owner)
 
     logger.info(f"\tCompleted parsing: {Owners.__name__}")
 
     parsed_rental_instances: list[Rentals] = rental_data(rentals)
 
-    return (parsed_owner_instances, parsed_rental_instances)
+    return parsed_owner_instances, parsed_rental_instances
