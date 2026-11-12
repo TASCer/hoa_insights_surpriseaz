@@ -4,7 +4,7 @@ from pathlib import Path
 
 from pandas import DataFrame
 
-from hoa_insights_surpriseaz.database import get_updated_parcels, get_ytd_sales
+from hoa_insights_surpriseaz.database import get_updated_parcels, get_financials
 from hoa_insights_surpriseaz.utils.date_parser import logger_date
 
 logger: Logger = logging.getLogger(__name__)
@@ -30,7 +30,7 @@ def insights(
     print(f"{new_sales_change_count=} - {old_sales_change_count=}")
 
     if old_owners_change_count >= 1 or old_sales_change_count >= 1:
-        community_avg_sale: DataFrame = get_ytd_sales.get_average_sale_price(
+        community_avg_sale: DataFrame = get_financials.average_sale_prices(
             finances=finances
         )
     else:

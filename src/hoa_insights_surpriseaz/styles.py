@@ -63,6 +63,27 @@ def finance_updates() -> list[dict]:
             ],
         ),
         dict(
+            selector="th:first-child",
+            props=[
+                ("color", "black"),
+                ("border", "1px solid #eee"),
+                ("padding", "6px 7px"),
+                ("background", "grey"),
+                ("font-size", "16px"),
+            ],
+        ),
+        dict(
+            selector="th:nth-child(2)",
+            props=[
+                ("color", "black"),
+                ("border", "1px solid #eee"),
+                ("padding", "6px 7px"),
+                ("background", "grey"),
+                ("font-size", "16px"),
+            ],
+        ),
+
+        dict(
             selector="td:last-child", props=[("color", "green"), ("font-size", "18px")]
         ),
         dict(
@@ -70,10 +91,8 @@ def finance_updates() -> list[dict]:
             props=[
                 ("font-family", "Roboto"),
                 ("text-align", "center"),
-                ("margin", "20px auto"),
-                ("border", "6px solid black"),
+                ("margin", "10px auto"),
                 ("table-layout", "fixed"),
-                ("border-style", "ridge"),
             ],
         ),
         dict(
