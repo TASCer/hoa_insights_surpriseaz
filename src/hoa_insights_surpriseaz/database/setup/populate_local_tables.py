@@ -121,7 +121,7 @@ def communities(db: Session) -> bool:
         community_instances: list = []
 
         try:
-            q_community_totals: Result[tuple[str, int, float, float]] = session.execute(
+            q_community_totals: Result[str, int, float, float] = session.execute(
                 select(
                     models_local.Parcel.COMMUNITY,
                     func.count(models_local.Parcel.COMMUNITY).label("COUNT"),

@@ -1,6 +1,7 @@
 import logging
 import os
 import sys
+from datetime import date
 from logging import Logger
 from typing import Any
 
@@ -41,7 +42,7 @@ def changes(
     logger.info("\t\tGetting updated parcels....")
     with engine.connect() as conn, conn.begin():
         try:
-            q_old_sales: CursorResult[Any] = conn.execute(
+            q_old_sales: CursorResult[str, str, date, int] = conn.execute(
                 statement=select(
                     HistoricalSales.APN,
                     Parcel.COMMUNITY,
@@ -53,7 +54,7 @@ def changes(
             )
             old_sales: list = [x for x in q_old_sales]
 
-            q_old_owners: CursorResult[Any] = conn.execute(
+            q_old_owners: CursorResult[str, str, str, date, str] = conn.execute(
                 statement=select(
                     HistoricalOwners.APN,
                     Parcel.COMMUNITY,
@@ -66,7 +67,7 @@ def changes(
             )
             old_owners: list = [x for x in q_old_owners]
 
-            q_new_sales: CursorResult[Any] = conn.execute(
+            q_new_sales: CursorResult[str, str, date, int] = conn.execute(
                 statement=select(
                     Owner.APN,
                     Parcel.COMMUNITY,
@@ -78,7 +79,7 @@ def changes(
             )
             new_sales: list = [x for x in q_new_sales]
 
-            q_new_owners: CursorResult[Any] = conn.execute(
+            q_new_owners: CursorResult[str, str, str, date, str] = conn.execute(
                 statement=select(
                     Owner.APN,
                     Parcel.COMMUNITY,
