@@ -4,7 +4,7 @@ from pathlib import Path
 
 from pandas import DataFrame
 
-from hoa_insights_surpriseaz.database import get_updated_parcels, get_financials
+from hoa_insights_surpriseaz.database import get_financials, get_updated_parcels
 from hoa_insights_surpriseaz.utils.date_parser import logger_date
 
 logger: Logger = logging.getLogger(__name__)
@@ -24,10 +24,22 @@ def insights(
     new_owners, old_owners, new_sales, old_sales = get_updated_parcels.changes()
     old_owners_change_count: int = len(old_owners)
     new_owners_change_count = len(new_owners)
-    print(f"{new_owners_change_count=} - {old_owners_change_count=}")
     old_sales_change_count: int = len(old_sales)
     new_sales_change_count = len(new_sales)
     print(f"{new_sales_change_count=} - {old_sales_change_count=}")
+
+    if (
+        old_owners_change_count == new_owners_change_count
+        and old_sales_change_count == new_sales_change_count
+    ):
+        logger.info(
+            f"Sales:{new_sales_change_count} and Owner: {new_owners_change_count}change counts match with old count"
+        )
+
+    else:
+        logger.warning(
+            "Sales and Owners change counts no do not match, check logs, trigger"
+        )
 
     if old_owners_change_count >= 1 or old_sales_change_count >= 1:
         community_avg_sale: DataFrame = get_financials.average_sale_prices(
