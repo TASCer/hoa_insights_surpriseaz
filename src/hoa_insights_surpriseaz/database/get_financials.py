@@ -79,13 +79,25 @@ def average_sale_prices(finances: Path) -> DataFrame:
 
     ytd_community_avg_sale_price.reset_index(inplace=True)
 
-    ytd_community_avg_sale_price = ytd_community_avg_sale_price.merge(community_totals, on="COMMUNITY")
-
-    ytd_community_avg_sale_price["MANAGED_ID"] = ytd_community_avg_sale_price["#SOLD"] / ytd_community_avg_sale_price["COUNT"] * 100
+    ytd_community_avg_sale_price = ytd_community_avg_sale_price.merge(
+        community_totals, on="COMMUNITY"
+    )
     ytd_community_avg_sale_price = ytd_community_avg_sale_price.round(2)
+
+    ytd_community_avg_sale_price["MANAGED_ID"] = (
+        (
+            ytd_community_avg_sale_price["#SOLD"]
+            / ytd_community_avg_sale_price["COUNT"]
+            * 100
+        )
+        .round(decimals=2)
+        .map(lambda x: f"{x:g}")
+    )
+
     ytd_community_avg_sale_price = ytd_community_avg_sale_price.rename(
         columns={"MANAGED_ID": "%SOLD", "COUNT": "PARCELS"}
     )
+
     col2move = ytd_community_avg_sale_price.pop("PARCELS")
     ytd_community_avg_sale_price.insert(1, "PARCELS", col2move)
 
