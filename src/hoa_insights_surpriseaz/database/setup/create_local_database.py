@@ -36,7 +36,7 @@ def create(engine: Engine) -> bool:
     views: bool = create_local_views.all(engine)
     stored_proc: bool = create_local_procs.all(engine)
     if all((triggers, views, stored_proc)):
-        logger.info(f"DATABASE CREATED")
+        logger.info("DATABASE CREATED")
         return True
 
     else:

@@ -73,7 +73,7 @@ def local_database(
         populate_local_tables.community_management(
             db=local_session, management_file=management_file
         )
-        logger.info(f"seeding complete")
+        logger.info("seeding complete")
 
 
 def remote_database(remote_db=REMOTE_ENGINE, local_db=LOCAL_ENGINE) -> None:

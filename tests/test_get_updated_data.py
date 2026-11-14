@@ -9,7 +9,9 @@ load_dotenv()
 
 
 def test_get_updates_db() -> None:
-    new_owners, old_owners, new_sales, old_sales = get_updated_parcels.changes(os.environ["TEST_LOCAL_DB_URI"])
+    new_owners, old_owners, new_sales, old_sales = get_updated_parcels.changes(
+        os.environ["TEST_LOCAL_DB_URI"]
+    )
     print("OWNERS", new_owners)
     print("SALES", new_sales)
 

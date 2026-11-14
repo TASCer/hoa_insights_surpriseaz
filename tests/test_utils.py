@@ -76,15 +76,17 @@ def test_phones(ph_num, expected):
 
 def test_file_copier() -> None:
     file_copier.to_webserver(
-        to_copy=tests_path / TEST_FILENAME, webserver=WebServer.TESTING)
-
+        to_copy=tests_path / TEST_FILENAME, webserver=WebServer.TESTING
+    )
 
     assert Path(WebServer.TESTING / TEST_FILENAME).exists()
+
 
 def test_delete_files() -> None:
     delete_files.delete(WebServer.TESTING.value / TEST_FILENAME)
 
     assert not Path(WebServer.TESTING.value / TEST_FILENAME).exists()
+
 
 # TODO MOCK THIS?
 # @pytest.mark.skip("WIP")
