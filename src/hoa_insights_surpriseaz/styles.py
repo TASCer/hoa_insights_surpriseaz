@@ -82,7 +82,6 @@ def finance_updates() -> list[dict]:
                 ("font-size", "16px"),
             ],
         ),
-
         dict(
             selector="td:last-child", props=[("color", "green"), ("font-size", "18px")]
         ),
