@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from sqlalchemy import Engine, create_engine, text
 from sqlalchemy.orm import Session
 
-from hoa_insights_surpriseaz.parse_assessor_parcels import owner_data
+from hoa_insights_surpriseaz.parse_fetched_parcels import owners_data
 from hoa_insights_surpriseaz.schemas import Owners, Rentals
 
 load_dotenv()
@@ -99,7 +99,7 @@ def get_new_parcel_data():
 def parse_original_parcel_data(
     get_original_parcel_data,
 ) -> tuple[list[Owners], list[Rentals]]:
-    test_parsed_owners_original_data, test_parsed_rentals_original_data = owner_data(
+    test_parsed_owners_original_data, test_parsed_rentals_original_data = owners_data(
         get_original_parcel_data
     )
 
@@ -108,7 +108,7 @@ def parse_original_parcel_data(
 
 @pytest.fixture()
 def parse_new_parcel_data(get_new_parcel_data) -> tuple[list[Owners], list[Rentals]]:
-    test_parsed_new_parcel_data, test_parsed_new_rentals_data = owner_data(
+    test_parsed_new_parcel_data, test_parsed_new_rentals_data = owners_data(
         get_new_parcel_data
     )
 
