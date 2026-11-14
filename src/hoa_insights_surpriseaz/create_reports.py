@@ -62,14 +62,13 @@ def parcel_changes(
     parcel_updates["DEED_TYPE-"] = parcel_updates["DEED_TYPE-"].fillna("")
     parcel_updates["DEED_TYPE+"] = parcel_updates["DEED_TYPE+"].fillna("")
 
-    # add COMMUNITY to index
     parcel_updates = parcel_updates.set_index(
         ["COMMUNITY"], append=True, verify_integrity=True
     )
 
     parcel_updates.sort_values("COMMUNITY", inplace=True, ignore_index=False)
 
-    # reorder columns
+    # reorder columns, moving OWNER data to front
     owner_cols_to_move = ["OWNER+", "OWNER-"]
     parcel_updates = parcel_updates[
         owner_cols_to_move
@@ -106,13 +105,13 @@ def ytd_community_sales(
 
     finance_caption: str = f"AVERAGE SALES PRICE (YTD) <br> PROCESSED: {get_now()}"
 
-    finance_style: Styler = (
+    ytd_sales_report_styled: Styler = (
         community_avg_prices.style.set_table_styles(styles.finance_updates())  # ty: ignore[invalid-argument-type]
         .set_caption(finance_caption)
         .hide(axis="index")
     )
 
-    finance_style.to_html(f"{html_file / 'community_ytd_sales_avg.html'}")
+    ytd_sales_report_styled.to_html(f"{html_file / 'community_ytd_sales_avg.html'}")
 
     HTML(filename=f"{html_file}/community_ytd_sales_avg.html").write_pdf(
         pdf_file / "community_ytd_sales_avg.pdf"
