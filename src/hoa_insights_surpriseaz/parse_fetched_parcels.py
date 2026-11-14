@@ -1,4 +1,5 @@
 import logging
+from collections.abc import Sequence
 from logging import Logger
 
 from pydantic import ValidationError
@@ -8,7 +9,7 @@ from hoa_insights_surpriseaz.schemas import Owners, Rentals
 logger: Logger = logging.getLogger(__name__)
 
 
-def owners_data(api_data: list[dict]) -> tuple[list[Owners], list[Rentals]]:
+def owners_data(api_data: Sequence[dict]) -> tuple[list[Owners], list[Rentals]]:
     """
     Function parses consumed parcel owner rental data from ASSESSOR API to determine sole contact information for web.
 
