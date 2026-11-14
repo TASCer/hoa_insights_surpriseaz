@@ -13,7 +13,7 @@ from hoa_insights_surpriseaz import (
     create_reports,
     fetch_assessor_parcels,
     fetch_community_management,
-    parse_assessor_parcels,
+    parse_fetched_parcels,
     process_updated_parcels,
 )
 from hoa_insights_surpriseaz.database import (
@@ -134,7 +134,7 @@ def main() -> None:
     logger.info(f"\tWEB SERVER OS: {WEB_SERVER.name}")
 
     consumed_parcel_api_data: Sequence[dict] = fetch_assessor_parcels.parcels_api()
-    parsed_owner_data, parsed_rental_data = parse_assessor_parcels.owner_data(
+    parsed_owner_data, parsed_rental_data = parse_fetched_parcels.owners_data(
         consumed_parcel_api_data
     )
     if parsed_owner_data:
@@ -179,7 +179,6 @@ def main() -> None:
         mailer.send_mail(f"{owner_change_count=} {sale_change_count=}")
 
     logger.info("*** PARCEL PROCESSING COMPLETED ***")
-    logger.info(f"{owner_change_count=} {sale_change_count=}")
 
 
 if __name__ == "__main__":
