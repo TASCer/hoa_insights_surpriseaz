@@ -33,12 +33,12 @@ def insights(
         and old_sales_change_count == new_sales_change_count
     ):
         logger.info(
-            f"Sales:{new_sales_change_count} and Owner: {new_owners_change_count}change counts match with old count"
+            f"Sales:{new_sales_change_count} and Owners: {new_owners_change_count} change counts match with old count"
         )
 
     else:
         logger.warning(
-            "Sales and Owners change counts no do not match, check logs, trigger"
+            "Sales and Owners change counts no do not match! Check logs, OWNERS table triggers"
         )
 
     if old_owners_change_count >= 1 or old_sales_change_count >= 1:
