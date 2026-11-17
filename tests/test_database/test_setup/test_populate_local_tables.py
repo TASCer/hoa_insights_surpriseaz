@@ -4,7 +4,7 @@ from hoa_insights_surpriseaz.database.setup import (
     populate_local_tables,
 )
 
-PARCELS_CONSTANTS: Path = (
+PARCELS_FILE: Path = (
     Path.cwd()
     / "src"
     / "hoa_insights_surpriseaz"
@@ -14,7 +14,7 @@ PARCELS_CONSTANTS: Path = (
     / "parcel_constants.csv"
 )
 
-MANAGEMENT_CONSTANTS: Path = (
+MANAGEMENT_FILE: Path = (
     Path.cwd()
     / "src"
     / "hoa_insights_surpriseaz"
@@ -27,7 +27,7 @@ MANAGEMENT_CONSTANTS: Path = (
 
 def test_populate_local_tables(test_create_local_session) -> None:
     parcel_totals: bool = populate_local_tables.parcels(
-        db=test_create_local_session, parcel_file=PARCELS_CONSTANTS
+        db=test_create_local_session, parcel_file=PARCELS_FILE
     )
 
     assert parcel_totals
@@ -36,6 +36,6 @@ def test_populate_local_tables(test_create_local_session) -> None:
     assert community_totals
 
     management: bool = populate_local_tables.community_management(
-        test_create_local_session, management_file=MANAGEMENT_CONSTANTS
+        test_create_local_session, management_file=MANAGEMENT_FILE
     )
     assert management
