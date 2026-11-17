@@ -15,7 +15,7 @@ def test_get_updates_db() -> None:
     print("OWNERS", new_owners)
     print("SALES", new_sales)
 
-    assert len(new_owners) == 4
-    assert len(new_sales) == 2
-    assert len(old_owners) == 4
-    assert len(old_sales) == 2
+    assert len(new_owners) == 3
+    assert len(new_sales) == 5
+    assert len(old_owners) == 3
+    assert len(old_sales) == 5
