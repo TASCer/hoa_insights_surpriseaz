@@ -23,45 +23,45 @@ TEST_MANAGEMENT_CSV_PATH: Path = (
 
 @pytest.fixture(scope="session")
 def test_create_local_engine() -> Engine:
-    test_debian_engine: Engine = create_engine(
+    test_local_engine: Engine = create_engine(
         f"mysql+pymysql://{os.environ['TEST_LOCAL_DB_URI']}"
     )
 
-    return test_debian_engine
+    return test_local_engine
 
 
 @pytest.fixture(scope="session")
 def test_create_local_session(test_create_local_engine):
-    test_debian_session = Session(test_create_local_engine)
+    test_local_session = Session(test_create_local_engine)
 
     try:
-        yield test_debian_session
+        yield test_local_session
 
     finally:
-        test_debian_session.execute(
-            text(f"DROP DATABASE IF EXISTS {os.environ['TEST_LOCAL_DB_NAME']};")
-        )
-        # pass
+        # test_local_session.execute(
+        #     text(f"DROP DATABASE IF EXISTS {os.environ['TEST_LOCAL_DB_NAME']};")
+        # )
+        pass
 
 
 @pytest.fixture(scope="session")
 def test_create_remote_engine() -> Engine:
-    test_bluehost_engine: Engine = create_engine(
+    test_remote_engine: Engine = create_engine(
         f"mysql+pymysql://{os.environ['TEST_REMOTE_DB_URI']}"
     )
 
-    return test_bluehost_engine
+    return test_remote_engine
 
 
 @pytest.fixture(scope="session")
 def test_create_remote_session(test_create_remote_engine):
-    test_bluehost_session = Session(test_create_remote_engine)
+    test_remote_session = Session(test_create_remote_engine)
 
     try:
-        yield test_bluehost_session
+        yield test_remote_session
 
     finally:
-        test_bluehost_session.execute(
+        test_remote_session.execute(
             statement=text(f"DROP DATABASE {os.environ['TEST_REMOTE_DB_NAME']};")
         )
         # pass
