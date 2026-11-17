@@ -77,7 +77,7 @@ def first_tuesday_of_month() -> bool:
     return is_today_first_tuesday
 
 
-def api_date(date: str) -> datetime:
+def api_date(date: str | None) -> date:
     """
     Function parses date field from API fetch result.
 
@@ -88,9 +88,9 @@ def api_date(date: str) -> datetime:
         datetime: parsed date or "1901-01-01"
     """
     try:
-        date_parsed: datetime = parse(date)
+        date_parsed: dt.date = parse(date).date()
 
     except (TypeError, ParserError):
-        date_parsed: datetime = parse("1901-01-01")
+        date_parsed: dt.date = parse("1901-01-01").date()
 
     return date_parsed
