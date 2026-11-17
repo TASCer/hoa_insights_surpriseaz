@@ -33,7 +33,7 @@ def test_sql_timestamp() -> None:
 
 
 def test_format_api_date() -> None:
-    no_date: dt.date = date_parser.api_date("")
+    no_date: dt.date = date_parser.api_date(date=None)
     assert no_date == dt.date(1901, 1, 1)
 
     has_date: dt.date = date_parser.api_date("2025-08-09")
@@ -79,13 +79,13 @@ def test_file_copier() -> None:
         to_copy=tests_path / TEST_FILENAME, webserver=WebServer.TESTING
     )
 
-    assert Path(WebServer.TESTING / TEST_FILENAME).exists()
+    assert Path(str(WebServer.TESTING.value) + "/" + TEST_FILENAME).exists()
 
 
 def test_delete_files() -> None:
     delete_files.delete(WebServer.TESTING.value / TEST_FILENAME)
 
-    assert not Path(WebServer.TESTING.value / TEST_FILENAME).exists()
+    assert not Path(str(WebServer.TESTING.value) + "/" + TEST_FILENAME).exists()
 
 
 # TODO MOCK THIS?
