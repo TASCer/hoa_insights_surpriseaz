@@ -3,7 +3,6 @@ import os
 import sys
 from datetime import date
 from logging import Logger
-from typing import Any
 
 from dotenv import load_dotenv
 from sqlalchemy import (
