@@ -1,4 +1,4 @@
-import datetime
+import datetime as dt
 
 from hoa_insights_surpriseaz.schemas import Owners, Rentals
 
@@ -36,7 +36,7 @@ def test_parse_psuedo_api_new(parse_new_parcel_data) -> None:
 
     updated_owners = [o for o in parsed_test_update_parcels if o.APN == "509-11-455"]
     assert updated_owners[0].OWNER == "BUYER NEW A"
-    assert updated_owners[0].SALE_DATE == datetime.datetime(2025, 1, 1, 0, 0)
+    assert updated_owners[0].SALE_DATE == dt.date(2025, 1, 1)
     assert updated_owners[0].SALE_PRICE == "375000"
 
     updated_rentals = [r for r in parsed_test_update_rentals if r.APN == "509-11-022"]
