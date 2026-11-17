@@ -20,12 +20,26 @@ TEST_MANAGEMENT_CSV_PATH: Path = (
     Path.cwd() / "tests" / "output" / "csv" / "surpriseaz-hoa-management.csv"
 )
 
+try:
+    TEST_LOCAL_DB_URI: str = f"{os.environ['TEST_LOCAL_DB_URI']}"
+    TEST_REMOTE_DB_URI: str = f"{os.environ['TEST_REMOTE_DB_URI']}"
+
+except ValueError:
+    TEST_LOCAL_DB_URI = f"{os.environ['TEST_LOCAL_DB_USER']}:{os.environ['TEST_LOCAL_DB_USER_PASSWORD']}@{os.environ['TEST_LOCAL_DB_HOST']}/{os.environ['TEST_LOCAL_DB_NAME']}"
+    TEST_REMOTE_DB_URI = f"{os.environ['TEST_REMOTE_DB_USER']}:{os.environ['TEST_REMOTE_DB_USER_PASSWORD']}@{os.environ['TEST_REMOTE_DB_HOST']}/{os.environ['TEST_REMOTE_DB_NAME']}"
+
+
+TEST_LOCAL_ENGINE: Engine = create_engine(
+    f"mysql+pymysql://{TEST_LOCAL_DB_URI}", echo=False
+)
+TEST_REMOTE_ENGINE: Engine = create_engine(
+    f"mysql+pymysql://{TEST_REMOTE_DB_URI}", echo=False
+)
+
 
 @pytest.fixture(scope="session")
 def test_create_local_engine() -> Engine:
-    test_local_engine: Engine = create_engine(
-        f"mysql+pymysql://{os.environ['TEST_LOCAL_DB_URI']}"
-    )
+    test_local_engine: Engine = create_engine(f"mysql+pymysql://{TEST_LOCAL_DB_URI}")
 
     return test_local_engine
 
@@ -38,17 +52,15 @@ def test_create_local_session(test_create_local_engine):
         yield test_local_session
 
     finally:
-        # test_local_session.execute(
-        #     text(f"DROP DATABASE IF EXISTS {os.environ['TEST_LOCAL_DB_NAME']};")
-        # )
-        pass
+        test_local_session.execute(
+            text(f"DROP DATABASE IF EXISTS {os.environ['TEST_LOCAL_DB_NAME']};")
+        )
+        # pass
 
 
 @pytest.fixture(scope="session")
 def test_create_remote_engine() -> Engine:
-    test_remote_engine: Engine = create_engine(
-        f"mysql+pymysql://{os.environ['TEST_REMOTE_DB_URI']}"
-    )
+    test_remote_engine: Engine = create_engine(f"mysql+pymysql://{TEST_REMOTE_DB_URI}")
 
     return test_remote_engine
 
