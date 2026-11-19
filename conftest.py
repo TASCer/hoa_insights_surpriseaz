@@ -19,14 +19,8 @@ TEST_UPDATE_PARCELS_PATH: Path = Path.cwd() / "tests" / "input" / "new_parcel_js
 TEST_MANAGEMENT_CSV_PATH: Path = (
     Path.cwd() / "tests" / "output" / "csv" / "surpriseaz-hoa-management.csv"
 )
-
-# try:
-TEST_LOCAL_DB_URI: str = f"{os.environ['TEST_LOCAL_DB_URI']}"
-TEST_REMOTE_DB_URI: str = f"{os.environ['TEST_REMOTE_DB_URI']}"
-
-# except ValueError:
-#     TEST_LOCAL_DB_URI = f"{os.environ['TEST_LOCAL_DB_USER']}:{os.environ['TEST_LOCAL_DB_USER_PASSWORD']}@{os.environ['TEST_LOCAL_DB_HOST']}/{os.environ['TEST_LOCAL_DB_NAME']}"
-#     TEST_REMOTE_DB_URI = f"{os.environ['TEST_REMOTE_DB_USER']}:{os.environ['TEST_REMOTE_DB_USER_PASSWORD']}@{os.environ['TEST_REMOTE_DB_HOST']}/{os.environ['TEST_REMOTE_DB_NAME']}"
+TEST_LOCAL_DB_URI = f"{os.environ['TEST_LOCAL_DB_USER']}:{os.environ['TEST_LOCAL_DB_USER_PASSWORD']}@{os.environ['TEST_LOCAL_DB_HOST']}/{os.environ['TEST_LOCAL_DB_NAME']}"
+TEST_REMOTE_DB_URI = f"{os.environ['TEST_REMOTE_DB_USER']}:{os.environ['TEST_REMOTE_DB_USER_PASSWORD']}@{os.environ['TEST_REMOTE_DB_HOST']}/{os.environ['TEST_REMOTE_DB_NAME']}"
 
 
 TEST_LOCAL_ENGINE: Engine = create_engine(

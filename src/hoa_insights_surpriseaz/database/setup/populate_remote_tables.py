@@ -84,7 +84,7 @@ def communities(remote_db: Session = REMOTE_SESSION) -> bool:
     :param remote_db: database session, defaults to REMOTE_SESSION
     :return: sequence of community managers
     """
-    local_community_items, local_community_managers = get_local_data()
+    local_community_items, _local_community_managers = get_local_data()
     try:
         with remote_db as remote_session:
             for community in local_community_items:

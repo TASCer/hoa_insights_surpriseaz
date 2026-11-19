@@ -1,10 +1,12 @@
 # TODO data not there? timing? do a refresh?
+import pytest
 from dotenv import load_dotenv
+
 from conftest import TEST_LOCAL_DB_URI
 from hoa_insights_surpriseaz.database import get_updated_parcels
-import pytest
 
 load_dotenv()
+
 
 @pytest.mark.order(-1)
 def test_get_updates_db() -> None:
