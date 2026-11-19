@@ -1,16 +1,15 @@
 # TODO data not there? timing? do a refresh?
-import os
-
 from dotenv import load_dotenv
-
+from conftest import TEST_LOCAL_DB_URI
 from hoa_insights_surpriseaz.database import get_updated_parcels
+import pytest
 
 load_dotenv()
 
-
+@pytest.mark.order(-1)
 def test_get_updates_db() -> None:
     new_owners, old_owners, new_sales, old_sales = get_updated_parcels.changes(
-        os.environ["TEST_LOCAL_DB_URI"]
+        TEST_LOCAL_DB_URI
     )
     print("OWNERS", new_owners)
     print("SALES", new_sales)

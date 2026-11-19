@@ -27,7 +27,13 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project.optional-dependencies]
-dev = ["pytest-cov>=6.0.0", "pytest>=8.3.4", "ruff>=0.9.1", "ty>=0.0.1a14"]
+dev = [
+    "pytest-cov>=6.0.0",
+    "pytest-order>=1.5.0",
+    "pytest>=8.3.4",
+    "ruff>=0.9.1",
+    "ty>=0.0.1a14",
+]
 docs = [
     "sphinx>=8.2.3",
     "sphinx-rtd-theme>=3.0.2",
@@ -50,3 +56,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+
+[dependency-groups]
+dev = []
