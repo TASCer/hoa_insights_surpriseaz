@@ -33,7 +33,7 @@ def create(engine: Engine) -> bool:
 
     models_local.Base.metadata.create_all(engine)
     triggers: bool = create_local_triggers.all(engine)
-    views: bool = create_local_views.all(engine)
+    views: bool = create_local_views.all_views(engine)
     stored_proc: bool = create_local_procs.all(engine)
     if all((triggers, views, stored_proc)):
         logger.info("DATABASE CREATED")
