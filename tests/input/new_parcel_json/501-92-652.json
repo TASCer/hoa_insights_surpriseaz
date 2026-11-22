@@ -30,10 +30,10 @@
         "MailingZip": "unknown",
         "MailingCountry": "unknown",
         "MostCurrentDeed": null,
-        "DeedDate": "10\/12\/2025",
+        "DeedDate": "10\/12\/2026",
         "DeedType": "WD",
         "SalePrice": "555555",
-        "SaleDate": "10\/01\/2025",
+        "SaleDate": "10\/01\/2026",
         "FullMailingAddress": "full situs",
         "DeedTypeID": null
     },
