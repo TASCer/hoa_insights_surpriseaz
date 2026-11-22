@@ -9,6 +9,7 @@ from hoa_insights_surpriseaz.utils import (
     delete_files,
     file_copier,
     number_formatter,
+    ssh_agent_check
 )
 
 TEST_FILENAME: str = "test_file_for_copy_delete"
@@ -29,7 +30,7 @@ def test_sql_date() -> None:
 
 def test_sql_timestamp() -> None:
     date: dt.date = date_parser.get_now()
-    assert dt.datetime.isoformat(date)
+    assert dt.date.isoformat(date)
 
 
 def test_format_api_date() -> None:
@@ -86,6 +87,11 @@ def test_delete_files() -> None:
     delete_files.delete(WebServer.TESTING.value / TEST_FILENAME)
 
     assert not Path(str(WebServer.TESTING.value) + "/" + TEST_FILENAME).exists()
+
+
+def test_check_ssh_agent() -> None:
+    is_ssh_agent_running = ssh_agent_check.is_ssh_agent_running_env()
+    assert is_ssh_agent_running
 
 
 # TODO MOCK THIS?
