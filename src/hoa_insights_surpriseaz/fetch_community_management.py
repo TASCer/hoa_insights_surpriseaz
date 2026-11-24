@@ -17,6 +17,7 @@ from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
+from hoa_insights_surpriseaz.config import PROJECT_ROOT
 
 load_dotenv()
 
@@ -34,7 +35,7 @@ logger: Logger = logging.getLogger(__name__)
 URL: str = os.environ["HOA_MANAGEMENT_URL"]
 XPATH = "/html/body/div[4]/div/div[2]/div[2]/div[3]/div/div/div[1]/div/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/div/div/div[2]/div/ul/li/a"
 
-DOWNLOAD_TO: Path = Path.cwd() / "output" / "pdf"
+DOWNLOAD_TO: Path = PROJECT_ROOT / "output" / "pdf"
 
 
 def download() -> None:
@@ -105,4 +106,4 @@ def download() -> None:
 
 
 if __name__ == "__main__":
-    print(download())
+    download()
