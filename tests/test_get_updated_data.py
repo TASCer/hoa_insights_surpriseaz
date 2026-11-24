@@ -13,8 +13,8 @@ def test_get_updates_db() -> None:
     new_owners, old_owners, new_sales, old_sales = get_updated_parcels.changes(
         TEST_LOCAL_DB_URI
     )
-    print("OWNERS", new_owners)
-    print("SALES", new_sales)
+    print("OWNERS", new_owners[0][0])
+    print("SALES", new_sales[0][0])
 
     assert len(new_owners) == 3
     assert len(new_sales) == 5
