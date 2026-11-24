@@ -1,18 +1,10 @@
 import logging
-import os
 from logging import Logger
 
-from dotenv import load_dotenv
+from hoa_insights_surpriseaz.database.config import UPDATE_COMMUNITIES
 from sqlalchemy import Engine, exc, text
 
 logger: Logger = logging.getLogger(__name__)
-
-load_dotenv()
-
-LOCAL_DB_NAME: str = f"{os.environ['PROD_LOCAL_DB_NAME']}"
-LOCAL_DB_USER: str = f"{os.environ['PROD_LOCAL_DB_USER']}"
-
-UPDATE_COMMUNITIES: str = "update_communities"
 
 
 def all(engine: Engine) -> bool:

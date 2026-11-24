@@ -1,17 +1,10 @@
 import logging
-import os
 from logging import Logger
 
 from dotenv import load_dotenv
 from sqlalchemy import Engine, exc, text
-
+from hoa_insights_surpriseaz.database.config import PROD_LOCAL_DB_NAME, PROD_LOCAL_DB_USER, OWNERS_TABLE
 logger: Logger = logging.getLogger(__name__)
-
-load_dotenv()
-
-LOCAL_DB_NAME: str = f"{os.environ['PROD_LOCAL_DB_NAME']}"
-LOCAL_DB_USER: str = f"{os.environ['PROD_LOCAL_DB_USER']}"
-OWNERS_TABLE: str = "owners"
 
 
 def all(engine: Engine) -> bool:
@@ -24,7 +17,7 @@ def all(engine: Engine) -> bool:
     with engine.connect() as conn, conn.begin():
         try:
             conn.execute(text("DROP TRIGGER IF EXISTS after_sale_update"))
-            trig_sales: str = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_sale_update`
+            trig_sales: str = f"""CREATE DEFINER=`{PROD_LOCAL_DB_USER}`@`%` TRIGGER `after_sale_update`
                             AFTER UPDATE ON `{OWNERS_TABLE}`
                             FOR EACH ROW BEGIN
                             IF OLD.SALE_DATE <> new.SALE_DATE THEN
@@ -38,7 +31,7 @@ def all(engine: Engine) -> bool:
             logger.info("\t\t'AFTER_SALE_UPDATE' created")
 
             conn.execute(text("DROP TRIGGER IF EXISTS after_owner_update"))
-            trig_owner: str = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_owner_update`
+            trig_owner: str = f"""CREATE DEFINER=`{PROD_LOCAL_DB_USER}`@`%` TRIGGER `after_owner_update`
                         AFTER UPDATE ON `owners`
                         FOR EACH ROW BEGIN
                             IF OLD.OWNER <> new.OWNER THEN
@@ -62,7 +55,7 @@ def all(engine: Engine) -> bool:
 
         try:
             conn.execute(text("DROP TRIGGER IF EXISTS after_management_update"))
-            trig_management: str = f"""CREATE DEFINER=`{LOCAL_DB_USER}`@`%` TRIGGER `after_management_update`
+            trig_management: str = f"""CREATE DEFINER=`{PROD_LOCAL_DB_USER}`@`%` TRIGGER `after_management_update`
                             AFTER UPDATE ON `community_managers`
                             FOR EACH ROW BEGIN
                             IF OLD.MANAGER <> new.MANAGER THEN

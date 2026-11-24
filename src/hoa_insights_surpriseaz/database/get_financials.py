@@ -1,22 +1,14 @@
 import logging
-import os
 import sys
 from logging import Logger
 from pathlib import Path
 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from pandas import DataFrame, read_sql
 from sqlalchemy import create_engine, exc
 from sqlalchemy.engine import Engine
-
+from hoa_insights_surpriseaz.database.config import PROD_LOCAL_DB_URI
 from hoa_insights_surpriseaz.utils.number_formatter import format_price
-
-load_dotenv()
-
-LOCAL_DB_HOSTNAME: str = f"{os.environ['PROD_LOCAL_DB_HOST']}"
-LOCAL_DB_NAME: str = f"{os.environ['PROD_LOCAL_DB_NAME']}"
-LOCAL_DB_USER: str = f"{os.environ['PROD_LOCAL_DB_USER']}"
-LOCAL_DB_PW: str = f"{os.environ['PROD_LOCAL_DB_PASSWORD']}"
 
 
 def average_sale_prices(finances: Path) -> DataFrame:
@@ -29,7 +21,7 @@ def average_sale_prices(finances: Path) -> DataFrame:
     logger: Logger = logging.getLogger(__name__)
     try:
         engine: Engine = create_engine(
-            f"mysql+pymysql://{LOCAL_DB_USER}:{LOCAL_DB_PW}@{LOCAL_DB_HOSTNAME}/{LOCAL_DB_NAME}"
+            f"mysql+pymysql://{PROD_LOCAL_DB_URI}"
         )
 
     except (exc.SQLAlchemyError, exc.OperationalError, exc.ProgrammingError) as e:

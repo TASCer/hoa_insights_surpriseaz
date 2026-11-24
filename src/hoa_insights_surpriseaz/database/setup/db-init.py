@@ -1,12 +1,10 @@
 import logging
-import os
 from logging import Formatter, Logger
 from pathlib import Path
 
-from dotenv import load_dotenv
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session
-
+from hoa_insights_surpriseaz.database.config import PROD_LOCAL_DB_URI, PROD_REMOTE_DB_URI, DB_INIT_LOG_NAME
 from hoa_insights_surpriseaz.database.setup import (
     create_local_database,
     create_remote_database,
@@ -14,12 +12,10 @@ from hoa_insights_surpriseaz.database.setup import (
     populate_remote_tables,
 )
 
-load_dotenv()
 
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
 
-DB_INIT_LOG_NAME = "__database-setup__.log"
 MANAGEMENT_SEED_FILE: Path = Path.cwd() / "seed_data" / "surpriseaz-hoa-management.csv"
 PARCELS_SEED_FILE: Path = Path.cwd() / "seed_data" / "parcel_constants.csv"
 
@@ -35,14 +31,6 @@ fh.setFormatter(formatter)
 root_logger.addHandler(fh)
 
 logger: Logger = logging.getLogger(__name__)
-
-try:
-    PROD_LOCAL_DB_URI: str = f"{os.environ['PROD_LOCAL_DB_URI']}"
-    PROD_REMOTE_DB_URI: str = f"{os.environ['PROD_REMOTE_DB_URI']}"
-
-except ValueError:
-    PROD_LOCAL_DB_URI = f"{os.environ['PROD_LOCAL_DB_USER']}:{os.environ['PROD_LOCAL_DB_USER_PASSWORD']}@{os.environ['PROD_LOCAL_DB_HOST']}/{os.environ['PROD_LOCAL_DB_NAME']}"
-    PROD_REMOTE_DB_URI = f"{os.environ['PROD_REMOTE_DB_USER']}:{os.environ['PROD_REMOTE_DB_USER_PASSWORD']}@{os.environ['PROD_REMOTE_DB_HOST']}/{os.environ['PROD_REMOTE_DB_NAME']}"
 
 
 LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{PROD_LOCAL_DB_URI}", echo=False)

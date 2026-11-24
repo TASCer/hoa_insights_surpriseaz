@@ -1,6 +1,5 @@
 import csv
 import logging
-import os
 from logging import Logger
 from pathlib import Path
 
@@ -16,45 +15,12 @@ from hoa_insights_surpriseaz.database.update_community_management import (
 )
 from hoa_insights_surpriseaz.fetch_community_management import download
 from hoa_insights_surpriseaz.schemas import Community, CommunityManagement, Parcels
+from hoa_insights_surpriseaz.database.config import management_ids
+from hoa_insights_surpriseaz.config import PDF_REPORT_CHANGES
 
 load_dotenv()
 
-
-PDF_DOWNLOADED_FILENAME: str = "HOA Contact List (PDF) .pdf"
-PDF_NEW_FILENAME: str = "MANAGEMENT.pdf"
-PDF_PATH: Path = Path.cwd().parent.parent / "output" / "pdf"
-
-LOCAL_DB_URI: str = f"{os.environ['PROD_LOCAL_DB_URI']}"
-
-PARCELS_TABLE: str = "parcels"
-COMMUNITY_TABLE: str = "communities"
-
 logger: Logger = logging.getLogger(__name__)
-
-
-management_ids: list = [
-    1,
-    4,
-    5,
-    10,
-    11,
-    13,
-    15,
-    18,
-    20,
-    19,
-    30,
-    31,
-    26,
-    36,
-    38,
-    41,
-    45,
-    64,
-    63,
-    73,
-    74,
-]
 
 
 def community_management(db: Session, management_file: Path) -> bool:
@@ -75,7 +41,7 @@ def community_management(db: Session, management_file: Path) -> bool:
 
             download()
             convert_community_management.pdf_to_csv(
-                pdf_file=PDF_PATH / PDF_DOWNLOADED_FILENAME,
+                pdf_file=PDF_REPORT_CHANGES.parent,
                 csv_file=management_file,
             )
             community_management(db=db, management_file=management_file)
@@ -103,7 +69,7 @@ def community_management(db: Session, management_file: Path) -> bool:
             db.add(db_item, _warn=False)
             db.commit()
 
-    logger.info(f"\t{len(area_hoa_managers)=}")
+        logger.info(f"\t{len(area_hoa_managers)=}")
 
     return True
 

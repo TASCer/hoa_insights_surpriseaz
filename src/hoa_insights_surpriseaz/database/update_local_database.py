@@ -1,40 +1,26 @@
 import logging
-import os
 import sys
 from logging import Logger
 
-from dotenv import load_dotenv
 from sqlalchemy import Engine, Insert, create_engine, exc, text
 from sqlalchemy.dialects.mysql import insert
 
 from hoa_insights_surpriseaz.database import models_local
-
-load_dotenv()
-
-LOCAL_DB_HOSTNAME: str = f"{os.environ['PROD_LOCAL_DB_HOST']}"
-LOCAL_DB_NAME: str = f"{os.environ['PROD_LOCAL_DB_NAME']}"
-LOCAL_DB_USER: str = f"{os.environ['PROD_LOCAL_DB_USER']}"
-LOCAL_DB_PW: str = f"{os.environ['PROD_LOCAL_DB_PASSWORD']}"
-LOCAL_DB_URI: str = f"{os.environ['PROD_LOCAL_DB_URI']}"
-
-OWNERS_TABLE: str = "owners"
-RENTALS_TABLE: str = "rentals"
+from hoa_insights_surpriseaz.database.config import OWNERS_TABLE, RENTALS_TABLE
+from hoa_insights_surpriseaz.config import PROD_LOCAL_DB_URI, PROD_LOCAL_DB_HOST, PROD_LOCAL_DB_NAME
 
 logger: Logger = logging.getLogger(__name__)
 
 
 def owners(
-    latest_parsed_owners: list, db_uri: str = LOCAL_DB_URI, db_name: str = LOCAL_DB_NAME
-) -> None:
+    latest_parsed_owners: list, db_uri: str = PROD_LOCAL_DB_URI) -> None:
     """
     Function updates the local owners table.
 
     :param latest_parsed_owners: sequence Owner instances
     :param db_uri: database identifier, defaults to LOCAL_DB_URI
-    :param db_name: database name, defaults to LOCAL_DB_NAME
+    # :param db_name: database name, defaults to LOCAL_DB_NAME
     """
-    if latest_parsed_owners is None:
-        return
 
     engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
 
@@ -73,7 +59,7 @@ def owners(
                     logger.error(e)
 
     except exc.OperationalError as oe:
-        logger.error(f"{oe.__cause__}: '{LOCAL_DB_HOSTNAME}'")
+        logger.error(f"{oe.__cause__}: '{PROD_LOCAL_DB_HOST}'")
         sys.exit()
 
     logger.info(f"\tTable: '{OWNERS_TABLE}' has been updated")
@@ -81,22 +67,22 @@ def owners(
 
 def rentals(
     latest_parsed_rentals: list,
-    db_name: str = LOCAL_DB_NAME,
-    db_uri: str = LOCAL_DB_URI,
+    db_name: str = PROD_LOCAL_DB_NAME,
+    db_uri: str = PROD_LOCAL_DB_URI,
 ) -> None:
     """
     Function updates the local rentals table.
 
     :param latest_parsed_rentals: sequence Rental instances
     :param db_name: database name, defaults to LOCAL_DB_NAME
-    :param db_uri: dtabase identifier, defaults to LOCAL_DB_URI
+    :param db_uri: database identifier, defaults to LOCAL_DB_URI
     """
     engine: Engine = create_engine(f"mysql+pymysql://{db_uri}")
 
     with engine.connect() as conn, conn.begin():
-        delete_rentals: str = f"DELETE FROM {db_name}.{RENTALS_TABLE};"
-        conn.execute(text(delete_rentals))
-
+        delete_rentals: str = f"DELETE from {db_name}.{RENTALS_TABLE};"
+        dropped = conn.execute(text(delete_rentals))
+        print(dropped)
         for rental in latest_parsed_rentals:
             try:
                 insert_statement: Insert = insert(models_local.Rentals).values(

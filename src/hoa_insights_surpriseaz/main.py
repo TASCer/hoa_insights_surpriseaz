@@ -1,5 +1,4 @@
 import logging
-import os
 import sys
 from _collections_abc import Sequence
 from enum import Enum
@@ -27,34 +26,14 @@ from hoa_insights_surpriseaz.utils import (
     file_copier,
     mailer,
 )
+from hoa_insights_surpriseaz.config import PROJECT_ROOT, PDF_REPORT_CHANGES, CSV_UPDATED_PARCELS,CSV_FINANCIAL, HTML_REPORT_CHANGES,HTML_REPORT_FINANCIAL,PDF_REPORT_FINANCIAL
+from hoa_insights_surpriseaz.database.config import DB_INIT_LOG
 
 load_dotenv()
 
-LOG_DATE: str = str(date_parser.logger_date()) + ".log"
-
-# PATHS
-PROJECT_ROOT: Path = Path(f"{os.environ['PROJECT_ROOT']}")
-CSV_FINANCIAL: Path = PROJECT_ROOT / "output" / "csv" / "financial"
-CSV_FINANCIAL.mkdir(parents=True, exist_ok=True)
-CSV_UPDATED_PARCELS: Path = PROJECT_ROOT / "output" / "csv" / "parcel_changes"
-CSV_UPDATED_PARCELS.mkdir(parents=True, exist_ok=True)
-
-HTML_REPORT_CHANGES: Path = PROJECT_ROOT / "output" / "web_reports" / "parcel_changes"
-HTML_REPORT_CHANGES.mkdir(parents=True, exist_ok=True)
-HTML_REPORT_FINANCIAL: Path = PROJECT_ROOT / "output" / "web_reports" / "financial"
-HTML_REPORT_FINANCIAL.mkdir(parents=True, exist_ok=True)
-
-PDF_REPORT_CHANGES: Path = PROJECT_ROOT / "output" / "pdf" / "parcel_changes"
-PDF_REPORT_CHANGES.mkdir(parents=True, exist_ok=True)
-PDF_REPORT_FINANCIAL: Path = PROJECT_ROOT / "output" / "pdf" / "financial"
-PDF_REPORT_FINANCIAL.mkdir(parents=True, exist_ok=True)
-
-DB_SETUP_LOGFILE: Path = Path.cwd() / "database" / "setup" / "__database-setup__.log"
-
-# LOGGING
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
-fh = logging.FileHandler(PROJECT_ROOT.parent.parent / LOG_DATE)
+fh = logging.FileHandler(f"{PROJECT_ROOT.parent.parent / date_parser.logger_date()}.log")
 fh.setLevel(logging.DEBUG)
 formatter: Formatter = logging.Formatter(
     fmt="%(asctime)s - %(filename)s - %(lineno)d - %(levelname)s - %(message)s"
@@ -93,7 +72,7 @@ def database_setup_check(logfile_name: Path) -> bool:
             "If repo cloned and/or database has been setup, verify settings and create a '__database-setup__.log' file in 'database/setup'"
         )
         print(
-            f"""*ISSUE*: "{logfile_name.name}" not found. See log: "{LOG_DATE}" for details."""
+            f"""*ISSUE*: "{logfile_name.name}" not found. See log: "{date_parser.logger_date()}" for details."""
         )
         return False
 
@@ -187,7 +166,7 @@ if __name__ == "__main__":
     Checks if today is the first Tuesday of this month, if so, runs management update.
     Launches app
     """
-    if database_setup_check(DB_SETUP_LOGFILE):
+    if database_setup_check(DB_INIT_LOG):
         if date_parser.first_tuesday_of_month():
             logger.info("COMMUNITY MANAGEMENT UPDATE STARTED")
             parsed_management_csv: Path = community_management_update()
