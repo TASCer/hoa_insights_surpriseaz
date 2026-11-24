@@ -5,7 +5,6 @@ from sqlalchemy import Engine, exc, text
 
 from hoa_insights_surpriseaz.database.config import (
     OWNERS_TABLE,
-    PROD_LOCAL_DB_NAME,
     PROD_LOCAL_DB_USER,
 )
 

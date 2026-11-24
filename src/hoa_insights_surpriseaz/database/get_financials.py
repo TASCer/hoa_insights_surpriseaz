@@ -7,6 +7,7 @@ from pathlib import Path
 from pandas import DataFrame, read_sql
 from sqlalchemy import create_engine, exc
 from sqlalchemy.engine import Engine
+
 from hoa_insights_surpriseaz.database.config import PROD_LOCAL_DB_URI
 from hoa_insights_surpriseaz.utils.number_formatter import format_price
 

@@ -1,8 +1,9 @@
 import logging
 from logging import Logger
 
-from hoa_insights_surpriseaz.database.config import UPDATE_COMMUNITIES
 from sqlalchemy import Engine, exc, text
+
+from hoa_insights_surpriseaz.database.config import UPDATE_COMMUNITIES
 
 logger: Logger = logging.getLogger(__name__)
 
