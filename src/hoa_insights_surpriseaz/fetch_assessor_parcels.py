@@ -14,16 +14,11 @@ from dotenv import load_dotenv
 from sqlalchemy import Engine, Row, create_engine, exc, select
 
 from hoa_insights_surpriseaz.database import models_local
+from hoa_insights_surpriseaz.config import PROD_LOCAL_DB_URI#  PROD_LOCAL_DB_NAME, PARCELS_TABLE
 
 load_dotenv()
 
 logger: Logger = logging.getLogger(__name__)
-
-LOCAL_DB_URI: str = f"{os.environ['PROD_LOCAL_DB_URI']}"
-LOCAL_DB_NAME: str = f"{os.environ['PROD_LOCAL_DB_NAME']}"
-
-PARCELS_TABLE: str = "parcels"
-
 
 API_HEADER: dict[str, str] = {os.environ["API_HEADER_TYPE"]: os.environ["API_KEY"]}
 
@@ -38,7 +33,7 @@ def get_parcel_apns() -> list[str]:
         APN = ["509-11-444", "509-11-445"]
     """
     try:
-        engine: Engine = create_engine(f"mysql+pymysql://{LOCAL_DB_URI}")
+        engine: Engine = create_engine(f"mysql+pymysql://{PROD_LOCAL_DB_URI}")
         with engine.connect() as conn, conn.begin():
             q_apns: Sequence[Row] = conn.execute(
                 statement=select(models_local.Parcel.APN)

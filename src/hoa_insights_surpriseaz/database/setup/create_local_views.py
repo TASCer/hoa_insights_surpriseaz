@@ -1,33 +1,14 @@
 import logging
-import os
+
 from logging import Logger
 
-from dotenv import load_dotenv
 from sqlalchemy import Engine, exc, text
-
+from hoa_insights_surpriseaz.database.config import (RENTALS_TABLE,VIEW_TOP_RENTAL_TYPES,VIEW_REGISTERED_RENTALS, VIEW_TOP_CLASSED_RENTAL_OWNERS, VIEW_PARCEL_OWNER_HISTORY, VIEW_RENTAL_CONTACTS,VIEW_TOP_REGISTERED_RENTAL_OWNERS, VIEW_CLASSED_RENTALS, VIEW_TOP_RENTAL_OWNERS, VIEW_COMMUNITY_SALES,VIEW_COMMUNITY_RENTAL_TYPES)
 logger: Logger = logging.getLogger(__name__)
 
-load_dotenv()
-
-LOCAL_DB_NAME: str = f"{os.environ['PROD_LOCAL_DB_NAME']}"
-LOCAL_DB_USER: str = f"{os.environ['PROD_LOCAL_DB_USER']}"
-
-OWNERS_TABLE: str = "owners"
-VIEW_COMMUNITY_RENTAL_TYPES: str = "community_rental_owner_types"
-VIEW_TOP_RENTAL_TYPES: str = "top_rental_ownership_type"
-VIEW_TOP_REGISTERED_RENTAL_OWNERS: str = "top_registered_rental_ownership"
-VIEW_TOP_CLASSED_RENTAL_OWNERS: str = "top_classed_rental_ownership"
-VIEW_TOP_RENTAL_OWNERS: str = "top_rental_ownership"
-VIEW_REGISTERED_RENTALS: str = "registered_rentals"
-VIEW_CLASSED_RENTALS: str = "classed_rentals"
-VIEW_RENTAL_CONTACTS: str = "rental_contacts"
-VIEW_COMMUNITY_SALES: str = "community_sales"
-VIEW_PARCEL_OWNER_HISTORY = "parcel_historical_ownership"
-
-RENTALS_TABLE: str = "rentals"
 
 
-def all(engine: Engine) -> bool:
+def all_views(engine: Engine) -> bool:
     """
     Function creates all local database Views.
 
