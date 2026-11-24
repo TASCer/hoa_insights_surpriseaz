@@ -22,4 +22,4 @@ src/hoa_insights_surpriseaz/output/pdf/financial/*.pdf
 src/hoa_insights_surpriseaz/output/pdf/parcel_changes/recent_changes.pdf
 .coverage
 issues.txt
-my_test.py
+/src/hoa_insights_surpriseaz/database/setup/__database-setup__log
