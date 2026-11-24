@@ -3,7 +3,11 @@ from logging import Logger
 
 from pandas import DataFrame, Series
 from sqlalchemy import CursorResult, Engine, create_engine, exc, text
-from hoa_insights_surpriseaz.database.config import PROD_LOCAL_DB_URI, PROD_REMOTE_DB_URI
+
+from hoa_insights_surpriseaz.database.config import (
+    PROD_LOCAL_DB_URI,
+    PROD_REMOTE_DB_URI,
+)
 from hoa_insights_surpriseaz.utils.date_parser import get_now
 
 logger: Logger = logging.getLogger(__name__)
@@ -46,7 +50,9 @@ def financial_tables(
         logger.critical(repr(e))
 
 
-def rental_tables(local_db: str = PROD_LOCAL_DB_URI, remote_db: str = PROD_REMOTE_DB_URI) -> None:
+def rental_tables(
+    local_db: str = PROD_LOCAL_DB_URI, remote_db: str = PROD_REMOTE_DB_URI
+) -> None:
     """
     Function updates remote rentals tables.
 

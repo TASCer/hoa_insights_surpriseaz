@@ -13,8 +13,10 @@ from aiohttp_retry import ExponentialRetry, RetryClient
 from dotenv import load_dotenv
 from sqlalchemy import Engine, Row, create_engine, exc, select
 
+from hoa_insights_surpriseaz.config import (
+    PROD_LOCAL_DB_URI,
+)
 from hoa_insights_surpriseaz.database import models_local
-from hoa_insights_surpriseaz.config import PROD_LOCAL_DB_URI#  PROD_LOCAL_DB_NAME, PARCELS_TABLE
 
 load_dotenv()
 

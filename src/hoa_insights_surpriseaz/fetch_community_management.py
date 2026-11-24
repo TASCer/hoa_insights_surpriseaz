@@ -17,11 +17,12 @@ from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
+
 from hoa_insights_surpriseaz.config import PROJECT_ROOT
 
 load_dotenv()
 
-# TODO SPACE TYPO FROM CITY 08-25 and extra "," after contact 2nd page
+# SPACE TYPO FROM CITY 08-25 and extra "," after contact 2nd page
 PDF_DOWNLOADED_FILENAME: str = "HOA Contact List (PDF) .pdf"
 PDF_PATH: Path = Path.cwd() / "output" / "pdf"
 

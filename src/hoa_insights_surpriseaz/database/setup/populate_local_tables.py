@@ -3,22 +3,22 @@ import logging
 from logging import Logger
 from pathlib import Path
 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from sqlalchemy import Result, exc, select
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 
 from hoa_insights_surpriseaz import convert_community_management
+from hoa_insights_surpriseaz.config import PDF_REPORT_CHANGES
 from hoa_insights_surpriseaz.database import models_local
+from hoa_insights_surpriseaz.database.config import management_ids
 from hoa_insights_surpriseaz.database.update_community_management import (
     get_managed_communities,
 )
 from hoa_insights_surpriseaz.fetch_community_management import download
 from hoa_insights_surpriseaz.schemas import Community, CommunityManagement, Parcels
-from hoa_insights_surpriseaz.database.config import management_ids
-from hoa_insights_surpriseaz.config import PDF_REPORT_CHANGES
 
-load_dotenv()
+# load_dotenv()
 
 logger: Logger = logging.getLogger(__name__)
 

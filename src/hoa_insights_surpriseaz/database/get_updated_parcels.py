@@ -1,5 +1,4 @@
 import logging
-import os
 import sys
 from datetime import date
 from logging import Logger
@@ -13,6 +12,7 @@ from sqlalchemy import (
     select,
 )
 
+from hoa_insights_surpriseaz.database.config import PROD_LOCAL_DB_URI
 from hoa_insights_surpriseaz.database.models_local import (
     HistoricalOwners,
     HistoricalSales,
@@ -20,7 +20,7 @@ from hoa_insights_surpriseaz.database.models_local import (
     Parcel,
 )
 from hoa_insights_surpriseaz.utils.date_parser import sql_date
-from hoa_insights_surpriseaz.database.config import PROD_LOCAL_DB_URI
+
 load_dotenv()
 
 

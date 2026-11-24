@@ -20,9 +20,7 @@ def average_sale_prices(finances: Path) -> DataFrame:
     """
     logger: Logger = logging.getLogger(__name__)
     try:
-        engine: Engine = create_engine(
-            f"mysql+pymysql://{PROD_LOCAL_DB_URI}"
-        )
+        engine: Engine = create_engine(f"mysql+pymysql://{PROD_LOCAL_DB_URI}")
 
     except (exc.SQLAlchemyError, exc.OperationalError, exc.ProgrammingError) as e:
         logger.critical(e)

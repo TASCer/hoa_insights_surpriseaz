@@ -4,14 +4,18 @@ from pathlib import Path
 
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session
-from hoa_insights_surpriseaz.database.config import PROD_LOCAL_DB_URI, PROD_REMOTE_DB_URI, DB_INIT_LOG_NAME
+
+from hoa_insights_surpriseaz.database.config import (
+    DB_INIT_LOG_NAME,
+    PROD_LOCAL_DB_URI,
+    PROD_REMOTE_DB_URI,
+)
 from hoa_insights_surpriseaz.database.setup import (
     create_local_database,
     create_remote_database,
     populate_local_tables,
     populate_remote_tables,
 )
-
 
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)

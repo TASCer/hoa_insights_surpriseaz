@@ -4,14 +4,20 @@ from logging import Logger
 
 from sqlalchemy import Engine, create_engine, exc, select
 from sqlalchemy.orm import Session
-from hoa_insights_surpriseaz.database.config import PROD_LOCAL_DB_URI, PROD_REMOTE_DB_URI
+
+from hoa_insights_surpriseaz.database.config import (
+    PROD_LOCAL_DB_URI,
+    PROD_REMOTE_DB_URI,
+)
 from hoa_insights_surpriseaz.database.models_remote import (
     Community,
     CommunityManagement,
 )
 
 LOCAL_ENGINE: Engine = create_engine(f"mysql+pymysql://{PROD_LOCAL_DB_URI}", echo=False)
-REMOTE_ENGINE: Engine = create_engine(f"mysql+pymysql://{PROD_REMOTE_DB_URI}", echo=False)
+REMOTE_ENGINE: Engine = create_engine(
+    f"mysql+pymysql://{PROD_REMOTE_DB_URI}", echo=False
+)
 
 REMOTE_SESSION: Session = Session(REMOTE_ENGINE)
 LOCAL_SESSION = Session(LOCAL_ENGINE)

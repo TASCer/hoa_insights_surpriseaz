@@ -1,9 +1,14 @@
 import logging
 from logging import Logger
 
-from dotenv import load_dotenv
 from sqlalchemy import Engine, exc, text
-from hoa_insights_surpriseaz.database.config import PROD_LOCAL_DB_NAME, PROD_LOCAL_DB_USER, OWNERS_TABLE
+
+from hoa_insights_surpriseaz.database.config import (
+    OWNERS_TABLE,
+    PROD_LOCAL_DB_NAME,
+    PROD_LOCAL_DB_USER,
+)
+
 logger: Logger = logging.getLogger(__name__)
 
 

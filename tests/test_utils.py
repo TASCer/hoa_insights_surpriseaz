@@ -9,7 +9,7 @@ from hoa_insights_surpriseaz.utils import (
     delete_files,
     file_copier,
     number_formatter,
-    ssh_agent_check
+    ssh_agent_check,
 )
 
 TEST_FILENAME: str = "test_file_for_copy_delete"

@@ -1,6 +1,9 @@
 import os
+
 from dotenv import load_dotenv
+
 from hoa_insights_surpriseaz.config import PROJECT_ROOT
+
 load_dotenv()
 
 PROD_LOCAL_DB_URI = f"{os.environ['PROD_LOCAL_DB_USER']}:{os.environ['PROD_LOCAL_DB_USER_PASSWORD']}@{os.environ['PROD_LOCAL_DB_HOST']}/{os.environ['PROD_LOCAL_DB_NAME']}"

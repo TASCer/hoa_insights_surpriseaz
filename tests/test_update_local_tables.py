@@ -1,13 +1,12 @@
-import os
-
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 from conftest import TEST_LOCAL_DB_URI, TEST_LOCAL_ENGINE
 from hoa_insights_surpriseaz.database import update_local_database
 
-load_dotenv()
+# load_dotenv()
 
 print(TEST_LOCAL_ENGINE.url.database)
+
 
 def test_update_local_tables_original(parse_original_parcel_data) -> None:
     update_local_database.owners(

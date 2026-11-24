@@ -15,25 +15,35 @@ from hoa_insights_surpriseaz import (
     parse_fetched_parcels,
     process_updated_parcels,
 )
+from hoa_insights_surpriseaz.config import (
+    CSV_FINANCIAL,
+    CSV_UPDATED_PARCELS,
+    HTML_REPORT_CHANGES,
+    HTML_REPORT_FINANCIAL,
+    PDF_REPORT_CHANGES,
+    PDF_REPORT_FINANCIAL,
+    PROJECT_ROOT,
+)
 from hoa_insights_surpriseaz.database import (
     update_community_management,
     update_local_database,
     update_remote_database,
 )
+from hoa_insights_surpriseaz.database.config import DB_INIT_LOG
 from hoa_insights_surpriseaz.utils import (
     date_parser,
     delete_files,
     file_copier,
     mailer,
 )
-from hoa_insights_surpriseaz.config import PROJECT_ROOT, PDF_REPORT_CHANGES, CSV_UPDATED_PARCELS,CSV_FINANCIAL, HTML_REPORT_CHANGES,HTML_REPORT_FINANCIAL,PDF_REPORT_FINANCIAL
-from hoa_insights_surpriseaz.database.config import DB_INIT_LOG
 
 load_dotenv()
 
 root_logger: Logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
-fh = logging.FileHandler(f"{PROJECT_ROOT.parent.parent / date_parser.logger_date()}.log")
+fh = logging.FileHandler(
+    f"{PROJECT_ROOT.parent.parent / date_parser.logger_date()}.log"
+)
 fh.setLevel(logging.DEBUG)
 formatter: Formatter = logging.Formatter(
     fmt="%(asctime)s - %(filename)s - %(lineno)d - %(levelname)s - %(message)s"

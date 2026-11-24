@@ -1,11 +1,23 @@
 import logging
-
 from logging import Logger
 
 from sqlalchemy import Engine, exc, text
-from hoa_insights_surpriseaz.database.config import (RENTALS_TABLE,VIEW_TOP_RENTAL_TYPES,VIEW_REGISTERED_RENTALS, VIEW_TOP_CLASSED_RENTAL_OWNERS, VIEW_PARCEL_OWNER_HISTORY, VIEW_RENTAL_CONTACTS,VIEW_TOP_REGISTERED_RENTAL_OWNERS, VIEW_CLASSED_RENTALS, VIEW_TOP_RENTAL_OWNERS, VIEW_COMMUNITY_SALES,VIEW_COMMUNITY_RENTAL_TYPES)
-logger: Logger = logging.getLogger(__name__)
 
+from hoa_insights_surpriseaz.database.config import (
+    RENTALS_TABLE,
+    VIEW_CLASSED_RENTALS,
+    VIEW_COMMUNITY_RENTAL_TYPES,
+    VIEW_COMMUNITY_SALES,
+    VIEW_PARCEL_OWNER_HISTORY,
+    VIEW_REGISTERED_RENTALS,
+    VIEW_RENTAL_CONTACTS,
+    VIEW_TOP_CLASSED_RENTAL_OWNERS,
+    VIEW_TOP_REGISTERED_RENTAL_OWNERS,
+    VIEW_TOP_RENTAL_OWNERS,
+    VIEW_TOP_RENTAL_TYPES,
+)
+
+logger: Logger = logging.getLogger(__name__)
 
 
 def all_views(engine: Engine) -> bool:
